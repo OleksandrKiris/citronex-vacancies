@@ -1,0 +1,49 @@
+{
+  "id": "./",
+  "name": "Oleksandr — вакансии и карьерные материалы",
+  "short_name": "Career Hub",
+  "description": "Актуальные вакансии, прозрачный процесс найма и материалы для кандидатов.",
+  "lang": "ru",
+  "dir": "ltr",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fbfaf6",
+  "theme_color": "#173f3b",
+  "categories": ["business", "productivity", "education"],
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Вакансии",
+      "short_name": "Вакансии",
+      "url": "./#jobs",
+      "icons": [
+        {
+          "src": "assets/icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Избранное",
+      "short_name": "Избранное",
+      "url": "./#saved",
+      "icons": [
+        {
+          "src": "assets/icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}

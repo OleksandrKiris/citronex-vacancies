@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Oleksandr Career Hub</title>
+  <rect width="512" height="512" rx="124" fill="#173f3b"/>
+  <circle cx="405" cy="108" r="66" fill="#d8ef8e" opacity=".16"/>
+  <circle cx="88" cy="428" r="98" fill="#4d9481" opacity=".14"/>
+  <path d="M126 158h260v196H126z" fill="none" stroke="#d8ef8e" stroke-width="22" rx="18"/>
+  <path d="M203 158v-28c0-25 20-45 45-45h16c25 0 45 20 45 45v28" fill="none" stroke="#d8ef8e" stroke-width="22" stroke-linecap="round"/>
+  <path d="M126 227c72 42 188 42 260 0" fill="none" stroke="#fbfaf6" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="256" cy="253" r="18" fill="#d8ef8e"/>
+</svg>

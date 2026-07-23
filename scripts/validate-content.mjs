@@ -1,0 +1,55 @@
+import fs from "node:fs";
+import vm from "node:vm";
+
+const source = fs.readFileSync(new URL("../data/content.js", import.meta.url), "utf8");
+const context = { window: {} };
+vm.createContext(context);
+vm.runInContext(source, context, { filename: "data/content.js" });
+
+const content = context.window.PORTAL_CONTENT;
+const errors = [];
+const add = (condition, message) => {
+  if (!condition) errors.push(message);
+};
+
+add(content && typeof content === "object", "PORTAL_CONTENT не найден");
+add(content?.profile?.name, "profile.name обязателен");
+add(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(content?.profile?.email || ""), "profile.email некорректен");
+add(Array.isArray(content?.jobs), "jobs должен быть массивом");
+add(Array.isArray(content?.resources), "resources должен быть массивом");
+
+const jobIds = new Set();
+for (const [index, job] of (content?.jobs || []).entries()) {
+  const prefix = `jobs[${index}]`;
+  add(job.id && /^[a-z0-9-]+$/.test(job.id), `${prefix}.id: используйте kebab-case`);
+  add(!jobIds.has(job.id), `${prefix}.id дублируется: ${job.id}`);
+  jobIds.add(job.id);
+  add(job.title, `${prefix}.title обязателен`);
+  add(job.company, `${prefix}.company обязателен`);
+  add(["open", "paused", "closed"].includes(job.status), `${prefix}.status некорректен`);
+  add(job.updatedAt && !Number.isNaN(Date.parse(job.updatedAt)), `${prefix}.updatedAt некорректен`);
+  add(job.applyEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(job.applyEmail), `${prefix}.applyEmail некорректен`);
+  add(job.salary?.min <= job.salary?.max, `${prefix}.salary: min должен быть не больше max`);
+  add(job.salary?.currency, `${prefix}.salary.currency обязателен`);
+  add(Array.isArray(job.responsibilities) && job.responsibilities.length > 0, `${prefix}.responsibilities пуст`);
+  add(Array.isArray(job.required) && job.required.length > 0, `${prefix}.required пуст`);
+  add(Array.isArray(job.hiring) && job.hiring.length > 0, `${prefix}.hiring пуст`);
+}
+
+const resourceIds = new Set();
+for (const [index, resource] of (content?.resources || []).entries()) {
+  const prefix = `resources[${index}]`;
+  add(resource.id && /^[a-z0-9-]+$/.test(resource.id), `${prefix}.id: используйте kebab-case`);
+  add(!resourceIds.has(resource.id), `${prefix}.id дублируется: ${resource.id}`);
+  resourceIds.add(resource.id);
+  add(resource.title, `${prefix}.title обязателен`);
+  add(Array.isArray(resource.sections) && resource.sections.length > 0, `${prefix}.sections пуст`);
+}
+
+if (errors.length) {
+  console.error(`Проверка контента не пройдена (${errors.length}):`);
+  errors.forEach((error) => console.error(`- ${error}`));
+  process.exit(1);
+}
+
+console.log(`Контент корректен: ${content.jobs.length} вакансии, ${content.resources.length} материала.`);

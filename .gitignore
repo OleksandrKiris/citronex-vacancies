@@ -1,0 +1,11 @@
+.agents/
+.codex/
+server.*.log
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Никогда не добавляйте локальные данные кандидатов или резервные копии.
+candidate-data/
+candidate-exports/
+*.candidate-backup

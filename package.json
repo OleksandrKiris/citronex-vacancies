@@ -1,0 +1,15 @@
+{
+  "name": "oleksandr-career-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Статический офлайн-портал рекрутера для GitHub Pages",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "check:js": "node --check assets/app.js && node --check sw.js && node --check data/content.js",
+    "check:content": "node scripts/validate-content.mjs",
+    "test": "npm run check:js && npm run check:content"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

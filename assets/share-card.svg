@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Oleksandr — вакансии и карьерные материалы</title>
+  <desc id="desc">Открытые вакансии, прозрачный процесс и материалы для кандидатов.</desc>
+  <rect width="1200" height="630" fill="#173f3b"/>
+  <circle cx="1080" cy="60" r="260" fill="#d8ef8e" opacity=".12"/>
+  <circle cx="80" cy="650" r="310" fill="#4d9481" opacity=".15"/>
+  <rect x="80" y="76" width="64" height="64" rx="18" fill="#d8ef8e"/>
+  <text x="112" y="117" text-anchor="middle" fill="#173f3b" font-family="Arial, sans-serif" font-size="22" font-weight="700">OK</text>
+  <text x="80" y="238" fill="#dff1e9" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="4">CAREER HUB</text>
+  <text x="80" y="340" fill="#ffffff" font-family="Georgia, serif" font-size="72">Работа, о которой</text>
+  <text x="80" y="422" fill="#d8ef8e" font-family="Georgia, serif" font-size="72" font-style="italic">говорят честно.</text>
+  <text x="80" y="510" fill="#c3d8d2" font-family="Arial, sans-serif" font-size="27">Вакансии · прозрачный отбор · материалы офлайн</text>
+</svg>
