@@ -250,9 +250,13 @@
     const view = i18n.job(job);
     if (view.salary?.display) return view.salary.display;
     if (view.salary?.min == null || view.salary?.max == null) return t("ui.grossSalary");
+    const formatAmount = (value) => new Intl.NumberFormat(i18n.locale, {
+      minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+      maximumFractionDigits: 2
+    }).format(value);
     const amount = view.salary.min === view.salary.max
-      ? String(view.salary.min)
-      : `${view.salary.min}–${view.salary.max}`;
+      ? formatAmount(view.salary.min)
+      : `${formatAmount(view.salary.min)}–${formatAmount(view.salary.max)}`;
     return `${amount} ${view.salary.currency} · ${t("ui.grossSalary")}`;
   }
 
