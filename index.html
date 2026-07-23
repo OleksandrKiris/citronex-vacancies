@@ -7,11 +7,21 @@
   <meta name="color-scheme" content="light">
   <meta name="description" content="Каталог вакансий Citronex в Польше, Венгрии и Бельгии: ставки брутто, жильё, график, документы и прямой контакт рекрутера.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Вакансии Citronex — каталог 2026">
-  <meta property="og:description" content="Работа в теплицах, на складах и в транспорте. Только суммы брутто и честные условия.">
-  <meta property="og:image" content="assets/share-card.svg">
+  <meta property="og:title" content="Citronex Jobs · Vacancies in 11 languages">
+  <meta property="og:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
+  <meta property="og:url" content="https://oleksandrkiris.github.io/citronex-vacancies/">
+  <meta property="og:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Citronex Jobs — вакансии и прямой контакт рекрутера">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Citronex Jobs · Vacancies in 11 languages">
+  <meta name="twitter:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
+  <meta name="twitter:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png">
+  <link rel="canonical" href="https://oleksandrkiris.github.io/citronex-vacancies/">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="stylesheet" href="assets/styles.css">
   <title>Вакансии Citronex — каталог 2026</title>
 </head>
@@ -110,6 +120,10 @@
                 <span id="hero-location">Вакансии: Польша · Венгрия · Бельгия</span>
                 <span id="hero-languages">WhatsApp · Email</span>
               </div>
+              <div class="recruiter-contact-row">
+                <a id="hero-whatsapp-direct" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer">WhatsApp · +48 502 251 384</a>
+                <span id="hero-work-hours">08:00–16:00 · Europe/Warsaw</span>
+              </div>
               <blockquote id="hero-promise">
                 «Не обещаю часы, премию или командировку без подтверждения. Условия договора важнее текста каталога.»
               </blockquote>
@@ -150,17 +164,17 @@
         </div>
         <div class="trust-cards">
           <article>
-            <span class="feature-icon" aria-hidden="true">₽</span>
+            <span class="feature-icon" aria-hidden="true">BR</span>
             <h3 data-i18n="ui.trustGrossTitle">Суммы брутто</h3>
             <p data-i18n="ui.trustGrossText">Ставка указана до налогов и взносов. Нетто зависит от договора и документов.</p>
           </article>
           <article>
-            <span class="feature-icon" aria-hidden="true">◷</span>
+            <span class="feature-icon" aria-hidden="true">WA</span>
             <h3 data-i18n="ui.trustChatTitle">Уточнение напрямую</h3>
             <p data-i18n="ui.trustChatText">Нажмите «Уточнить», чтобы открыть чат с рекрутером по конкретной вакансии.</p>
           </article>
           <article>
-            <span class="feature-icon" aria-hidden="true">⌁</span>
+            <span class="feature-icon" aria-hidden="true">OFF</span>
             <h3 data-i18n="ui.trustOfflineTitle">Работает офлайн</h3>
             <p data-i18n="ui.trustOfflineText">Вакансии, сравнение и памятки доступны после первого открытия.</p>
           </article>
@@ -361,11 +375,8 @@
   <nav class="mobile-nav" data-i18n-aria-label="ui.navHome" aria-label="Главная">
     <button type="button" data-route="home"><span aria-hidden="true">⌂</span><small data-i18n="ui.navHome">Главная</small></button>
     <button type="button" data-route="jobs"><span aria-hidden="true">▤</span><small data-i18n="ui.navJobs">Вакансии</small></button>
-    <button type="button" data-route="resources"><span aria-hidden="true">◇</span><small data-i18n="ui.navResources">Материалы</small></button>
-    <button type="button" data-route="saved" class="saved-nav-button">
-      <span aria-hidden="true">♡</span><small data-i18n="ui.navSaved">Избранное</small><b id="saved-badge" hidden>0</b>
-    </button>
-    <button type="button" data-route="profile"><span aria-hidden="true">○</span><small data-i18n="ui.navProfile">Профиль</small></button>
+    <button type="button" data-application-general><span aria-hidden="true">✓</span><small data-i18n="ui.heroSurvey">Анкета</small></button>
+    <button type="button" data-route="profile"><span aria-hidden="true">WA</span><small data-i18n="ui.contact">Связаться</small></button>
   </nav>
 
   <dialog class="modal job-modal" id="job-dialog">
@@ -375,7 +386,7 @@
     </div>
   </dialog>
 
-  <dialog class="modal application-modal" id="application-dialog">
+  <dialog class="modal application-modal" id="application-dialog" aria-labelledby="application-step-title">
     <div class="modal-shell modal-shell-application">
       <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div id="application-dialog-content"></div>

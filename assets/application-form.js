@@ -28,11 +28,37 @@
   const LATIN_NAME = /^[\p{Script=Latin}\p{Mark}\s'-]+$/u;
   const LATIN_TEXT = /^[\p{Script=Latin}\p{Mark}\d\s.,'()/:+&\-]*$/u;
   const PHONE = /^\+[1-9]\d{7,14}$/;
+  const MATCH_RULES = {
+    "greenhouse-tomatoes": { country: "PL", areas: ["greenhouse", "general"], entry: true },
+    "greenhouse-renewal": { country: "PL", areas: ["greenhouse", "general"], entry: true },
+    "tomato-sorting": { country: "PL", areas: ["warehouse", "general"], entry: true },
+    "banana-warehouse-poland": { country: "PL", areas: ["warehouse", "general"], entry: true },
+    "plant-protection": { country: "PL", areas: ["agronomy", "greenhouse"], preferredQualification: "agronomy" },
+    "site-cleaning": { country: "PL", areas: ["general"], entry: true },
+    "forklift-udt": { country: "PL", areas: ["warehouse"], requiredQualification: "udt" },
+    "team-leader": { country: "PL", areas: ["management"], requiredQualification: "leader" },
+    "greenhouse-agronomist": { country: "PL", areas: ["agronomy", "greenhouse"], requiredQualification: "agronomy" },
+    "truck-mechanic": { country: "PL", areas: ["technical"], requiredQualification: "mechanic" },
+    "driver-ce-poland": { country: "PL", areas: ["transport"], requiredQualification: "driver" },
+    "driver-ce-relief": { country: "PL", areas: ["transport"], requiredQualification: "driver" },
+    "banana-warehouse-hungary": { country: "HU", areas: ["warehouse", "general"], entry: true, documentCheck: true },
+    "banana-warehouse-belgium": { country: "BE", areas: ["warehouse", "general"], documentCheck: true }
+  };
+  const EXPERIENCE_SCORE = {
+    expNone: 0,
+    expUnder6: 1,
+    exp6to12: 2,
+    exp1to2: 3,
+    exp2plus: 4
+  };
   const state = {
+    mode: "application",
+    matchStep: 0,
     jobId: "",
     step: 0,
     values: {},
-    error: ""
+    error: "",
+    recommendations: []
   };
 
   const escapeHTML = (value = "") => String(value)
@@ -44,8 +70,9 @@
 
   const t = (path, variables) => i18n.t(path, variables);
   const baseJob = () => jobs.find((job) => job.id === state.jobId);
+  const effectiveJob = () => jobs.find((job) => job.id === state.values.matchedJobId) || baseJob();
   const localizedJob = () => {
-    const job = baseJob();
+    const job = effectiveJob();
     return job ? i18n.job(job) : null;
   };
   const today = () => new Date().toISOString().slice(0, 10);
@@ -93,6 +120,199 @@
 
   function jobOptions() {
     return jobs.map((job) => ({ value: job.id, label: i18n.job(job).title }));
+  }
+
+  function matchAreaItems() {
+    return [
+      "any", "greenhouse", "warehouse", "general", "transport", "technical", "management", "agronomy"
+    ].map((value) => ({ value, label: t(`options.matchArea${value[0].toUpperCase()}${value.slice(1)}`) }));
+  }
+
+  function matchQualificationItems() {
+    return [
+      "none", "driver", "udt", "mechanic", "leader", "agronomy", "other"
+    ].map((value) => ({ value, label: t(`options.matchQualification${value[0].toUpperCase()}${value.slice(1)}`) }));
+  }
+
+  function qualificationFieldsForType(type) {
+    if (type === "driver") {
+      return [
+        field("driverLicense", t("form.driverLicense"), yesNoUnknown("driverLicense")),
+        field("code95", t("form.code95"), yesNoUnknown("code95")),
+        field("tachograph", t("form.tachograph"), yesNoUnknown("tachograph")),
+        field("reeferExperience", t("form.reeferExperience"), yesNoUnknown("reeferExperience"))
+      ].join("");
+    }
+    if (type === "udt") {
+      return [
+        field("udtLicense", t("form.udtLicense"), yesNoUnknown("udtLicense")),
+        field("udtCategory", t("form.udtCategory"), input("udtCategory"))
+      ].join("");
+    }
+    if (type === "leader") {
+      return field("leadershipExperience", t("form.leadershipExperience"), yesNoUnknown("leadershipExperience"));
+    }
+    if (type === "mechanic") {
+      return field("mechanicExperience", t("form.mechanicExperience"), yesNoUnknown("mechanicExperience"));
+    }
+    if (type === "agronomy") {
+      return field("specialistEducation", t("form.specialistEducation"), yesNoUnknown("specialistEducation"));
+    }
+    return "";
+  }
+
+  function qualificationAnswer(type) {
+    if (type === "driver") {
+      const answers = [state.values.driverLicense, state.values.code95, state.values.tachograph];
+      if (answers.includes("no")) return "no";
+      return answers.every((answer) => answer === "yes") ? "yes" : "unknown";
+    }
+    if (type === "udt") return state.values.udtLicense || "unknown";
+    if (type === "leader") return state.values.leadershipExperience || "unknown";
+    if (type === "mechanic") return state.values.mechanicExperience || "unknown";
+    if (type === "agronomy") return state.values.specialistEducation || "unknown";
+    return "unknown";
+  }
+
+  function recommendJobs() {
+    const preferredCountry = state.values.preferredDestination;
+    const preferredArea = state.values.preferredArea;
+    const qualification = state.values.qualificationType;
+    const experienceScore = EXPERIENCE_SCORE[state.values.experience] ?? 0;
+
+    return jobs.map((job) => {
+      const rule = MATCH_RULES[job.id];
+      if (!rule) return null;
+      if (preferredCountry !== "any" && rule.country !== preferredCountry) return null;
+      if (preferredArea !== "any" && !rule.areas.includes(preferredArea)) return null;
+
+      let score = 20;
+      const reasons = [];
+      const warnings = [];
+
+      if (preferredCountry === "any") {
+        score += rule.country === "PL" ? 5 : 2;
+      } else {
+        score += 28;
+        reasons.push(t("form.matchReasonCountry"));
+      }
+
+      if (preferredArea === "any") {
+        score += rule.entry ? 8 : 2;
+      } else {
+        score += 30;
+        reasons.push(t("form.matchReasonArea"));
+      }
+
+      if (rule.requiredQualification) {
+        if (qualification !== rule.requiredQualification) return null;
+        const answer = qualificationAnswer(rule.requiredQualification);
+        if (answer === "no") return null;
+        if (answer === "yes") {
+          score += 36;
+          reasons.push(t("form.matchReasonQualification"));
+        } else {
+          score += 8;
+          warnings.push(t("form.matchNeedsVerification"));
+        }
+      } else if (rule.preferredQualification && qualification === rule.preferredQualification) {
+        score += 22;
+        reasons.push(t("form.matchReasonQualification"));
+      } else if (qualification !== "none" && qualification !== "other") {
+        score += 3;
+      }
+
+      if (rule.entry && experienceScore <= 1) {
+        score += 16;
+        reasons.push(t("form.matchReasonNoExperience"));
+      } else if (!rule.entry && experienceScore >= 2) {
+        score += 14 + experienceScore;
+        reasons.push(t("form.matchReasonExperience"));
+      } else if (!rule.entry && experienceScore === 0 && rule.requiredQualification) {
+        score -= 12;
+      }
+
+      if (rule.documentCheck) warnings.push(t("form.matchNeedsDocumentCheck"));
+      if (!reasons.length) reasons.push(t("form.matchReasonFlexible"));
+
+      return { job, score, reasons: [...new Set(reasons)].slice(0, 3), warnings: [...new Set(warnings)] };
+    })
+      .filter(Boolean)
+      .sort((a, b) => (
+        a.warnings.length - b.warnings.length
+        || b.score - a.score
+        || a.job.title.localeCompare(b.job.title)
+      ))
+      .slice(0, 3);
+  }
+
+  function matchSalary(job) {
+    const view = i18n.job(job);
+    if (view.salary?.display) return view.salary.display;
+    if (view.salary?.min == null || view.salary?.max == null) return t("ui.grossSalary");
+    const amount = view.salary.min === view.salary.max
+      ? String(view.salary.min)
+      : `${view.salary.min}–${view.salary.max}`;
+    return `${amount} ${view.salary.currency} · ${t("ui.grossSalary")}`;
+  }
+
+  function renderMatchPreferences() {
+    const experienceItems = ["expNone", "expUnder6", "exp6to12", "exp1to2", "exp2plus"]
+      .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    return `
+      <div class="matcher-privacy-note">
+        <span aria-hidden="true">✓</span>
+        <p>${escapeHTML(t("form.matchPrivacy"))}</p>
+      </div>
+      <div class="application-grid">
+        ${field("preferredDestination", t("form.preferredDestination"), select("preferredDestination", [
+          { value: "any", label: t("options.matchCountryAny") },
+          { value: "PL", label: i18n.countryName("PL") },
+          { value: "HU", label: i18n.countryName("HU") },
+          { value: "BE", label: i18n.countryName("BE") }
+        ], "required"))}
+        ${field("preferredArea", t("form.preferredArea"), select("preferredArea", matchAreaItems(), "required"))}
+        ${field("experience", t("form.experience"), select("experience", experienceItems, "required"))}
+        ${field("qualificationType", t("form.qualificationType"), select("qualificationType", matchQualificationItems(), "required"))}
+        ${qualificationFieldsForType(state.values.qualificationType)}
+      </div>
+    `;
+  }
+
+  function renderMatchResults() {
+    if (!state.recommendations.length) {
+      return `
+        <div class="matcher-empty">
+          <span aria-hidden="true">?</span>
+          <h3>${escapeHTML(t("form.matchNoResultsTitle"))}</h3>
+          <p>${escapeHTML(t("form.matchNoResultsText"))}</p>
+          <button class="button button-primary" type="button" data-match-contact>${escapeHTML(t("ui.contact"))}</button>
+        </div>
+      `;
+    }
+    return `
+      <div class="matcher-results">
+        <p class="matcher-disclaimer">${escapeHTML(t("form.matchDisclaimer"))}</p>
+        ${state.recommendations.map((result, index) => {
+          const view = i18n.job(result.job);
+          return `
+            <article class="match-card${index === 0 ? " best" : ""}">
+              <div class="match-card-top">
+                <span>${escapeHTML(index === 0 ? t("form.matchBest") : t("form.matchSuitable"))}</span>
+                <strong>${escapeHTML(view.format)}</strong>
+              </div>
+              <h3>${escapeHTML(view.title)}</h3>
+              <p class="match-salary">${escapeHTML(matchSalary(result.job))}</p>
+              <ul>
+                ${result.reasons.map((reason) => `<li>✓ ${escapeHTML(reason)}</li>`).join("")}
+                ${result.warnings.map((warning) => `<li class="warning">! ${escapeHTML(warning)}</li>`).join("")}
+              </ul>
+              <button class="button button-primary button-block" type="button" data-match-select="${escapeHTML(result.job.id)}">${escapeHTML(t("form.chooseAndContinue"))}</button>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
   }
 
   function renderContactStep() {
@@ -194,28 +414,13 @@
   }
 
   function qualificationFields(job) {
-    const fields = [];
     const id = job?.id || "";
-    if (id.startsWith("driver-ce")) {
-      fields.push(
-        field("driverLicense", t("form.driverLicense"), yesNoUnknown("driverLicense")),
-        field("code95", t("form.code95"), yesNoUnknown("code95")),
-        field("tachograph", t("form.tachograph"), yesNoUnknown("tachograph")),
-        field("reeferExperience", t("form.reeferExperience"), yesNoUnknown("reeferExperience"))
-      );
-    } else if (id === "forklift-udt") {
-      fields.push(
-        field("udtLicense", t("form.udtLicense"), yesNoUnknown("udtLicense")),
-        field("udtCategory", t("form.udtCategory"), input("udtCategory"))
-      );
-    } else if (id === "team-leader") {
-      fields.push(field("leadershipExperience", t("form.leadershipExperience"), yesNoUnknown("leadershipExperience")));
-    } else if (id === "truck-mechanic") {
-      fields.push(field("mechanicExperience", t("form.mechanicExperience"), yesNoUnknown("mechanicExperience")));
-    } else if (["greenhouse-agronomist", "plant-protection"].includes(id)) {
-      fields.push(field("specialistEducation", t("form.specialistEducation"), yesNoUnknown("specialistEducation")));
-    }
-    return fields.join("");
+    if (id.startsWith("driver-ce")) return qualificationFieldsForType("driver");
+    if (id === "forklift-udt") return qualificationFieldsForType("udt");
+    if (id === "team-leader") return qualificationFieldsForType("leader");
+    if (id === "truck-mechanic") return qualificationFieldsForType("mechanic");
+    if (["greenhouse-agronomist", "plant-protection"].includes(id)) return qualificationFieldsForType("agronomy");
+    return "";
   }
 
   function renderQualificationStep() {
@@ -224,7 +429,7 @@
     return `
       <div class="application-grid">
         ${field("experience", t("form.experience"), select("experience", experienceItems, "required"))}
-        ${qualificationFields(baseJob())}
+        ${qualificationFields(effectiveJob())}
       </div>
       ${field("experienceDetails", t("form.experienceDetails"), `<textarea id="application-experienceDetails" name="experienceDetails" rows="3">${escapeHTML(state.values.experienceDetails || "")}</textarea>`)}
       ${field("extraNotes", t("form.extraNotes"), `<textarea id="application-extraNotes" name="extraNotes" rows="3">${escapeHTML(state.values.extraNotes || "")}</textarea>`)}
@@ -247,12 +452,7 @@
   }
 
   function destinationCode(job) {
-    const destinations = {
-      "Польша": "PL",
-      "Венгрия": "HU",
-      "Бельгия": "BE"
-    };
-    return destinations[job?.format] || "";
+    return MATCH_RULES[job?.id]?.country || "";
   }
 
   function renderReviewStep() {
@@ -305,6 +505,14 @@
           ${reviewValue(t("form.extraNotes"), state.values.extraNotes)}
         </dl>
       </div>
+      <section class="application-message-preview" aria-labelledby="application-message-heading">
+        <div>
+          <h3 id="application-message-heading">${escapeHTML(t("form.messagePreview"))}</h3>
+          <button class="button button-secondary" type="button" data-copy-application-message>⧉ ${escapeHTML(t("form.copyMessage"))}</button>
+        </div>
+        <p>${escapeHTML(t("form.messagePreviewHint"))}</p>
+        <textarea readonly rows="12" aria-label="${escapeHTML(t("form.messagePreview"))}">${escapeHTML(buildMessage())}</textarea>
+      </section>
       <label class="application-check application-consent">
         <input name="consent" type="checkbox" ${state.values.consent ? "checked" : ""}>
         <span>${escapeHTML(t("form.consent"))}</span>
@@ -321,7 +529,59 @@
     return renderReviewStep();
   }
 
-  function render() {
+  function focusDialogStart() {
+    requestAnimationFrame(() => {
+      const dialog = document.getElementById("application-dialog");
+      dialog?.querySelector(".modal-shell")?.scrollTo({ top: 0, behavior: "smooth" });
+      dialog?.querySelector("#application-step-title")?.focus({ preventScroll: true });
+    });
+  }
+
+  function renderMatcher(focusStart = false) {
+    const dialog = document.getElementById("application-dialog");
+    const container = document.getElementById("application-dialog-content");
+    if (!dialog || !container) return;
+    const isResults = state.matchStep === 1;
+    container.innerHTML = `
+      <header class="application-header">
+        <p class="overline">${escapeHTML(t("form.matchKicker"))}</p>
+        <h2 id="application-step-title" tabindex="-1">${escapeHTML(isResults ? t("form.matchResultsTitle") : t("form.matchTitle"))}</h2>
+        <p>${escapeHTML(isResults ? t("form.matchResultsHint") : t("form.matchIntro"))}</p>
+        <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.matchStep + 1} ${t("ui.of")} 2`)}" aria-valuemin="1" aria-valuemax="2" aria-valuenow="${state.matchStep + 1}">
+          <span style="width:${isResults ? 100 : 50}%"></span>
+        </div>
+        <small>${escapeHTML(t("ui.formStep"))} ${state.matchStep + 1} ${escapeHTML(t("ui.of"))} 2</small>
+      </header>
+      <form id="matching-form" novalidate>
+        <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
+        <section class="application-step">
+          ${isResults ? renderMatchResults() : renderMatchPreferences()}
+        </section>
+        <footer class="application-actions">
+          <button class="button button-secondary" type="button" data-match-back ${state.matchStep === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
+          ${isResults ? "" : `<button class="button button-primary" type="submit">${escapeHTML(t("form.showMatches"))} →</button>`}
+        </footer>
+      </form>
+    `;
+    container.querySelector("[name='qualificationType']")?.addEventListener("change", collectMatchAndRender);
+    container.querySelector("[data-match-back]")?.addEventListener("click", () => {
+      state.error = "";
+      state.matchStep = 0;
+      renderMatcher(true);
+    });
+    container.querySelectorAll("[data-match-select]").forEach((button) => {
+      button.addEventListener("click", () => startApplicationFromMatch(button.dataset.matchSelect));
+    });
+    container.querySelector("[data-match-contact]")?.addEventListener("click", clarifyGeneral);
+    container.querySelector("#matching-form")?.addEventListener("submit", handleMatchSubmit);
+    if (focusStart) focusDialogStart();
+  }
+
+  function render(focusStart = false) {
+    if (state.mode === "match") {
+      renderMatcher(focusStart);
+      return;
+    }
     const dialog = document.getElementById("application-dialog");
     const container = document.getElementById("application-dialog-content");
     if (!dialog || !container) return;
@@ -329,15 +589,15 @@
     container.innerHTML = `
       <header class="application-header">
         <p class="overline">${escapeHTML(t("form.title"))}</p>
-        <h2>${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
+        <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
         <p>${escapeHTML(t("form.intro"))}</p>
-        <div class="application-progress" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.step + 1} ${t("ui.of")} ${STEP_KEYS.length}`)}">
+        <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.step + 1} ${t("ui.of")} ${STEP_KEYS.length}`)}" aria-valuemin="1" aria-valuemax="${STEP_KEYS.length}" aria-valuenow="${state.step + 1}">
           <span style="width:${percent}%"></span>
         </div>
         <small>${escapeHTML(t("ui.formStep"))} ${state.step + 1} ${escapeHTML(t("ui.of"))} ${STEP_KEYS.length}</small>
       </header>
       <form id="application-form" novalidate>
-        <div class="application-error" id="application-error" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
+        <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
         <section class="application-step">${stepContent()}</section>
         <footer class="application-actions">
           <button class="button button-secondary" type="button" data-application-back ${state.step === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
@@ -350,6 +610,7 @@
     container.querySelector("[name='jobId']")?.addEventListener("change", (event) => {
       state.jobId = event.target.value;
       state.values.jobId = event.target.value;
+      if (state.values.matchedJobId !== event.target.value) delete state.values.matchedJobId;
     });
     container.querySelector("[name='currentCountry']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='citizenship']")?.addEventListener("change", collectAndRender);
@@ -360,9 +621,84 @@
       collectValues();
       state.error = "";
       state.step = Math.max(0, state.step - 1);
-      render();
+      render(true);
     });
+    container.querySelector("[data-copy-application-message]")?.addEventListener("click", copyApplicationMessage);
     container.querySelector("#application-form")?.addEventListener("submit", handleSubmit);
+    if (focusStart) focusDialogStart();
+  }
+
+  function collectMatchValues() {
+    const form = document.getElementById("matching-form");
+    if (!form) return;
+    const data = new FormData(form);
+    for (const [key, value] of data.entries()) {
+      state.values[key] = String(value).trim();
+    }
+  }
+
+  function collectMatchAndRender() {
+    collectMatchValues();
+    renderMatcher();
+  }
+
+  function validateMatch() {
+    state.error = "";
+    const required = ["preferredDestination", "preferredArea", "experience", "qualificationType"];
+    if (required.some((name) => !state.values[name])) {
+      state.error = t("form.missingRequired");
+      return false;
+    }
+    const qualificationRequired = state.values.qualificationType === "driver"
+      ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
+      : state.values.qualificationType === "udt"
+        ? ["udtLicense"]
+        : state.values.qualificationType === "leader"
+          ? ["leadershipExperience"]
+          : state.values.qualificationType === "mechanic"
+            ? ["mechanicExperience"]
+            : state.values.qualificationType === "agronomy"
+              ? ["specialistEducation"]
+              : [];
+    if (qualificationRequired.some((name) => !state.values[name])) {
+      state.error = t("form.missingRequired");
+    } else if (!validateLatin(state.values.udtCategory)) {
+      state.error = t("form.latinError");
+    }
+    return !state.error;
+  }
+
+  function handleMatchSubmit(event) {
+    event.preventDefault();
+    collectMatchValues();
+    if (!validateMatch()) {
+      renderMatcher();
+      document.getElementById("application-error")?.focus();
+      return;
+    }
+    state.recommendations = recommendJobs();
+    state.matchStep = 1;
+    state.error = "";
+    renderMatcher(true);
+  }
+
+  function startApplicationFromMatch(jobId) {
+    const job = jobs.find((item) => item.id === jobId);
+    if (!job) return;
+    state.mode = "application";
+    state.jobId = job.id;
+    state.step = 0;
+    state.error = "";
+    state.values = {
+      ...state.values,
+      jobId: job.id,
+      matchedJobId: job.id,
+      preferredLanguage: i18n.locale,
+      adult: false,
+      consent: false,
+      shiftReadiness: []
+    };
+    render(true);
   }
 
   function collectValues() {
@@ -454,11 +790,7 @@
                 : [];
       if (!state.values.experience || qualificationRequired.some((name) => !state.values[name])) {
         state.error = t("form.missingRequired");
-      } else if (
-        !validateLatin(state.values.experienceDetails)
-        || !validateLatin(state.values.extraNotes)
-        || !validateLatin(state.values.udtCategory)
-      ) {
+      } else if (!validateLatin(state.values.udtCategory)) {
         state.error = t("form.latinError");
       }
     } else if (!state.values.consent) {
@@ -511,7 +843,7 @@
   }
 
   function buildMessage() {
-    const job = baseJob();
+    const job = effectiveJob();
     const localized = localizedJob();
     const qualification = [
       state.values.driverLicense && `C+E license: ${englishOption(state.values.driverLicense)}`,
@@ -530,6 +862,7 @@
       `Vacancy ID: ${job?.id || "—"}`,
       `Destination: ${destination(job)}`,
       `Site language: ${i18n.languageName(state.values.preferredLanguage || i18n.locale)} (${state.values.preferredLanguage || i18n.locale})`,
+      state.values.matchedJobId ? "Vacancy selected by the on-site matching questionnaire: Yes" : "",
       "",
       `Name (passport Latin): ${state.values.firstName} ${state.values.lastName}`,
       `WhatsApp: ${state.values.phone.replace(/[\s()-]/g, "")}`,
@@ -555,7 +888,35 @@
       `Question / notes: ${state.values.extraNotes || "—"}`,
       "",
       "Candidate confirmed the data and chose to contact the recruiter via WhatsApp."
-    ].join("\n");
+    ].filter((line, index, lines) => line !== "" || lines[index - 1] !== "").join("\n");
+  }
+
+  async function copyApplicationMessage(event) {
+    const message = buildMessage();
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(message);
+      } else {
+        const area = document.createElement("textarea");
+        area.value = message;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.append(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+      }
+      const button = event?.currentTarget;
+      if (button) {
+        const previous = button.textContent;
+        button.textContent = `✓ ${t("form.messageCopied")}`;
+        setTimeout(() => {
+          if (button.isConnected) button.textContent = previous;
+        }, 2200);
+      }
+    } catch {
+      document.querySelector(".application-message-preview textarea")?.select();
+    }
   }
 
   function openWhatsApp(message) {
@@ -575,7 +936,7 @@
     }
     if (state.step < STEP_KEYS.length - 1) {
       state.step += 1;
-      render();
+      render(true);
       return;
     }
     if (!navigator.onLine) {
@@ -587,7 +948,11 @@
   }
 
   function open(jobId = "") {
-    state.jobId = jobs.some((job) => job.id === jobId) ? jobId : "";
+    const hasSelectedJob = jobs.some((job) => job.id === jobId);
+    state.mode = hasSelectedJob ? "application" : "match";
+    state.matchStep = 0;
+    state.recommendations = [];
+    state.jobId = hasSelectedJob ? jobId : "";
     state.step = 0;
     state.error = "";
     state.values = {
@@ -600,6 +965,20 @@
     render();
     const dialog = document.getElementById("application-dialog");
     if (dialog && !dialog.open) dialog.showModal();
+    focusDialogStart();
+  }
+
+  function clarifyGeneral() {
+    if (!navigator.onLine) {
+      window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: t("ui.whatsappNeedsInternet") } }));
+      return;
+    }
+    const message = [
+      t("ui.directQuestion"),
+      t("form.matchNoResultsText"),
+      `${t("ui.siteLanguage")}: ${i18n.languageName(i18n.locale)}`
+    ].join("\n");
+    openWhatsApp(message);
   }
 
   function clarify(jobId) {
@@ -627,5 +1006,5 @@
     }
   });
 
-  window.PortalApplication = { open, clarify, buildMessage };
+  window.PortalApplication = { open, clarify, clarifyGeneral, buildMessage };
 })();

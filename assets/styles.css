@@ -629,6 +629,34 @@ svg {
   font-weight: 700;
 }
 
+.recruiter-contact-row {
+  display: grid;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.recruiter-contact-row a {
+  width: fit-content;
+  color: #155c49;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: underline;
+  text-decoration-color: #8abfa9;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.recruiter-contact-row a:hover {
+  color: var(--forest);
+  text-decoration-color: var(--forest);
+}
+
+.recruiter-contact-row span {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 700;
+}
+
 .recruiter-card blockquote {
   margin: 24px 0 0;
   padding-top: 20px;
@@ -826,6 +854,26 @@ svg {
   line-height: 1.15;
 }
 
+.job-title-button {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: left;
+}
+
+.job-title-button:hover {
+  color: var(--forest-2);
+  text-decoration: underline;
+  text-decoration-color: #a5c95e;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 .job-company {
   margin: 7px 0 0;
   color: var(--ink-soft);
@@ -883,6 +931,15 @@ svg {
   flex: 1 1 0;
   padding-inline: 12px;
   font-size: 12px;
+}
+
+.whatsapp-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  background: #21a46f;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(33, 164, 111, 0.13);
 }
 
 .job-card-footer {
@@ -1019,8 +1076,9 @@ svg {
   color: var(--forest);
   background: var(--mint);
   border-radius: 14px;
-  font-size: 20px;
+  font-size: 11px;
   font-weight: 850;
+  letter-spacing: 0.04em;
 }
 
 .trust-cards h3 {
@@ -1914,6 +1972,211 @@ svg {
   font-weight: 800;
 }
 
+.matcher-privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 23px;
+  padding: 14px 16px;
+  color: #225d4d;
+  background: #eaf7f0;
+  border: 1px solid #cbe7d9;
+  border-radius: 13px;
+}
+
+.matcher-privacy-note span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  flex: 0 0 auto;
+  color: white;
+  background: #24775d;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.matcher-privacy-note p {
+  margin: 1px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.matcher-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.matcher-disclaimer {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  padding: 13px 15px;
+  color: #65501e;
+  background: #fff8df;
+  border: 1px solid #eadba9;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.match-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 18px;
+  background: #fbfcfa;
+  border: 1px solid #d6dfda;
+  border-radius: 17px;
+}
+
+.match-card.best {
+  background: linear-gradient(180deg, #f1f8e4, #fbfcfa 45%);
+  border-color: #9fbe5d;
+  box-shadow: 0 13px 34px rgba(40, 78, 48, 0.11);
+}
+
+.match-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.match-card-top span,
+.match-card-top strong {
+  padding: 5px 7px;
+  border-radius: 99px;
+  font-size: 9px;
+  font-weight: 850;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.match-card-top span {
+  color: #235c4d;
+  background: #e4f2df;
+}
+
+.match-card-top strong {
+  color: var(--ink-soft);
+  background: #eef1ee;
+  text-align: right;
+}
+
+.match-card h3 {
+  margin: 17px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.match-salary {
+  margin: 10px 0 0;
+  color: var(--forest);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.match-card ul {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0 20px;
+  padding: 0;
+  color: #38534c;
+  font-size: 11px;
+  line-height: 1.4;
+  list-style: none;
+}
+
+.match-card li.warning {
+  color: #76581b;
+}
+
+.match-card .button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: auto;
+  padding-inline: 10px;
+  font-size: 11px;
+}
+
+.matcher-empty {
+  padding: 35px 24px;
+  text-align: center;
+  background: var(--mint-2);
+  border-radius: 18px;
+}
+
+.matcher-empty > span {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+  place-items: center;
+  color: var(--forest);
+  background: white;
+  border-radius: 50%;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+}
+
+.matcher-empty h3 {
+  margin: 17px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.matcher-empty p {
+  max-width: 540px;
+  margin: 8px auto 20px;
+  color: var(--ink-soft);
+}
+
+.application-message-preview {
+  margin-top: 18px;
+  padding: clamp(17px, 3vw, 23px);
+  background: #f7f5ec;
+  border: 1px solid #e2ddcf;
+  border-radius: 16px;
+}
+
+.application-message-preview > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.application-message-preview h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.application-message-preview p {
+  margin: 7px 0 13px;
+  color: var(--ink-soft);
+  font-size: 11px;
+}
+
+.application-message-preview textarea {
+  width: 100%;
+  min-height: 220px;
+  padding: 13px;
+  color: #233e39;
+  background: white;
+  border: 1px solid #cfd9d4;
+  border-radius: 11px;
+  font: 11px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+  resize: vertical;
+}
+
 .application-consent {
   padding: 15px;
   background: #f7f4e9;
@@ -2351,8 +2614,7 @@ svg {
   }
 
   .install-button.button-quiet {
-    min-height: 38px;
-    padding: 8px 12px;
+    display: none !important;
   }
 
   .demo-banner {
@@ -2537,7 +2799,7 @@ svg {
     left: 0;
     display: grid;
     min-height: 68px;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     padding: 5px max(6px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
     background: rgba(255, 255, 255, 0.97);
     border-top: 1px solid var(--line);
@@ -2566,7 +2828,7 @@ svg {
   }
 
   .mobile-nav button small {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 750;
     line-height: 1.1;
   }
@@ -2626,6 +2888,10 @@ svg {
   }
 
   .application-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .matcher-results {
     grid-template-columns: 1fr;
   }
 
@@ -2704,11 +2970,33 @@ svg {
     gap: 3px;
   }
 
+  .application-message-preview > div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .application-message-preview .button {
+    width: 100%;
+  }
+
   .application-actions .button,
   .application-actions .whatsapp-submit {
     min-width: 0;
     flex: 1 1 0;
   }
+}
+
+:lang(ka) h1,
+:lang(ka) h2,
+:lang(ka) h3,
+:lang(hy) h1,
+:lang(hy) h2,
+:lang(hy) h3,
+:lang(ne) h1,
+:lang(ne) h2,
+:lang(ne) h3 {
+  letter-spacing: 0;
+  line-height: 1.18;
 }
 
 @media (prefers-reduced-motion: reduce) {

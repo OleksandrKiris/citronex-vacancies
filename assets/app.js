@@ -181,6 +181,7 @@
       ["profile-bio", t("ui.heroIntro")],
       ["hero-promise", `«${t("ui.bannerText")}»`],
       ["hero-response-time", profile.workHours || t("ui.workHours")],
+      ["hero-work-hours", `${profile.workHours || t("ui.workHours")} · ${profile.timezone}`],
       ["contact-response", profile.workHours || t("ui.workHours")],
       ["contact-timezone", profile.timezone],
       ["hero-avatar", profile.initials],
@@ -188,6 +189,10 @@
     ].forEach(([id, value]) => {
       if (el(id)) el(id).textContent = value;
     });
+    if (el("hero-whatsapp-direct")) {
+      el("hero-whatsapp-direct").href = profile.whatsapp;
+      el("hero-whatsapp-direct").textContent = `WhatsApp · ${profile.phone}`;
+    }
 
     const mailSubject = encodeURIComponent(`${t("ui.navJobs")} · Citronex`);
     const mailBody = encodeURIComponent(`${t("ui.directQuestion")}:\n\n`);
@@ -310,10 +315,7 @@
             ${favorite ? "♥" : "♡"}
           </button>
         </div>
-        <button class="availability-chat" type="button" data-job-chat="${escapeHTML(job.id)}">
-          <span aria-hidden="true">◉</span>${escapeHTML(t("ui.clarify"))}
-        </button>
-        <h3>${escapeHTML(view.title)}</h3>
+        <h3><button class="job-title-button" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(view.title)}</button></h3>
         <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
         <p class="job-salary">${formatSalary(view.salary)}</p>
         <ul class="job-meta">
@@ -325,7 +327,7 @@
         </div>
         <div class="job-card-actions">
           <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${escapeHTML(t("ui.takeSurvey"))}</button>
-          <button class="button button-secondary" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(t("ui.details"))}</button>
+          <button class="button button-secondary" type="button" data-job-chat="${escapeHTML(job.id)}"><span class="whatsapp-dot" aria-hidden="true"></span>${escapeHTML(t("ui.clarify"))}</button>
         </div>
         <div class="job-card-footer">
           <small>${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</small>
@@ -455,6 +457,7 @@
 
   function updateSavedBadge() {
     const badge = el("saved-badge");
+    if (!badge) return;
     badge.textContent = String(state.favorites.size);
     badge.hidden = state.favorites.size === 0;
   }
@@ -479,6 +482,8 @@
       t("form.stepContact"),
       t("form.stepLocation"),
       t("form.stepDocuments"),
+      t("form.stepWork"),
+      t("form.stepQualification"),
       t("form.stepReview"),
       t("form.openWhatsapp")
     ];
