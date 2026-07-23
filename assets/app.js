@@ -71,9 +71,18 @@
   }
 
   function formatSalary(salary) {
-    if (!salary || salary.min == null || salary.max == null) return "Вилка по запросу";
-    const formatter = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
-    return `${formatter.format(salary.min)}–${formatter.format(salary.max)} ${escapeHTML(salary.currency)} / ${escapeHTML(salary.period)}`;
+    if (!salary) return "Ставка уточняется";
+    if (salary.display) return escapeHTML(salary.display);
+    if (salary.min == null || salary.max == null) return "Ставка уточняется";
+    const hasDecimals = !Number.isInteger(salary.min) || !Number.isInteger(salary.max);
+    const formatter = new Intl.NumberFormat("ru-RU", {
+      minimumFractionDigits: hasDecimals ? 2 : 0,
+      maximumFractionDigits: hasDecimals ? 2 : 0
+    });
+    const amount = salary.min === salary.max
+      ? formatter.format(salary.min)
+      : `${formatter.format(salary.min)}–${formatter.format(salary.max)}`;
+    return `${amount} ${escapeHTML(salary.currency)} / ${escapeHTML(salary.period)}`;
   }
 
   function formatDate(dateString) {
@@ -97,7 +106,8 @@
 
   function statusText(job) {
     const statuses = {
-      open: "Открыта",
+      open: "Набор идёт",
+      verify: "Уточняем места",
       paused: "На паузе",
       closed: "Закрыта"
     };
@@ -155,12 +165,12 @@
       ["profile-role", profile.role],
       ["footer-role", profile.role],
       ["hero-location", profile.location],
-      ["hero-languages", profile.languages.join(" · ")],
+      ["hero-languages", (profile.channels || profile.languages || []).join(" · ")],
       ["hero-availability", profile.availability],
       ["hero-intro", profile.intro],
       ["profile-bio", profile.bio],
       ["hero-promise", `«${profile.promise}»`],
-      ["hero-response-time", profile.responseTime.replace("рабочих ", "")],
+      ["hero-response-time", profile.workHours || profile.responseTime.replace("рабочих ", "")],
       ["contact-response", profile.responseTime],
       ["contact-timezone", profile.timezone],
       ["hero-avatar", profile.initials],
@@ -169,18 +179,22 @@
       if (el(id)) el(id).textContent = value;
     });
 
-    const mailSubject = encodeURIComponent("Вопрос о вакансии");
+    const mailSubject = encodeURIComponent("Вопрос о вакансии Citronex");
     const mailBody = encodeURIComponent(`Здравствуйте, ${profile.name}!\n\nХочу уточнить: `);
     const mailto = `mailto:${profile.email}?subject=${mailSubject}&body=${mailBody}`;
-    ["header-contact", "home-email-link", "profile-email-link"].forEach((id) => {
-      if (el(id)) el(id).href = mailto;
-    });
-    el("home-email-link").textContent = `Написать ${profile.name}`;
+    el("profile-email-link").href = mailto;
+    const primaryContact = profile.whatsapp || mailto;
+    el("header-contact").href = primaryContact;
+    el("home-email-link").href = primaryContact;
+    el("profile-whatsapp-link").href = profile.whatsapp || mailto;
+    el("home-email-link").textContent = profile.whatsapp ? "Написать в WhatsApp" : `Написать ${profile.name}`;
     el("footer-github").href = profile.github;
     el("current-year").textContent = new Date().getFullYear();
 
     const links = [
       profile.email && { label: "Email", href: `mailto:${profile.email}` },
+      profile.phone && { label: profile.phone, href: `tel:${profile.phone.replace(/[^\d+]/g, "")}` },
+      profile.whatsapp && { label: "WhatsApp ↗", href: profile.whatsapp, external: true },
       profile.github && { label: "GitHub ↗", href: profile.github, external: true },
       profile.linkedin && { label: "LinkedIn ↗", href: profile.linkedin, external: true },
       profile.telegram && { label: "Telegram ↗", href: profile.telegram, external: true }
@@ -218,11 +232,20 @@
 
     el("clear-local-data").addEventListener("click", clearLocalData);
 
-    const openCount = jobs.filter((job) => job.status === "open").length;
-    el("hero-open-count").textContent = String(openCount);
-    el("nav-job-count").textContent = String(openCount);
-    el("demo-banner").hidden = !site.isDemo;
-    el("jobs-updated-label").textContent = `Обновлено ${relativeDate(site.lastUpdated)}`;
+    const availableCount = jobs.filter((job) => ["open", "verify"].includes(job.status)).length;
+    el("hero-open-count").textContent = String(availableCount);
+    el("nav-job-count").textContent = String(availableCount);
+    if (el("hero-rate")) el("hero-rate").textContent = site.baseRate || "31,40 PLN";
+    if (el("hero-rate-label")) el("hero-rate-label").textContent = site.baseRateLabel || "базовая ставка брутто/час";
+    const bannerVisible = Boolean(site.isDemo || site.notice);
+    el("demo-banner").hidden = !bannerVisible;
+    if (bannerVisible) {
+      el("catalog-banner-title").textContent = site.isDemo ? "Демо-версия." : (site.noticeTitle || "Важно.");
+      el("catalog-banner-text").textContent = site.isDemo
+        ? "Вакансии ниже — примеры. Перед отправкой кандидатам замените их реальными данными."
+        : site.notice;
+    }
+    el("jobs-updated-label").textContent = `Каталог от ${formatDate(site.lastUpdated)}`;
 
     const personSchema = {
       "@context": "https://schema.org",
@@ -230,6 +253,7 @@
       name: profile.name,
       jobTitle: profile.role,
       email: `mailto:${profile.email}`,
+      telephone: profile.phone,
       url: site.baseUrl,
       sameAs: [profile.github, profile.linkedin].filter(Boolean)
     };
@@ -268,7 +292,7 @@
         <div class="job-card-actions">
           <div>
             <button class="button button-primary" type="button" data-job-open="${escapeHTML(job.id)}">Подробнее</button>
-            <small>Обновлено ${escapeHTML(relativeDate(job.updatedAt))}</small>
+            <small>Каталог от ${escapeHTML(formatDate(job.updatedAt))}</small>
           </div>
           <label class="compare-check">
             <input type="checkbox" data-compare="${escapeHTML(job.id)}" ${compared ? "checked" : ""}>
@@ -280,7 +304,7 @@
   }
 
   function renderFeaturedJobs() {
-    const featured = jobs.filter((job) => job.featured && job.status === "open").slice(0, 3);
+    const featured = jobs.filter((job) => job.featured && ["open", "verify"].includes(job.status)).slice(0, 3);
     el("featured-jobs").innerHTML = featured.map(renderJobCard).join("");
   }
 
@@ -310,23 +334,26 @@
     const result = jobs.filter((job) => {
       const searchable = [
         job.title,
+        job.subtitle,
         job.company,
         job.category,
         job.level,
         job.location,
         job.summary,
+        ...(job.candidates || []),
         ...job.skills,
-        ...job.required
+        ...job.required,
+        ...job.responsibilities
       ].join(" ").toLocaleLowerCase("ru");
       return (!query || searchable.includes(query))
         && (!category || job.category === category)
         && (!format || job.format === format)
         && (!level || job.level === level)
-        && (!activeOnly || job.status === "open");
+        && (!activeOnly || ["open", "verify"].includes(job.status));
     });
 
     result.sort((a, b) => {
-      if (sort === "salary") return (b.salary?.max || 0) - (a.salary?.max || 0);
+      if (sort === "confirmed") return Number(Boolean(b.salary?.confirmed)) - Number(Boolean(a.salary?.confirmed));
       if (sort === "title") return a.title.localeCompare(b.title, "ru");
       return new Date(b.updatedAt) - new Date(a.updatedAt);
     });
@@ -417,16 +444,17 @@
           <span class="tag">${escapeHTML(job.level)}</span>
         </div>
         <h2>${escapeHTML(job.title)}</h2>
-        <p class="job-company">${escapeHTML(job.company)} · Обновлено ${escapeHTML(relativeDate(job.updatedAt))}</p>
+        <p class="job-company">${escapeHTML(job.company)} · каталог от ${escapeHTML(formatDate(job.updatedAt))}</p>
       </header>
       <dl class="job-detail-facts">
-        <div><dt>Зарплата</dt><dd>${formatSalary(job.salary)}<br><small>${escapeHTML(job.salary.note)}</small></dd></div>
-        <div><dt>Формат</dt><dd>${escapeHTML(job.format)} · ${escapeHTML(job.location)}</dd></div>
+        <div><dt>Ставка брутто</dt><dd>${formatSalary(job.salary)}<br><small>${escapeHTML(job.salary?.note || "")}</small></dd></div>
+        <div><dt>Страна и локация</dt><dd>${escapeHTML(job.format)} · ${escapeHTML(job.location)}</dd></div>
         <div><dt>Договор</dt><dd>${escapeHTML(job.contract)}</dd></div>
-        <div><dt>Язык</dt><dd>${escapeHTML(job.languages.join(", "))}</dd></div>
+        <div><dt>Кому подходит</dt><dd>${escapeHTML((job.candidates || job.languages || []).join(", "))}</dd></div>
       </dl>
       <p class="detail-intro">${escapeHTML(job.summary)}</p>
       ${job.demo ? '<p class="demo-note"><strong>Это демонстрационный контент.</strong> Условия и компания вымышлены и показывают формат будущей реальной вакансии.</p>' : ""}
+      ${job.statusNote ? `<p class="confidential-note"><strong>Статус:</strong> ${escapeHTML(job.statusNote)}</p>` : ""}
       ${job.confidentialReason ? `<p class="confidential-note"><strong>Почему компания не названа:</strong> ${escapeHTML(job.confidentialReason)}</p>` : ""}
       <div class="job-detail-grid">
         <div>
@@ -453,7 +481,7 @@
         </div>
         <aside class="detail-side">
           <section class="detail-section">
-            <h3>Этапы отбора</h3>
+            <h3>Проверка и оформление</h3>
             <ol class="hiring-list">${job.hiring.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ol>
           </section>
           <section class="detail-section">
@@ -464,7 +492,7 @@
         </aside>
       </div>
       <div class="job-detail-actions">
-        <a class="button button-primary" id="job-apply" href="${makeApplyLink(job)}">Откликнуться по email</a>
+        <a class="button button-primary" id="job-apply" href="${makeApplyLink(job)}"${profile.whatsapp ? ' target="_blank" rel="noreferrer"' : ""}>${profile.whatsapp ? "Написать в WhatsApp" : "Откликнуться по email"}</a>
         <button class="button button-secondary" type="button" id="job-favorite">${favorite ? "♥ В избранном" : "♡ Сохранить"}</button>
         <button class="button button-secondary" type="button" id="job-compare">${compared ? "✓ В сравнении" : "＋ Сравнить"}</button>
         <button class="button button-secondary" type="button" id="job-share">Поделиться</button>
@@ -487,7 +515,7 @@
     el("job-share").addEventListener("click", () => shareJob(job));
     el("job-print").addEventListener("click", printOpenModal);
     el("job-apply").addEventListener("click", () => {
-      if (!navigator.onLine) showToast("Вы офлайн. Почтовое приложение может сохранить письмо до подключения.");
+      if (!navigator.onLine) showToast("Вы офлайн. Для отправки сообщения понадобится интернет.");
     });
 
     updateJobSchema(job);
@@ -496,11 +524,13 @@
   }
 
   function makeApplyLink(job) {
+    const message = `Здравствуйте, ${profile.name}!\n\nМеня заинтересовала вакансия «${job.title}».\n\nГражданство:\nОпыт:\nЖелаемая дата поездки:\nУдобный способ связи:`;
+    if (profile.whatsapp) {
+      const separator = profile.whatsapp.includes("?") ? "&" : "?";
+      return `${profile.whatsapp}${separator}text=${encodeURIComponent(message)}`;
+    }
     const subject = encodeURIComponent(`Отклик: ${job.title}`);
-    const body = encodeURIComponent(
-      `Здравствуйте, ${profile.name}!\n\nМеня заинтересовала вакансия «${job.title}».\n\nКоротко обо мне:\n\nСсылка на профиль / резюме (по желанию):\n\nУдобный способ связи:\n`
-    );
-    return `mailto:${job.applyEmail || profile.email}?subject=${subject}&body=${body}`;
+    return `mailto:${job.applyEmail || profile.email}?subject=${subject}&body=${encodeURIComponent(message)}`;
   }
 
   function jobShareUrl(job) {
@@ -528,7 +558,7 @@
 
   function updateJobSchema(job) {
     document.getElementById("job-schema")?.remove();
-    if (job.demo || job.status !== "open") return;
+    if (job.demo || job.status !== "open" || !job.salary?.confirmed) return;
     const schema = {
       "@context": "https://schema.org",
       "@type": "JobPosting",
@@ -547,7 +577,7 @@
           "@type": "QuantitativeValue",
           minValue: job.salary.min,
           maxValue: job.salary.max,
-          unitText: "MONTH"
+          unitText: job.salary.period === "час" ? "HOUR" : "MONTH"
         }
       }
     };
@@ -573,7 +603,13 @@
       "Интервью": "◎",
       "Резюме": "▤",
       "Оффер": "↗",
-      "Безопасность": "◇"
+      "Безопасность": "◇",
+      "Условия": "₽",
+      "Приезд": "→",
+      "Жильё": "⌂",
+      "Документы": "▤",
+      "Локации": "⌖",
+      "FAQ": "?"
     };
     return `
       <article class="resource-card">
@@ -658,7 +694,7 @@
       ["Формат", (job) => `${escapeHTML(job.format)} · ${escapeHTML(job.location)}`],
       ["Уровень", (job) => escapeHTML(job.level)],
       ["Договор", (job) => escapeHTML(job.contract)],
-      ["Язык", (job) => escapeHTML(job.languages.join(", "))],
+      ["Кому подходит", (job) => escapeHTML((job.candidates || []).join(", "))],
       ["Навыки", (job) => escapeHTML(job.skills.join(", "))],
       ["Этапов", (job) => String(job.hiring.length)],
       ["Обновлено", (job) => escapeHTML(formatDate(job.updatedAt))]
@@ -828,7 +864,7 @@
     el("reset-filters").addEventListener("click", resetFilters);
     el("empty-reset").addEventListener("click", resetFilters);
     el("compare-button").addEventListener("click", openComparison);
-    el("copy-email-button").addEventListener("click", () => copyText(profile.email, "Email скопирован."));
+    el("copy-phone-button").addEventListener("click", () => copyText(profile.phone || profile.email, "Контакт скопирован."));
 
     els("dialog").forEach((dialog) => {
       dialog.addEventListener("click", (event) => {

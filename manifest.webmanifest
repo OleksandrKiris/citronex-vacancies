@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Oleksandr — вакансии и карьерные материалы",
-  "short_name": "Career Hub",
-  "description": "Актуальные вакансии, прозрачный процесс найма и материалы для кандидатов.",
+  "name": "Вакансии Citronex — каталог 2026",
+  "short_name": "Citronex Jobs",
+  "description": "Ставки брутто, жильё, график, документы и прямой контакт рекрутера.",
   "lang": "ru",
   "dir": "ltr",
   "start_url": "./#home",
@@ -11,7 +11,7 @@
   "orientation": "any",
   "background_color": "#fbfaf6",
   "theme_color": "#173f3b",
-  "categories": ["business", "productivity", "education"],
+  "categories": ["business", "productivity"],
   "icons": [
     {
       "src": "assets/icon.svg",
@@ -22,7 +22,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Вакансии",
+      "name": "Все вакансии",
       "short_name": "Вакансии",
       "url": "./#jobs",
       "icons": [
@@ -34,9 +34,9 @@
       ]
     },
     {
-      "name": "Избранное",
-      "short_name": "Избранное",
-      "url": "./#saved",
+      "name": "Контакт рекрутера",
+      "short_name": "Рекрутер",
+      "url": "./#profile",
       "icons": [
         {
           "src": "assets/icon.svg",

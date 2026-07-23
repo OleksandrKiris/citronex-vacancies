@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173f3b">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="Актуальные вакансии, прозрачный процесс найма и полезные материалы для кандидатов от рекрутера Oleksandr.">
+  <meta name="description" content="Каталог вакансий Citronex в Польше, Венгрии и Бельгии: ставки брутто, жильё, график, документы и прямой контакт рекрутера.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Oleksandr — вакансии и карьерные материалы">
-  <meta property="og:description" content="Все вакансии, условия, этапы отбора и материалы для подготовки — в одной ссылке.">
+  <meta property="og:title" content="Вакансии Citronex — каталог 2026">
+  <meta property="og:description" content="Работа в теплицах, на складах и в транспорте. Только суммы брутто и честные условия.">
   <meta property="og:image" content="assets/share-card.svg">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
-  <title>Oleksandr — вакансии и карьерные материалы</title>
+  <title>Вакансии Citronex — каталог 2026</title>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к содержанию</a>
@@ -29,7 +29,7 @@
         <span class="brand-mark" aria-hidden="true">OK</span>
         <span>
           <strong id="brand-name">Oleksandr</strong>
-          <small>career hub</small>
+          <small>Citronex jobs</small>
         </span>
       </button>
 
@@ -52,9 +52,8 @@
 
   <div class="demo-banner" id="demo-banner" hidden>
     <div class="shell">
-      <strong>Демо-версия.</strong>
-      Вакансии ниже — примеры. Перед отправкой кандидатам замените их реальными данными в
-      <code>data/content.js</code>.
+      <strong id="catalog-banner-title">Важно.</strong>
+      <span id="catalog-banner-text">Перед откликом уточните наличие мест и дату заезда.</span>
     </div>
   </div>
 
@@ -64,9 +63,9 @@
         <div class="shell hero-grid">
           <div class="hero-copy">
             <div class="eyebrow"><span class="pulse" aria-hidden="true"></span><span id="hero-availability">Открыт к общению</span></div>
-            <h1>Работа, о которой<br><em>говорят честно.</em></h1>
+            <h1>Работа в Citronex.<br><em>Условия без мелкого шрифта.</em></h1>
             <p class="hero-lead" id="hero-intro">
-              Помогаю специалистам находить команды, где совпадают задачи, условия и ожидания.
+              Помогаю выбрать вакансию Citronex, проверить условия, документы и доступную дату заезда.
             </p>
             <div class="hero-actions">
               <button class="button button-primary button-large" type="button" data-route="jobs">
@@ -80,15 +79,15 @@
             <dl class="hero-facts" aria-label="Ключевые факты">
               <div>
                 <dt id="hero-open-count">0</dt>
-                <dd>актуальных вакансий</dd>
+                <dd>вакансий в каталоге</dd>
               </div>
               <div>
-                <dt id="hero-response-time">до 3 дней</dt>
-                <dd>целевой срок ответа</dd>
+                <dt id="hero-response-time">08:00–16:00</dt>
+                <dd>рабочее время</dd>
               </div>
               <div>
-                <dt>0 ₽</dt>
-                <dd>для кандидатов</dd>
+                <dt id="hero-rate">31,40 PLN</dt>
+                <dd id="hero-rate-label">базовая ставка брутто/час</dd>
               </div>
             </dl>
           </div>
@@ -96,18 +95,18 @@
           <aside class="recruiter-card" aria-label="Профиль рекрутера">
             <div class="portrait-wrap">
               <div class="portrait" id="hero-avatar" aria-hidden="true">OK</div>
-              <span class="verified-badge" title="Контакты можно проверить" aria-label="Контакты можно проверить">✓</span>
+              <span class="verified-badge" title="Прямой контакт рекрутера" aria-label="Прямой контакт рекрутера">☎</span>
             </div>
             <div class="recruiter-card-copy">
               <p class="overline">Ваш контакт на всём пути</p>
               <h2 id="hero-name">Oleksandr</h2>
-              <p id="hero-role">Рекрутер по IT и digital</p>
+              <p id="hero-role">Рекрутер по вакансиям Citronex</p>
               <div class="recruiter-meta">
-                <span id="hero-location">Европа · удалённо</span>
-                <span id="hero-languages">RU · UA · EN</span>
+                <span id="hero-location">Вакансии: Польша · Венгрия · Бельгия</span>
+                <span id="hero-languages">WhatsApp · Email</span>
               </div>
               <blockquote id="hero-promise">
-                «Если роль не подходит, скажу прямо. Если процесс меняется — предупрежу.»
+                «Не обещаю часы, премию или командировку без подтверждения. Условия договора важнее текста каталога.»
               </blockquote>
             </div>
           </aside>
@@ -117,7 +116,7 @@
       <section class="section shell" aria-labelledby="featured-heading">
         <div class="section-heading">
           <div>
-            <p class="overline">Открытые позиции</p>
+            <p class="overline">Направления набора</p>
             <h2 id="featured-heading">Вакансии, где всё по делу</h2>
           </div>
           <button class="text-link" type="button" data-route="jobs">Все вакансии <span aria-hidden="true">→</span></button>
@@ -130,9 +129,9 @@
           <div class="section-heading">
             <div>
               <p class="overline">Без сюрпризов</p>
-              <h2 id="process-heading">Как проходит отбор</h2>
+              <h2 id="process-heading">Как проходит проверка и оформление</h2>
             </div>
-            <p class="section-note">Состав этапов может отличаться по вакансии — точная схема всегда указана в карточке.</p>
+            <p class="section-note">Этапы зависят от вакансии и документов — детали по каждому направлению указаны в карточке.</p>
           </div>
           <ol class="process-list" id="home-process"></ol>
         </div>
@@ -146,14 +145,14 @@
         </div>
         <div class="trust-cards">
           <article>
-            <span class="feature-icon" aria-hidden="true">₴</span>
-            <h3>Бесплатно для кандидата</h3>
-            <p>Мою работу оплачивает работодатель. Я не прошу оплату, паспортные или банковские данные.</p>
+            <span class="feature-icon" aria-hidden="true">₽</span>
+            <h3>Только суммы брутто</h3>
+            <p>Ставка указана до налогов и взносов. Для расчётов нетто сначала проверяются договор и документы.</p>
           </article>
           <article>
             <span class="feature-icon" aria-hidden="true">◷</span>
-            <h3>Статус без молчания</h3>
-            <p>У каждой роли есть дата обновления. Об изменении процесса или закрытии позиции я сообщаю прямо.</p>
+            <h3>Часы без обещаний</h3>
+            <p>200, 250 или 280 часов — ориентир по загрузке, а не гарантия. Точный график подтверждает объект.</p>
           </article>
           <article>
             <span class="feature-icon" aria-hidden="true">⌁</span>
@@ -167,7 +166,7 @@
         <div class="section-heading">
           <div>
             <p class="overline">Подготовка без регистрации</p>
-            <h2 id="resource-preview-heading">Полезное перед интервью</h2>
+            <h2 id="resource-preview-heading">Полезное перед откликом и поездкой</h2>
           </div>
           <button class="text-link" type="button" data-route="resources">Все материалы <span aria-hidden="true">→</span></button>
         </div>
@@ -178,18 +177,18 @@
         <div>
           <p class="overline">Можно начать без резюме</p>
           <h2 id="final-cta-heading">Не нашли подходящую роль?</h2>
-          <p>Задайте вопрос или расскажите, что ищете. Сначала — короткий разговор, персональные данные потом.</p>
+          <p>Напишите страну, локацию и интересующее направление. Сначала проверим места и условия, затем документы.</p>
         </div>
-        <a class="button button-light button-large" id="home-email-link" href="#">Написать Oleksandr</a>
+        <a class="button button-light button-large" id="home-email-link" href="#">Написать в WhatsApp</a>
       </section>
     </section>
 
     <section class="view section shell" id="view-jobs" data-view="jobs" hidden>
       <div class="page-heading">
         <div>
-          <p class="overline">Актуальные позиции</p>
-          <h1>Найдите роль под свои условия</h1>
-          <p>Зарплата, формат, требования и этапы — до отклика.</p>
+          <p class="overline">Каталог направлений</p>
+          <h1>Выберите направление и локацию</h1>
+          <p>Ставка брутто, график, жильё и документы — до поездки.</p>
         </div>
         <span class="updated-label" id="jobs-updated-label">Обновлено сегодня</span>
       </div>
@@ -198,31 +197,31 @@
         <label class="search-field">
           <span class="sr-only">Поиск вакансий</span>
           <span aria-hidden="true">⌕</span>
-          <input id="job-search" type="search" placeholder="Должность, навык или компания" autocomplete="off">
+          <input id="job-search" type="search" placeholder="Вакансия, город или процесс" autocomplete="off">
         </label>
         <label>
-          <span class="sr-only">Специализация</span>
+          <span class="sr-only">Направление</span>
           <select id="filter-category">
             <option value="">Все направления</option>
           </select>
         </label>
         <label>
-          <span class="sr-only">Формат работы</span>
+          <span class="sr-only">Страна</span>
           <select id="filter-format">
-            <option value="">Любой формат</option>
+            <option value="">Все страны</option>
           </select>
         </label>
         <label>
-          <span class="sr-only">Уровень</span>
+          <span class="sr-only">Требования к опыту</span>
           <select id="filter-level">
-            <option value="">Любой уровень</option>
+            <option value="">Любой опыт</option>
           </select>
         </label>
         <label>
           <span class="sr-only">Сортировка</span>
           <select id="job-sort">
             <option value="updated">Сначала новые</option>
-            <option value="salary">Выше зарплата</option>
+            <option value="confirmed">Сначала вакансии со ставкой</option>
             <option value="title">По названию</option>
           </select>
         </label>
@@ -233,7 +232,7 @@
         <p id="results-count" role="status">Найдено: 0</p>
         <label class="toggle">
           <input id="active-only" type="checkbox" checked>
-          <span>Только открытые</span>
+          <span>Актуальные и на проверке</span>
         </label>
       </div>
       <div class="job-grid" id="all-jobs"></div>
@@ -284,8 +283,8 @@
         <div>
           <p class="overline">Ваш рекрутер</p>
           <h1 id="profile-name">Oleksandr</h1>
-          <p class="profile-role" id="profile-role">Рекрутер по IT и digital</p>
-          <p id="profile-bio">Помогаю кандидатам и продуктовым командам находить честное совпадение по задачам и ожиданиям.</p>
+          <p class="profile-role" id="profile-role">Рекрутер по вакансиям Citronex</p>
+          <p id="profile-bio">Сопровождаю кандидатов по вакансиям Citronex в теплицах, на складах, в транспорте и технических подразделениях.</p>
           <div class="profile-links" id="profile-links"></div>
         </div>
       </div>
@@ -320,20 +319,21 @@
         <aside class="contact-card">
           <p class="overline">Связаться напрямую</p>
           <h2>Сначала можно просто спросить</h2>
-          <p>Не нужно сразу отправлять резюме. Укажите интересующую вакансию — отвечу по существу.</p>
-          <a class="button button-primary button-block" id="profile-email-link" href="#">Написать по email</a>
-          <button class="button button-secondary button-block" id="copy-email-button" type="button">Скопировать email</button>
+          <p>Не нужно сразу отправлять полный пакет документов. Укажите страну, вакансию и гражданство — сначала проверим возможность оформления.</p>
+          <a class="button button-primary button-block" id="profile-whatsapp-link" href="#" target="_blank" rel="noreferrer">Написать в WhatsApp</a>
+          <a class="button button-secondary button-block" id="profile-email-link" href="#">Написать по email</a>
+          <button class="button button-secondary button-block" id="copy-phone-button" type="button">Скопировать телефон</button>
           <dl>
             <div>
               <dt>Обычно отвечаю</dt>
-              <dd id="contact-response">до 3 рабочих дней</dd>
+              <dd id="contact-response">в рабочее время</dd>
             </div>
             <div>
               <dt>Часовой пояс</dt>
-              <dd id="contact-timezone">Europe/Budapest</dd>
+              <dd id="contact-timezone">Europe/Warsaw</dd>
             </div>
           </dl>
-          <p class="contact-note">Я никогда не прошу оплату за трудоустройство или банковские данные в переписке.</p>
+          <p class="contact-note">Не отправляйте CVV, коды из SMS и данные карты. Для выплаты зарплаты банковский счёт нужен только в официальном процессе оформления.</p>
         </aside>
       </div>
     </section>
@@ -343,10 +343,10 @@
     <div class="shell footer-grid">
       <div>
         <span class="brand-mark" aria-hidden="true">OK</span>
-        <p><strong id="footer-name">Oleksandr</strong><br><span id="footer-role">Рекрутер по IT и digital</span></p>
+        <p><strong id="footer-name">Oleksandr</strong><br><span id="footer-role">Рекрутер по вакансиям Citronex</span></p>
       </div>
       <div>
-        <p>Вакансии и материалы работают офлайн. Отправка email и внешние ссылки требуют интернета.</p>
+        <p>Каталог и материалы работают офлайн. WhatsApp, email и получение обновлений требуют интернета.</p>
         <button class="text-link install-button" type="button" hidden>Установить портал</button>
       </div>
       <div class="footer-meta">

@@ -1,4 +1,4 @@
-const CACHE_VERSION = "career-hub-v1-2026-07-23";
+const CACHE_VERSION = "citronex-jobs-v2-2026-07-23";
 const APP_SHELL = [
   "./",
   "./index.html",

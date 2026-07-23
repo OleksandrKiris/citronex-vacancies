@@ -26,13 +26,23 @@ for (const [index, job] of (content?.jobs || []).entries()) {
   jobIds.add(job.id);
   add(job.title, `${prefix}.title обязателен`);
   add(job.company, `${prefix}.company обязателен`);
-  add(["open", "paused", "closed"].includes(job.status), `${prefix}.status некорректен`);
+  add(["open", "verify", "paused", "closed"].includes(job.status), `${prefix}.status некорректен`);
   add(job.updatedAt && !Number.isNaN(Date.parse(job.updatedAt)), `${prefix}.updatedAt некорректен`);
   add(job.applyEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(job.applyEmail), `${prefix}.applyEmail некорректен`);
-  add(job.salary?.min <= job.salary?.max, `${prefix}.salary: min должен быть не больше max`);
-  add(job.salary?.currency, `${prefix}.salary.currency обязателен`);
+  const hasSalaryDisplay = typeof job.salary?.display === "string" && job.salary.display.trim().length > 0;
+  const hasSalaryRange = Number.isFinite(job.salary?.min)
+    && Number.isFinite(job.salary?.max)
+    && job.salary.min <= job.salary.max
+    && typeof job.salary?.currency === "string"
+    && job.salary.currency.length > 0
+    && typeof job.salary?.period === "string"
+    && job.salary.period.length > 0;
+  add(hasSalaryDisplay || hasSalaryRange, `${prefix}.salary: укажите display или корректные min/max/currency/period`);
+  add(Array.isArray(job.candidates) && job.candidates.length > 0, `${prefix}.candidates пуст`);
   add(Array.isArray(job.responsibilities) && job.responsibilities.length > 0, `${prefix}.responsibilities пуст`);
   add(Array.isArray(job.required) && job.required.length > 0, `${prefix}.required пуст`);
+  add(Array.isArray(job.niceToHave), `${prefix}.niceToHave должен быть массивом`);
+  add(Array.isArray(job.benefits) && job.benefits.length > 0, `${prefix}.benefits пуст`);
   add(Array.isArray(job.hiring) && job.hiring.length > 0, `${prefix}.hiring пуст`);
 }
 

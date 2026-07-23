@@ -33,5 +33,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Career Hub: http://127.0.0.1:${port}`);
+  console.log(`Citronex Jobs: http://127.0.0.1:${port}`);
 });
