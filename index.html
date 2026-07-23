@@ -16,7 +16,7 @@
   <title>Вакансии Citronex — каталог 2026</title>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Перейти к содержанию</a>
+  <a class="skip-link" href="#main-content" data-i18n="ui.heroJobs">Смотреть вакансии</a>
 
   <div class="status-strip" id="status-strip" role="status">
     <span class="status-dot" aria-hidden="true"></span>
@@ -25,7 +25,7 @@
 
   <header class="site-header">
     <div class="shell header-inner">
-      <button class="brand" type="button" data-route="home" aria-label="На главную">
+      <button class="brand" type="button" data-route="home" data-i18n-aria-label="ui.navHome" aria-label="Главная">
         <span class="brand-mark" aria-hidden="true">OK</span>
         <span>
           <strong id="brand-name">Oleksandr</strong>
@@ -33,27 +33,32 @@
         </span>
       </button>
 
-      <nav class="desktop-nav" aria-label="Основная навигация">
-        <button type="button" data-route="home">Главная</button>
-        <button type="button" data-route="jobs">Вакансии <span class="nav-count" id="nav-job-count">0</span></button>
-        <button type="button" data-route="resources">Материалы</button>
-        <button type="button" data-route="saved">Избранное</button>
-        <button type="button" data-route="profile">Обо мне</button>
+      <nav class="desktop-nav" data-i18n-aria-label="ui.navHome" aria-label="Главная">
+        <button type="button" data-route="home"><span data-i18n="ui.navHome">Главная</span></button>
+        <button type="button" data-route="jobs"><span data-i18n="ui.navJobs">Вакансии</span> <span class="nav-count" id="nav-job-count">0</span></button>
+        <button type="button" data-route="resources"><span data-i18n="ui.navResources">Материалы</span></button>
+        <button type="button" data-route="saved"><span data-i18n="ui.navSaved">Избранное</span></button>
+        <button type="button" data-route="profile"><span data-i18n="ui.navProfile">Обо мне</span></button>
       </nav>
 
       <div class="header-actions">
+        <label class="language-control">
+          <span class="sr-only" data-i18n="ui.language">Язык</span>
+          <span aria-hidden="true">文</span>
+          <select id="language-select" data-i18n-aria-label="ui.language" aria-label="Язык"></select>
+        </label>
         <button class="button button-quiet install-button" id="install-button" type="button" hidden>
-          Установить
+          <span data-i18n="ui.install">Установить</span>
         </button>
-        <a class="button button-primary header-contact" id="header-contact" href="#profile">Связаться</a>
+        <a class="button button-primary header-contact" id="header-contact" href="#profile" data-i18n="ui.contact">Связаться</a>
       </div>
     </div>
   </header>
 
   <div class="demo-banner" id="demo-banner" hidden>
     <div class="shell">
-      <strong id="catalog-banner-title">Важно.</strong>
-      <span id="catalog-banner-text">Перед откликом уточните наличие мест и дату заезда.</span>
+      <strong id="catalog-banner-title" data-i18n="ui.bannerTitle">Перед поездкой.</strong>
+      <span id="catalog-banner-text" data-i18n="ui.bannerText">Уточните конкретную локацию, дату заезда и условия.</span>
     </div>
   </div>
 
@@ -62,43 +67,43 @@
       <div class="hero">
         <div class="shell hero-grid">
           <div class="hero-copy">
-            <div class="eyebrow"><span class="pulse" aria-hidden="true"></span><span id="hero-availability">Открыт к общению</span></div>
-            <h1>Работа в Citronex.<br><em>Условия без мелкого шрифта.</em></h1>
-            <p class="hero-lead" id="hero-intro">
+            <div class="eyebrow"><span class="pulse" aria-hidden="true"></span><span id="hero-availability" data-i18n="ui.heroKicker">Вакансии Citronex · прямой контакт рекрутера</span></div>
+            <h1><span data-i18n="ui.heroTitle">Работа в Citronex.</span><br><em data-i18n="ui.heroAccent">Сначала ответы — потом поездка.</em></h1>
+            <p class="hero-lead" id="hero-intro" data-i18n="ui.heroIntro">
               Помогаю выбрать вакансию Citronex, проверить условия, документы и доступную дату заезда.
             </p>
             <div class="hero-actions">
               <button class="button button-primary button-large" type="button" data-route="jobs">
-                Смотреть вакансии
+                <span data-i18n="ui.heroJobs">Смотреть вакансии</span>
                 <span aria-hidden="true">→</span>
               </button>
-              <button class="button button-secondary button-large" type="button" data-route="profile">
-                Как я работаю
+              <button class="button button-secondary button-large" type="button" data-application-general>
+                <span data-i18n="ui.heroSurvey">Подобрать вакансию</span>
               </button>
             </div>
-            <dl class="hero-facts" aria-label="Ключевые факты">
+            <dl class="hero-facts" data-i18n-aria-label="ui.trustKicker" aria-label="Доверие строится на фактах">
               <div>
                 <dt id="hero-open-count">0</dt>
-                <dd>вакансий в каталоге</dd>
+                <dd data-i18n="ui.jobsInCatalog">вакансий в каталоге</dd>
               </div>
               <div>
                 <dt id="hero-response-time">08:00–16:00</dt>
-                <dd>рабочее время</dd>
+                <dd data-i18n="ui.workHours">рабочее время</dd>
               </div>
               <div>
                 <dt id="hero-rate">31,40 PLN</dt>
-                <dd id="hero-rate-label">базовая ставка брутто/час</dd>
+                <dd id="hero-rate-label" data-i18n="ui.grossRate">базовая ставка брутто/час</dd>
               </div>
             </dl>
           </div>
 
-          <aside class="recruiter-card" aria-label="Профиль рекрутера">
+          <aside class="recruiter-card" data-i18n-aria-label="ui.recruiterProfile" aria-label="Ваш рекрутер">
             <div class="portrait-wrap">
               <div class="portrait" id="hero-avatar" aria-hidden="true">OK</div>
-              <span class="verified-badge" title="Прямой контакт рекрутера" aria-label="Прямой контакт рекрутера">☎</span>
+              <span class="verified-badge" data-i18n-title="ui.recruiterEyebrow" data-i18n-aria-label="ui.recruiterEyebrow" title="Ваш прямой контакт" aria-label="Ваш прямой контакт">☎</span>
             </div>
             <div class="recruiter-card-copy">
-              <p class="overline">Ваш контакт на всём пути</p>
+              <p class="overline" data-i18n="ui.recruiterEyebrow">Ваш прямой контакт</p>
               <h2 id="hero-name">Oleksandr</h2>
               <p id="hero-role">Рекрутер по вакансиям Citronex</p>
               <div class="recruiter-meta">
@@ -116,10 +121,10 @@
       <section class="section shell" aria-labelledby="featured-heading">
         <div class="section-heading">
           <div>
-            <p class="overline">Направления набора</p>
-            <h2 id="featured-heading">Вакансии, где всё по делу</h2>
+            <p class="overline" data-i18n="ui.featuredKicker">Выберите направление</p>
+            <h2 id="featured-heading" data-i18n="ui.featuredTitle">Вакансии с понятными условиями</h2>
           </div>
-          <button class="text-link" type="button" data-route="jobs">Все вакансии <span aria-hidden="true">→</span></button>
+          <button class="text-link" type="button" data-route="jobs"><span data-i18n="ui.allJobs">Все вакансии</span> <span aria-hidden="true">→</span></button>
         </div>
         <div class="job-grid" id="featured-jobs"></div>
       </section>
@@ -128,10 +133,10 @@
         <div class="shell">
           <div class="section-heading">
             <div>
-              <p class="overline">Без сюрпризов</p>
-              <h2 id="process-heading">Как проходит проверка и оформление</h2>
+              <p class="overline" data-i18n="ui.processKicker">Чёткий маршрут</p>
+              <h2 id="process-heading" data-i18n="ui.processTitle">Как проходит отклик</h2>
             </div>
-            <p class="section-note">Этапы зависят от вакансии и документов — детали по каждому направлению указаны в карточке.</p>
+            <p class="section-note" data-i18n="ui.processNote">Сначала анкета, затем сообщение в WhatsApp. Документы через сайт не загружаются.</p>
           </div>
           <ol class="process-list" id="home-process"></ol>
         </div>
@@ -139,25 +144,25 @@
 
       <section class="section shell trust-grid" aria-labelledby="trust-heading">
         <div class="trust-intro">
-          <p class="overline">Доверие строится на фактах</p>
-          <h2 id="trust-heading">Вы контролируете процесс и свои данные</h2>
-          <p>Никаких обещаний «гарантированного оффера». Только понятные условия, проверяемые контакты и уважение к вашему времени.</p>
+          <p class="overline" data-i18n="ui.trustKicker">Доверие строится на фактах</p>
+          <h2 id="trust-heading" data-i18n="ui.trustTitle">Вы контролируете свои данные</h2>
+          <p data-i18n="ui.trustIntro">Анкета работает в вашем браузере. Данные попадут рекрутеру только после нажатия кнопки WhatsApp.</p>
         </div>
         <div class="trust-cards">
           <article>
             <span class="feature-icon" aria-hidden="true">₽</span>
-            <h3>Только суммы брутто</h3>
-            <p>Ставка указана до налогов и взносов. Для расчётов нетто сначала проверяются договор и документы.</p>
+            <h3 data-i18n="ui.trustGrossTitle">Суммы брутто</h3>
+            <p data-i18n="ui.trustGrossText">Ставка указана до налогов и взносов. Нетто зависит от договора и документов.</p>
           </article>
           <article>
             <span class="feature-icon" aria-hidden="true">◷</span>
-            <h3>Часы без обещаний</h3>
-            <p>200, 250 или 280 часов — ориентир по загрузке, а не гарантия. Точный график подтверждает объект.</p>
+            <h3 data-i18n="ui.trustChatTitle">Уточнение напрямую</h3>
+            <p data-i18n="ui.trustChatText">Нажмите «Уточнить», чтобы открыть чат с рекрутером по конкретной вакансии.</p>
           </article>
           <article>
             <span class="feature-icon" aria-hidden="true">⌁</span>
-            <h3>Работает офлайн</h3>
-            <p>Вакансии, избранное, сравнение и материалы остаются на вашем устройстве после первого визита.</p>
+            <h3 data-i18n="ui.trustOfflineTitle">Работает офлайн</h3>
+            <p data-i18n="ui.trustOfflineText">Вакансии, сравнение и памятки доступны после первого открытия.</p>
           </article>
         </div>
       </section>
@@ -165,115 +170,111 @@
       <section class="section shell resource-preview" aria-labelledby="resource-preview-heading">
         <div class="section-heading">
           <div>
-            <p class="overline">Подготовка без регистрации</p>
-            <h2 id="resource-preview-heading">Полезное перед откликом и поездкой</h2>
+            <p class="overline" data-i18n="ui.resourceKicker">Подготовка без регистрации</p>
+            <h2 id="resource-preview-heading" data-i18n="ui.resourceTitle">Полезное перед откликом и поездкой</h2>
           </div>
-          <button class="text-link" type="button" data-route="resources">Все материалы <span aria-hidden="true">→</span></button>
+          <button class="text-link" type="button" data-route="resources"><span data-i18n="ui.allResources">Все материалы</span> <span aria-hidden="true">→</span></button>
         </div>
         <div class="resource-grid" id="featured-resources"></div>
       </section>
 
       <section class="shell final-cta" aria-labelledby="final-cta-heading">
         <div>
-          <p class="overline">Можно начать без резюме</p>
-          <h2 id="final-cta-heading">Не нашли подходящую роль?</h2>
-          <p>Напишите страну, локацию и интересующее направление. Сначала проверим места и условия, затем документы.</p>
+          <p class="overline" data-i18n="ui.finalKicker">Можно начать без резюме</p>
+          <h2 id="final-cta-heading" data-i18n="ui.finalTitle">Не знаете, какая вакансия подходит?</h2>
+          <p data-i18n="ui.finalText">Ответьте на вопросы: гражданство, текущая страна, документы, опыт и дата готовности.</p>
         </div>
-        <a class="button button-light button-large" id="home-email-link" href="#">Написать в WhatsApp</a>
+        <button class="button button-light button-large" type="button" data-application-general data-i18n="ui.startSurvey">Начать опрос</button>
       </section>
     </section>
 
     <section class="view section shell" id="view-jobs" data-view="jobs" hidden>
       <div class="page-heading">
         <div>
-          <p class="overline">Каталог направлений</p>
-          <h1>Выберите направление и локацию</h1>
-          <p>Ставка брутто, график, жильё и документы — до поездки.</p>
+          <p class="overline" data-i18n="ui.jobsKicker">Каталог вакансий</p>
+          <h1 data-i18n="ui.jobsTitle">Выберите работу и заполните анкету</h1>
+          <p data-i18n="ui.jobsIntro">По каждой вакансии можно отдельно уточнить условия или сразу пройти опрос.</p>
         </div>
         <span class="updated-label" id="jobs-updated-label">Обновлено сегодня</span>
       </div>
 
       <form class="filters" id="job-filters" role="search">
         <label class="search-field">
-          <span class="sr-only">Поиск вакансий</span>
+          <span class="sr-only" data-i18n="ui.searchPlaceholder">Вакансия, страна или процесс</span>
           <span aria-hidden="true">⌕</span>
-          <input id="job-search" type="search" placeholder="Вакансия, город или процесс" autocomplete="off">
+          <input id="job-search" type="search" placeholder="Вакансия, страна или процесс" data-i18n-placeholder="ui.searchPlaceholder" autocomplete="off">
         </label>
         <label>
-          <span class="sr-only">Направление</span>
+          <span class="sr-only" data-i18n="ui.allDirections">Все направления</span>
           <select id="filter-category">
-            <option value="">Все направления</option>
+            <option value="" data-i18n="ui.allDirections">Все направления</option>
           </select>
         </label>
         <label>
-          <span class="sr-only">Страна</span>
+          <span class="sr-only" data-i18n="ui.allCountries">Все страны</span>
           <select id="filter-format">
-            <option value="">Все страны</option>
+            <option value="" data-i18n="ui.allCountries">Все страны</option>
           </select>
         </label>
         <label>
-          <span class="sr-only">Требования к опыту</span>
+          <span class="sr-only" data-i18n="ui.anyExperience">Любой опыт</span>
           <select id="filter-level">
-            <option value="">Любой опыт</option>
+            <option value="" data-i18n="ui.anyExperience">Любой опыт</option>
           </select>
         </label>
         <label>
-          <span class="sr-only">Сортировка</span>
+          <span class="sr-only" data-i18n="ui.newestFirst">Сначала новые</span>
           <select id="job-sort">
-            <option value="updated">Сначала новые</option>
-            <option value="confirmed">Сначала вакансии со ставкой</option>
-            <option value="title">По названию</option>
+            <option value="updated" data-i18n="ui.newestFirst">Сначала новые</option>
+            <option value="confirmed" data-i18n="ui.salaryFirst">Сначала вакансии со ставкой</option>
+            <option value="title" data-i18n="ui.titleSort">По названию</option>
           </select>
         </label>
-        <button class="button button-quiet" id="reset-filters" type="button">Сбросить</button>
+        <button class="button button-quiet" id="reset-filters" type="button" data-i18n="ui.reset">Сбросить</button>
       </form>
 
       <div class="results-row">
         <p id="results-count" role="status">Найдено: 0</p>
-        <label class="toggle">
-          <input id="active-only" type="checkbox" checked>
-          <span>Актуальные и на проверке</span>
-        </label>
       </div>
       <div class="job-grid" id="all-jobs"></div>
       <div class="empty-state" id="jobs-empty" hidden>
         <span aria-hidden="true">⌕</span>
-        <h2>Пока ничего не совпало</h2>
-        <p>Сбросьте часть фильтров или напишите мне — возможно, новая роль ещё не опубликована.</p>
-        <button class="button button-secondary" type="button" id="empty-reset">Сбросить фильтры</button>
+        <h2 data-i18n="ui.noMatchesTitle">Пока ничего не совпало</h2>
+        <p data-i18n="ui.noMatchesText">Сбросьте фильтры или задайте вопрос рекрутеру.</p>
+        <button class="button button-secondary" type="button" id="empty-reset" data-i18n="ui.reset">Сбросить</button>
       </div>
     </section>
 
     <section class="view section shell" id="view-resources" data-view="resources" hidden>
       <div class="page-heading">
         <div>
-          <p class="overline">База кандидата</p>
-          <h1>Материалы, которые остаются с вами</h1>
-          <p>Короткие практические памятки без формы, подписки и сбора данных. Все доступны офлайн.</p>
+          <p class="overline" data-i18n="ui.resourceKicker">База кандидата</p>
+          <h1 data-i18n="ui.resourceTitle">Материалы, которые остаются с вами</h1>
+          <p data-i18n="ui.trustOfflineText">Вакансии, сравнение и памятки доступны после первого открытия.</p>
         </div>
-        <span class="offline-ready">✓ Доступно офлайн</span>
+        <span class="offline-ready">✓ <span data-i18n="ui.offlineChip">Офлайн</span></span>
       </div>
-      <div class="resource-filters" id="resource-filters" aria-label="Фильтр материалов"></div>
+      <div class="resource-filters" id="resource-filters" data-i18n-aria-label="ui.allResources" aria-label="Все материалы"></div>
       <div class="resource-grid resource-grid-full" id="all-resources"></div>
     </section>
 
     <section class="view section shell" id="view-saved" data-view="saved" hidden>
       <div class="page-heading">
         <div>
-          <p class="overline">Только на этом устройстве</p>
-          <h1>Избранное и сравнение</h1>
-          <p>Сохранённые вакансии никуда не отправляются и доступны без интернета.</p>
+          <p class="overline" data-i18n="ui.noteHelp">Только на этом устройстве</p>
+          <h1><span data-i18n="ui.navSaved">Избранное</span> · <span data-i18n="ui.compare">сравнение</span></h1>
+          <p data-i18n="ui.noteHelp">Хранятся только на этом устройстве.</p>
         </div>
         <button class="button button-primary" id="compare-button" type="button" disabled>
-          Сравнить <span id="compare-count">0</span>
+          <span data-i18n="ui.compare">Сравнить</span> <span id="compare-count">0</span>
         </button>
       </div>
       <div class="job-grid" id="saved-jobs"></div>
       <div class="empty-state" id="saved-empty">
         <span aria-hidden="true">♡</span>
-        <h2>Здесь появятся важные вакансии</h2>
-        <p>Нажмите на сердечко в карточке, чтобы вернуться к роли позже — даже офлайн.</p>
-        <button class="button button-secondary" type="button" data-route="jobs">Смотреть вакансии</button>
+        <h2 data-i18n="ui.navSaved">Избранное</h2>
+        <p data-i18n="ui.noteHelp">Хранятся только на этом устройстве.</p>
+        <button class="button button-secondary" type="button" data-route="jobs" data-i18n="ui.heroJobs">Смотреть вакансии</button>
       </div>
     </section>
 
@@ -281,7 +282,7 @@
       <div class="profile-hero">
         <div class="portrait portrait-large" id="profile-avatar" aria-hidden="true">OK</div>
         <div>
-          <p class="overline">Ваш рекрутер</p>
+          <p class="overline" data-i18n="ui.recruiterProfile">Ваш рекрутер</p>
           <h1 id="profile-name">Oleksandr</h1>
           <p class="profile-role" id="profile-role">Рекрутер по вакансиям Citronex</p>
           <p id="profile-bio">Сопровождаю кандидатов по вакансиям Citronex в теплицах, на складах, в транспорте и технических подразделениях.</p>
@@ -292,48 +293,48 @@
       <div class="profile-layout">
         <div class="profile-main">
           <section class="content-card" aria-labelledby="work-heading">
-            <p class="overline">Принципы</p>
-            <h2 id="work-heading">Как я работаю</h2>
+            <p class="overline" data-i18n="ui.trustKicker">Принципы</p>
+            <h2 id="work-heading" data-i18n="ui.trustTitle">Как я работаю</h2>
             <div class="principles" id="profile-principles"></div>
           </section>
 
           <section class="content-card" aria-labelledby="full-process-heading">
-            <p class="overline">Прозрачный маршрут</p>
-            <h2 id="full-process-heading">Что будет после отклика</h2>
+            <p class="overline" data-i18n="ui.processKicker">Прозрачный маршрут</p>
+            <h2 id="full-process-heading" data-i18n="ui.processTitle">Что будет после отклика</h2>
             <ol class="profile-process" id="profile-process"></ol>
           </section>
 
           <section class="content-card" aria-labelledby="privacy-heading">
-            <p class="overline">Простым языком</p>
-            <h2 id="privacy-heading">Приватность и безопасность</h2>
+            <p class="overline" data-i18n="ui.privacy">Простым языком</p>
+            <h2 id="privacy-heading" data-i18n="ui.privacy">Приватность и безопасность</h2>
             <div class="privacy-copy" id="privacy-copy"></div>
           </section>
 
           <section class="content-card" aria-labelledby="faq-heading">
-            <p class="overline">Без неловких вопросов</p>
+            <p class="overline" data-i18n="ui.details">Без неловких вопросов</p>
             <h2 id="faq-heading">FAQ</h2>
             <div class="faq-list" id="faq-list"></div>
           </section>
         </div>
 
         <aside class="contact-card">
-          <p class="overline">Связаться напрямую</p>
-          <h2>Сначала можно просто спросить</h2>
-          <p>Не нужно сразу отправлять полный пакет документов. Укажите страну, вакансию и гражданство — сначала проверим возможность оформления.</p>
-          <a class="button button-primary button-block" id="profile-whatsapp-link" href="#" target="_blank" rel="noreferrer">Написать в WhatsApp</a>
-          <a class="button button-secondary button-block" id="profile-email-link" href="#">Написать по email</a>
-          <button class="button button-secondary button-block" id="copy-phone-button" type="button">Скопировать телефон</button>
+          <p class="overline" data-i18n="ui.recruiterProfile">Связаться напрямую</p>
+          <h2 data-i18n="ui.trustChatTitle">Сначала можно просто спросить</h2>
+          <p data-i18n="ui.trustChatText">Уточните условия выбранной вакансии напрямую у рекрутера.</p>
+          <a class="button button-primary button-block" id="profile-whatsapp-link" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a class="button button-secondary button-block" id="profile-email-link" href="#">Email</a>
+          <button class="button button-secondary button-block" id="copy-phone-button" type="button" data-i18n="ui.contact">Скопировать телефон</button>
           <dl>
             <div>
-              <dt>Обычно отвечаю</dt>
+              <dt data-i18n="ui.responseTime">Обычно отвечаю</dt>
               <dd id="contact-response">в рабочее время</dd>
             </div>
             <div>
-              <dt>Часовой пояс</dt>
+              <dt data-i18n="ui.timezone">Часовой пояс</dt>
               <dd id="contact-timezone">Europe/Warsaw</dd>
             </div>
           </dl>
-          <p class="contact-note">Не отправляйте CVV, коды из SMS и данные карты. Для выплаты зарплаты банковский счёт нужен только в официальном процессе оформления.</p>
+          <p class="contact-note" data-i18n="form.noDocumentNumbers">Не отправляйте номера документов и банковские данные через сайт.</p>
         </aside>
       </div>
     </section>
@@ -346,47 +347,54 @@
         <p><strong id="footer-name">Oleksandr</strong><br><span id="footer-role">Рекрутер по вакансиям Citronex</span></p>
       </div>
       <div>
-        <p>Каталог и материалы работают офлайн. WhatsApp, email и получение обновлений требуют интернета.</p>
-        <button class="text-link install-button" type="button" hidden>Установить портал</button>
+        <p data-i18n="ui.trustOfflineText">Каталог и материалы работают офлайн. WhatsApp требует интернета.</p>
+        <button class="text-link install-button" type="button" hidden data-i18n="ui.install">Установить портал</button>
       </div>
       <div class="footer-meta">
-        <button class="text-link" type="button" data-route="profile">Приватность</button>
+        <button class="text-link" type="button" data-route="profile" data-i18n="ui.privacy">Приватность и безопасность</button>
         <a class="text-link" id="footer-github" href="#" target="_blank" rel="noreferrer">GitHub</a>
         <span>© <span id="current-year"></span></span>
       </div>
     </div>
   </footer>
 
-  <nav class="mobile-nav" aria-label="Мобильная навигация">
-    <button type="button" data-route="home"><span aria-hidden="true">⌂</span><small>Главная</small></button>
-    <button type="button" data-route="jobs"><span aria-hidden="true">▤</span><small>Вакансии</small></button>
-    <button type="button" data-route="resources"><span aria-hidden="true">◇</span><small>Материалы</small></button>
+  <nav class="mobile-nav" data-i18n-aria-label="ui.navHome" aria-label="Главная">
+    <button type="button" data-route="home"><span aria-hidden="true">⌂</span><small data-i18n="ui.navHome">Главная</small></button>
+    <button type="button" data-route="jobs"><span aria-hidden="true">▤</span><small data-i18n="ui.navJobs">Вакансии</small></button>
+    <button type="button" data-route="resources"><span aria-hidden="true">◇</span><small data-i18n="ui.navResources">Материалы</small></button>
     <button type="button" data-route="saved" class="saved-nav-button">
-      <span aria-hidden="true">♡</span><small>Избранное</small><b id="saved-badge" hidden>0</b>
+      <span aria-hidden="true">♡</span><small data-i18n="ui.navSaved">Избранное</small><b id="saved-badge" hidden>0</b>
     </button>
-    <button type="button" data-route="profile"><span aria-hidden="true">○</span><small>Профиль</small></button>
+    <button type="button" data-route="profile"><span aria-hidden="true">○</span><small data-i18n="ui.navProfile">Профиль</small></button>
   </nav>
 
   <dialog class="modal job-modal" id="job-dialog">
     <div class="modal-shell">
-      <button class="icon-button modal-close" type="button" data-close-dialog aria-label="Закрыть">×</button>
+      <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div id="job-dialog-content"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal application-modal" id="application-dialog">
+    <div class="modal-shell modal-shell-application">
+      <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
+      <div id="application-dialog-content"></div>
     </div>
   </dialog>
 
   <dialog class="modal resource-modal" id="resource-dialog">
     <div class="modal-shell modal-shell-narrow">
-      <button class="icon-button modal-close" type="button" data-close-dialog aria-label="Закрыть">×</button>
+      <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div id="resource-dialog-content"></div>
     </div>
   </dialog>
 
   <dialog class="modal compare-modal" id="compare-dialog">
     <div class="modal-shell">
-      <button class="icon-button modal-close" type="button" data-close-dialog aria-label="Закрыть">×</button>
+      <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div class="modal-heading">
-        <p class="overline">До трёх позиций</p>
-        <h2>Сравнение вакансий</h2>
+        <p class="overline" data-i18n="ui.compare">Сравнить</p>
+        <h2><span data-i18n="ui.compare">Сравнение</span> · <span data-i18n="ui.navJobs">вакансии</span></h2>
       </div>
       <div class="compare-wrap" id="compare-content"></div>
     </div>
@@ -397,7 +405,20 @@
     <button id="toast-action" type="button" hidden></button>
   </div>
 
+  <script src="data/locales/ru.js"></script>
+  <script src="data/locales/uk.js"></script>
+  <script src="data/locales/pl.js"></script>
+  <script src="data/locales/en.js"></script>
+  <script src="data/locales/az.js"></script>
+  <script src="data/locales/ka.js"></script>
+  <script src="data/locales/id.js"></script>
+  <script src="data/locales/es.js"></script>
+  <script src="data/locales/fil.js"></script>
+  <script src="data/locales/ne.js"></script>
+  <script src="data/locales/hy.js"></script>
   <script src="data/content.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/application-form.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>

@@ -2,12 +2,15 @@
   "use strict";
 
   const content = window.PORTAL_CONTENT;
-  if (!content) {
-    document.body.innerHTML = "<p style='padding:2rem'>Не удалось загрузить data/content.js.</p>";
+  const i18n = window.PortalI18n;
+  if (!content || !i18n) {
+    document.body.innerHTML = "<p style='padding:2rem'>Не удалось загрузить данные портала.</p>";
     return;
   }
 
   const { site, profile, jobs, resources, process, privacy, faq } = content;
+  const t = (path, variables) => i18n.t(path, variables);
+  const localizedJob = (job) => i18n.job(job);
   const STORAGE = {
     favorites: "career-hub:favorites:v1",
     compare: "career-hub:compare:v1",
@@ -18,10 +21,11 @@
     favorites: readStringSet(STORAGE.favorites),
     compare: readStringSet(STORAGE.compare),
     notes: readObject(STORAGE.notes),
-    resourceCategory: "Все",
+    resourceCategory: "__all__",
     installPrompt: null,
     toastTimer: null,
-    jobReturnRoute: "jobs"
+    jobReturnRoute: "jobs",
+    openJobId: ""
   };
 
   const el = (id) => document.getElementById(id);
@@ -49,7 +53,7 @@
     try {
       localStorage.setItem(key, JSON.stringify([...set]));
     } catch {
-      showToast("Браузер не разрешил сохранить данные на этом устройстве.");
+      showToast(t("ui.noteHelp"));
     }
   }
 
@@ -57,7 +61,7 @@
     try {
       localStorage.setItem(STORAGE.notes, JSON.stringify(state.notes));
     } catch {
-      showToast("Заметка не сохранилась: локальное хранилище недоступно.");
+      showToast(t("ui.noteHelp"));
     }
   }
 
@@ -71,47 +75,51 @@
   }
 
   function formatSalary(salary) {
-    if (!salary) return "Ставка уточняется";
+    if (!salary) return t("ui.grossSalary");
     if (salary.display) return escapeHTML(salary.display);
-    if (salary.min == null || salary.max == null) return "Ставка уточняется";
+    if (salary.min == null || salary.max == null) return t("ui.grossSalary");
     const hasDecimals = !Number.isInteger(salary.min) || !Number.isInteger(salary.max);
-    const formatter = new Intl.NumberFormat("ru-RU", {
+    const numberOptions = {
       minimumFractionDigits: hasDecimals ? 2 : 0,
       maximumFractionDigits: hasDecimals ? 2 : 0
-    });
+    };
+    const requestedLocale = i18n.localeTag();
+    let formatter = new Intl.NumberFormat(requestedLocale, numberOptions);
+    const requestedLanguage = requestedLocale.toLowerCase().split("-")[0];
+    const resolvedLanguage = formatter.resolvedOptions().locale.toLowerCase().split("-")[0];
+    if (requestedLanguage !== resolvedLanguage) formatter = new Intl.NumberFormat("en", numberOptions);
     const amount = salary.min === salary.max
       ? formatter.format(salary.min)
       : `${formatter.format(salary.min)}–${formatter.format(salary.max)}`;
-    return `${amount} ${escapeHTML(salary.currency)} / ${escapeHTML(salary.period)}`;
+    const periods = {
+      ru: { "час": "час", "месяц": "месяц" },
+      uk: { "час": "год", "месяц": "місяць" },
+      pl: { "час": "godz.", "месяц": "mies." },
+      en: { "час": "hour", "месяц": "month" },
+      az: { "час": "saat", "месяц": "ay" },
+      ka: { "час": "საათი", "месяц": "თვე" },
+      id: { "час": "jam", "месяц": "bulan" },
+      es: { "час": "hora", "месяц": "mes" },
+      fil: { "час": "oras", "месяц": "buwan" },
+      ne: { "час": "घण्टा", "месяц": "महिना" },
+      hy: { "час": "ժամ", "месяц": "ամիս" }
+    };
+    const period = periods[i18n.locale]?.[salary.period] || salary.period;
+    return `${amount} ${escapeHTML(salary.currency)} / ${escapeHTML(period)}`;
   }
 
   function formatDate(dateString) {
     if (!dateString) return "";
     const date = new Date(`${dateString}T12:00:00`);
-    return new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", year: "numeric" }).format(date);
-  }
-
-  function relativeDate(dateString) {
-    if (!dateString) return "";
-    const source = new Date(`${dateString}T12:00:00`);
-    const today = new Date();
-    source.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    const days = Math.round((source - today) / 86400000);
-    if (days === 0) return "сегодня";
-    if (days === -1) return "вчера";
-    if (days > -7 && days < 0) return `${Math.abs(days)} дн. назад`;
-    return formatDate(dateString);
-  }
-
-  function statusText(job) {
-    const statuses = {
-      open: "Набор идёт",
-      verify: "Уточняем места",
-      paused: "На паузе",
-      closed: "Закрыта"
-    };
-    return statuses[job.status] || job.status;
+    try {
+      const locale = i18n.localeTag();
+      const formatter = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" });
+      const requestedLanguage = locale.toLowerCase().split("-")[0];
+      const resolvedLanguage = formatter.resolvedOptions().locale.toLowerCase().split("-")[0];
+      return requestedLanguage === resolvedLanguage ? formatter.format(date) : dateString;
+    } catch {
+      return dateString;
+    }
   }
 
   function jobById(id) {
@@ -148,30 +156,32 @@
       }
       showToast(successMessage);
     } catch {
-      showToast("Не удалось скопировать. Выделите текст вручную.");
+      showToast(t("ui.share"));
     }
   }
 
   function renderProfileContent() {
-    document.title = site.title;
-    document.querySelector('meta[name="description"]')?.setAttribute("content", site.description);
+    document.title = `${t("ui.navJobs")} Citronex · ${i18n.languageName(i18n.locale)}`;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", t("ui.heroIntro"));
+    const recruiterRole = `Citronex · ${t("ui.recruiterProfile")}`;
+    const recruiterLocations = `${t("ui.navJobs")}: ${i18n.countryName("PL")} · ${i18n.countryName("HU")} · ${i18n.countryName("BE")}`;
 
     [
       ["brand-name", profile.name],
       ["hero-name", profile.name],
       ["profile-name", profile.name],
       ["footer-name", profile.name],
-      ["hero-role", profile.role],
-      ["profile-role", profile.role],
-      ["footer-role", profile.role],
-      ["hero-location", profile.location],
+      ["hero-role", recruiterRole],
+      ["profile-role", recruiterRole],
+      ["footer-role", recruiterRole],
+      ["hero-location", recruiterLocations],
       ["hero-languages", (profile.channels || profile.languages || []).join(" · ")],
-      ["hero-availability", profile.availability],
-      ["hero-intro", profile.intro],
-      ["profile-bio", profile.bio],
-      ["hero-promise", `«${profile.promise}»`],
-      ["hero-response-time", profile.workHours || profile.responseTime.replace("рабочих ", "")],
-      ["contact-response", profile.responseTime],
+      ["hero-availability", t("ui.heroKicker")],
+      ["hero-intro", t("ui.heroIntro")],
+      ["profile-bio", t("ui.heroIntro")],
+      ["hero-promise", `«${t("ui.bannerText")}»`],
+      ["hero-response-time", profile.workHours || t("ui.workHours")],
+      ["contact-response", profile.workHours || t("ui.workHours")],
       ["contact-timezone", profile.timezone],
       ["hero-avatar", profile.initials],
       ["profile-avatar", profile.initials]
@@ -179,15 +189,17 @@
       if (el(id)) el(id).textContent = value;
     });
 
-    const mailSubject = encodeURIComponent("Вопрос о вакансии Citronex");
-    const mailBody = encodeURIComponent(`Здравствуйте, ${profile.name}!\n\nХочу уточнить: `);
+    const mailSubject = encodeURIComponent(`${t("ui.navJobs")} · Citronex`);
+    const mailBody = encodeURIComponent(`${t("ui.directQuestion")}:\n\n`);
     const mailto = `mailto:${profile.email}?subject=${mailSubject}&body=${mailBody}`;
     el("profile-email-link").href = mailto;
     const primaryContact = profile.whatsapp || mailto;
     el("header-contact").href = primaryContact;
-    el("home-email-link").href = primaryContact;
+    if (el("home-email-link")) el("home-email-link").href = primaryContact;
     el("profile-whatsapp-link").href = profile.whatsapp || mailto;
-    el("home-email-link").textContent = profile.whatsapp ? "Написать в WhatsApp" : `Написать ${profile.name}`;
+    if (el("home-email-link")) {
+      el("home-email-link").textContent = profile.whatsapp ? "WhatsApp" : `Email · ${profile.name}`;
+    }
     el("footer-github").href = profile.github;
     el("current-year").textContent = new Date().getFullYear();
 
@@ -203,14 +215,26 @@
       `<a href="${escapeHTML(link.href)}"${link.external ? ' target="_blank" rel="noreferrer"' : ""}>${escapeHTML(link.label)}</a>`
     )).join("");
 
-    el("profile-principles").innerHTML = profile.principles.map((item) => `
+    const localizedPrinciples = i18n.locale === "ru" ? profile.principles : [
+      { title: t("ui.trustGrossTitle"), text: t("ui.trustGrossText") },
+      { title: t("ui.trustChatTitle"), text: t("ui.trustChatText") },
+      { title: t("ui.trustOfflineTitle"), text: t("ui.trustOfflineText") },
+      { title: t("ui.privacy"), text: t("form.noDocumentNumbers") }
+    ];
+    el("profile-principles").innerHTML = localizedPrinciples.map((item) => `
       <article class="principle">
         <h3>${escapeHTML(item.title)}</h3>
         <p>${escapeHTML(item.text)}</p>
       </article>
     `).join("");
 
-    const processMarkup = process.map((item) => `
+    const localizedProcess = i18n.locale === "ru" ? process : [
+      { title: t("form.stepContact"), time: "1", text: t("form.intro") },
+      { title: t("form.stepLocation"), time: "2", text: t("form.latinHint") },
+      { title: t("form.stepDocuments"), time: "3", text: t("form.noDocumentNumbers") },
+      { title: t("form.stepReview"), time: "4", text: t("form.reviewHint") }
+    ];
+    const processMarkup = localizedProcess.map((item) => `
       <li>
         <h3>${escapeHTML(item.title)}<span>${escapeHTML(item.time)}</span></h3>
         <p>${escapeHTML(item.text)}</p>
@@ -219,33 +243,39 @@
     el("home-process").innerHTML = processMarkup;
     el("profile-process").innerHTML = processMarkup;
 
-    el("privacy-copy").innerHTML = privacy.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") + `
-      <button class="button button-secondary" id="clear-local-data" type="button">Удалить избранное и заметки</button>
+    const localizedPrivacy = i18n.locale === "ru"
+      ? privacy
+      : [t("ui.trustIntro"), t("form.noDocumentNumbers"), t("form.reviewHint")];
+    el("privacy-copy").innerHTML = localizedPrivacy.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") + `
+      <button class="button button-secondary" id="clear-local-data" type="button">${escapeHTML(t("ui.reset"))}</button>
     `;
 
-    el("faq-list").innerHTML = faq.map((item) => `
+    const localizedFaq = i18n.locale === "ru" ? faq : [
+      { question: t("ui.grossSalary"), answer: t("ui.trustGrossText") },
+      { question: t("ui.clarify"), answer: t("ui.trustChatText") },
+      { question: t("ui.privacy"), answer: t("form.noDocumentNumbers") }
+    ];
+    el("faq-list").innerHTML = localizedFaq.map((item) => `
       <details>
         <summary>${escapeHTML(item.question)}</summary>
         <p>${escapeHTML(item.answer)}</p>
       </details>
     `).join("");
 
-    el("clear-local-data").addEventListener("click", clearLocalData);
+    el("clear-local-data").onclick = clearLocalData;
 
     const availableCount = jobs.filter((job) => ["open", "verify"].includes(job.status)).length;
     el("hero-open-count").textContent = String(availableCount);
     el("nav-job-count").textContent = String(availableCount);
     if (el("hero-rate")) el("hero-rate").textContent = site.baseRate || "31,40 PLN";
-    if (el("hero-rate-label")) el("hero-rate-label").textContent = site.baseRateLabel || "базовая ставка брутто/час";
+    if (el("hero-rate-label")) el("hero-rate-label").textContent = t("ui.grossRate");
     const bannerVisible = Boolean(site.isDemo || site.notice);
     el("demo-banner").hidden = !bannerVisible;
     if (bannerVisible) {
-      el("catalog-banner-title").textContent = site.isDemo ? "Демо-версия." : (site.noticeTitle || "Важно.");
-      el("catalog-banner-text").textContent = site.isDemo
-        ? "Вакансии ниже — примеры. Перед отправкой кандидатам замените их реальными данными."
-        : site.notice;
+      el("catalog-banner-title").textContent = t("ui.bannerTitle");
+      el("catalog-banner-text").textContent = t("ui.bannerText");
     }
-    el("jobs-updated-label").textContent = `Каталог от ${formatDate(site.lastUpdated)}`;
+    el("jobs-updated-label").textContent = `${t("ui.catalogDate")} ${formatDate(site.lastUpdated)}`;
 
     const personSchema = {
       "@context": "https://schema.org",
@@ -257,6 +287,7 @@
       url: site.baseUrl,
       sameAs: [profile.github, profile.linkedin].filter(Boolean)
     };
+    document.getElementById("person-schema")?.remove();
     const schemaNode = document.createElement("script");
     schemaNode.type = "application/ld+json";
     schemaNode.id = "person-schema";
@@ -265,38 +296,42 @@
   }
 
   function renderJobCard(job) {
+    const view = localizedJob(job);
     const favorite = state.favorites.has(job.id);
     const compared = state.compare.has(job.id);
     return `
       <article class="job-card" data-status="${escapeHTML(job.status)}">
         <div class="job-card-top">
           <div class="job-card-tags">
-            <span class="status-tag${job.demo ? " demo" : ""}">${job.demo ? "Демо" : escapeHTML(statusText(job))}</span>
-            <span class="tag">${escapeHTML(job.format)}</span>
-            <span class="tag">${escapeHTML(job.level)}</span>
+            <span class="tag tag-country">${escapeHTML(view.format)}</span>
+            <span class="tag">${escapeHTML(view.level)}</span>
           </div>
-          <button class="icon-button${favorite ? " active" : ""}" type="button" data-favorite="${escapeHTML(job.id)}" aria-label="${favorite ? "Убрать из избранного" : "Сохранить в избранное"}" aria-pressed="${favorite}">
+          <button class="icon-button${favorite ? " active" : ""}" type="button" data-favorite="${escapeHTML(job.id)}" aria-label="${escapeHTML(favorite ? t("ui.removeSaved") : t("ui.save"))}" aria-pressed="${favorite}">
             ${favorite ? "♥" : "♡"}
           </button>
         </div>
-        <h3>${escapeHTML(job.title)}</h3>
-        <p class="job-company">${escapeHTML(job.company)}</p>
-        <p class="job-salary">${formatSalary(job.salary)}</p>
+        <button class="availability-chat" type="button" data-job-chat="${escapeHTML(job.id)}">
+          <span aria-hidden="true">◉</span>${escapeHTML(t("ui.clarify"))}
+        </button>
+        <h3>${escapeHTML(view.title)}</h3>
+        <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
+        <p class="job-salary">${formatSalary(view.salary)}</p>
         <ul class="job-meta">
-          <li><span aria-hidden="true">⌖</span>${escapeHTML(job.location)}</li>
-          <li><span aria-hidden="true">◷</span>${escapeHTML(job.contract)}</li>
+          <li><span aria-hidden="true">⌖</span>${escapeHTML(view.location)}</li>
+          <li><span aria-hidden="true">◷</span>${escapeHTML(view.contract)}</li>
         </ul>
-        <div class="job-skills" aria-label="Навыки">
-          ${job.skills.slice(0, 4).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
+        <div class="job-skills">
+          ${(view.skills || []).slice(0, 4).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
         <div class="job-card-actions">
-          <div>
-            <button class="button button-primary" type="button" data-job-open="${escapeHTML(job.id)}">Подробнее</button>
-            <small>Каталог от ${escapeHTML(formatDate(job.updatedAt))}</small>
-          </div>
+          <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${escapeHTML(t("ui.takeSurvey"))}</button>
+          <button class="button button-secondary" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(t("ui.details"))}</button>
+        </div>
+        <div class="job-card-footer">
+          <small>${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</small>
           <label class="compare-check">
             <input type="checkbox" data-compare="${escapeHTML(job.id)}" ${compared ? "checked" : ""}>
-            Сравнить
+            ${escapeHTML(t("ui.compare"))}
           </label>
         </div>
       </article>
@@ -304,57 +339,60 @@
   }
 
   function renderFeaturedJobs() {
-    const featured = jobs.filter((job) => job.featured && ["open", "verify"].includes(job.status)).slice(0, 3);
+    const featured = jobs.filter((job) => job.featured).slice(0, 3);
     el("featured-jobs").innerHTML = featured.map(renderJobCard).join("");
   }
 
   function populateFilters() {
-    const fill = (id, values) => {
+    const fill = (id, placeholder, values) => {
       const select = el(id);
+      const previous = select.value;
+      select.innerHTML = `<option value="">${escapeHTML(placeholder)}</option>`;
       values.forEach((value) => {
         const option = document.createElement("option");
         option.value = value;
         option.textContent = value;
         select.append(option);
       });
+      if ([...select.options].some((option) => option.value === previous)) select.value = previous;
     };
-    fill("filter-category", [...new Set(jobs.map((job) => job.category))].sort());
-    fill("filter-format", [...new Set(jobs.map((job) => job.format))].sort());
-    fill("filter-level", [...new Set(jobs.map((job) => job.level))].sort());
+    const views = jobs.map(localizedJob);
+    fill("filter-category", t("ui.allDirections"), [...new Set(views.map((job) => job.category))].sort());
+    fill("filter-format", t("ui.allCountries"), [...new Set(views.map((job) => job.format))].sort());
+    fill("filter-level", t("ui.anyExperience"), [...new Set(views.map((job) => job.level))].sort());
   }
 
   function filteredJobs() {
-    const query = el("job-search").value.trim().toLocaleLowerCase("ru");
+    const query = el("job-search").value.trim().toLocaleLowerCase(i18n.localeTag());
     const category = el("filter-category").value;
     const format = el("filter-format").value;
     const level = el("filter-level").value;
-    const activeOnly = el("active-only").checked;
     const sort = el("job-sort").value;
 
     const result = jobs.filter((job) => {
+      const view = localizedJob(job);
       const searchable = [
-        job.title,
-        job.subtitle,
-        job.company,
-        job.category,
-        job.level,
-        job.location,
-        job.summary,
-        ...(job.candidates || []),
-        ...job.skills,
-        ...job.required,
-        ...job.responsibilities
-      ].join(" ").toLocaleLowerCase("ru");
+        view.title,
+        view.subtitle,
+        view.company,
+        view.category,
+        view.level,
+        view.location,
+        view.summary,
+        ...(view.candidates || []),
+        ...(view.skills || []),
+        ...(view.required || []),
+        ...(view.responsibilities || [])
+      ].join(" ").toLocaleLowerCase(i18n.localeTag());
       return (!query || searchable.includes(query))
-        && (!category || job.category === category)
-        && (!format || job.format === format)
-        && (!level || job.level === level)
-        && (!activeOnly || ["open", "verify"].includes(job.status));
+        && (!category || view.category === category)
+        && (!format || view.format === format)
+        && (!level || view.level === level);
     });
 
     result.sort((a, b) => {
       if (sort === "confirmed") return Number(Boolean(b.salary?.confirmed)) - Number(Boolean(a.salary?.confirmed));
-      if (sort === "title") return a.title.localeCompare(b.title, "ru");
+      if (sort === "title") return localizedJob(a).title.localeCompare(localizedJob(b).title, i18n.localeTag());
       return new Date(b.updatedAt) - new Date(a.updatedAt);
     });
     return result;
@@ -363,13 +401,12 @@
   function renderAllJobs() {
     const result = filteredJobs();
     el("all-jobs").innerHTML = result.map(renderJobCard).join("");
-    el("results-count").textContent = `Найдено: ${result.length}`;
+    el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
     el("jobs-empty").hidden = result.length > 0;
   }
 
   function resetFilters() {
     el("job-filters").reset();
-    el("active-only").checked = true;
     renderAllJobs();
   }
 
@@ -377,10 +414,10 @@
     if (!jobById(id)) return;
     if (state.favorites.has(id)) {
       state.favorites.delete(id);
-      showToast("Удалено из избранного.");
+      showToast(t("ui.removeSaved"));
     } else {
       state.favorites.add(id);
-      showToast("Вакансия сохранена на этом устройстве.");
+      showToast(t("ui.saved"));
     }
     persistSet(STORAGE.favorites, state.favorites);
     refreshJobLists();
@@ -389,7 +426,7 @@
   function toggleCompare(id, checked) {
     if (!jobById(id)) return;
     if (checked && !state.compare.has(id) && state.compare.size >= 3) {
-      showToast("Можно сравнить не больше трёх вакансий.");
+      showToast(`${t("ui.compare")}: 3`);
       refreshJobLists();
       return;
     }
@@ -429,74 +466,80 @@
   function openJob(id, updateRoute = true) {
     const job = jobById(id);
     if (!job) {
-      showToast("Эта вакансия не найдена или уже удалена.");
+      showToast(t("ui.noMatchesTitle"));
       return;
     }
+    const view = localizedJob(job);
+    state.openJobId = job.id;
     state.jobReturnRoute = document.querySelector("[data-view]:not([hidden])")?.dataset.view || "jobs";
     const dialog = el("job-dialog");
     const favorite = state.favorites.has(job.id);
     const compared = state.compare.has(job.id);
+    const applicationSteps = [
+      t("form.stepContact"),
+      t("form.stepLocation"),
+      t("form.stepDocuments"),
+      t("form.stepReview"),
+      t("form.openWhatsapp")
+    ];
     el("job-dialog-content").innerHTML = `
       <header class="job-detail-header">
         <div class="job-card-tags">
-          <span class="status-tag${job.demo ? " demo" : ""}">${job.demo ? "Демо-вакансия" : escapeHTML(statusText(job))}</span>
-          <span class="tag">${escapeHTML(job.category)}</span>
-          <span class="tag">${escapeHTML(job.level)}</span>
+          <button class="availability-chat" type="button" data-job-chat="${escapeHTML(job.id)}"><span aria-hidden="true">◉</span>${escapeHTML(t("ui.clarify"))}</button>
+          <span class="tag">${escapeHTML(view.category)}</span>
+          <span class="tag">${escapeHTML(view.level)}</span>
         </div>
-        <h2>${escapeHTML(job.title)}</h2>
-        <p class="job-company">${escapeHTML(job.company)} · каталог от ${escapeHTML(formatDate(job.updatedAt))}</p>
+        <h2>${escapeHTML(view.title)}</h2>
+        <p class="job-company">${escapeHTML(job.company)} · ${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</p>
       </header>
       <dl class="job-detail-facts">
-        <div><dt>Ставка брутто</dt><dd>${formatSalary(job.salary)}<br><small>${escapeHTML(job.salary?.note || "")}</small></dd></div>
-        <div><dt>Страна и локация</dt><dd>${escapeHTML(job.format)} · ${escapeHTML(job.location)}</dd></div>
-        <div><dt>Договор</dt><dd>${escapeHTML(job.contract)}</dd></div>
-        <div><dt>Кому подходит</dt><dd>${escapeHTML((job.candidates || job.languages || []).join(", "))}</dd></div>
+        <div><dt>${escapeHTML(t("ui.grossSalary"))}</dt><dd>${formatSalary(view.salary)}<br><small>${escapeHTML(view.salary?.note || "")}</small></dd></div>
+        <div><dt>${escapeHTML(t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
+        <div><dt>${escapeHTML(t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
+        <div><dt>${escapeHTML(t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(", "))}</dd></div>
       </dl>
-      <p class="detail-intro">${escapeHTML(job.summary)}</p>
-      ${job.demo ? '<p class="demo-note"><strong>Это демонстрационный контент.</strong> Условия и компания вымышлены и показывают формат будущей реальной вакансии.</p>' : ""}
-      ${job.statusNote ? `<p class="confidential-note"><strong>Статус:</strong> ${escapeHTML(job.statusNote)}</p>` : ""}
-      ${job.confidentialReason ? `<p class="confidential-note"><strong>Почему компания не названа:</strong> ${escapeHTML(job.confidentialReason)}</p>` : ""}
+      <p class="detail-intro">${escapeHTML(view.summary)}</p>
+      ${view.statusNote ? `<p class="confidential-note">${escapeHTML(view.statusNote)}</p>` : ""}
       <div class="job-detail-grid">
         <div>
           <section class="detail-section">
-            <h3>Зачем открыта роль</h3>
-            <p>${escapeHTML(job.reason)}</p>
+            <h3>${escapeHTML(t("ui.responsibilities"))}</h3>
+            ${listMarkup(view.responsibilities || [])}
           </section>
           <section class="detail-section">
-            <h3>Что предстоит делать</h3>
-            ${listMarkup(job.responsibilities)}
+            <h3>${escapeHTML(t("ui.required"))}</h3>
+            ${listMarkup(view.required || [])}
           </section>
+          ${(view.niceToHave || []).length ? `
+            <section class="detail-section">
+              <h3>${escapeHTML(t("ui.niceToHave"))}</h3>
+              ${listMarkup(view.niceToHave)}
+            </section>
+          ` : ""}
           <section class="detail-section">
-            <h3>Обязательно</h3>
-            ${listMarkup(job.required)}
-          </section>
-          <section class="detail-section">
-            <h3>Будет плюсом</h3>
-            ${listMarkup(job.niceToHave)}
-          </section>
-          <section class="detail-section">
-            <h3>Условия</h3>
-            ${listMarkup(job.benefits)}
+            <h3>${escapeHTML(t("ui.conditions"))}</h3>
+            ${listMarkup(view.benefits || [])}
           </section>
         </div>
         <aside class="detail-side">
           <section class="detail-section">
-            <h3>Проверка и оформление</h3>
-            <ol class="hiring-list">${job.hiring.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ol>
+            <h3>${escapeHTML(t("ui.applicationRoute"))}</h3>
+            <ol class="hiring-list">${applicationSteps.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ol>
           </section>
           <section class="detail-section">
-            <label for="job-note"><strong>Мои заметки</strong></label>
-            <textarea class="note-box" id="job-note" placeholder="Вопросы, впечатления, что проверить…">${escapeHTML(state.notes[job.id] || "")}</textarea>
-            <small class="note-help">Хранится только на этом устройстве и никуда не отправляется.</small>
+            <label for="job-note"><strong>${escapeHTML(t("ui.notes"))}</strong></label>
+            <textarea class="note-box" id="job-note">${escapeHTML(state.notes[job.id] || "")}</textarea>
+            <small class="note-help">${escapeHTML(t("ui.noteHelp"))}</small>
           </section>
         </aside>
       </div>
       <div class="job-detail-actions">
-        <a class="button button-primary" id="job-apply" href="${makeApplyLink(job)}"${profile.whatsapp ? ' target="_blank" rel="noreferrer"' : ""}>${profile.whatsapp ? "Написать в WhatsApp" : "Откликнуться по email"}</a>
-        <button class="button button-secondary" type="button" id="job-favorite">${favorite ? "♥ В избранном" : "♡ Сохранить"}</button>
-        <button class="button button-secondary" type="button" id="job-compare">${compared ? "✓ В сравнении" : "＋ Сравнить"}</button>
-        <button class="button button-secondary" type="button" id="job-share">Поделиться</button>
-        <button class="button button-quiet" type="button" id="job-print">Печать / PDF</button>
+        <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${escapeHTML(t("ui.takeSurvey"))}</button>
+        <button class="button button-secondary" type="button" data-job-chat="${escapeHTML(job.id)}">${escapeHTML(t("ui.askAboutJob"))}</button>
+        <button class="button button-secondary" type="button" id="job-favorite">${favorite ? `♥ ${escapeHTML(t("ui.saved"))}` : `♡ ${escapeHTML(t("ui.save"))}`}</button>
+        <button class="button button-secondary" type="button" id="job-compare">${compared ? `✓ ${escapeHTML(t("ui.inComparison"))}` : `＋ ${escapeHTML(t("ui.compare"))}`}</button>
+        <button class="button button-secondary" type="button" id="job-share">${escapeHTML(t("ui.share"))}</button>
+        <button class="button button-quiet" type="button" id="job-print">${escapeHTML(t("ui.print"))}</button>
       </div>
     `;
 
@@ -506,31 +549,18 @@
     });
     el("job-favorite").addEventListener("click", () => {
       toggleFavorite(job.id);
-      el("job-favorite").textContent = state.favorites.has(job.id) ? "♥ В избранном" : "♡ Сохранить";
+      el("job-favorite").textContent = state.favorites.has(job.id) ? `♥ ${t("ui.saved")}` : `♡ ${t("ui.save")}`;
     });
     el("job-compare").addEventListener("click", () => {
       toggleCompare(job.id, !state.compare.has(job.id));
-      el("job-compare").textContent = state.compare.has(job.id) ? "✓ В сравнении" : "＋ Сравнить";
+      el("job-compare").textContent = state.compare.has(job.id) ? `✓ ${t("ui.inComparison")}` : `＋ ${t("ui.compare")}`;
     });
     el("job-share").addEventListener("click", () => shareJob(job));
     el("job-print").addEventListener("click", printOpenModal);
-    el("job-apply").addEventListener("click", () => {
-      if (!navigator.onLine) showToast("Вы офлайн. Для отправки сообщения понадобится интернет.");
-    });
 
     updateJobSchema(job);
     if (!dialog.open) dialog.showModal();
     if (updateRoute) history.pushState(null, "", `#job=${encodeURIComponent(job.id)}`);
-  }
-
-  function makeApplyLink(job) {
-    const message = `Здравствуйте, ${profile.name}!\n\nМеня заинтересовала вакансия «${job.title}».\n\nГражданство:\nОпыт:\nЖелаемая дата поездки:\nУдобный способ связи:`;
-    if (profile.whatsapp) {
-      const separator = profile.whatsapp.includes("?") ? "&" : "?";
-      return `${profile.whatsapp}${separator}text=${encodeURIComponent(message)}`;
-    }
-    const subject = encodeURIComponent(`Отклик: ${job.title}`);
-    return `mailto:${job.applyEmail || profile.email}?subject=${subject}&body=${encodeURIComponent(message)}`;
   }
 
   function jobShareUrl(job) {
@@ -540,30 +570,32 @@
   }
 
   async function shareJob(job) {
+    const view = localizedJob(job);
     const shareData = {
-      title: job.title,
-      text: `${job.title} · ${job.company} · ${formatSalary(job.salary).replaceAll("&nbsp;", " ")}`,
+      title: view.title,
+      text: `${view.title} · ${job.company} · ${formatSalary(view.salary).replaceAll("&nbsp;", " ")}`,
       url: jobShareUrl(job)
     };
     try {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await copyText(shareData.url, "Ссылка на вакансию скопирована.");
+        await copyText(shareData.url, t("ui.share"));
       }
     } catch (error) {
-      if (error?.name !== "AbortError") showToast("Не удалось поделиться ссылкой.");
+      if (error?.name !== "AbortError") showToast(t("ui.share"));
     }
   }
 
   function updateJobSchema(job) {
     document.getElementById("job-schema")?.remove();
     if (job.demo || job.status !== "open" || !job.salary?.confirmed) return;
+    const view = localizedJob(job);
     const schema = {
       "@context": "https://schema.org",
       "@type": "JobPosting",
-      title: job.title,
-      description: [job.summary, ...job.responsibilities, ...job.required].join(" "),
+      title: view.title,
+      description: [view.summary, ...(view.responsibilities || []), ...(view.required || [])].join(" "),
       datePosted: job.publishedAt,
       employmentType: "FULL_TIME",
       hiringOrganization: {
@@ -590,12 +622,96 @@
 
   function closeDialog(dialog, updateRoute = true) {
     if (dialog.open) dialog.close();
+    if (dialog.id === "job-dialog") state.openJobId = "";
     document.getElementById("job-schema")?.remove();
     if (updateRoute && location.hash.startsWith("#job=")) {
       const returnRoute = validRoutes.includes(state.jobReturnRoute) ? state.jobReturnRoute : "jobs";
       history.pushState(null, "", `#${returnRoute}`);
       showView(returnRoute, false, false);
     }
+  }
+
+  function localizedResources() {
+    if (i18n.locale === "ru") return resources;
+    const updatedAt = site.lastUpdated;
+    return [
+      {
+        id: "application-guide",
+        category: t("ui.processTitle"),
+        title: t("form.title"),
+        description: t("form.intro"),
+        readTime: "3 min",
+        updatedAt,
+        sections: [
+          {
+            heading: t("form.stepContact"),
+            items: [t("form.latinHint"), t("form.whatsappHint")]
+          },
+          {
+            heading: t("form.stepLocation"),
+            items: [t("form.citizenship"), t("form.currentCountry"), t("form.currentCity")]
+          },
+          {
+            heading: t("form.stepDocuments"),
+            items: [t("form.legalStatus"), t("form.workRight"), t("form.noDocumentNumbers")]
+          },
+          {
+            heading: t("form.stepReview"),
+            items: [t("form.reviewHint")]
+          }
+        ]
+      },
+      {
+        id: "privacy-guide",
+        category: t("ui.privacy"),
+        title: t("ui.trustTitle"),
+        description: t("ui.trustIntro"),
+        readTime: "2 min",
+        updatedAt,
+        sections: [
+          {
+            heading: t("ui.privacy"),
+            items: [t("form.noDocumentNumbers"), t("form.reviewHint")]
+          },
+          {
+            heading: t("ui.trustOfflineTitle"),
+            items: [t("ui.trustOfflineText"), t("ui.whatsappNeedsInternet")]
+          }
+        ]
+      },
+      {
+        id: "conditions-guide",
+        category: t("ui.conditions"),
+        title: t("ui.bannerTitle"),
+        description: t("ui.bannerText"),
+        readTime: "2 min",
+        updatedAt,
+        sections: [
+          {
+            heading: t("ui.trustGrossTitle"),
+            items: [t("ui.trustGrossText")]
+          },
+          {
+            heading: t("ui.trustChatTitle"),
+            items: [t("ui.trustChatText")]
+          }
+        ]
+      },
+      {
+        id: "offline-guide",
+        category: t("ui.offlineChip"),
+        title: t("ui.trustOfflineTitle"),
+        description: t("ui.trustOfflineText"),
+        readTime: "1 min",
+        updatedAt,
+        sections: [
+          {
+            heading: t("ui.offlineChip"),
+            items: [t("ui.offline"), t("ui.whatsappNeedsInternet")]
+          }
+        ]
+      }
+    ];
   }
 
   function renderResourceCard(resource) {
@@ -615,32 +731,37 @@
       <article class="resource-card">
         <div class="resource-card-header">
           <span class="resource-card-icon" aria-hidden="true">${icons[resource.category] || "◇"}</span>
-          <span class="offline-chip">✓ Офлайн</span>
+          <span class="offline-chip">✓ ${escapeHTML(t("ui.offlineChip"))}</span>
         </div>
         <h3>${escapeHTML(resource.title)}</h3>
         <p>${escapeHTML(resource.description)}</p>
         <div class="resource-card-footer">
           <span>${escapeHTML(resource.category)} · ${escapeHTML(resource.readTime)}</span>
-          <button class="text-link" type="button" data-resource-open="${escapeHTML(resource.id)}">Открыть →</button>
+          <button class="text-link" type="button" data-resource-open="${escapeHTML(resource.id)}">${escapeHTML(t("ui.open"))} →</button>
         </div>
       </article>
     `;
   }
 
   function renderResources() {
-    el("featured-resources").innerHTML = resources.slice(0, 3).map(renderResourceCard).join("");
-    const categories = ["Все", ...new Set(resources.map((resource) => resource.category))];
+    const visibleResources = localizedResources();
+    el("featured-resources").innerHTML = visibleResources.slice(0, 3).map(renderResourceCard).join("");
+    const categories = [
+      { value: "__all__", label: t("ui.allResources") },
+      ...[...new Set(visibleResources.map((resource) => resource.category))]
+        .map((category) => ({ value: category, label: category }))
+    ];
     el("resource-filters").innerHTML = categories.map((category) => `
-      <button class="filter-chip${state.resourceCategory === category ? " active" : ""}" type="button" data-resource-category="${escapeHTML(category)}">${escapeHTML(category)}</button>
+      <button class="filter-chip${state.resourceCategory === category.value ? " active" : ""}" type="button" data-resource-category="${escapeHTML(category.value)}">${escapeHTML(category.label)}</button>
     `).join("");
-    const filtered = state.resourceCategory === "Все"
-      ? resources
-      : resources.filter((resource) => resource.category === state.resourceCategory);
+    const filtered = state.resourceCategory === "__all__"
+      ? visibleResources
+      : visibleResources.filter((resource) => resource.category === state.resourceCategory);
     el("all-resources").innerHTML = filtered.map(renderResourceCard).join("");
   }
 
   function openResource(id) {
-    const resource = resources.find((item) => item.id === id);
+    const resource = localizedResources().find((item) => item.id === id);
     if (!resource) return;
     el("resource-dialog-content").innerHTML = `
       <header class="modal-heading resource-detail-header">
@@ -648,8 +769,8 @@
         <h2>${escapeHTML(resource.title)}</h2>
         <div class="resource-detail-meta">
           <span>${escapeHTML(resource.readTime)}</span>
-          <span>Обновлено ${escapeHTML(formatDate(resource.updatedAt))}</span>
-          <span>✓ Офлайн</span>
+          <span>${escapeHTML(t("ui.updated"))} ${escapeHTML(formatDate(resource.updatedAt))}</span>
+          <span>✓ ${escapeHTML(t("ui.offlineChip"))}</span>
         </div>
         <p class="resource-detail-lead">${escapeHTML(resource.description)}</p>
       </header>
@@ -662,8 +783,8 @@
         `).join("")}
       </div>
       <div class="resource-detail-actions">
-        <button class="button button-primary" type="button" id="resource-print">Печать / PDF</button>
-        <button class="button button-secondary" type="button" id="resource-copy">Скопировать краткий план</button>
+        <button class="button button-primary" type="button" id="resource-print">${escapeHTML(t("ui.print"))}</button>
+        <button class="button button-secondary" type="button" id="resource-copy">⧉ ${escapeHTML(t("ui.share"))}</button>
       </div>
     `;
     el("resource-print").addEventListener("click", printOpenModal);
@@ -673,7 +794,7 @@
         resource.description,
         ...resource.sections.flatMap((section) => [section.heading, ...section.items.map((item) => `• ${item}`)])
       ].join("\n");
-      copyText(text, "Памятка скопирована.");
+      copyText(text, t("ui.share"));
     });
     el("resource-dialog").showModal();
   }
@@ -690,21 +811,18 @@
     const compared = jobs.filter((job) => state.compare.has(job.id));
     if (compared.length < 2) return;
     const rows = [
-      ["Зарплата", (job) => formatSalary(job.salary)],
-      ["Формат", (job) => `${escapeHTML(job.format)} · ${escapeHTML(job.location)}`],
-      ["Уровень", (job) => escapeHTML(job.level)],
-      ["Договор", (job) => escapeHTML(job.contract)],
-      ["Кому подходит", (job) => escapeHTML((job.candidates || []).join(", "))],
-      ["Навыки", (job) => escapeHTML(job.skills.join(", "))],
-      ["Этапов", (job) => String(job.hiring.length)],
-      ["Обновлено", (job) => escapeHTML(formatDate(job.updatedAt))]
+      [t("ui.grossSalary"), (job) => formatSalary(localizedJob(job).salary)],
+      [t("ui.countryLocation"), (job) => `${escapeHTML(localizedJob(job).format)} · ${escapeHTML(localizedJob(job).location)}`],
+      [t("ui.suitableFor"), (job) => escapeHTML((localizedJob(job).candidates || []).join(", "))],
+      [t("ui.contract"), (job) => escapeHTML(localizedJob(job).contract)],
+      [t("ui.updated"), (job) => escapeHTML(formatDate(job.updatedAt))]
     ];
     el("compare-content").innerHTML = `
       <table class="compare-table">
         <thead>
           <tr>
-            <th>Критерий</th>
-            ${compared.map((job) => `<th>${escapeHTML(job.title)}</th>`).join("")}
+            <th>${escapeHTML(t("ui.details"))}</th>
+            ${compared.map((job) => `<th>${escapeHTML(localizedJob(job).title)}</th>`).join("")}
           </tr>
         </thead>
         <tbody>
@@ -721,14 +839,14 @@
   }
 
   function clearLocalData() {
-    const confirmed = window.confirm("Удалить избранное, сравнение и все личные заметки с этого устройства?");
+    const confirmed = window.confirm(`${t("ui.removeSaved")}? ${t("ui.noteHelp")}`);
     if (!confirmed) return;
     Object.values(STORAGE).forEach((key) => localStorage.removeItem(key));
     state.favorites.clear();
     state.compare.clear();
     state.notes = {};
     refreshJobLists();
-    showToast("Локальные данные удалены.");
+    showToast(t("ui.reset"));
   }
 
   function showView(route, updateHash = true, scroll = true) {
@@ -760,9 +878,7 @@
   function updateConnectionStatus() {
     const online = navigator.onLine;
     el("status-strip").classList.toggle("offline", !online);
-    el("connection-label").textContent = online
-      ? "Онлайн · портал готов к работе офлайн"
-      : "Вы офлайн · вакансии, материалы и избранное доступны";
+    el("connection-label").textContent = online ? t("ui.online") : t("ui.offline");
     if (online && window.__portalRegistration) window.__portalRegistration.update().catch(() => {});
   }
 
@@ -777,7 +893,7 @@
     els(".install-button").forEach((button) => {
       button.addEventListener("click", async () => {
         if (!state.installPrompt) {
-          showToast("В меню браузера выберите «Установить приложение» или «На экран Домой».");
+          showToast(`${t("ui.install")} · ${t("ui.trustOfflineTitle")}`);
           return;
         }
         state.installPrompt.prompt();
@@ -788,7 +904,7 @@
         });
       });
     });
-    window.addEventListener("appinstalled", () => showToast("Портал установлен и готов к офлайн-работе."));
+    window.addEventListener("appinstalled", () => showToast(t("ui.trustOfflineTitle")));
   }
 
   async function registerServiceWorker() {
@@ -800,7 +916,7 @@
         const worker = registration.installing;
         worker?.addEventListener("statechange", () => {
           if (worker.state === "installed" && navigator.serviceWorker.controller) {
-            showToast("Доступна свежая версия портала.", "Обновить", () => {
+            showToast(t("ui.updated"), t("ui.updated"), () => {
               registration.waiting?.postMessage({ type: "SKIP_WAITING" });
             });
           }
@@ -813,7 +929,7 @@
         window.location.reload();
       });
     } catch {
-      showToast("Офлайн-режим пока не активирован. Обновите страницу при наличии сети.");
+      showToast(t("ui.whatsappNeedsInternet"));
     }
   }
 
@@ -829,6 +945,23 @@
       const jobButton = event.target.closest("[data-job-open]");
       if (jobButton) {
         openJob(jobButton.dataset.jobOpen);
+        return;
+      }
+      const surveyButton = event.target.closest("[data-job-survey]");
+      if (surveyButton) {
+        const id = surveyButton.dataset.jobSurvey;
+        if (el("job-dialog").open) closeDialog(el("job-dialog"), false);
+        window.PortalApplication?.open(id);
+        return;
+      }
+      const generalSurveyButton = event.target.closest("[data-application-general]");
+      if (generalSurveyButton) {
+        window.PortalApplication?.open();
+        return;
+      }
+      const chatButton = event.target.closest("[data-job-chat]");
+      if (chatButton) {
+        window.PortalApplication?.clarify(chatButton.dataset.jobChat);
         return;
       }
       const favoriteButton = event.target.closest("[data-favorite]");
@@ -858,13 +991,13 @@
       }
     });
 
-    ["job-search", "filter-category", "filter-format", "filter-level", "job-sort", "active-only"].forEach((id) => {
+    ["job-search", "filter-category", "filter-format", "filter-level", "job-sort"].forEach((id) => {
       el(id).addEventListener(id === "job-search" ? "input" : "change", renderAllJobs);
     });
     el("reset-filters").addEventListener("click", resetFilters);
     el("empty-reset").addEventListener("click", resetFilters);
     el("compare-button").addEventListener("click", openComparison);
-    el("copy-phone-button").addEventListener("click", () => copyText(profile.phone || profile.email, "Контакт скопирован."));
+    el("copy-phone-button").addEventListener("click", () => copyText(profile.phone || profile.email, t("ui.contact")));
 
     els("dialog").forEach((dialog) => {
       dialog.addEventListener("click", (event) => {
@@ -887,6 +1020,17 @@
     window.addEventListener("popstate", handleHashRoute);
     window.addEventListener("online", updateConnectionStatus);
     window.addEventListener("offline", updateConnectionStatus);
+    window.addEventListener("portal:toast", (event) => showToast(event.detail?.message || ""));
+    i18n.subscribe(() => {
+      state.resourceCategory = "__all__";
+      i18n.applyStaticTranslations();
+      renderProfileContent();
+      populateFilters();
+      renderResources();
+      refreshJobLists();
+      updateConnectionStatus();
+      if (state.openJobId && el("job-dialog").open) openJob(state.openJobId, false);
+    });
   }
 
   function sanitizeStoredState() {
@@ -899,6 +1043,7 @@
   }
 
   function init() {
+    i18n.init();
     sanitizeStoredState();
     renderProfileContent();
     populateFilters();

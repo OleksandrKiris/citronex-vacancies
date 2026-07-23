@@ -1,10 +1,23 @@
-const CACHE_VERSION = "citronex-jobs-v2-2026-07-23";
+const CACHE_VERSION = "citronex-jobs-v4-multilingual-2026-07-23";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./data/content.js",
+  "./data/locales/ru.js",
+  "./data/locales/uk.js",
+  "./data/locales/pl.js",
+  "./data/locales/en.js",
+  "./data/locales/az.js",
+  "./data/locales/ka.js",
+  "./data/locales/id.js",
+  "./data/locales/es.js",
+  "./data/locales/fil.js",
+  "./data/locales/ne.js",
+  "./data/locales/hy.js",
   "./assets/styles.css",
+  "./assets/i18n.js",
+  "./assets/application-form.js",
   "./assets/app.js",
   "./assets/icon.svg",
   "./assets/share-card.svg"

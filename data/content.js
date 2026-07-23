@@ -15,11 +15,11 @@ window.PORTAL_CONTENT = {
     shortTitle: "Citronex Jobs",
     description: "Вакансии Citronex в Польше, Венгрии и Бельгии: ставки брутто, жильё, график, документы и прямой контакт рекрутера.",
     lastUpdated: "2026-07-23",
-    baseUrl: "https://oleksandrkiris.github.io/talent-hub/",
+    baseUrl: "https://oleksandrkiris.github.io/citronex-vacancies/",
     baseRate: "31,40 PLN",
     baseRateLabel: "базовая ставка брутто/час",
-    noticeTitle: "Перед откликом.",
-    notice: "Наличие мест, дату заезда, график и индивидуальные ставки необходимо подтвердить у рекрутера. Каталог не заменяет договор."
+    noticeTitle: "Перед поездкой.",
+    notice: "Уточните у рекрутера конкретную локацию, дату заезда, график и условия оформления. Каталог не заменяет договор."
   },
 
   profile: {
@@ -162,7 +162,7 @@ window.PORTAL_CONTENT = {
         "Инструктаж, одежда и обучение на месте"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Круглогодичный набор, но наличие места и процесс подтверждаются перед поездкой.",
       featured: true,
       publishedAt: "2026-07-23",
@@ -211,7 +211,7 @@ window.PORTAL_CONTENT = {
         "Обязательный инструктаж по мойке и безопасности"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Сезонный набор и дата начала процесса подтверждаются по каждой локации.",
       featured: true,
       publishedAt: "2026-07-23",
@@ -260,7 +260,7 @@ window.PORTAL_CONTENT = {
         "Инструктаж по гигиене и линии"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Регулярность набора и число мест зависят от урожая и производственного плана.",
       featured: true,
       publishedAt: "2026-07-23",
@@ -309,7 +309,7 @@ window.PORTAL_CONTENT = {
         "Инструктаж по складу и безопасности"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Точная смена, ночная работа и наличие мест подтверждаются перед заездом.",
       featured: true,
       publishedAt: "2026-07-23",
@@ -358,7 +358,7 @@ window.PORTAL_CONTENT = {
         "Обучение и допуск к процессам"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Ставка специалиста и конкретный объём полномочий требуют индивидуального подтверждения.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -407,7 +407,7 @@ window.PORTAL_CONTENT = {
         "Инструктаж и первый день с бригадиром"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Место и дата выхода зависят от текущей потребности объекта.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -456,7 +456,7 @@ window.PORTAL_CONTENT = {
         "Инструктаж и допуск"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Нет подтверждённой ставки; место, договор и жильё уточняются индивидуально.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -505,7 +505,7 @@ window.PORTAL_CONTENT = {
         "Проверка документов и выход"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Ставка, премии, объект и жильё определяются индивидуально.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -554,7 +554,7 @@ window.PORTAL_CONTENT = {
         "Проверка документов и выход"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Открытие места, ставка, договор и жильё требуют индивидуального согласования.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -603,7 +603,7 @@ window.PORTAL_CONTENT = {
         "Проверка документов и выход"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Подтверждённой ставки пока нет; условия согласовываются с техническим подразделением.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -652,7 +652,7 @@ window.PORTAL_CONTENT = {
         "Ввод в должность и eco-driving"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Диапазон указан брутто; конкретная сумма и база фиксируются в договоре.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -701,7 +701,7 @@ window.PORTAL_CONTENT = {
         "Приём автомобиля и рейса"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Открывается по необходимости; ставка, договор и даты пока не подтверждены.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -750,7 +750,7 @@ window.PORTAL_CONTENT = {
         "Согласование выезда"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Польская карта побыту сама по себе не подтверждает право на работу в Венгрии.",
       featured: false,
       publishedAt: "2026-07-23",
@@ -799,7 +799,7 @@ window.PORTAL_CONTENT = {
         "Решение компании и согласование выезда"
       ],
       applyEmail: "oleksandr.kiris@icloud.com",
-      status: "verify",
+      status: "open",
       statusNote: "Не массовая вакансия; направление возможно только после проверки документов и потребности.",
       featured: false,
       publishedAt: "2026-07-23",

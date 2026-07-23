@@ -1,9 +1,9 @@
 {
   "id": "./",
-  "name": "Вакансии Citronex — каталог 2026",
+  "name": "Citronex Jobs — vacancies & recruiter",
   "short_name": "Citronex Jobs",
-  "description": "Ставки брутто, жильё, график, документы и прямой контакт рекрутера.",
-  "lang": "ru",
+  "description": "Vacancies, gross pay, a candidate questionnaire and direct recruiter contact in 11 languages.",
+  "lang": "en",
   "dir": "ltr",
   "start_url": "./#home",
   "scope": "./",
@@ -22,8 +22,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Все вакансии",
-      "short_name": "Вакансии",
+      "name": "All vacancies",
+      "short_name": "Vacancies",
       "url": "./#jobs",
       "icons": [
         {
@@ -34,8 +34,8 @@
       ]
     },
     {
-      "name": "Контакт рекрутера",
-      "short_name": "Рекрутер",
+      "name": "Contact recruiter",
+      "short_name": "Recruiter",
       "url": "./#profile",
       "icons": [
         {

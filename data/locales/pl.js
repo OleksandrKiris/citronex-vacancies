@@ -1,0 +1,625 @@
+(function () {
+  "use strict";
+
+  window.PORTAL_TRANSLATIONS = window.PORTAL_TRANSLATIONS || {};
+  window.PORTAL_TRANSLATIONS.pl = {
+    meta: {
+      name: "Polski",
+      short: "PL",
+      locale: "pl-PL"
+    },
+    ui: {
+      navHome: "Strona główna",
+      navJobs: "Oferty pracy",
+      navResources: "Materiały",
+      navSaved: "Zapisane",
+      navProfile: "O mnie",
+      contact: "Kontakt",
+      install: "Zainstaluj",
+      online: "Online · portal działa także offline",
+      offline: "Jesteś offline · oferty i materiały są dostępne",
+      bannerTitle: "Przed wyjazdem.",
+      bannerText: "Potwierdź z rekruterem dokładną lokalizację, datę przyjazdu, grafik i warunki zatrudnienia. Katalog nie zastępuje umowy.",
+      heroKicker: "Oferty Citronex · bezpośredni kontakt z rekruterem",
+      heroTitle: "Praca w Citronex.",
+      heroAccent: "Najpierw odpowiedzi — potem wyjazd.",
+      heroIntro: "Wybierz ofertę, wypełnij krótką ankietę w swoim języku i wyślij uporządkowane dane bezpośrednio rekruterowi przez WhatsApp.",
+      heroJobs: "Zobacz oferty",
+      heroSurvey: "Dobierz ofertę",
+      jobsInCatalog: "ofert w katalogu",
+      workHours: "godziny pracy",
+      grossRate: "podstawowa stawka brutto/godz.",
+      recruiterEyebrow: "Twój bezpośredni kontakt",
+      featuredKicker: "Wybierz kierunek",
+      featuredTitle: "Oferty z jasno opisanymi warunkami",
+      allJobs: "Wszystkie oferty",
+      processKicker: "Jasna ścieżka",
+      processTitle: "Jak wygląda zgłoszenie",
+      processNote: "Najpierw ankieta, potem wiadomość w WhatsApp. Dokumentów ani zdjęć paszportu nie przesyłasz przez stronę.",
+      trustKicker: "Zaufanie opiera się na faktach",
+      trustTitle: "Masz kontrolę nad swoimi danymi",
+      trustIntro: "Ankieta działa w Twojej przeglądarce. Dane trafią do rekrutera dopiero po naciśnięciu przycisku WhatsApp.",
+      trustGrossTitle: "Kwoty brutto",
+      trustGrossText: "Stawka jest podana przed podatkami i składkami. Kwota netto zależy od umowy i dokumentów.",
+      trustChatTitle: "Zapytaj bezpośrednio",
+      trustChatText: "Naciśnij „Zapytaj”, aby otworzyć czat z rekruterem dotyczący wybranej oferty.",
+      trustOfflineTitle: "Działa offline",
+      trustOfflineText: "Oferty, porównanie i poradniki są dostępne po pierwszym otwarciu.",
+      resourceKicker: "Przygotowanie bez rejestracji",
+      resourceTitle: "Przydatne przed zgłoszeniem i wyjazdem",
+      allResources: "Wszystkie materiały",
+      finalKicker: "Możesz zacząć bez CV",
+      finalTitle: "Nie wiesz, która oferta jest dla Ciebie?",
+      finalText: "Odpowiedz na pytania o obywatelstwo, aktualny kraj pobytu, dokumenty, doświadczenie i termin gotowości. Rekruter otrzyma wszystko w jednej wiadomości.",
+      startSurvey: "Rozpocznij ankietę",
+      jobsKicker: "Katalog ofert",
+      jobsTitle: "Wybierz pracę i wypełnij ankietę",
+      jobsIntro: "Przy każdej ofercie możesz najpierw zapytać o warunki albo od razu wypełnić ankietę.",
+      catalogDate: "Katalog z dnia",
+      searchPlaceholder: "Stanowisko, kraj lub proces",
+      allDirections: "Wszystkie obszary",
+      allCountries: "Wszystkie kraje",
+      anyExperience: "Dowolne doświadczenie",
+      newestFirst: "Najnowsze najpierw",
+      salaryFirst: "Najpierw oferty ze stawką",
+      titleSort: "Według nazwy",
+      reset: "Wyczyść",
+      found: "Znaleziono",
+      showAll: "Pokaż wszystkie oferty",
+      noMatchesTitle: "Brak pasujących ofert",
+      noMatchesText: "Wyczyść filtry lub zapytaj rekrutera.",
+      clarify: "Zapytaj w WhatsApp",
+      takeSurvey: "Wypełnij ankietę",
+      details: "Szczegóły",
+      updated: "Zaktualizowano",
+      save: "Zapisz",
+      saved: "Zapisano",
+      removeSaved: "Usuń z zapisanych",
+      compare: "Porównaj",
+      inComparison: "W porównaniu",
+      share: "Udostępnij",
+      print: "Drukuj / PDF",
+      grossSalary: "Stawka brutto",
+      countryLocation: "Kraj i lokalizacja",
+      contract: "Umowa",
+      suitableFor: "Dla kogo",
+      responsibilities: "Zakres obowiązków",
+      required: "Wymagane",
+      niceToHave: "Mile widziane",
+      conditions: "Warunki",
+      applicationRoute: "Co dalej po ankiecie",
+      notes: "Moje notatki",
+      noteHelp: "Są zapisane tylko na tym urządzeniu.",
+      askAboutJob: "Zapytaj o tę ofertę",
+      close: "Zamknij",
+      language: "Język",
+      offlineChip: "Offline",
+      open: "Otwórz",
+      recruiterProfile: "Twój rekruter",
+      privacy: "Prywatność i bezpieczeństwo",
+      whatsappNeedsInternet: "Do otwarcia WhatsApp potrzebujesz internetu.",
+      directQuestion: "Dzień dobry! Chcę zapytać o warunki oferty",
+      siteLanguage: "Język strony",
+      responseTime: "Zwykle odpowiadam",
+      timezone: "Strefa czasowa",
+      formStep: "Krok",
+      of: "z"
+    },
+    form: {
+      title: "Ankieta kandydata",
+      intro: "Odpowiedz na konkretne pytania. Przed wysłaniem zobaczysz gotową wiadomość do WhatsApp.",
+      selectedVacancy: "Wybrana oferta",
+      changeVacancy: "Zmień ofertę",
+      stepContact: "Kontakt",
+      stepLocation: "Kraj i obywatelstwo",
+      stepDocuments: "Dokumenty",
+      stepWork: "Gotowość do pracy",
+      stepQualification: "Doświadczenie i kwalifikacje",
+      stepReview: "Sprawdzenie",
+      firstName: "Imię dokładnie jak w paszporcie",
+      lastName: "Nazwisko dokładnie jak w paszporcie",
+      latinHint: "Wpisz alfabetem łacińskim dokładnie tak jak w paszporcie. Przykład: IVAN PETRENKO.",
+      whatsapp: "Twój numer WhatsApp",
+      whatsappHint: "Format międzynarodowy z kodem kraju. Przykład: +48500100200.",
+      email: "Email — opcjonalnie",
+      preferredLanguage: "Preferowany język kontaktu",
+      adult: "Mam ukończone 18 lat",
+      citizenship: "Obywatelstwo",
+      currentCountry: "W jakim kraju obecnie przebywasz?",
+      currentCity: "Miejscowość zamieszkania — alfabetem łacińskim",
+      otherCountry: "Nazwa kraju — alfabetem łacińskim",
+      legalStatus: "Na jakiej podstawie przebywasz w obecnym kraju?",
+      documentCountry: "Który kraj wydał Twój główny dokument pobytowy?",
+      documentExpiry: "Do kiedy dokument jest ważny?",
+      workRight: "Czy masz prawo do pracy w kraju wybranej oferty?",
+      noDocumentNumbers: "Nie wpisuj numeru paszportu ani karty, danych bankowych i nie wysyłaj zdjęć dokumentów przez stronę.",
+      readyDate: "Od kiedy możesz rozpocząć pracę?",
+      housing: "Czy potrzebujesz zakwaterowania od pracodawcy?",
+      travellingWith: "Wyjeżdżasz samodzielnie czy z kimś?",
+      partnerAlsoApplies: "Czy druga osoba również szuka pracy?",
+      shiftReadiness: "Na jaki grafik możesz się zgodzić?",
+      experience: "Doświadczenie w podobnej pracy",
+      experienceDetails: "Krótko opisz doświadczenie alfabetem łacińskim — opcjonalnie",
+      driverLicense: "Czy masz ważne prawo jazdy C+E?",
+      code95: "Czy masz ważny Code 95?",
+      tachograph: "Czy masz kartę kierowcy do tachografu?",
+      reeferExperience: "Czy masz doświadczenie z naczepą chłodnią?",
+      udtLicense: "Czy masz ważne polskie uprawnienia UDT?",
+      udtCategory: "Kategoria UDT — alfabetem łacińskim",
+      specialistEducation: "Czy masz kierunkowe wykształcenie lub certyfikat?",
+      leadershipExperience: "Czy masz doświadczenie w zarządzaniu zespołem?",
+      mechanicExperience: "Czy masz doświadczenie w naprawie pojazdów ciężarowych?",
+      extraNotes: "Dodatkowe pytanie lub komentarz — alfabetem łacińskim, opcjonalnie",
+      consent: "Potwierdzam poprawność danych i zgadzam się otworzyć WhatsApp, aby wysłać wiadomość rekruterowi.",
+      reviewTitle: "Sprawdź dane",
+      reviewHint: "Po naciśnięciu otworzy się WhatsApp. Wiadomość zostanie wysłana dopiero wtedy, gdy samodzielnie naciśniesz „Wyślij”.",
+      back: "Wstecz",
+      next: "Dalej",
+      openWhatsapp: "Otwórz WhatsApp",
+      missingRequired: "Uzupełnij wymagane pola.",
+      latinError: "Użyj wyłącznie liter alfabetu łacińskiego, spacji, łącznika lub apostrofu.",
+      phoneError: "Wpisz numer w formacie międzynarodowym: + oraz 8–15 cyfr.",
+      dateError: "Wybierz dzisiejszą lub późniejszą datę.",
+      adultError: "Aby wysłać zgłoszenie, musisz potwierdzić ukończenie 18 lat.",
+      consentError: "Potwierdź zgodę przed otwarciem WhatsApp.",
+      unavailableOffline: "Ankietę możesz wypełnić offline, ale do otwarcia WhatsApp potrzebujesz internetu."
+    },
+    options: {
+      choose: "Wybierz",
+      yes: "Tak",
+      no: "Nie",
+      unknown: "Nie wiem",
+      other: "Inne",
+      alone: "Sam / sama",
+      partner: "Z partnerem / partnerką",
+      family: "Z rodziną",
+      friends: "Ze znajomymi",
+      housingRequired: "Tak, potrzebuję zakwaterowania",
+      housingNotRequired: "Nie, nie potrzebuję zakwaterowania",
+      statusEuCitizen: "Obywatelstwo UE / EOG / Szwajcarii",
+      statusVisaFree: "Pobyt bezwizowy / paszport biometryczny",
+      statusWorkVisa: "Wiza pracownicza",
+      statusTemporaryResidence: "Zezwolenie na pobyt czasowy",
+      statusPermanentResidence: "Zezwolenie na pobyt stały",
+      statusPeselUkr: "PESEL UKR / ochrona czasowa",
+      statusProtection: "Azyl / ochrona międzynarodowa",
+      statusNoDocuments: "Nie mam jeszcze dokumentów do pracy",
+      workRightYes: "Tak",
+      workRightNo: "Nie",
+      workRightUnknown: "Wymaga sprawdzenia",
+      expNone: "Brak doświadczenia",
+      expUnder6: "Do 6 miesięcy",
+      exp6to12: "6–12 miesięcy",
+      exp1to2: "1–2 lata",
+      exp2plus: "Ponad 2 lata",
+      shiftDay: "Zmiany dzienne",
+      shiftNight: "Zmiany nocne",
+      shiftLong: "Zmiany 10–12 godzin",
+      shiftWeekend: "Praca w weekendy"
+    },
+    jobs: {
+      "greenhouse-tomatoes": {
+        title: "Pracownik szklarni — pomidory",
+        subtitle: "Całoroczna praca przy roślinach i zbiorach",
+        category: "Szklarnie",
+        level: "Bez doświadczenia",
+        format: "Polska",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legalne zatrudnienie · zwykle umowa zlecenia",
+        salaryNote: "brutto; liczba godzin nie jest gwarantowana",
+        candidates: ["18+", "Możliwość pracy dla par", "Bez doświadczenia"],
+        skills: ["Zbiór", "Pielęgnacja roślin", "Szklarnia", "Szkolenie"],
+        summary: "Udział w pełnym cyklu uprawy pomidorów szklarniowych: zbiór, podwiązywanie, pielęgnacja roślin i utrzymanie porządku.",
+        responsibilities: [
+          "Zbierać dojrzałe pomidory i ostrożnie układać je w pojemnikach.",
+          "Podwiązywać, opuszczać i prowadzić rośliny oraz usuwać dolne i uszkodzone liście.",
+          "Dbać o porządek i zgłaszać brygadziście zauważone problemy z roślinami."
+        ],
+        required: [
+          "Ukończone 18 lat i dokumenty umożliwiające legalne zatrudnienie.",
+          "Gotowość fizyczna do pracy stojącej i w ruchu.",
+          "Dyscyplina i umiejętność wykonywania instrukcji."
+        ],
+        niceToHave: ["Doświadczenie w szklarni lub rolnictwie.", "Podstawowa znajomość języka polskiego."],
+        benefits: [
+          "Bezpłatne zakwaterowanie, zwykle do 4 osób w pokoju; standardowa odzież robocza i środki ochrony bez potrąceń.",
+          "Wypłata zwykle 10. dnia miesiąca; zaliczka 500 PLN po 14 dniach zgodnie z zasadami obiektu.",
+          "Przykład: 200 godz. — 6 280 PLN, 250 — 7 850 PLN, 280 — 8 792 PLN brutto; bez gwarancji godzin."
+        ],
+        statusNote: "Rekrutacja całoroczna, ale miejsce i konkretny proces są potwierdzane przed wyjazdem."
+      },
+      "greenhouse-renewal": {
+        title: "Likwidacja uprawy, mycie i sadzenie w szklarniach",
+        subtitle: "Intensywny okres letni z możliwością dalszej pracy",
+        category: "Szklarnie",
+        level: "Bez doświadczenia",
+        format: "Polska",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legalne zatrudnienie · zwykle umowa zlecenia",
+        salaryNote: "brutto; sezonowa liczba godzin bez gwarancji",
+        candidates: ["18+", "Możliwość pracy dla par", "Praca fizyczna"],
+        skills: ["Mycie", "Sadzenie", "Dezynfekcja", "Szklarnia"],
+        summary: "Usuwanie starych roślin, czyszczenie i mycie szklarni, przygotowanie instalacji oraz sadzenie nowej uprawy.",
+        responsibilities: [
+          "Usuwać stare rośliny, sznurki, haki i pozostałości roślinne.",
+          "Myć podłogi, konstrukcje, rynny i urządzenia.",
+          "Przygotowywać nawadnianie, podłoże i stanowiska oraz sadzić nowe rośliny."
+        ],
+        required: [
+          "Sprawność fizyczna i gotowość do intensywnego tempa.",
+          "Przestrzeganie zasad higieny, dostępu i bezpieczeństwa.",
+          "Prace na wysokości i specjalistyczne wyłącznie po szkoleniu i dopuszczeniu."
+        ],
+        niceToHave: ["Doświadczenie w pracy fizycznej lub sezonowej.", "Gotowość do późniejszej pracy przy pielęgnacji, zbiorze lub sortowaniu."],
+        benefits: [
+          "Bezpłatne zakwaterowanie, zwykle do 4 osób w pokoju; odzież robocza i środki ochrony.",
+          "W szczycie lata możliwe 250–280 godzin, ale liczba godzin nie jest gwarantowana.",
+          "Po sezonie możliwe przeniesienie do innego procesu, jeśli są miejsca."
+        ],
+        statusNote: "Rekrutacja sezonowa i data rozpoczęcia procesu są potwierdzane osobno dla każdej lokalizacji."
+      },
+      "tomato-sorting": {
+        title: "Sortowanie i pakowanie pomidorów",
+        subtitle: "Linia produkcyjna i magazyn wyrobów gotowych",
+        category: "Produkcja",
+        level: "Bez doświadczenia",
+        format: "Polska",
+        location: "Siechnice · rzadziej Ryczywół i Bogatynia",
+        contract: "Legalne zatrudnienie · zwykle umowa zlecenia",
+        salaryNote: "brutto; liczba godzin zależy od zbiorów",
+        candidates: ["18+", "Pary, jeśli są miejsca", "Bez doświadczenia"],
+        skills: ["Sortowanie", "Pakowanie", "Kontrola jakości", "Etykietowanie"],
+        summary: "Przyjmowanie pomidorów, sortowanie wizualne, pakowanie, etykietowanie i przygotowanie gotowego produktu do transportu.",
+        responsibilities: [
+          "Sortować pomidory według jakości, wielkości, koloru i stanu.",
+          "Kontrolować wagę, pakować, etykietować i zamykać opakowania.",
+          "Przygotowywać kartony do transportu i przestrzegać zasad bezpieczeństwa żywności."
+        ],
+        required: [
+          "Uważność, dokładność i zdolność utrzymania tempa linii.",
+          "Gotowość do pracy stojącej przez większość zmiany.",
+          "Przestrzeganie rygorystycznych zasad higieny żywności."
+        ],
+        niceToHave: ["Doświadczenie na linii produkcyjnej.", "Doświadczenie w sortowaniu lub pakowaniu żywności."],
+        benefits: [
+          "Doświadczenie nie jest wymagane; zapewnione szkolenie, bezpłatne zakwaterowanie i standardowa odzież robocza.",
+          "Zwykle 8–12 godzin dziennie, 5–6 dni w tygodniu; liczba godzin zależy od zbiorów.",
+          "Zaliczka 500 PLN po 14 dniach — zgodnie z zasadami obiektu."
+        ],
+        statusNote: "Częstotliwość rekrutacji i liczba miejsc zależą od zbiorów oraz planu produkcji."
+      },
+      "banana-warehouse-poland": {
+        title: "Pracownik magazynu bananów — Polska",
+        subtitle: "Sortowanie, pakowanie i procesy w dojrzewalniach",
+        category: "Magazyn",
+        level: "Bez doświadczenia",
+        format: "Polska",
+        location: "Pruszcz Gdański · Zgorzelec",
+        contract: "Legalne zatrudnienie · zwykle umowa zlecenia",
+        salaryNote: "brutto; grafik zależy od dostaw",
+        candidates: ["18+", "Praca fizyczna", "Praca zmianowa"],
+        skills: ["Magazyn", "Banany", "Pakowanie", "Palety"],
+        summary: "Przyjmowanie, przemieszczanie, sortowanie, przepakowywanie i przygotowanie bananów do wysyłki w dojrzewalniach.",
+        responsibilities: [
+          "Przyjmować i przenosić kartony, sortować owoce oraz kontrolować ich jakość.",
+          "Przepakowywać produkt i formować kartony oraz palety.",
+          "Etykietować zamówienia i przygotowywać je do wysyłki."
+        ],
+        required: [
+          "Gotowość do aktywnej pracy fizycznej i systemu zmianowego.",
+          "Przestrzeganie tempa, zasad bezpieczeństwa i wymogów jakości."
+        ],
+        niceToHave: ["Doświadczenie magazynowe.", "Doświadczenie z paletami lub żywnością."],
+        benefits: [
+          "Bezpłatne zakwaterowanie dla standardowego stanowiska produkcyjnego; odzież robocza i środki ochrony.",
+          "Zwykle 8–12 godzin, 5–6 dni; zmiany nocne i weekendy wymagają potwierdzenia.",
+          "Okresowo trzeba podnosić i przenosić kartony."
+        ],
+        statusNote: "Dokładna zmiana, praca nocna i liczba miejsc są potwierdzane przed przyjazdem."
+      },
+      "plant-protection": {
+        title: "Pracownik działu ochrony roślin",
+        subtitle: "Kontrola uprawy i procesy sanitarne w szklarni",
+        category: "Agronomia",
+        level: "Doświadczenie mile widziane",
+        format: "Polska",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legalne zatrudnienie · rodzaj umowy ustalany indywidualnie",
+        salaryDisplay: "31,40 PLN/godz. — prace podstawowe",
+        salaryNote: "stawka specjalisty jest ustalana indywidualnie",
+        candidates: ["18+", "Szkolenie lub doświadczenie", "Brak przeciwwskazań"],
+        skills: ["Ochrona roślin", "Sanitacja", "Kontrola", "Szklarnia"],
+        summary: "Kontrola roślin, wykrywanie chorób i szkodników oraz wsparcie ochrony biologicznej i procesów sanitarnych.",
+        responsibilities: [
+          "Kontrolować rośliny i oznaczać choroby, szkodniki oraz odchylenia.",
+          "Pracować z pułapkami i środkami ochrony biologicznej.",
+          "Dbać o dezynfekcję, prowadzić proste zapisy i współpracować z technologiem."
+        ],
+        required: [
+          "Dokładne wykonywanie instrukcji, odpowiedzialność i brak przeciwwskazań do pracy w szklarni.",
+          "Samodzielne zabiegi wyłącznie po szkoleniu i wyraźnym zleceniu."
+        ],
+        niceToHave: ["Doświadczenie w uprawie roślin lub agronomii.", "Wykształcenie kierunkowe."],
+        benefits: [
+          "Możliwe szkolenie do zadań pomocniczych; zapewnione środki ochrony i odzież robocza.",
+          "Zakwaterowanie dla stanowiska podstawowego zgodnie ze standardem obiektu.",
+          "Stawka specjalisty, umowa i zakwaterowanie wymagają osobnych ustaleń."
+        ],
+        statusNote: "Stawka specjalisty i dokładny zakres uprawnień wymagają indywidualnego potwierdzenia."
+      },
+      "site-cleaning": {
+        title: "Sprzątanie terenu",
+        subtitle: "Utrzymanie porządku na terenie obiektu",
+        category: "Prace gospodarcze",
+        level: "Bez doświadczenia",
+        format: "Polska",
+        location: "Zgorzelec",
+        contract: "Legalne zatrudnienie · zwykle umowa zlecenia",
+        salaryNote: "brutto; liczba godzin nie jest gwarantowana",
+        candidates: ["18+", "Sprawność fizyczna", "Praca na zewnątrz"],
+        skills: ["Sprzątanie", "Teren", "Narzędzia", "Praca fizyczna"],
+        summary: "Sprzątanie terenu zakładu, zbieranie odpadów i proste prace gospodarcze w strefach technicznych oraz na zewnątrz.",
+        responsibilities: [
+          "Sprzątać teren, utrzymywać porządek i przenosić odpady do wyznaczonych miejsc.",
+          "Wykonywać proste prace pomocnicze, obsługiwać narzędzia i sezonowo przygotowywać teren."
+        ],
+        required: [
+          "Gotowość fizyczna do pracy na zewnątrz i w strefach technicznych.",
+          "Przestrzeganie zasad bezpieczeństwa i poleceń koordynatora, dokładność i dyscyplina."
+        ],
+        niceToHave: ["Doświadczenie w pracach gospodarczych lub sprzątaniu.", "Gotowość do pracy w różnych warunkach pogodowych."],
+        benefits: [
+          "Bezpłatne zakwaterowanie dla standardowej polskiej oferty; odzież robocza i środki ochrony.",
+          "Zwykle 8–12 godzin dziennie; rzeczywisty grafik ustala obiekt.",
+          "Wypłata zwykle 10. dnia; zaliczka po 14 dniach zgodnie z zasadami."
+        ],
+        statusNote: "Miejsce i data rozpoczęcia zależą od bieżącego zapotrzebowania obiektu."
+      },
+      "forklift-udt": {
+        title: "Operator wózka widłowego UDT",
+        subtitle: "Palety i logistyka wewnętrzna",
+        category: "Magazyn",
+        level: "UDT wymagane",
+        format: "Polska",
+        location: "Magazyny i obiekty szklarniowe · zależnie od zapotrzebowania",
+        contract: "Legalne zatrudnienie · umowa ustalana indywidualnie",
+        salaryDisplay: "Stawka do ustalenia",
+        salaryNote: "przed publikacją wymagane potwierdzenie kwoty brutto",
+        candidates: ["Ważne UDT", "Doświadczenie na wózku", "Tempo magazynowe"],
+        skills: ["UDT", "Wózek widłowy", "Palety", "Logistyka"],
+        summary: "Przemieszczanie palet, załadunek i rozładunek pojazdów, rozmieszczanie towaru oraz dostarczanie produktu na linię.",
+        responsibilities: [
+          "Przemieszczać palety z surowcami, opakowaniami i gotowymi produktami.",
+          "Ładować i rozładowywać pojazdy w dozwolonych strefach.",
+          "Sprawdzać wózek, zgłaszać usterki oraz przestrzegać tras i ograniczeń prędkości."
+        ],
+        required: [
+          "Ważne polskie uprawnienia UDT odpowiedniej kategorii.",
+          "Praktyczne doświadczenie w bezpiecznej obsłudze wózka, uważność i odpowiedzialność."
+        ],
+        niceToHave: ["Doświadczenie w magazynie spożywczym.", "Doświadczenie w inwentaryzacji."],
+        benefits: [
+          "Legalne zatrudnienie, odzież robocza i środki ochrony.",
+          "Grafik i zakwaterowanie zależą od obiektu.",
+          "Stawka brutto musi zostać potwierdzona przed uzgodnieniem rozpoczęcia pracy."
+        ],
+        statusNote: "Brak potwierdzonej stawki; miejsce, umowa i zakwaterowanie są ustalane indywidualnie."
+      },
+      "team-leader": {
+        title: "Brygadzista / lider zespołu",
+        subtitle: "Organizacja ludzi, jakości i wydajności",
+        category: "Zarządzanie",
+        level: "Doświadczenie wymagane",
+        format: "Polska",
+        location: "Siechnice · Ryczywół · Bogatynia · magazyny",
+        contract: "Legalne zatrudnienie · warunki indywidualne",
+        salaryDisplay: "Zależnie od wyniku rozmowy",
+        salaryNote: "stawka i premie są potwierdzane na piśmie",
+        candidates: ["Doświadczenie w zarządzaniu", "Produkcja", "Komunikacja"],
+        skills: ["Zespół", "Jakość", "Planowanie", "Raportowanie"],
+        summary: "Przydzielanie zadań, szkolenie pracowników oraz kontrola dyscypliny, jakości i wydajności zmiany.",
+        responsibilities: [
+          "Przydzielać pracowników do stanowisk i zadań.",
+          "Kontrolować obecność, dyscyplinę, tempo i jakość.",
+          "Szkolić nowych pracowników i przekazywać przełożonym dane o osobach, godzinach i wynikach."
+        ],
+        required: [
+          "Doświadczenie w szklarni, magazynie lub produkcji.",
+          "Doświadczenie w organizowaniu pracy ludzi i wyjaśnianiu zadań.",
+          "Odpowiedzialność, odporność na stres i sprawiedliwe podejście."
+        ],
+        niceToHave: ["Język polski.", "Język ukraiński lub rosyjski do pracy z zespołem."],
+        benefits: [
+          "Legalne zatrudnienie i realny wpływ na organizację procesu.",
+          "Warunki zakwaterowania zależą od obiektu.",
+          "Stawka, premie i zakres odpowiedzialności są ustalane po rozmowie."
+        ],
+        statusNote: "Stawka, premie, obiekt i zakwaterowanie są ustalane indywidualnie."
+      },
+      "greenhouse-agronomist": {
+        title: "Technolog / agronom produkcji szklarniowej",
+        subtitle: "Kontrola uprawy, klimatu i zdrowia roślin",
+        category: "Agronomia",
+        level: "Doświadczenie kierunkowe",
+        format: "Polska",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legalne zatrudnienie · umowa indywidualna",
+        salaryDisplay: "Stawka ustalana indywidualnie",
+        salaryNote: "publikowana wyłącznie po pisemnym potwierdzeniu",
+        candidates: ["Wykształcenie kierunkowe", "Doświadczenie szklarniowe", "CV"],
+        skills: ["Agronomia", "Klimat", "Nawadnianie", "Pomidory"],
+        summary: "Profesjonalna kontrola uprawy, klimatu, nawadniania, nawożenia, zdrowia roślin i plonowania.",
+        responsibilities: [
+          "Kontrolować stan roślin, plon i jakość.",
+          "Pracować z klimatem, nawadnianiem, nawożeniem i oświetleniem.",
+          "Planować pielęgnację, analizować dane i szkolić brygadzistów w procesach specjalistycznych."
+        ],
+        required: [
+          "Profil agronoma, technologa lub specjalisty upraw pod osłonami.",
+          "Potwierdzone odpowiednie doświadczenie lub wykształcenie.",
+          "Gotowość do rozmowy zawodowej."
+        ],
+        niceToHave: ["Doświadczenie z pomidorami.", "Doświadczenie w kontroli klimatu, nawadnianiu lub ochronie roślin."],
+        benefits: [
+          "Legalne zatrudnienie i specjalistyczna rola w nowoczesnej produkcji szklarniowej.",
+          "Pakiet warunków i zakwaterowanie są ustalane indywidualnie.",
+          "Stawka nie jest publikowana bez pisemnego potwierdzenia."
+        ],
+        statusNote: "Otwarcie stanowiska, stawka, umowa i zakwaterowanie wymagają indywidualnego uzgodnienia."
+      },
+      "truck-mechanic": {
+        title: "Mechanik samochodów ciężarowych i maszyn specjalistycznych",
+        subtitle: "Diagnostyka, naprawa i obsługa techniczna",
+        category: "Techniczne",
+        level: "Doświadczenie wymagane",
+        format: "Polska",
+        location: "Zgorzelec · inne bazy po potwierdzeniu",
+        contract: "Legalne zatrudnienie · warunki indywidualne",
+        salaryDisplay: "Stawka do ustalenia",
+        salaryNote: "wymaga uzgodnienia z działem technicznym",
+        candidates: ["Doświadczenie w naprawach", "Pojazdy ciężarowe", "Narzędzia"],
+        skills: ["Diagnostyka", "Naprawa", "Ciężarówki", "Maszyny specjalistyczne"],
+        summary: "Diagnostyka, serwisowanie i naprawy mechaniczne samochodów ciężarowych, naczep oraz maszyn specjalistycznych.",
+        responsibilities: [
+          "Diagnozować usterki ciężarówek, naczep i maszyn specjalistycznych.",
+          "Wykonywać planowe przeglądy, naprawy i wymiany zużytych podzespołów.",
+          "Kontrolować wynik, rejestrować prace i zapotrzebowanie na części."
+        ],
+        required: [
+          "Praktyczne doświadczenie w naprawie pojazdów ciężarowych.",
+          "Swobodne posługiwanie się sprzętem diagnostycznym i narzędziami warsztatowymi.",
+          "Przestrzeganie zasad serwisu i BHP."
+        ],
+        niceToHave: ["Wykształcenie techniczne.", "Prawo jazdy i doświadczenie z pojazdami MAN."],
+        benefits: [
+          "Legalne zatrudnienie i praca w bazie technicznej grupy.",
+          "Zakwaterowanie i dodatkowe warunki zależą od obiektu.",
+          "Stawka musi zostać potwierdzona przed wysłaniem oferty."
+        ],
+        statusNote: "Nie ma jeszcze potwierdzonej stawki; warunki są uzgadniane z działem technicznym."
+      },
+      "driver-ce-poland": {
+        title: "Kierowca C+E — transport po Polsce",
+        subtitle: "Transport chłodniczy pojazdami MAN",
+        category: "Transport",
+        level: "C+E wymagane",
+        format: "Polska",
+        location: "Wrocław / Siechnice · Zgorzelec · Ryczywół · Stok · Pruszcz Gdański",
+        contract: "Umowa o pracę",
+        salaryNote: "brutto; ostateczna kwota zależy od bazy, grafiku, stażu i umowy",
+        candidates: ["Kategoria C+E", "Dokumenty zawodowe", "Pojedyncza obsada"],
+        skills: ["C+E", "Chłodnia", "MAN", "Kod 95"],
+        summary: "Krajowy transport chłodniczy po Polsce nowoczesnymi pojazdami MAN z przypisanym samochodem.",
+        responsibilities: [
+          "Realizować zlecenia transportowe po Polsce zestawem chłodniczym.",
+          "Dotrzymywać terminów załadunku, dostawy i rozładunku.",
+          "Sprawdzać stan techniczny pojazdu oraz planować czas pracy, przerw i odpoczynku."
+        ],
+        required: [
+          "Ważne prawo jazdy kategorii C+E.",
+          "Dokumenty kwalifikacji zawodowej, w tym weryfikacja kodu 95.",
+          "Odpowiedzialność, punktualność i przestrzeganie norm czasu pracy kierowców."
+        ],
+        niceToHave: ["Doświadczenie z chłodniami.", "Doświadczenie z pojazdami MAN."],
+        benefits: [
+          "Umowa o pracę, pojedyncza obsada i przypisany samochód.",
+          "Ubezpieczenie, MultiSport i dodatki stażowe według zasad firmy; własny serwis, myjnia, stacje paliw i wsparcie 24/7.",
+          "Zakwaterowanie nie jest standardową częścią oferty i wymaga osobnych ustaleń."
+        ],
+        statusNote: "Widełki są kwotami brutto; konkretna kwota i baza zostaną zapisane w umowie."
+      },
+      "driver-ce-relief": {
+        title: "Kierowca C+E — skoczek",
+        subtitle: "Dodatkowe trasy i zastępstwa kierowców",
+        category: "Transport",
+        level: "C+E wymagane",
+        format: "Polska",
+        location: "Bazy Citronex · zależnie od zapotrzebowania",
+        contract: "Forma współpracy ustalana indywidualnie",
+        salaryDisplay: "Stawka do ustalenia",
+        salaryNote: "ustalana z działem transportu",
+        candidates: ["Kategoria C+E", "Pełny komplet dokumentów", "Elastyczna dyspozycyjność"],
+        skills: ["C+E", "Zastępstwa", "Trasy", "MAN"],
+        summary: "Zastępowanie stałych kierowców i wykonywanie dodatkowych tras krajowych w uzgodnionych wcześniej terminach.",
+        responsibilities: [
+          "Realizować trasy krajowe po Polsce zestawami chłodniczymi MAN.",
+          "Przejmować pojazd oraz sprawdzać dokumenty i jego stan.",
+          "Przestrzegać norm czasu pracy i procedur firmy."
+        ],
+        required: [
+          "Ważna kategoria C+E i pełny komplet dokumentów zawodowych.",
+          "Dyspozycyjność w uzgodnionych wcześniej terminach."
+        ],
+        niceToHave: ["Doświadczenie w pracy na zastępstwach.", "Doświadczenie w transporcie chłodniczym."],
+        benefits: [
+          "Elastyczny grafik, pojedyncze trasy i nowoczesny tabor.",
+          "Zakwaterowanie nie jest zapewniane automatycznie.",
+          "Stawka, umowa i minimalna dyspozycyjność są potwierdzane przed trasą."
+        ],
+        statusNote: "Oferta uruchamiana w razie potrzeby; stawka, umowa i terminy nie są jeszcze potwierdzone."
+      },
+      "banana-warehouse-hungary": {
+        title: "Magazyn bananów — Węgry",
+        subtitle: "Dojrzewalnia z bezpłatnym zakwaterowaniem blisko obiektu",
+        category: "Magazyn",
+        level: "Bez doświadczenia",
+        format: "Węgry",
+        location: "Okolice Budapesztu · dokładny adres do potwierdzenia",
+        contract: "Legalne zatrudnienie na warunkach węgierskiego obiektu",
+        salaryDisplay: "Stawka brutto do ustalenia",
+        salaryNote: "wcześniej podana kwota nie miała potwierdzenia jako brutto",
+        candidates: ["Obywatele Ukrainy", "Weryfikacja dokumentów", "Praca fizyczna"],
+        skills: ["Magazyn", "Banany", "Pakowanie", "Palety"],
+        summary: "Sortowanie, przepakowywanie i przygotowanie bananów do wysyłki w dojrzewalni w okolicach Budapesztu.",
+        responsibilities: [
+          "Sortować banany według jakości i wymagań zamówień.",
+          "Przepakowywać, pracować z kartonami i paletami oraz przygotowywać produkt do wysyłki.",
+          "Dbać o porządek i przestrzegać zasad sanitarnych."
+        ],
+        required: [
+          "W obecnym trybie rekrutacji — obywatelstwo Ukrainy.",
+          "Weryfikacja prawa do pracy przed wyjazdem.",
+          "Gotowość do pracy fizycznej i przenoszenia kartonów."
+        ],
+        niceToHave: ["Doświadczenie magazynowe lub w produkcji żywności.", "Gotowość do pracy zmianowej."],
+        benefits: [
+          "Bezpłatne zakwaterowanie niedaleko miejsca pracy.",
+          "Zwykle 8–12 godzin, 5–6 dni; grafik ustala magazyn; wsparcie organizacyjne koordynatora.",
+          "Dokładny adres, liczba osób w pokoju i stawka wymagają potwierdzenia."
+        ],
+        statusNote: "Polska karta pobytu sama w sobie nie potwierdza prawa do pracy na Węgrzech."
+      },
+      "banana-warehouse-belgium": {
+        title: "Delegowanie do magazynu bananów — Belgia",
+        subtitle: "Dla dopuszczonych pracowników z wymaganymi dokumentami",
+        category: "Magazyn",
+        level: "Dokumenty wymagane",
+        format: "Belgia",
+        location: "Konkretny obiekt podawany po potwierdzeniu",
+        contract: "Delegowanie / skierowanie, jeśli istnieje podstawa prawna",
+        salaryDisplay: "Stawka i waluta do ustalenia",
+        salaryNote: "w katalogu nie ma potwierdzonej kwoty brutto",
+        candidates: ["Obywatele Ukrainy", "Odpowiednie dokumenty", "Rekrutacja niemasowa"],
+        skills: ["Magazyn", "Banany", "Delegowanie", "Palety"],
+        summary: "Możliwe delegowanie do belgijskiego magazynu bananów dla dopuszczonych pracowników, jeśli mają dokumenty i obiekt zgłosi zapotrzebowanie.",
+        responsibilities: [
+          "Sortować, pakować i kontrolować jakość bananów.",
+          "Przygotowywać towar do wysyłki oraz pracować z kartonami i paletami.",
+          "Dbać o czystość i wykonywać polecenia obiektu."
+        ],
+        required: [
+          "W obecnym trybie skierowań — obywatelstwo Ukrainy.",
+          "Dokumenty umożliwiające legalne delegowanie i pracę.",
+          "Pozytywna decyzja firmy i rzeczywiste zapotrzebowanie."
+        ],
+        niceToHave: ["Doświadczenie w magazynie bananów.", "Ważna polska karta pobytu — podlega dodatkowej weryfikacji."],
+        benefits: [
+          "Zakwaterowanie jest zapewnione, a warunki potwierdzane przed wyjazdem; grafik ustala belgijski obiekt.",
+          "Delegowanie nie jest gwarantowane nawet przy posiadaniu karty pobytu.",
+          "Stawka, waluta, składniki wynagrodzenia i potrącenia wymagają potwierdzenia."
+        ],
+        statusNote: "To nie jest rekrutacja masowa; skierowanie jest możliwe tylko po weryfikacji dokumentów i zapotrzebowania."
+      }
+    }
+  };
+})();

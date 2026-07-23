@@ -1,0 +1,625 @@
+(function () {
+  "use strict";
+
+  window.PORTAL_TRANSLATIONS = window.PORTAL_TRANSLATIONS || {};
+  window.PORTAL_TRANSLATIONS.en = {
+    meta: {
+      name: "English",
+      short: "EN",
+      locale: "en-GB"
+    },
+    ui: {
+      navHome: "Home",
+      navJobs: "Jobs",
+      navResources: "Guides",
+      navSaved: "Saved",
+      navProfile: "About me",
+      contact: "Contact",
+      install: "Install",
+      online: "Online · the portal is ready to work offline",
+      offline: "You are offline · jobs and guides are available",
+      bannerTitle: "Before you travel.",
+      bannerText: "Confirm the exact location, arrival date, schedule and employment terms with the recruiter. This catalogue does not replace a contract.",
+      heroKicker: "Citronex jobs · direct recruiter contact",
+      heroTitle: "Work at Citronex.",
+      heroAccent: "Get answers first — then travel.",
+      heroIntro: "Choose a job, complete a short questionnaire in your language and send structured information directly to the recruiter via WhatsApp.",
+      heroJobs: "View jobs",
+      heroSurvey: "Find a suitable job",
+      jobsInCatalog: "jobs in the catalogue",
+      workHours: "working hours",
+      grossRate: "base gross hourly rate",
+      recruiterEyebrow: "Your direct contact",
+      featuredKicker: "Choose an area",
+      featuredTitle: "Jobs with clear conditions",
+      allJobs: "All jobs",
+      processKicker: "A clear process",
+      processTitle: "How to apply",
+      processNote: "First complete the questionnaire, then send a WhatsApp message. Documents and passport photos are not uploaded through this website.",
+      trustKicker: "Trust is built on facts",
+      trustTitle: "You control your data",
+      trustIntro: "The questionnaire runs in your browser. Your information reaches the recruiter only after you press the WhatsApp button.",
+      trustGrossTitle: "Gross amounts",
+      trustGrossText: "Rates are shown before tax and contributions. Net pay depends on your contract and documents.",
+      trustChatTitle: "Ask directly",
+      trustChatText: "Press “Ask” to open a chat with the recruiter about a specific job.",
+      trustOfflineTitle: "Works offline",
+      trustOfflineText: "Jobs, comparisons and guides remain available after your first visit.",
+      resourceKicker: "Prepare without registering",
+      resourceTitle: "Useful information before applying and travelling",
+      allResources: "All guides",
+      finalKicker: "You can start without a CV",
+      finalTitle: "Not sure which job suits you?",
+      finalText: "Answer questions about your citizenship, current country, documents, experience and availability date. The recruiter will receive everything in one message.",
+      startSurvey: "Start questionnaire",
+      jobsKicker: "Job catalogue",
+      jobsTitle: "Choose a job and complete the questionnaire",
+      jobsIntro: "For each job, you can ask about the terms first or go straight to the questionnaire.",
+      catalogDate: "Catalogue dated",
+      searchPlaceholder: "Job, country or process",
+      allDirections: "All areas",
+      allCountries: "All countries",
+      anyExperience: "Any experience",
+      newestFirst: "Newest first",
+      salaryFirst: "Jobs with a stated rate first",
+      titleSort: "By title",
+      reset: "Reset",
+      found: "Found",
+      showAll: "Show all jobs",
+      noMatchesTitle: "No matching jobs yet",
+      noMatchesText: "Reset the filters or ask the recruiter.",
+      clarify: "Ask on WhatsApp",
+      takeSurvey: "Complete questionnaire",
+      details: "Details",
+      updated: "Updated",
+      save: "Save",
+      saved: "Saved",
+      removeSaved: "Remove from saved",
+      compare: "Compare",
+      inComparison: "In comparison",
+      share: "Share",
+      print: "Print / PDF",
+      grossSalary: "Gross rate",
+      countryLocation: "Country and location",
+      contract: "Contract",
+      suitableFor: "Suitable for",
+      responsibilities: "What you will do",
+      required: "Required",
+      niceToHave: "Nice to have",
+      conditions: "Conditions",
+      applicationRoute: "What happens after the questionnaire",
+      notes: "My notes",
+      noteHelp: "Stored only on this device.",
+      askAboutJob: "Ask about this job",
+      close: "Close",
+      language: "Language",
+      offlineChip: "Offline",
+      open: "Open",
+      recruiterProfile: "Your recruiter",
+      privacy: "Privacy and safety",
+      whatsappNeedsInternet: "You need an internet connection to open WhatsApp.",
+      directQuestion: "Hello! I would like to ask about the terms of the job",
+      siteLanguage: "Website language",
+      responseTime: "I usually reply",
+      timezone: "Time zone",
+      formStep: "Step",
+      of: "of"
+    },
+    form: {
+      title: "Candidate questionnaire",
+      intro: "Answer the specific questions below. Before continuing, you will see the complete message prepared for WhatsApp.",
+      selectedVacancy: "Selected job",
+      changeVacancy: "Change job",
+      stepContact: "Contact",
+      stepLocation: "Country and citizenship",
+      stepDocuments: "Documents",
+      stepWork: "Work availability",
+      stepQualification: "Experience and qualifications",
+      stepReview: "Review",
+      firstName: "First name exactly as shown in your passport",
+      lastName: "Last name exactly as shown in your passport",
+      latinHint: "Use Latin letters and copy the spelling from your passport exactly. Example: IVAN PETRENKO.",
+      whatsapp: "Your WhatsApp number",
+      whatsappHint: "Use the international format with the country code. Example: +48500100200.",
+      email: "Email — optional",
+      preferredLanguage: "Preferred contact language",
+      adult: "I am at least 18 years old",
+      citizenship: "Citizenship",
+      currentCountry: "Which country are you currently in?",
+      currentCity: "Current city — use Latin letters",
+      otherCountry: "Country name — use Latin letters",
+      legalStatus: "What is the legal basis for your stay in your current country?",
+      documentCountry: "Which country issued your main residence document?",
+      documentExpiry: "When does the document expire?",
+      workRight: "Do you have the right to work in the country of the selected job?",
+      noDocumentNumbers: "Do not enter passport or residence-card numbers, bank details, or upload photos of documents through this website.",
+      readyDate: "From what date can you start?",
+      housing: "Do you need accommodation from the employer?",
+      travellingWith: "Are you travelling alone or with someone?",
+      partnerAlsoApplies: "Is the other person also looking for work?",
+      shiftReadiness: "Which work schedules can you accept?",
+      experience: "Experience in similar work",
+      experienceDetails: "Briefly describe your experience using Latin letters — optional",
+      driverLicense: "Do you have a valid C+E driving licence?",
+      code95: "Do you have a valid Code 95?",
+      tachograph: "Do you have a tachograph driver card?",
+      reeferExperience: "Do you have refrigerated-transport experience?",
+      udtLicense: "Do you have a valid Polish UDT certificate?",
+      udtCategory: "UDT category — use Latin letters",
+      specialistEducation: "Do you have relevant education or a certificate?",
+      leadershipExperience: "Do you have experience leading a team?",
+      mechanicExperience: "Do you have experience repairing heavy vehicles?",
+      extraNotes: "Additional question or comment — use Latin letters, optional",
+      consent: "I confirm that the information is correct and agree to open WhatsApp to send the message to the recruiter.",
+      reviewTitle: "Check your information",
+      reviewHint: "WhatsApp will open when you press the button. The message is sent only when you press “Send” yourself.",
+      back: "Back",
+      next: "Next",
+      openWhatsapp: "Open WhatsApp",
+      missingRequired: "Complete all required fields.",
+      latinError: "Use only Latin letters, spaces, hyphens or apostrophes.",
+      phoneError: "Enter an international number: + followed by 8–15 digits.",
+      dateError: "Choose today’s date or a future date.",
+      adultError: "You must confirm that you are at least 18 to apply.",
+      consentError: "Confirm your consent before opening WhatsApp.",
+      unavailableOffline: "You can complete the questionnaire offline, but you need the internet to open WhatsApp."
+    },
+    options: {
+      choose: "Choose",
+      yes: "Yes",
+      no: "No",
+      unknown: "I don’t know",
+      other: "Other",
+      alone: "Alone",
+      partner: "With a partner",
+      family: "With family",
+      friends: "With friends",
+      housingRequired: "Yes, I need accommodation",
+      housingNotRequired: "No, I do not need accommodation",
+      statusEuCitizen: "EU / EEA / Swiss citizenship",
+      statusVisaFree: "Visa-free stay / biometric passport",
+      statusWorkVisa: "Work visa",
+      statusTemporaryResidence: "Temporary residence permit",
+      statusPermanentResidence: "Permanent residence permit",
+      statusPeselUkr: "PESEL UKR / temporary protection",
+      statusProtection: "Asylum / international protection",
+      statusNoDocuments: "I do not yet have documents for work",
+      workRightYes: "Yes",
+      workRightNo: "No",
+      workRightUnknown: "Needs to be checked",
+      expNone: "No experience",
+      expUnder6: "Up to 6 months",
+      exp6to12: "6–12 months",
+      exp1to2: "1–2 years",
+      exp2plus: "More than 2 years",
+      shiftDay: "Day shifts",
+      shiftNight: "Night shifts",
+      shiftLong: "10–12 hour shifts",
+      shiftWeekend: "Weekend work"
+    },
+    jobs: {
+      "greenhouse-tomatoes": {
+        title: "Greenhouse worker — tomatoes",
+        subtitle: "Year-round work with plants and crops",
+        category: "Greenhouses",
+        level: "No experience required",
+        format: "Poland",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legal employment · usually umowa zlecenia",
+        salaryNote: "gross; hours are not guaranteed",
+        candidates: ["18+", "Couples may apply", "No experience required"],
+        skills: ["Harvesting", "Plant care", "Greenhouse", "Training"],
+        summary: "Work throughout the greenhouse tomato-growing cycle: harvesting, tying, plant care and keeping the rows tidy.",
+        responsibilities: [
+          "Pick ripe tomatoes and place the produce carefully in containers.",
+          "Tie, lower and guide plants, and remove lower or damaged leaves.",
+          "Keep the rows tidy and report visible plant problems to the team leader."
+        ],
+        required: [
+          "Age 18+ and documents for legal employment.",
+          "Physical ability to work standing and moving throughout a shift.",
+          "Discipline and ability to follow instructions."
+        ],
+        niceToHave: ["Greenhouse or agricultural experience.", "Basic understanding of Polish."],
+        benefits: [
+          "Free accommodation, usually up to 4 people per room; standard workwear and protective equipment without deductions.",
+          "Pay is usually on the 10th; a 500 PLN advance after 14 days is possible under site rules.",
+          "Example: 200 hours — 6,280 PLN, 250 — 7,850 PLN, 280 — 8,792 PLN gross; hours are not guaranteed."
+        ],
+        statusNote: "Recruitment is year-round, but the place and specific process are confirmed before travel."
+      },
+      "greenhouse-renewal": {
+        title: "Crop removal, cleaning and planting in greenhouses",
+        subtitle: "Intensive summer work with a possibility of continuing",
+        category: "Greenhouses",
+        level: "No experience required",
+        format: "Poland",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legal employment · usually umowa zlecenia",
+        salaryNote: "gross; seasonal workload is not guaranteed",
+        candidates: ["18+", "Couples may apply", "Physical work"],
+        skills: ["Cleaning", "Planting", "Disinfection", "Greenhouse"],
+        summary: "Removing old plants, cleaning and washing the greenhouse, preparing systems and planting a new crop.",
+        responsibilities: [
+          "Remove old plants, twine, hooks and plant waste.",
+          "Wash floors, structures, gutters and equipment.",
+          "Prepare irrigation, substrate and planting positions, and plant the new crop."
+        ],
+        required: [
+          "Physical stamina and readiness for an intensive pace.",
+          "Compliance with hygiene, access and safety rules.",
+          "Work at height and specialist tasks only after training and authorisation."
+        ],
+        niceToHave: ["Physical or seasonal work experience.", "Readiness to continue in plant care, harvesting or sorting."],
+        benefits: [
+          "Free accommodation, usually up to 4 people per room; workwear and protective equipment.",
+          "250–280 hours may be possible during the summer peak, but the number of hours is not guaranteed.",
+          "A transfer to another process may be possible after the season if a place is available."
+        ],
+        statusNote: "Seasonal recruitment and the process start date are confirmed separately for each location."
+      },
+      "tomato-sorting": {
+        title: "Tomato sorting and packing",
+        subtitle: "Production line and finished-goods warehouse",
+        category: "Production",
+        level: "No experience required",
+        format: "Poland",
+        location: "Siechnice · less often Ryczywół and Bogatynia",
+        contract: "Legal employment · usually umowa zlecenia",
+        salaryNote: "gross; workload depends on the harvest",
+        candidates: ["18+", "Couples if places are available", "No experience required"],
+        skills: ["Sorting", "Packing", "Quality control", "Labelling"],
+        summary: "Receiving tomatoes, visual sorting, packing, labelling and preparing finished products for movement.",
+        responsibilities: [
+          "Sort tomatoes by quality, size, colour and condition.",
+          "Check weight, pack, label and close packages.",
+          "Prepare boxes for movement and follow food-safety requirements."
+        ],
+        required: [
+          "Attention to detail, accuracy and ability to keep up with the line.",
+          "Readiness to stand for most of the shift.",
+          "Compliance with strict food-hygiene rules."
+        ],
+        niceToHave: ["Production-line experience.", "Experience sorting or packing food."],
+        benefits: [
+          "No experience is required; training, free accommodation and standard workwear are provided.",
+          "Usually 8–12 hours a day, 5–6 days a week; hours depend on the harvest.",
+          "A 500 PLN advance after 14 days is possible under site rules."
+        ],
+        statusNote: "Recruitment frequency and the number of places depend on the harvest and production plan."
+      },
+      "banana-warehouse-poland": {
+        title: "Banana warehouse worker — Poland",
+        subtitle: "Sorting, packing and ripening-centre processes",
+        category: "Warehouse",
+        level: "No experience required",
+        format: "Poland",
+        location: "Pruszcz Gdański · Zgorzelec",
+        contract: "Legal employment · usually umowa zlecenia",
+        salaryNote: "gross; the schedule depends on deliveries",
+        candidates: ["18+", "Physical work", "Shift work"],
+        skills: ["Warehouse", "Bananas", "Packing", "Pallets"],
+        summary: "Receiving, moving, sorting, repacking and preparing bananas for dispatch in ripening centres.",
+        responsibilities: [
+          "Receive and move boxes, sort fruit and inspect its quality.",
+          "Repack products and build boxes and pallets.",
+          "Label orders and prepare them for dispatch."
+        ],
+        required: [
+          "Readiness for physically active work and shift work.",
+          "Ability to maintain the pace and follow safety and quality requirements."
+        ],
+        niceToHave: ["Warehouse experience.", "Experience with pallets or food products."],
+        benefits: [
+          "Free accommodation for the standard production role; workwear and protective equipment.",
+          "Usually 8–12 hours, 5–6 days; night and weekend shifts must be confirmed.",
+          "Boxes must be lifted and moved periodically."
+        ],
+        statusNote: "The exact shift, night work and place availability are confirmed before arrival."
+      },
+      "plant-protection": {
+        title: "Plant protection department worker",
+        subtitle: "Crop monitoring and sanitation processes in the greenhouse",
+        category: "Agronomy",
+        level: "Experience preferred",
+        format: "Poland",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legal employment · contract type agreed individually",
+        salaryDisplay: "31.40 PLN/hour — basic tasks",
+        salaryNote: "the specialist rate is agreed individually",
+        candidates: ["18+", "Training or experience", "No medical contraindications"],
+        skills: ["Plant protection", "Sanitation", "Monitoring", "Greenhouse"],
+        summary: "Inspecting plants, identifying disease and pests, and supporting biological protection and sanitation processes.",
+        responsibilities: [
+          "Inspect plants and record diseases, pests and abnormalities.",
+          "Work with traps and biological-control products.",
+          "Support disinfection, keep simple records and cooperate with the technologist."
+        ],
+        required: [
+          "Careful compliance with instructions, a responsible attitude and no contraindications to greenhouse work.",
+          "Independent treatment work only after training and specific authorisation."
+        ],
+        niceToHave: ["Plant-growing or agronomy experience.", "Relevant education."],
+        benefits: [
+          "Training may be available for support tasks; protective equipment and workwear are provided.",
+          "Accommodation for a basic role follows the site standard.",
+          "The specialist rate, contract and accommodation must be agreed separately."
+        ],
+        statusNote: "The specialist rate and exact scope of authority require individual confirmation."
+      },
+      "site-cleaning": {
+        title: "Site cleaning worker",
+        subtitle: "Keeping the facility grounds tidy",
+        category: "General services",
+        level: "No experience required",
+        format: "Poland",
+        location: "Zgorzelec",
+        contract: "Legal employment · usually umowa zlecenia",
+        salaryNote: "gross; hours are not guaranteed",
+        candidates: ["18+", "Physically fit", "Outdoor work"],
+        skills: ["Cleaning", "Grounds", "Tools", "Physical work"],
+        summary: "Cleaning the facility grounds, collecting waste and carrying out simple general tasks in technical areas and outdoors.",
+        responsibilities: [
+          "Clean the grounds, keep designated areas tidy and move waste to the correct locations.",
+          "Carry out simple support tasks, handle tools and help prepare the site for seasonal needs."
+        ],
+        required: [
+          "Physical readiness for outdoor work and work in technical areas.",
+          "Compliance with safety rules and the coordinator’s instructions, accuracy and discipline."
+        ],
+        niceToHave: ["General-maintenance or cleaning experience.", "Readiness for different weather conditions."],
+        benefits: [
+          "Free accommodation for this standard Polish job; workwear and protective equipment.",
+          "Usually 8–12 hours a day; the site confirms the actual schedule.",
+          "Pay is usually on the 10th; an advance is possible after 14 days under site rules."
+        ],
+        statusNote: "The place and start date depend on the site’s current needs."
+      },
+      "forklift-udt": {
+        title: "UDT forklift operator",
+        subtitle: "Pallet handling and internal logistics",
+        category: "Warehouse",
+        level: "UDT required",
+        format: "Poland",
+        location: "Warehouses and greenhouse sites · according to demand",
+        contract: "Legal employment · contract agreed individually",
+        salaryDisplay: "Rate to be confirmed",
+        salaryNote: "the gross amount must be confirmed before publication",
+        candidates: ["Valid UDT", "Forklift experience", "Warehouse pace"],
+        skills: ["UDT", "Forklift", "Pallets", "Logistics"],
+        summary: "Moving pallets, loading and unloading vehicles, storing goods and supplying products to the production line.",
+        responsibilities: [
+          "Move pallets containing raw materials, packaging and finished products.",
+          "Load and unload vehicles in authorised areas.",
+          "Inspect the forklift, report faults and follow warehouse routes and speed limits."
+        ],
+        required: [
+          "A valid Polish UDT certificate in the required category.",
+          "Practical experience operating a forklift safely, with care and responsibility."
+        ],
+        niceToHave: ["Food-warehouse experience.", "Stocktaking experience."],
+        benefits: [
+          "Legal employment, workwear and protective equipment.",
+          "Schedule and accommodation depend on the site.",
+          "The gross rate must be confirmed before a start is agreed."
+        ],
+        statusNote: "There is no confirmed rate; the site, contract and accommodation are agreed individually."
+      },
+      "team-leader": {
+        title: "Team leader / supervisor",
+        subtitle: "Organising people, quality and productivity",
+        category: "Management",
+        level: "Experience required",
+        format: "Poland",
+        location: "Siechnice · Ryczywół · Bogatynia · warehouses",
+        contract: "Legal employment · individual terms",
+        salaryDisplay: "Based on the interview",
+        salaryNote: "the rate and bonuses are confirmed in writing",
+        candidates: ["Leadership experience", "Production", "Communication"],
+        skills: ["Team", "Quality", "Planning", "Reporting"],
+        summary: "Assigning tasks, training employees and monitoring shift discipline, quality and productivity.",
+        responsibilities: [
+          "Assign workers to areas and tasks.",
+          "Monitor attendance, discipline, pace and quality.",
+          "Train new employees and report information about people, hours and output to management."
+        ],
+        required: [
+          "Experience in a greenhouse, warehouse or production environment.",
+          "Experience organising people and explaining tasks.",
+          "Responsibility, resilience under pressure and a fair approach."
+        ],
+        niceToHave: ["Polish language.", "Ukrainian or Russian for communication with the team."],
+        benefits: [
+          "Legal employment and a real influence on process organisation.",
+          "Accommodation terms depend on the site.",
+          "The rate, bonuses and scope of responsibility are fixed after the interview."
+        ],
+        statusNote: "The rate, bonuses, site and accommodation are agreed individually."
+      },
+      "greenhouse-agronomist": {
+        title: "Greenhouse technologist / agronomist",
+        subtitle: "Managing cultivation, climate and plant health",
+        category: "Agronomy",
+        level: "Relevant experience",
+        format: "Poland",
+        location: "Siechnice · Ryczywół · Bogatynia",
+        contract: "Legal employment · individual contract",
+        salaryDisplay: "Rate agreed individually",
+        salaryNote: "published only after written confirmation",
+        candidates: ["Relevant education", "Greenhouse experience", "CV"],
+        skills: ["Agronomy", "Climate", "Irrigation", "Tomatoes"],
+        summary: "Professional oversight of cultivation, climate, irrigation, nutrition, plant health and crop yield.",
+        responsibilities: [
+          "Monitor plant condition, yield and quality.",
+          "Manage climate, irrigation, nutrition and lighting.",
+          "Plan crop-care operations, analyse data and train team leaders in specialist processes."
+        ],
+        required: [
+          "Background as an agronomist, technologist or protected-crop specialist.",
+          "Verified relevant experience or education.",
+          "Readiness to attend a professional interview."
+        ],
+        niceToHave: ["Experience with tomatoes.", "Experience in climate control, irrigation or plant protection."],
+        benefits: [
+          "Legal employment in a professional role within modern greenhouse production.",
+          "The benefits package and accommodation are agreed individually.",
+          "The rate is not published without written confirmation."
+        ],
+        statusNote: "Job availability, rate, contract and accommodation require individual agreement."
+      },
+      "truck-mechanic": {
+        title: "Heavy-vehicle and special-equipment mechanic",
+        subtitle: "Diagnostics, repair and maintenance",
+        category: "Technical",
+        level: "Experience required",
+        format: "Poland",
+        location: "Zgorzelec · other depots after confirmation",
+        contract: "Legal employment · individual terms",
+        salaryDisplay: "Rate to be confirmed",
+        salaryNote: "must be agreed with the technical department",
+        candidates: ["Repair experience", "Heavy vehicles", "Tools"],
+        skills: ["Diagnostics", "Repair", "Trucks", "Special equipment"],
+        summary: "Diagnostics, servicing and mechanical repair of trucks, trailers and special equipment.",
+        responsibilities: [
+          "Diagnose faults in trucks, trailers and special equipment.",
+          "Carry out scheduled servicing, repairs and replacement of worn components.",
+          "Check the result and record completed work and parts requirements."
+        ],
+        required: [
+          "Practical experience repairing heavy vehicles.",
+          "Confidence with diagnostic and workshop tools.",
+          "Compliance with workshop and occupational-safety rules."
+        ],
+        niceToHave: ["Technical education.", "Driving licence and experience with MAN vehicles."],
+        benefits: [
+          "Legal employment at the group’s technical depot.",
+          "Accommodation and additional terms depend on the site.",
+          "The rate must be confirmed before an offer is sent."
+        ],
+        statusNote: "There is no confirmed rate yet; terms are agreed with the technical department."
+      },
+      "driver-ce-poland": {
+        title: "C+E driver — domestic transport in Poland",
+        subtitle: "Refrigerated transport with MAN vehicles",
+        category: "Transport",
+        level: "C+E required",
+        format: "Poland",
+        location: "Wrocław / Siechnice · Zgorzelec · Ryczywół · Stok · Pruszcz Gdański",
+        contract: "Umowa o pracę",
+        salaryNote: "gross; the final amount depends on the depot, schedule, length of service and contract",
+        candidates: ["C+E licence", "Professional documents", "Single-driver operation"],
+        skills: ["C+E", "Refrigerated transport", "MAN", "Code 95"],
+        summary: "Domestic refrigerated transport across Poland in a modern MAN fleet with an assigned vehicle.",
+        responsibilities: [
+          "Complete domestic transport orders in Poland with a refrigerated vehicle.",
+          "Meet loading, delivery and unloading deadlines.",
+          "Check the vehicle before each route and plan driving, break and rest times."
+        ],
+        required: [
+          "A valid category C+E driving licence.",
+          "Professional qualification documents, including verification of Code 95.",
+          "Responsibility, punctuality and compliance with drivers’ working-time rules."
+        ],
+        niceToHave: ["Refrigerated-transport experience.", "Experience with MAN vehicles."],
+        benefits: [
+          "Umowa o pracę, single-driver operation and an assigned vehicle.",
+          "Insurance, MultiSport and length-of-service supplements under company rules; company workshop, wash, fuel stations and 24/7 support.",
+          "Accommodation is not a standard part of the offer and must be discussed separately."
+        ],
+        statusNote: "The range is gross; the exact amount and depot are stated in the contract."
+      },
+      "driver-ce-relief": {
+        title: "C+E relief driver (skoczek)",
+        subtitle: "Additional routes and driver cover",
+        category: "Transport",
+        level: "C+E required",
+        format: "Poland",
+        location: "Citronex depots · according to demand",
+        contract: "Form of cooperation agreed individually",
+        salaryDisplay: "Rate to be confirmed",
+        salaryNote: "agreed with the transport department",
+        candidates: ["C+E licence", "Full document set", "Flexible availability"],
+        skills: ["C+E", "Relief cover", "Routes", "MAN"],
+        summary: "Covering for regular drivers and completing additional domestic routes on dates agreed in advance.",
+        responsibilities: [
+          "Complete domestic routes in Poland with MAN refrigerated vehicles.",
+          "Take over the vehicle and check its documents and condition.",
+          "Follow working-time rules and company procedures."
+        ],
+        required: [
+          "A valid C+E licence and a full set of professional documents.",
+          "Availability on dates agreed in advance."
+        ],
+        niceToHave: ["Relief-driving experience.", "Refrigerated-transport experience."],
+        benefits: [
+          "Flexible schedule, individual routes and a modern fleet.",
+          "Accommodation is not provided automatically.",
+          "The rate, contract and minimum availability are confirmed before the route."
+        ],
+        statusNote: "Opened when needed; the rate, contract and dates have not yet been confirmed."
+      },
+      "banana-warehouse-hungary": {
+        title: "Banana warehouse — Hungary",
+        subtitle: "Ripening warehouse with free accommodation near the site",
+        category: "Warehouse",
+        level: "No experience required",
+        format: "Hungary",
+        location: "Budapest area · exact address to be confirmed",
+        contract: "Legal employment under the Hungarian site’s terms",
+        salaryDisplay: "Gross rate to be confirmed",
+        salaryNote: "the amount previously stated had not been confirmed as gross",
+        candidates: ["Ukrainian citizens", "Document check", "Physical work"],
+        skills: ["Warehouse", "Bananas", "Packing", "Pallets"],
+        summary: "Sorting, repacking and preparing bananas for dispatch at a ripening warehouse in the Budapest area.",
+        responsibilities: [
+          "Sort bananas according to quality and order requirements.",
+          "Repack products, handle boxes and pallets, and prepare goods for dispatch.",
+          "Keep the area tidy and follow sanitation rules."
+        ],
+        required: [
+          "Under the current recruitment process: Ukrainian citizenship.",
+          "Verification of the right to work before travel.",
+          "Readiness for physical work and moving boxes."
+        ],
+        niceToHave: ["Warehouse or food-production experience.", "Readiness for shift work."],
+        benefits: [
+          "Free accommodation near the workplace.",
+          "Usually 8–12 hours, 5–6 days; the warehouse sets the schedule; organisational support from a coordinator.",
+          "The exact address, room occupancy and rate must be confirmed."
+        ],
+        statusNote: "A Polish karta pobytu alone does not confirm the right to work in Hungary."
+      },
+      "banana-warehouse-belgium": {
+        title: "Assignment to a banana warehouse — Belgium",
+        subtitle: "For approved workers with the required documents",
+        category: "Warehouse",
+        level: "Documents required",
+        format: "Belgium",
+        location: "The specific site is disclosed after confirmation",
+        contract: "Business assignment / posting where a legal basis exists",
+        salaryDisplay: "Rate and currency to be confirmed",
+        salaryNote: "the catalogue contains no confirmed gross amount",
+        candidates: ["Ukrainian citizens", "Suitable documents", "Not mass recruitment"],
+        skills: ["Warehouse", "Bananas", "Assignment", "Pallets"],
+        summary: "A possible assignment to a Belgian banana warehouse for approved workers when the required documents and a site need are both confirmed.",
+        responsibilities: [
+          "Sort, pack and inspect the quality of bananas.",
+          "Prepare goods for dispatch and handle boxes and pallets.",
+          "Maintain cleanliness and follow the site’s instructions."
+        ],
+        required: [
+          "Under the current assignment process: Ukrainian citizenship.",
+          "Documents allowing a legal assignment and work.",
+          "A positive company decision and an actual site need."
+        ],
+        niceToHave: ["Banana-warehouse experience.", "A valid Polish karta pobytu — subject to an additional check."],
+        benefits: [
+          "Accommodation is provided, with conditions confirmed before travel; the Belgian site sets the schedule.",
+          "An assignment is not guaranteed even if you hold a residence card.",
+          "The rate, currency, pay components and deductions must all be confirmed."
+        ],
+        statusNote: "This is not mass recruitment; an assignment is possible only after checking the documents and the site’s need."
+      }
+    }
+  };
+})();
