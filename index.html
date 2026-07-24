@@ -22,10 +22,10 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/citronex-logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="assets/styles.css?v=13">
+  <link rel="stylesheet" href="assets/styles.css?v=14">
   <title>Вакансии Citronex — каталог 2026</title>
 </head>
-<body>
+<body class="vacancy-first">
   <a class="skip-link" href="#main-content" data-i18n="ui.heroJobs">Смотреть вакансии</a>
 
   <div class="status-strip" id="status-strip" role="status">
@@ -46,10 +46,9 @@
       </button>
 
       <nav class="desktop-nav" data-i18n-aria-label="ui.mainNavigation" aria-label="Основная навигация">
-        <button type="button" data-route="home"><span data-i18n="ui.navHome">Главная</span></button>
         <button type="button" data-route="jobs"><span data-i18n="ui.navJobs">Вакансии</span> <span class="nav-count" id="nav-job-count">0</span></button>
+        <button type="button" data-application-general><span data-i18n="ui.heroSurvey">Подобрать вакансию</span></button>
         <button type="button" data-route="resources"><span data-i18n="ui.navResources">Материалы</span></button>
-        <button type="button" data-route="saved"><span data-i18n="ui.navSaved">Избранное</span></button>
         <button type="button" data-route="profile"><span data-i18n="ui.navProfile">Обо мне</span></button>
       </nav>
 
@@ -79,22 +78,23 @@
 
   <main id="main-content">
     <section class="view" id="view-home" data-view="home">
-      <div class="hero">
-        <div class="shell hero-grid">
+      <div class="hero hero-compact">
+        <div class="shell hero-grid hero-grid-compact">
           <div class="hero-copy">
             <div class="eyebrow"><span class="pulse" aria-hidden="true"></span><span id="hero-availability" data-i18n="ui.heroKicker">Вакансии Citronex · прямой контакт рекрутера</span></div>
-            <h1><span data-i18n="ui.heroTitle">Работа в Citronex.</span><br><em data-i18n="ui.heroAccent">Сначала ответы — потом поездка.</em></h1>
+            <h1><span data-i18n="ui.heroTitle">Вакансии Citronex.</span> <em data-i18n="ui.heroAccent">Выберите работу — узнайте условия.</em></h1>
             <p class="hero-lead" id="hero-intro" data-i18n="ui.heroIntro">
-              Помогаю выбрать вакансию Citronex, проверить условия, документы и доступную дату заезда.
+              Польша, Венгрия и Бельгия. Ставки брутто, жильё, договор и прямой контакт в одном месте.
             </p>
             <div class="hero-actions">
-              <button class="button button-primary button-large" type="button" data-application-general>
-                <svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg>
-                <span data-i18n="ui.heroSurvey">Подобрать вакансию</span>
+              <button class="button button-primary button-large" type="button" data-route="jobs">
+                <svg aria-hidden="true"><use href="assets/icons.svg#icon-jobs"></use></svg>
+                <span data-i18n="ui.heroJobs">Смотреть вакансии</span>
                 <svg class="button-arrow" aria-hidden="true"><use href="assets/icons.svg#icon-arrow"></use></svg>
               </button>
-              <button class="button button-secondary button-large" type="button" data-route="jobs">
-                <span data-i18n="ui.heroJobs">Смотреть вакансии</span>
+              <button class="button button-secondary button-large" type="button" data-application-general>
+                <svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg>
+                <span data-i18n="ui.heroSurvey">Подобрать вакансию</span>
               </button>
             </div>
             <dl class="hero-facts" data-i18n-aria-label="ui.trustKicker" aria-label="Доверие строится на фактах">
@@ -112,108 +112,86 @@
               </div>
             </dl>
           </div>
-
-          <aside class="mobility-panel" data-i18n-aria-label="ui.recruiterProfile" aria-label="Ваш рекрутер">
-            <div class="mobility-panel-head">
-              <span class="mobility-label">
-                <svg aria-hidden="true"><use href="assets/icons.svg#icon-location"></use></svg>
-                PL · HU · BE
-              </span>
-              <span class="mobility-status"><i aria-hidden="true"></i><span data-i18n="ui.offlineChip">Офлайн</span></span>
-            </div>
-            <figure class="mobility-map recruiter-photo-stage">
-              <img src="assets/oleksandr-kiris-greenhouse.jpg" alt="Oleksandr Kiris" width="960" height="1280" fetchpriority="high">
-            </figure>
-            <div class="recruiter-strip">
-              <div class="portrait portrait-photo" id="hero-avatar" aria-hidden="true">
-                <img src="assets/oleksandr-kiris-greenhouse.jpg" alt="" width="960" height="1280">
-              </div>
-              <div class="recruiter-strip-copy">
-                <p class="overline" data-i18n="ui.recruiterEyebrow">Ваш прямой контакт</p>
-                <h2 id="hero-name">Oleksandr</h2>
-                <p id="hero-role">Рекрутер по вакансиям Citronex</p>
-              </div>
-              <a class="recruiter-whatsapp" id="hero-whatsapp-direct" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp · +48 502 251 384">
-                <svg aria-hidden="true"><use href="assets/icons.svg#icon-whatsapp"></use></svg>
-              </a>
-            </div>
-            <div class="mobility-meta">
-              <span id="hero-location">Вакансии: Польша · Венгрия · Бельгия</span>
-              <span id="hero-work-hours">08:00–16:00 · Europe/Warsaw</span>
-              <span id="hero-languages">WhatsApp · Email</span>
-            </div>
-            <blockquote id="hero-promise">Условия договора важнее текста каталога.</blockquote>
-          </aside>
         </div>
       </div>
 
-      <section class="section shell" aria-labelledby="featured-heading">
+      <section class="section shell home-featured" aria-labelledby="featured-heading">
         <div class="section-heading">
           <div>
-            <p class="overline" data-i18n="ui.featuredKicker">Выберите направление</p>
-            <h2 id="featured-heading" data-i18n="ui.featuredTitle">Вакансии с понятными условиями</h2>
+            <p class="overline" data-i18n="ui.featuredKicker">Популярные направления</p>
+            <h2 id="featured-heading" data-i18n="ui.featuredTitle">Выберите работу</h2>
           </div>
           <button class="text-link" type="button" data-route="jobs"><span data-i18n="ui.allJobs">Все вакансии</span> <span aria-hidden="true">→</span></button>
         </div>
         <div class="job-grid" id="featured-jobs"></div>
+        <button class="button button-secondary featured-all-button" type="button" data-route="jobs">
+          <span data-i18n="ui.allJobs">Все вакансии</span>
+          <svg aria-hidden="true"><use href="assets/icons.svg#icon-arrow"></use></svg>
+        </button>
       </section>
 
-      <section class="section process-section" aria-labelledby="process-heading">
-        <div class="shell">
-          <div class="section-heading">
-            <div>
-              <p class="overline" data-i18n="ui.processKicker">Чёткий маршрут</p>
-              <h2 id="process-heading" data-i18n="ui.processTitle">Как проходит отклик</h2>
-            </div>
-            <p class="section-note" data-i18n="ui.processNote">Сначала анкета, затем сообщение в WhatsApp. Документы через сайт не загружаются.</p>
-          </div>
-          <ol class="process-list" id="home-process"></ol>
-        </div>
-      </section>
-
-      <section class="section shell trust-grid" aria-labelledby="trust-heading">
-        <div class="trust-intro">
-          <p class="overline" data-i18n="ui.trustKicker">Доверие строится на фактах</p>
-          <h2 id="trust-heading" data-i18n="ui.trustTitle">Вы контролируете свои данные</h2>
-          <p data-i18n="ui.trustIntro">Анкета работает в вашем браузере. Данные попадут рекрутеру только после нажатия кнопки WhatsApp.</p>
-        </div>
-        <div class="trust-cards">
-          <article>
-            <span class="feature-icon" aria-hidden="true"><svg><use href="assets/icons.svg#icon-jobs"></use></svg></span>
-            <h3 data-i18n="ui.trustGrossTitle">Суммы брутто</h3>
-            <p data-i18n="ui.trustGrossText">Ставка указана до налогов и взносов. Нетто зависит от договора и документов.</p>
-          </article>
-          <article>
-            <span class="feature-icon" aria-hidden="true"><svg><use href="assets/icons.svg#icon-whatsapp"></use></svg></span>
-            <h3 data-i18n="ui.trustChatTitle">Уточнение напрямую</h3>
-            <p data-i18n="ui.trustChatText">Нажмите «Уточнить», чтобы открыть чат с рекрутером по конкретной вакансии.</p>
-          </article>
-          <article>
-            <span class="feature-icon" aria-hidden="true"><svg><use href="assets/icons.svg#icon-shield"></use></svg></span>
-            <h3 data-i18n="ui.trustOfflineTitle">Работает офлайн</h3>
-            <p data-i18n="ui.trustOfflineText">Вакансии, сравнение и памятки доступны после первого открытия.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section shell resource-preview" aria-labelledby="resource-preview-heading">
-        <div class="section-heading">
-          <div>
-            <p class="overline" data-i18n="ui.resourceKicker">Подготовка без регистрации</p>
-            <h2 id="resource-preview-heading" data-i18n="ui.resourceTitle">Полезное перед откликом и поездкой</h2>
-          </div>
-          <button class="text-link" type="button" data-route="resources"><span data-i18n="ui.allResources">Все материалы</span> <span aria-hidden="true">→</span></button>
-        </div>
-        <div class="resource-grid" id="featured-resources"></div>
-      </section>
-
-      <section class="shell final-cta" aria-labelledby="final-cta-heading">
+      <section class="shell final-cta home-match-cta" aria-labelledby="final-cta-heading">
         <div>
           <p class="overline" data-i18n="ui.finalKicker">Можно начать без резюме</p>
-          <h2 id="final-cta-heading" data-i18n="ui.finalTitle">Не знаете, какая вакансия подходит?</h2>
-          <p data-i18n="ui.finalText">Ответьте на вопросы: гражданство, текущая страна, документы, опыт и дата готовности.</p>
+          <h2 id="final-cta-heading" data-i18n="ui.finalTitle">Не знаете, что выбрать?</h2>
+          <p data-i18n="ui.finalText">Ответьте на короткие вопросы — покажем подходящие вакансии и подготовим сообщение для WhatsApp.</p>
         </div>
-        <button class="button button-light button-large" type="button" data-application-general data-i18n="ui.startSurvey">Начать опрос</button>
+        <button class="button button-light button-large" type="button" data-application-general data-i18n="ui.startSurvey">Подобрать за 2–3 минуты</button>
+      </section>
+
+      <section class="section shell trust-recruiter" aria-labelledby="trust-heading">
+        <aside class="mobility-panel trust-recruiter-card" data-i18n-aria-label="ui.recruiterProfile" aria-label="Ваш рекрутер">
+          <div class="mobility-panel-head">
+            <span class="mobility-label">
+              <svg aria-hidden="true"><use href="assets/icons.svg#icon-location"></use></svg>
+              PL · HU · BE
+            </span>
+            <span class="mobility-status"><i aria-hidden="true"></i><span data-i18n="ui.recruiterProfile">Ваш рекрутер</span></span>
+          </div>
+          <figure class="mobility-map recruiter-photo-stage">
+            <img src="assets/oleksandr-kiris-greenhouse.jpg" alt="Oleksandr Kiris" width="960" height="1280" loading="lazy" decoding="async">
+          </figure>
+          <div class="recruiter-strip">
+            <div class="recruiter-strip-copy">
+              <p class="overline" data-i18n="ui.recruiterEyebrow">Ваш прямой контакт</p>
+              <h2 id="hero-name">Oleksandr</h2>
+              <p id="hero-role">Рекрутер по вакансиям Citronex</p>
+            </div>
+            <a class="recruiter-whatsapp" id="hero-whatsapp-direct" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp · +48 502 251 384">
+              <svg aria-hidden="true"><use href="assets/icons.svg#icon-whatsapp"></use></svg>
+            </a>
+          </div>
+          <div class="mobility-meta">
+            <span id="hero-location">Вакансии: Польша · Венгрия · Бельгия</span>
+            <span id="hero-work-hours">08:00–16:00 · Europe/Warsaw</span>
+            <span id="hero-languages">WhatsApp · Email</span>
+          </div>
+          <blockquote id="hero-promise">Условия договора важнее текста каталога.</blockquote>
+        </aside>
+
+        <div class="trust-recruiter-body">
+          <div class="trust-intro">
+            <p class="overline" data-i18n="ui.trustKicker">Доверие строится на фактах</p>
+            <h2 id="trust-heading" data-i18n="ui.trustTitle">Вы контролируете свои данные</h2>
+            <p data-i18n="ui.trustIntro">Анкета работает в вашем браузере. Данные попадут рекрутеру только после нажатия кнопки WhatsApp.</p>
+          </div>
+          <div class="trust-cards">
+            <article>
+              <span class="feature-icon" aria-hidden="true"><svg><use href="assets/icons.svg#icon-jobs"></use></svg></span>
+              <h3 data-i18n="ui.trustGrossTitle">Суммы брутто</h3>
+              <p data-i18n="ui.trustGrossText">Ставка указана до налогов и взносов. Нетто зависит от договора и документов.</p>
+            </article>
+            <article>
+              <span class="feature-icon" aria-hidden="true"><svg><use href="assets/icons.svg#icon-shield"></use></svg></span>
+              <h3 data-i18n="ui.trustOfflineTitle">Работает офлайн</h3>
+              <p data-i18n="ui.trustOfflineText">Вакансии и памятки доступны после первого открытия.</p>
+            </article>
+          </div>
+          <div class="trust-actions">
+            <button class="button button-secondary" type="button" data-route="profile" data-i18n="ui.navProfile">Обо мне</button>
+            <a class="button button-whatsapp" id="home-email-link" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </div>
+        </div>
       </section>
     </section>
 
@@ -246,7 +224,66 @@
         </article>
       </div>
 
-      <aside class="candidate-safety" aria-labelledby="candidate-safety-title">
+      <form class="filters filters-compact" id="job-filters" role="search">
+        <label class="search-field">
+          <span class="sr-only" data-i18n="ui.searchPlaceholder">Вакансия, страна или процесс</span>
+          <svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg>
+          <input id="job-search" type="search" placeholder="Вакансия, страна или процесс" data-i18n-placeholder="ui.searchPlaceholder" autocomplete="off">
+        </label>
+        <label class="country-filter">
+          <span class="sr-only" data-i18n="ui.allCountries">Все страны</span>
+          <select id="filter-format">
+            <option value="" data-i18n="ui.allCountries">Все страны</option>
+          </select>
+        </label>
+        <details class="advanced-filters">
+          <summary class="advanced-filters-summary">
+            <svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg>
+            <span data-i18n="ui.moreFilters">Другие фильтры</span>
+          </summary>
+          <div class="advanced-filter-fields" id="advanced-filter-fields">
+            <label>
+              <span class="sr-only" data-i18n="ui.allDirections">Все направления</span>
+              <select id="filter-category">
+                <option value="" data-i18n="ui.allDirections">Все направления</option>
+              </select>
+            </label>
+            <label>
+              <span class="sr-only" data-i18n="ui.anyExperience">Любой опыт</span>
+              <select id="filter-level">
+                <option value="" data-i18n="ui.anyExperience">Любой опыт</option>
+              </select>
+            </label>
+            <label>
+              <span class="sr-only" data-i18n="ui.newestFirst">Сначала новые</span>
+              <select id="job-sort">
+                <option value="updated" data-i18n="ui.newestFirst">Сначала новые</option>
+                <option value="confirmed" data-i18n="ui.salaryFirst">Сначала вакансии со ставкой</option>
+                <option value="title" data-i18n="ui.titleSort">По названию</option>
+              </select>
+            </label>
+            <button class="button button-quiet" id="reset-filters" type="button" data-i18n="ui.reset">Сбросить</button>
+          </div>
+        </details>
+      </form>
+
+      <div class="results-row">
+        <p id="results-count" role="status">Найдено: 0</p>
+        <button class="text-link catalog-saved-link" type="button" data-route="saved">
+          <svg aria-hidden="true"><use href="assets/icons.svg#icon-check"></use></svg>
+          <span data-i18n="ui.navSaved">Избранное</span>
+          <span class="nav-count" id="saved-badge" hidden>0</span>
+        </button>
+      </div>
+      <div class="job-grid" id="all-jobs"></div>
+      <div class="empty-state" id="jobs-empty" hidden>
+        <span aria-hidden="true"><svg><use href="assets/icons.svg#icon-match"></use></svg></span>
+        <h2 data-i18n="ui.noMatchesTitle">Пока ничего не совпало</h2>
+        <p data-i18n="ui.noMatchesText">Сбросьте фильтры или задайте вопрос рекрутеру.</p>
+        <button class="button button-secondary" type="button" id="empty-reset" data-i18n="ui.reset">Сбросить</button>
+      </div>
+
+      <aside class="candidate-safety candidate-safety-after-jobs" aria-labelledby="candidate-safety-title">
         <span class="candidate-safety-icon" aria-hidden="true">
           <svg><use href="assets/icons.svg#icon-shield"></use></svg>
         </span>
@@ -261,52 +298,6 @@
           <small>WhatsApp ↗</small>
         </a>
       </aside>
-
-      <form class="filters" id="job-filters" role="search">
-        <label class="search-field">
-          <span class="sr-only" data-i18n="ui.searchPlaceholder">Вакансия, страна или процесс</span>
-          <svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg>
-          <input id="job-search" type="search" placeholder="Вакансия, страна или процесс" data-i18n-placeholder="ui.searchPlaceholder" autocomplete="off">
-        </label>
-        <label>
-          <span class="sr-only" data-i18n="ui.allDirections">Все направления</span>
-          <select id="filter-category">
-            <option value="" data-i18n="ui.allDirections">Все направления</option>
-          </select>
-        </label>
-        <label>
-          <span class="sr-only" data-i18n="ui.allCountries">Все страны</span>
-          <select id="filter-format">
-            <option value="" data-i18n="ui.allCountries">Все страны</option>
-          </select>
-        </label>
-        <label>
-          <span class="sr-only" data-i18n="ui.anyExperience">Любой опыт</span>
-          <select id="filter-level">
-            <option value="" data-i18n="ui.anyExperience">Любой опыт</option>
-          </select>
-        </label>
-        <label>
-          <span class="sr-only" data-i18n="ui.newestFirst">Сначала новые</span>
-          <select id="job-sort">
-            <option value="updated" data-i18n="ui.newestFirst">Сначала новые</option>
-            <option value="confirmed" data-i18n="ui.salaryFirst">Сначала вакансии со ставкой</option>
-            <option value="title" data-i18n="ui.titleSort">По названию</option>
-          </select>
-        </label>
-        <button class="button button-quiet" id="reset-filters" type="button" data-i18n="ui.reset">Сбросить</button>
-      </form>
-
-      <div class="results-row">
-        <p id="results-count" role="status">Найдено: 0</p>
-      </div>
-      <div class="job-grid" id="all-jobs"></div>
-      <div class="empty-state" id="jobs-empty" hidden>
-        <span aria-hidden="true"><svg><use href="assets/icons.svg#icon-match"></use></svg></span>
-        <h2 data-i18n="ui.noMatchesTitle">Пока ничего не совпало</h2>
-        <p data-i18n="ui.noMatchesText">Сбросьте фильтры или задайте вопрос рекрутеру.</p>
-        <button class="button button-secondary" type="button" id="empty-reset" data-i18n="ui.reset">Сбросить</button>
-      </div>
     </section>
 
     <section class="view section shell" id="view-resources" data-view="resources" hidden>
@@ -485,11 +476,9 @@
     </div>
   </footer>
 
-  <nav class="mobile-nav" data-i18n-aria-label="ui.mainNavigation" aria-label="Основная навигация">
-    <button type="button" data-route="home"><svg aria-hidden="true"><use href="assets/icons.svg#icon-home"></use></svg><small data-i18n="ui.navHome">Главная</small></button>
+  <nav class="mobile-nav mobile-nav-three" data-i18n-aria-label="ui.mainNavigation" aria-label="Основная навигация">
     <button type="button" data-route="jobs"><svg aria-hidden="true"><use href="assets/icons.svg#icon-jobs"></use></svg><small data-i18n="ui.navJobs">Вакансии</small></button>
     <button class="mobile-nav-match" type="button" data-application-general><span><svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg></span><small data-i18n="ui.heroSurvey">Анкета</small></button>
-    <button type="button" data-route="saved"><svg aria-hidden="true"><use href="assets/icons.svg#icon-check"></use></svg><small data-i18n="ui.navSaved">Избранное</small></button>
     <a class="mobile-nav-whatsapp" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="assets/icons.svg#icon-whatsapp"></use></svg><small data-i18n="ui.contact">Связаться</small></a>
   </nav>
 
@@ -537,20 +526,20 @@
     <button id="toast-action" type="button" hidden></button>
   </div>
 
-  <script src="data/locales/ru.js?v=13"></script>
-  <script src="data/locales/uk.js?v=13"></script>
-  <script src="data/locales/pl.js?v=13"></script>
-  <script src="data/locales/en.js?v=13"></script>
-  <script src="data/locales/az.js?v=13"></script>
-  <script src="data/locales/ka.js?v=13"></script>
-  <script src="data/locales/id.js?v=13"></script>
-  <script src="data/locales/es.js?v=13"></script>
-  <script src="data/locales/fil.js?v=13"></script>
-  <script src="data/locales/ne.js?v=13"></script>
-  <script src="data/locales/hy.js?v=13"></script>
+  <script src="data/locales/ru.js?v=14"></script>
+  <script src="data/locales/uk.js?v=14"></script>
+  <script src="data/locales/pl.js?v=14"></script>
+  <script src="data/locales/en.js?v=14"></script>
+  <script src="data/locales/az.js?v=14"></script>
+  <script src="data/locales/ka.js?v=14"></script>
+  <script src="data/locales/id.js?v=14"></script>
+  <script src="data/locales/es.js?v=14"></script>
+  <script src="data/locales/fil.js?v=14"></script>
+  <script src="data/locales/ne.js?v=14"></script>
+  <script src="data/locales/hy.js?v=14"></script>
   <script src="data/content.js"></script>
   <script src="assets/i18n.js"></script>
   <script src="assets/application-form.js?v=8"></script>
-  <script src="assets/app.js?v=13"></script>
+  <script src="assets/app.js?v=14"></script>
 </body>
 </html>

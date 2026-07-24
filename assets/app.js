@@ -338,7 +338,7 @@
         <p>${escapeHTML(item.text)}</p>
       </li>
     `).join("");
-    el("home-process").innerHTML = processMarkup;
+    if (el("home-process")) el("home-process").innerHTML = processMarkup;
     el("profile-process").innerHTML = processMarkup;
 
     const localizedPrivacy = i18n.locale === "ru"
@@ -411,11 +411,7 @@
 
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
-    const favorite = state.favorites.has(job.id);
-    const compared = state.compare.has(job.id);
     const visualType = jobVisualType(job.id);
-    const benefits = view.benefits || [];
-    const highlights = benefits.slice(0, 1);
     const titleId = `${context}-job-${job.id}-title`;
     return `
       <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
@@ -424,14 +420,11 @@
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
             <span class="tag">${escapeHTML(view.level)}</span>
           </div>
-          <button class="icon-button${favorite ? " active" : ""}" type="button" data-favorite="${escapeHTML(job.id)}" aria-label="${escapeHTML(favorite ? t("ui.removeSaved") : t("ui.save"))}" aria-pressed="${favorite}">
-            <span aria-hidden="true">${favorite ? "♥" : "♡"}</span>
-          </button>
         </div>
         <div class="job-card-identity">
           <span class="job-card-visual" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
           <div>
-            <h3 id="${escapeHTML(titleId)}"><button class="job-title-button" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(view.title)}</button></h3>
+            <h3 id="${escapeHTML(titleId)}">${escapeHTML(view.title)}</h3>
             <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
           </div>
         </div>
@@ -449,54 +442,38 @@
             <dd>${escapeHTML(view.contract)}</dd>
           </div>
         </dl>
-        <p class="job-card-summary">${escapeHTML(view.summary || "")}</p>
-        <div class="job-candidates" aria-label="${escapeHTML(t("ui.suitableFor"))}">
-          ${(view.candidates || []).slice(0, 3).map((candidate) => `<span>${svgIcon("check")}${escapeHTML(candidate)}</span>`).join("")}
-        </div>
-        ${view.statusNote ? `
-          <div class="job-card-status">
-            <div class="job-status-badges">
-              <span class="${job.salary?.confirmed ? "is-confirmed" : "needs-confirmation"}">
-                ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
-                ${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}
-              </span>
-              <span class="needs-confirmation">
-                ${svgIcon("clock")}
-                ${escapeHTML(t("ui.startNeedsConfirmation"))}
-              </span>
-            </div>
-            <p>${escapeHTML(view.statusNote)}</p>
-          </div>
-        ` : ""}
-        ${highlights.length ? `
-          <div class="job-card-highlights">
-            <strong>${escapeHTML(t("ui.conditions"))}</strong>
-            <ul>
-              ${highlights.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}
-            </ul>
-          </div>
-        ` : ""}
-        <div class="job-skills">
-          ${(view.skills || []).slice(0, 4).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
-        </div>
-        <div class="job-card-actions">
-          <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(t("ui.takeSurvey"))}</span></button>
-          <button class="button button-secondary" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
-        </div>
-        <button class="job-card-chat" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.clarify"))}</span></button>
-        <div class="job-card-footer">
-          <small>${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</small>
-          <label class="compare-check">
-            <input type="checkbox" data-compare="${escapeHTML(job.id)}" ${compared ? "checked" : ""}>
-            <span>${escapeHTML(t("ui.compare"))}</span>
-          </label>
+        <p class="job-card-availability">
+          ${svgIcon("clock")}
+          <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
+        </p>
+        <div class="job-card-actions job-card-actions-single">
+          <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
         </div>
       </article>
     `;
   }
 
   function renderFeaturedJobs() {
-    const featured = jobs.filter((job) => job.featured).slice(0, 3);
+    const preferredIds = ["greenhouse-tomatoes", "banana-warehouse-poland", "driver-ce-poland"];
+    const availableJobs = jobs.filter((job) => ["open", "verify"].includes(job.status));
+    const pool = availableJobs.length ? availableJobs : jobs;
+    const featured = preferredIds.map((id) => pool.find((job) => job.id === id)).filter(Boolean);
+    const selectedIds = new Set(featured.map((job) => job.id));
+    const selectedCategories = new Set(featured.map((job) => job.category));
+
+    pool.forEach((job) => {
+      if (featured.length >= 3 || selectedIds.has(job.id) || selectedCategories.has(job.category)) return;
+      featured.push(job);
+      selectedIds.add(job.id);
+      selectedCategories.add(job.category);
+    });
+
+    pool.forEach((job) => {
+      if (featured.length >= 3 || selectedIds.has(job.id)) return;
+      featured.push(job);
+      selectedIds.add(job.id);
+    });
+
     el("featured-jobs").innerHTML = featured.map((job) => renderJobCard(job, "featured")).join("");
   }
 
@@ -939,7 +916,9 @@
 
   function renderResources() {
     const visibleResources = localizedResources();
-    el("featured-resources").innerHTML = visibleResources.slice(0, 3).map(renderResourceCard).join("");
+    if (el("featured-resources")) {
+      el("featured-resources").innerHTML = visibleResources.slice(0, 3).map(renderResourceCard).join("");
+    }
     const categories = [
       { value: "__all__", label: t("ui.allResources") },
       ...[...new Set(visibleResources.map((resource) => resource.category))]
