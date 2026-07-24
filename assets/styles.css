@@ -9491,6 +9491,124 @@ body.vacancy-first {
   border-radius: 14px;
 }
 
+.candidate-prep {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.55fr);
+  gap: 16px;
+  margin-top: 18px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(189, 242, 75, 0.18), transparent 15rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(247, 250, 246, 0.84));
+  border: 1px solid rgba(16, 24, 32, 0.07);
+  border-radius: 28px;
+  box-shadow: 0 20px 52px rgba(16, 24, 32, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.candidate-prep-copy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.candidate-prep-copy h2,
+.candidate-prep-copy p {
+  margin: 0;
+}
+
+.candidate-prep-copy h2 {
+  color: #101820;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(25px, 3vw, 39px);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.candidate-prep-copy p:last-child {
+  color: #5b6878;
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.candidate-prep-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.candidate-prep-card {
+  display: grid;
+  gap: 10px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid rgba(16, 24, 32, 0.07);
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(16, 24, 32, 0.06);
+}
+
+.candidate-prep-card > span {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  color: #102018;
+  background: #bdf24b;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.candidate-prep-card h3 {
+  margin: 0;
+  color: #101820;
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.candidate-prep-card ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.candidate-prep-card li {
+  position: relative;
+  padding-left: 15px;
+  color: #415044;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.candidate-prep-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 6px;
+  height: 6px;
+  background: #0f6d4c;
+  border-radius: 999px;
+}
+
+.candidate-prep-warning {
+  background: #fff7f5;
+  border-color: rgba(229, 29, 42, 0.14);
+}
+
+.candidate-prep-warning > span {
+  color: #fff;
+  background: #e51d2a;
+}
+
+.candidate-prep-warning li::before {
+  background: #e51d2a;
+}
+
 .instant-result-card {
   display: grid;
   gap: 8px;
@@ -9734,12 +9852,14 @@ body.vacancy-first {
   .quick-share,
   .country-compare,
   .whatsapp-scripts,
+  .candidate-prep,
   .honest-fit,
   .anti-scam,
   .instant-choice-grid,
   .instant-result-grid,
   .country-compare-grid,
-  .whatsapp-scripts-grid {
+  .whatsapp-scripts-grid,
+  .candidate-prep-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -9865,6 +9985,30 @@ body.vacancy-first {
 
   .whatsapp-script-card h3 {
     font-size: 20px;
+  }
+
+  .candidate-prep {
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  .candidate-prep-copy h2 {
+    font-size: 24px;
+  }
+
+  .candidate-prep-copy p:last-child {
+    font-size: 13px;
+  }
+
+  .candidate-prep-grid {
+    gap: 10px;
+  }
+
+  .candidate-prep-card {
+    padding: 14px;
+    border-radius: 18px;
   }
 
   .honest-fit {

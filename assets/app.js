@@ -1051,6 +1051,7 @@
     renderAntiScam();
     renderInstantMatcher();
     renderWhatsAppScripts();
+    renderCandidatePrep();
     renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
@@ -2064,6 +2065,72 @@
       </article>
     `).join("");
     container.dataset.messages = JSON.stringify(Object.fromEntries(copy.items.map(([id, , , message]) => [id, message])));
+  }
+
+  function candidatePrepCopy() {
+    const copy = {
+      en: {
+        kicker: "Before messaging",
+        title: "What the candidate should prepare",
+        intro: "This makes WhatsApp faster and safer: enough context for the recruiter, no sensitive document photos in the first message.",
+        cards: [
+          ["Write in Latin letters", ["Full name", "Country and city now", "Preferred language", "Phone number with country code"]],
+          ["Tell the work situation", ["Wanted country", "Experience or no experience", "Driver licence categories if relevant", "Alone, couple or group"]],
+          ["Confirm timing", ["When ready to leave or start", "Whether housing is needed", "Whether documents are ready", "Which job looks interesting"]],
+          ["Do not send first", ["Passport photos", "Bank card details", "Personal codes", "Payments or deposits before conditions are confirmed"]]
+        ]
+      },
+      ru: {
+        kicker: "Перед сообщением",
+        title: "Что подготовить кандидату",
+        intro: "Так WhatsApp будет быстрее и безопаснее: рекрутер получает контекст, а документы не уходят в первом сообщении.",
+        cards: [
+          ["Писать латиницей", ["Имя и фамилия", "Страна и город сейчас", "Удобный язык общения", "Телефон с кодом страны"]],
+          ["Описать ситуацию", ["Желаемая страна", "Есть опыт или нет", "Категории прав, если водитель", "Один / пара / группа"]],
+          ["Уточнить сроки", ["Когда готовы выехать или начать", "Нужно ли жильё", "Готовы ли документы", "Какая вакансия интересна"]],
+          ["Не отправлять сразу", ["Фото паспорта", "Данные банковской карты", "Личные коды", "Оплаты или залоги до подтверждения условий"]]
+        ]
+      },
+      uk: {
+        kicker: "Перед повідомленням",
+        title: "Що підготувати кандидату",
+        intro: "Так WhatsApp буде швидшим і безпечнішим: рекрутер отримує контекст, а документи не надсилаються у першому повідомленні.",
+        cards: [
+          ["Писати латиницею", ["Ім’я та прізвище", "Країна і місто зараз", "Зручна мова спілкування", "Телефон з кодом країни"]],
+          ["Описати ситуацію", ["Бажана країна", "Є досвід чи немає", "Категорії прав, якщо водій", "Один / пара / група"]],
+          ["Уточнити строки", ["Коли готові виїхати або почати", "Чи потрібне житло", "Чи готові документи", "Яка вакансія цікава"]],
+          ["Не надсилати одразу", ["Фото паспорта", "Дані банківської картки", "Особисті коди", "Оплати або завдатки до підтвердження умов"]]
+        ]
+      },
+      pl: {
+        kicker: "Przed wiadomością",
+        title: "Co kandydat powinien przygotować",
+        intro: "Dzięki temu WhatsApp jest szybszy i bezpieczniejszy: rekruter ma kontekst, a dokumenty nie trafiają w pierwszej wiadomości.",
+        cards: [
+          ["Pisz alfabetem łacińskim", ["Imię i nazwisko", "Kraj i miasto teraz", "Wygodny język kontaktu", "Telefon z kodem kraju"]],
+          ["Opisz sytuację", ["Preferowany kraj", "Doświadczenie lub jego brak", "Kategorie prawa jazdy, jeśli dotyczy", "Sam / para / grupa"]],
+          ["Potwierdź termin", ["Kiedy możesz wyjechać lub zacząć", "Czy potrzebne jest mieszkanie", "Czy dokumenty są gotowe", "Która oferta jest interesująca"]],
+          ["Nie wysyłaj od razu", ["Zdjęć paszportu", "Danych karty bankowej", "Kodów osobistych", "Opłat ani zaliczek przed potwierdzeniem warunków"]]
+        ]
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function renderCandidatePrep() {
+    const container = el("candidate-prep-grid");
+    if (!container) return;
+    const copy = candidatePrepCopy();
+    if (el("candidate-prep-kicker")) el("candidate-prep-kicker").textContent = copy.kicker;
+    if (el("candidate-prep-heading")) el("candidate-prep-heading").textContent = copy.title;
+    if (el("candidate-prep-intro")) el("candidate-prep-intro").textContent = copy.intro;
+    container.innerHTML = copy.cards.map(([title, items], index) => `
+      <article class="candidate-prep-card${index === copy.cards.length - 1 ? " candidate-prep-warning" : ""}">
+        <span>${String(index + 1).padStart(2, "0")}</span>
+        <h3>${escapeHTML(title)}</h3>
+        <ul>${items.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+      </article>
+    `).join("");
   }
 
   function renderInstantMatcher() {
