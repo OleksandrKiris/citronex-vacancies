@@ -29,6 +29,7 @@
     jobReturnRoute: "jobs",
     openJobId: "",
     quickFilter: "",
+    activePriority: "",
     instantMatch: {
       current: "any",
       country: "any",
@@ -1060,6 +1061,7 @@
     renderHonestFit();
     renderAntiScam();
     renderInstantMatcher();
+    renderPriorityPicker();
     renderDecisionPath();
     renderWhatsAppScripts();
     renderCandidatePrep();
@@ -1133,6 +1135,142 @@
     });
     const surveyButton = document.querySelector(".quick-start [data-application-general]");
     if (surveyButton) surveyButton.textContent = copy.survey;
+  }
+
+  function priorityPickerCopy() {
+    const copy = {
+      en: {
+        kicker: "What matters most?",
+        title: "Choose a priority — the site starts closer to your situation",
+        intro: "This does not replace the recruiter conversation, but it helps you start from the right direction.",
+        action: "Show matching jobs",
+        applied: "Priority added to your application and job list.",
+        cards: {
+          fast: ["Fast start", "Show jobs where the start is usually easier to clarify.", "Start"],
+          noExperience: ["No experience", "Focus on directions with training and simpler entry.", "Training"],
+          housing: ["Need housing", "Prepare the application so housing is checked early.", "Housing"],
+          couple: ["Going as a couple", "Mark that two places and housing should be checked together.", "Couple"],
+          driver: ["Driver work", "Move toward transport roles and driver-related questions.", "Driver"],
+          unsure: ["Need advice", "Use this when country, city or date is not clear yet.", "Advice"]
+        }
+      },
+      ru: {
+        kicker: "Что важнее?",
+        title: "Выберите приоритет — сайт покажет ближе к вашей ситуации",
+        intro: "Это не заменяет разговор с рекрутером, но помогает быстрее начать с правильного направления.",
+        action: "Показать подходящее",
+        applied: "Приоритет добавлен в заявку и список вакансий.",
+        cards: {
+          fast: ["Быстрый старт", "Показать вакансии, где старт обычно проще уточнить.", "Старт"],
+          noExperience: ["Без опыта", "Сфокусироваться на направлениях с обучением и простым входом.", "Обучение"],
+          housing: ["Нужно жильё", "Подготовить заявку так, чтобы жильё проверили раньше.", "Жильё"],
+          couple: ["Едем парой", "Отметить, что нужно проверить два места и жильё вместе.", "Пара"],
+          driver: ["Работа водителем", "Перейти к транспортным вакансиям и вопросам по водителю.", "Водитель"],
+          unsure: ["Нужен совет", "Если страна, город или дата пока непонятны.", "Совет"]
+        }
+      },
+      uk: {
+        kicker: "Що важливіше?",
+        title: "Оберіть пріоритет — сайт покаже ближче до вашої ситуації",
+        intro: "Це не замінює розмову з рекрутером, але допомагає швидше почати з правильного напрямку.",
+        action: "Показати відповідне",
+        applied: "Пріоритет додано в заявку й список вакансій.",
+        cards: {
+          fast: ["Швидкий старт", "Показати вакансії, де старт зазвичай простіше уточнити.", "Старт"],
+          noExperience: ["Без досвіду", "Сфокусуватися на напрямках із навчанням і простим входом.", "Навчання"],
+          housing: ["Потрібне житло", "Підготувати заявку так, щоб житло перевірили раніше.", "Житло"],
+          couple: ["Їдемо парою", "Позначити, що треба перевірити два місця й житло разом.", "Пара"],
+          driver: ["Робота водієм", "Перейти до транспортних вакансій і питань щодо водія.", "Водій"],
+          unsure: ["Потрібна порада", "Якщо країна, місто або дата ще незрозумілі.", "Порада"]
+        }
+      },
+      pl: {
+        kicker: "Co jest najważniejsze?",
+        title: "Wybierz priorytet — strona zacznie bliżej Twojej sytuacji",
+        intro: "To nie zastępuje rozmowy z rekruterem, ale pomaga szybciej zacząć od właściwego kierunku.",
+        action: "Pokaż pasujące",
+        applied: "Priorytet dodany do zgłoszenia i listy ofert.",
+        cards: {
+          fast: ["Szybki start", "Pokaż oferty, gdzie start zwykle łatwiej doprecyzować.", "Start"],
+          noExperience: ["Bez doświadczenia", "Skup się na kierunkach ze szkoleniem i prostym wejściem.", "Szkolenie"],
+          housing: ["Potrzebne mieszkanie", "Przygotuj zgłoszenie tak, aby mieszkanie sprawdzić wcześniej.", "Mieszkanie"],
+          couple: ["Jedziemy parą", "Zaznacz, że trzeba sprawdzić dwa miejsca i mieszkanie razem.", "Para"],
+          driver: ["Praca kierowcy", "Przejdź do ofert transportowych i pytań dla kierowcy.", "Kierowca"],
+          unsure: ["Potrzebna rada", "Gdy kraj, miasto lub data nie są jeszcze jasne.", "Rada"]
+        }
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function renderPriorityPicker() {
+    const container = el("priority-picker-grid");
+    if (!container) return;
+    const copy = priorityPickerCopy();
+    if (el("priority-picker-kicker")) el("priority-picker-kicker").textContent = copy.kicker;
+    if (el("priority-picker-heading")) el("priority-picker-heading").textContent = copy.title;
+    if (el("priority-picker-intro")) el("priority-picker-intro").textContent = copy.intro;
+    const order = ["fast", "noExperience", "housing", "couple", "driver", "unsure"];
+    container.innerHTML = order.map((id) => {
+      const [title, text, badge] = copy.cards[id];
+      const active = state.activePriority === id;
+      return `
+        <article class="priority-picker-card${active ? " is-active" : ""}">
+          <span>${escapeHTML(badge)}</span>
+          <h3>${escapeHTML(title)}</h3>
+          <p>${escapeHTML(text)}</p>
+          <button class="button ${active ? "button-primary" : "button-secondary"}" type="button" data-priority-pick="${escapeHTML(id)}" aria-pressed="${String(active)}">${escapeHTML(copy.action)}</button>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function applyPriorityPick(priority) {
+    const copy = priorityPickerCopy();
+    state.activePriority = priority;
+    if (!passportValue("language")) state.passport.language = passportOptionValue("language", 0);
+    if (priority === "fast") {
+      state.instantMatch.start = "soon";
+      state.quickFilter = "country:poland";
+      state.passport.readyDate = state.passport.readyDate || (i18n.locale === "ru" ? "как можно быстрее" : "as soon as possible");
+    }
+    if (priority === "noExperience") {
+      state.instantMatch.experience = "none";
+      state.quickFilter = "level:noExperience";
+      state.passport.experience = passportOptionValue("experience", 0);
+      state.passport.job = state.passport.job || decisionPathCopy().hints.noExperience;
+    }
+    if (priority === "housing") {
+      state.instantMatch.start = state.instantMatch.start === "any" ? "month" : state.instantMatch.start;
+      state.passport.job = state.passport.job || (i18n.locale === "ru" ? "вакансия с жильём" : "job with housing");
+    }
+    if (priority === "couple") {
+      state.instantMatch.people = "couple";
+      state.passport.people = passportOptionValue("people", 1);
+      state.passport.job = state.passport.job || decisionPathCopy().hints.couple;
+    }
+    if (priority === "driver") {
+      state.instantMatch.area = "transport";
+      state.quickFilter = "category:driver";
+      state.passport.experience = passportOptionValue("experience", 2);
+      state.passport.job = state.passport.job || decisionPathCopy().hints.driver;
+    }
+    if (priority === "unsure") {
+      state.instantMatch.country = "any";
+      state.instantMatch.start = "later";
+      state.passport.destination = passportOptionValue("destination", 3);
+      state.passport.readyDate = state.passport.readyDate || decisionPathCopy().hints.unsure;
+      state.passport.job = state.passport.job || decisionPathCopy().hints.unsure;
+    }
+    if (!passportValue("workDocs")) state.passport.workDocs = passportOptionValue("workDocs", 2);
+    ensurePassportId();
+    persistPassport();
+    renderPriorityPicker();
+    renderInstantMatcher();
+    renderCandidatePassport();
+    refreshJobLists();
+    showToast(copy.applied);
+    showView("jobs");
   }
 
   function decisionPathCopy() {
@@ -4244,6 +4382,11 @@
       const instantWhatsAppButton = event.target.closest("[data-instant-whatsapp]");
       if (instantWhatsAppButton) {
         openInstantMatchWhatsApp();
+        return;
+      }
+      const priorityPickButton = event.target.closest("[data-priority-pick]");
+      if (priorityPickButton) {
+        applyPriorityPick(priorityPickButton.dataset.priorityPick);
         return;
       }
       const decisionPathButton = event.target.closest("[data-decision-path]");
