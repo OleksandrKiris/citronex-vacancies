@@ -10115,6 +10115,8 @@ body.vacancy-first {
 }
 
 .candidate-passport-quick-card {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 3px;
   min-width: 0;
@@ -10122,11 +10124,33 @@ body.vacancy-first {
   padding: 10px;
   color: #101820;
   text-align: left;
-  background: rgba(255, 255, 255, 0.94);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 246, 239, 0.94));
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 16px;
-  box-shadow: 0 12px 28px rgba(9, 19, 15, 0.14);
+  box-shadow: 0 14px 30px rgba(9, 19, 15, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.80);
   cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.candidate-passport-quick-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 90% 12%, rgba(189, 242, 75, 0.36), transparent 3.6rem);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.candidate-passport-quick-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(189, 242, 75, 0.46);
+  box-shadow: 0 18px 36px rgba(9, 19, 15, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+}
+
+.candidate-passport-quick-card:hover::after {
+  opacity: 1;
 }
 
 .candidate-passport-quick-card:focus-visible {
@@ -10174,29 +10198,38 @@ body.vacancy-first {
   min-height: 44px;
   padding: 10px 12px;
   color: #101820;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 244, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.34);
   border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 10px 20px rgba(9, 19, 15, 0.08);
   font: inherit;
   font-size: 14px;
+  transition: box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
 .candidate-passport-field input:focus,
 .candidate-passport-field select:focus {
   outline: 3px solid rgba(189, 242, 75, 0.36);
   border-color: #bdf24b;
+  box-shadow: 0 0 0 1px rgba(189, 242, 75, 0.34), 0 14px 28px rgba(9, 19, 15, 0.12);
+  transform: translateY(-1px);
 }
 
 .candidate-passport-age-helper {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 38px 1fr;
   grid-column: 1 / -1;
   gap: 10px;
   align-items: center;
   padding: 11px 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.045));
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .candidate-passport-age-helper > span {
@@ -10212,7 +10245,9 @@ body.vacancy-first {
 }
 
 .candidate-passport-age-helper.is-ready {
-  background: linear-gradient(135deg, rgba(189, 242, 75, 0.16), rgba(255, 255, 255, 0.06));
+  background:
+    radial-gradient(circle at 0% 0%, rgba(189, 242, 75, 0.22), transparent 7rem),
+    linear-gradient(135deg, rgba(189, 242, 75, 0.13), rgba(255, 255, 255, 0.06));
   border-color: rgba(189, 242, 75, 0.26);
 }
 
@@ -10246,9 +10281,11 @@ body.vacancy-first {
   grid-column: 1 / -1;
   gap: 8px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .candidate-passport-start-quick > span,
@@ -10285,12 +10322,25 @@ body.vacancy-first {
   min-height: 34px;
   padding: 7px 8px;
   color: #101820;
-  background: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(237, 244, 236, 0.94));
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
+  box-shadow: 0 7px 16px rgba(9, 19, 15, 0.10);
   font-size: 11px;
   font-weight: 900;
   cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.candidate-passport-start-quick button:hover,
+.candidate-passport-current-quick button:hover,
+.candidate-passport-citizenship-quick button:hover,
+.candidate-passport-language-quick button:hover,
+.candidate-passport-destination-quick button:hover,
+.candidate-passport-people-quick button:hover,
+.candidate-passport-experience-quick button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(9, 19, 15, 0.14);
 }
 
 .candidate-passport-start-quick button.is-active,
@@ -10301,8 +10351,9 @@ body.vacancy-first {
 .candidate-passport-people-quick button.is-active,
 .candidate-passport-experience-quick button.is-active {
   color: #101820;
-  background: #bdf24b;
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
   border-color: rgba(189, 242, 75, 0.45);
+  box-shadow: 0 10px 22px rgba(189, 242, 75, 0.22);
 }
 
 .candidate-passport-start-quick button:focus-visible,
@@ -10317,6 +10368,8 @@ body.vacancy-first {
 }
 
 .candidate-passport-experience-coach {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 30px 1fr;
   grid-column: 1 / -1;
@@ -10328,7 +10381,17 @@ body.vacancy-first {
     rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(189, 242, 75, 0.18);
   border-radius: 18px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 16px 30px rgba(9, 19, 15, 0.11);
+}
+
+.candidate-passport-experience-coach::after {
+  content: "";
+  position: absolute;
+  inset: auto -24px -36px auto;
+  width: 112px;
+  height: 112px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(189, 242, 75, 0.16), transparent 65%);
 }
 
 .candidate-passport-experience-coach > span {
@@ -11063,17 +11126,31 @@ body.vacancy-first {
 }
 
 .candidate-passport-send-ready {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 8px;
   padding: 12px;
   background:
-    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 8rem),
-    #ffffff;
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.30), transparent 8rem),
+    radial-gradient(circle at 0% 100%, rgba(229, 29, 42, 0.08), transparent 8rem),
+    linear-gradient(145deg, #ffffff, #f6faf4);
   border: 1px solid rgba(16, 32, 24, 0.08);
   border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(9, 19, 15, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.candidate-passport-send-ready::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.42), transparent 28%, transparent 72%, rgba(189, 242, 75, 0.12));
 }
 
 .candidate-passport-send-ready > div:first-child {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -11099,6 +11176,8 @@ body.vacancy-first {
 }
 
 .candidate-passport-send-meter {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
   height: 8px;
   background: rgba(16, 32, 24, 0.08);
@@ -11110,9 +11189,12 @@ body.vacancy-first {
   height: 100%;
   background: linear-gradient(90deg, #e51d2a, #ffb84d 45%, #0f6d4c);
   border-radius: inherit;
+  box-shadow: 0 0 18px rgba(189, 242, 75, 0.42);
 }
 
 .candidate-passport-send-ready p {
+  position: relative;
+  z-index: 1;
   margin: 0;
   color: #415044;
   font-size: 12px;
@@ -11121,12 +11203,15 @@ body.vacancy-first {
 }
 
 .candidate-passport-send-checklist {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 7px;
   padding: 9px;
-  background: rgba(16, 32, 24, 0.045);
-  border: 1px solid rgba(16, 32, 24, 0.07);
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(16, 32, 24, 0.08);
   border-radius: 15px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .candidate-passport-send-checklist small {
@@ -11179,6 +11264,8 @@ body.vacancy-first {
 }
 
 .candidate-passport-send-ready .text-link {
+  position: relative;
+  z-index: 1;
   justify-self: start;
   min-height: 28px;
   padding: 0;
