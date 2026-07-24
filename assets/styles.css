@@ -10751,6 +10751,73 @@ body.vacancy-first {
   grid-column: 1 / -1;
 }
 
+.candidate-passport-send-ready {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 8rem),
+    #ffffff;
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 20px;
+}
+
+.candidate-passport-send-ready > div:first-child {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.candidate-passport-send-ready strong {
+  color: #101820;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.candidate-passport-send-ready span {
+  color: #e51d2a;
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.05em;
+}
+
+.candidate-passport-send-ready.is-good span,
+.candidate-passport-send-ready.is-strong span {
+  color: #0f6d4c;
+}
+
+.candidate-passport-send-meter {
+  overflow: hidden;
+  height: 8px;
+  background: rgba(16, 32, 24, 0.08);
+  border-radius: 999px;
+}
+
+.candidate-passport-send-meter i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #e51d2a, #ffb84d 45%, #0f6d4c);
+  border-radius: inherit;
+}
+
+.candidate-passport-send-ready p {
+  margin: 0;
+  color: #415044;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.candidate-passport-send-ready .text-link {
+  justify-self: start;
+  min-height: 28px;
+  padding: 0;
+  color: #0f6d4c;
+  font-size: 12px;
+  font-weight: 950;
+}
+
 .candidate-passport-after {
   display: grid;
   gap: 10px;

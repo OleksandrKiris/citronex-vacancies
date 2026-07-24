@@ -2667,6 +2667,11 @@
           ["Clarify", "Recruiter checks start date, city and suitable jobs."],
           ["Confirm", "You receive exact conditions before any travel decision."]
         ],
+        sendReadyTitle: "Message strength",
+        sendReadyWeak: "Can send, but one more detail will help.",
+        sendReadyGood: "Good enough to send.",
+        sendReadyStrong: "Strong application — ready to send.",
+        sendReadyNext: "Add next",
         quickTitle: "Quick start",
         quickIntro: "Choose the closest path and correct details if needed.",
         quickStarts: [
@@ -2765,6 +2770,11 @@
           ["Уточнение", "Рекрутер проверит дату старта, город и подходящие вакансии."],
           ["Подтверждение", "Вы получите конкретные условия до решения о поездке."]
         ],
+        sendReadyTitle: "Сила сообщения",
+        sendReadyWeak: "Можно отправить, но ещё одна деталь поможет.",
+        sendReadyGood: "Уже достаточно хорошо для отправки.",
+        sendReadyStrong: "Сильная заявка — можно отправлять.",
+        sendReadyNext: "Добавить",
         quickTitle: "Быстрый старт",
         quickIntro: "Выберите ближайший вариант и поправьте детали, если нужно.",
         quickStarts: [
@@ -2863,6 +2873,11 @@
           ["Уточнення", "Рекрутер перевірить дату старту, місто і відповідні вакансії."],
           ["Підтвердження", "Ви отримаєте конкретні умови до рішення про поїздку."]
         ],
+        sendReadyTitle: "Сила повідомлення",
+        sendReadyWeak: "Можна надіслати, але ще одна деталь допоможе.",
+        sendReadyGood: "Уже достатньо добре для надсилання.",
+        sendReadyStrong: "Сильна заявка — можна надсилати.",
+        sendReadyNext: "Додати",
         quickTitle: "Швидкий старт",
         quickIntro: "Оберіть найближчий варіант і виправте деталі, якщо потрібно.",
         quickStarts: [
@@ -2961,6 +2976,11 @@
           ["Ustalenie", "Rekruter sprawdzi termin startu, miasto i pasujące oferty."],
           ["Potwierdzenie", "Otrzymasz konkretne warunki przed decyzją o wyjeździe."]
         ],
+        sendReadyTitle: "Siła wiadomości",
+        sendReadyWeak: "Możesz wysłać, ale jeden szczegół pomoże.",
+        sendReadyGood: "Wystarczająco dobrze do wysłania.",
+        sendReadyStrong: "Mocne zgłoszenie — gotowe do wysłania.",
+        sendReadyNext: "Dodaj",
         quickTitle: "Szybki start",
         quickIntro: "Wybierz najbliższy wariant i popraw szczegóły, jeśli trzeba.",
         quickStarts: [
@@ -3528,6 +3548,24 @@
     `;
   }
 
+  function candidatePassportSendReadinessHTML(score, missing) {
+    const copy = candidatePassportCopy();
+    const level = score >= 82 ? "strong" : score >= 55 ? "good" : "weak";
+    const text = level === "strong" ? copy.sendReadyStrong : level === "good" ? copy.sendReadyGood : copy.sendReadyWeak;
+    const nextKey = missing[0];
+    return `
+      <section class="candidate-passport-send-ready is-${level}" aria-label="${escapeHTML(copy.sendReadyTitle)}">
+        <div>
+          <strong>${escapeHTML(copy.sendReadyTitle)}</strong>
+          <span>${score}%</span>
+        </div>
+        <div class="candidate-passport-send-meter" aria-hidden="true"><i style="width:${score}%"></i></div>
+        <p>${escapeHTML(text)}</p>
+        ${nextKey ? `<button class="text-link" type="button" data-passport-focus-missing="${escapeHTML(nextKey)}">${escapeHTML(copy.sendReadyNext)}: ${escapeHTML(copy.labels[nextKey])} →</button>` : ""}
+      </section>
+    `;
+  }
+
   function hasPassportMatchInput() {
     return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
   }
@@ -3674,6 +3712,7 @@
           <button class="button button-secondary" type="button" data-passport-copy>${escapeHTML(copy.copy)}</button>
           <button class="button button-quiet" type="button" data-passport-clear>${escapeHTML(copy.clear)}</button>
         </div>
+        ${candidatePassportSendReadinessHTML(score, missing)}
         ${candidatePassportAfterHTML()}
       </aside>
     `;
