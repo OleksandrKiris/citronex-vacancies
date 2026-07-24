@@ -2646,6 +2646,7 @@
         smartTitle: "Smart check",
         latinOk: "Name is easy to copy",
         latinNeed: "Write name in Latin letters",
+        latinAction: "Make Latin",
         ageOk: "Age will be calculated for recruiter",
         ageNeed: "Add date of birth",
         directionOk: "Job direction is clear",
@@ -2743,6 +2744,7 @@
         smartTitle: "Умная проверка",
         latinOk: "Имя удобно скопировать",
         latinNeed: "Напишите имя латиницей",
+        latinAction: "Сделать латиницей",
         ageOk: "Возраст посчитается для рекрутера",
         ageNeed: "Добавьте дату рождения",
         directionOk: "Направление работы понятно",
@@ -2840,6 +2842,7 @@
         smartTitle: "Розумна перевірка",
         latinOk: "Ім’я зручно скопіювати",
         latinNeed: "Напишіть ім’я латиницею",
+        latinAction: "Зробити латиницею",
         ageOk: "Вік порахується для рекрутера",
         ageNeed: "Додайте дату народження",
         directionOk: "Напрям роботи зрозумілий",
@@ -2937,6 +2940,7 @@
         smartTitle: "Szybkie sprawdzenie",
         latinOk: "Imię łatwo skopiować",
         latinNeed: "Wpisz imię alfabetem łacińskim",
+        latinAction: "Zmień na łacińskie",
         ageOk: "Wiek zostanie obliczony dla rekrutera",
         ageNeed: "Dodaj datę urodzenia",
         directionOk: "Kierunek pracy jest jasny",
@@ -3395,9 +3399,38 @@
     return !/[А-Яа-яІіЇїЄєҐґԱ-ֆა-ჰऀ-ॿ]/.test(name);
   }
 
+  function transliterateToLatin(value) {
+    const map = {
+      А: "A", а: "a", Б: "B", б: "b", В: "V", в: "v", Г: "H", г: "h", Ґ: "G", ґ: "g",
+      Д: "D", д: "d", Е: "E", е: "e", Є: "Ye", є: "ie", Ж: "Zh", ж: "zh", З: "Z", з: "z",
+      И: "Y", и: "y", І: "I", і: "i", Ї: "Yi", ї: "i", Й: "Y", й: "i", К: "K", к: "k",
+      Л: "L", л: "l", М: "M", м: "m", Н: "N", н: "n", О: "O", о: "o", П: "P", п: "p",
+      Р: "R", р: "r", С: "S", с: "s", Т: "T", т: "t", У: "U", у: "u", Ф: "F", ф: "f",
+      Х: "Kh", х: "kh", Ц: "Ts", ц: "ts", Ч: "Ch", ч: "ch", Ш: "Sh", ш: "sh", Щ: "Shch", щ: "shch",
+      Ю: "Yu", ю: "iu", Я: "Ya", я: "ia", Ы: "Y", ы: "y", Э: "E", э: "e", Ё: "Yo", ё: "io",
+      Ь: "", ь: "", Ъ: "", ъ: ""
+    };
+    return String(value || "")
+      .split("")
+      .map((char) => map[char] ?? char)
+      .join("")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function applyPassportLatinName() {
+    const latinName = transliterateToLatin(passportValue("name"));
+    if (!latinName) return;
+    state.passport.name = latinName;
+    persistPassport();
+    renderCandidatePassport();
+    focusPassportField("name");
+  }
+
   function candidatePassportSmartCheckHTML() {
     const copy = candidatePassportCopy();
     const age = calculateAge(passportValue("birthDate"));
+    const needsLatinAction = Boolean(passportValue("name")) && !passportNameLooksLatin();
     const checks = [
       { ok: passportNameLooksLatin(), text: passportNameLooksLatin() ? copy.latinOk : copy.latinNeed },
       { ok: Boolean(age), text: age ? `${copy.ageOk}: ${age}` : copy.ageNeed },
@@ -3415,6 +3448,7 @@
             </span>
           `).join("")}
         </div>
+        ${needsLatinAction ? `<button class="candidate-passport-latin-action" type="button" data-passport-latin-name>${escapeHTML(copy.latinAction)}</button>` : ""}
       </section>
     `;
   }
@@ -4839,6 +4873,11 @@
       const passportQuickStartButton = event.target.closest("[data-passport-quick-start]");
       if (passportQuickStartButton) {
         applyPassportQuickStart(passportQuickStartButton.dataset.passportQuickStart);
+        return;
+      }
+      const passportLatinButton = event.target.closest("[data-passport-latin-name]");
+      if (passportLatinButton) {
+        applyPassportLatinName();
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
