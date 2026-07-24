@@ -2678,6 +2678,8 @@
         refText: "Use this code if you continue the chat later.",
         refCopy: "Copy reference",
         refCopied: "Application reference copied",
+        currentQuickTitle: "Where are you now?",
+        currentQuickOptions: ["Poland", "Ukraine", "Georgia", "Armenia", "Nepal", "Other country"],
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2789,6 +2791,8 @@
         refText: "Используйте этот код, если продолжите переписку позже.",
         refCopy: "Скопировать номер",
         refCopied: "Номер заявки скопирован",
+        currentQuickTitle: "Где вы сейчас?",
+        currentQuickOptions: ["Польша", "Украина", "Грузия", "Армения", "Непал", "Другая страна"],
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2900,6 +2904,8 @@
         refText: "Використовуйте цей код, якщо продовжите чат пізніше.",
         refCopy: "Скопіювати номер",
         refCopied: "Номер заявки скопійовано",
+        currentQuickTitle: "Де ви зараз?",
+        currentQuickOptions: ["Польща", "Україна", "Грузія", "Вірменія", "Непал", "Інша країна"],
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3011,6 +3017,8 @@
         refText: "Użyj tego kodu, jeśli wrócisz do rozmowy później.",
         refCopy: "Kopiuj numer",
         refCopied: "Numer zgłoszenia skopiowany",
+        currentQuickTitle: "Gdzie jesteś teraz?",
+        currentQuickOptions: ["Polska", "Ukraina", "Gruzja", "Armenia", "Nepal", "Inny kraj"],
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3267,6 +3275,21 @@
     `;
   }
 
+  function passportCurrentQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("current");
+    return `
+      <div class="candidate-passport-current-quick" aria-label="${escapeHTML(copy.currentQuickTitle)}">
+        <span>${escapeHTML(copy.currentQuickTitle)}</span>
+        <div>
+          ${(copy.currentQuickOptions || []).map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-current-place="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3341,6 +3364,13 @@
 
   function applyPassportStartDate(value) {
     state.passport.readyDate = value;
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportCurrentPlace(value) {
+    state.passport.current = value;
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3810,6 +3840,7 @@
           ${passportFieldHTML("name")}
           ${passportFieldHTML("birthDate", "date")}
           ${passportFieldHTML("current")}
+          ${passportCurrentQuickHTML()}
           ${passportFieldHTML("citizenship")}
           ${passportSelectHTML("language")}
           ${passportSelectHTML("destination")}
@@ -5057,6 +5088,11 @@
       const passportStartDateButton = event.target.closest("[data-passport-start-date]");
       if (passportStartDateButton) {
         applyPassportStartDate(passportStartDateButton.dataset.passportStartDate);
+        return;
+      }
+      const passportCurrentPlaceButton = event.target.closest("[data-passport-current-place]");
+      if (passportCurrentPlaceButton) {
+        applyPassportCurrentPlace(passportCurrentPlaceButton.dataset.passportCurrentPlace);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");

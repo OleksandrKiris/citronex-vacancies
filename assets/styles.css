@@ -10187,7 +10187,8 @@ body.vacancy-first {
   border-color: #bdf24b;
 }
 
-.candidate-passport-start-quick {
+.candidate-passport-start-quick,
+.candidate-passport-current-quick {
   display: grid;
   grid-column: 1 / -1;
   gap: 8px;
@@ -10197,19 +10198,22 @@ body.vacancy-first {
   border-radius: 16px;
 }
 
-.candidate-passport-start-quick > span {
+.candidate-passport-start-quick > span,
+.candidate-passport-current-quick > span {
   color: rgba(255, 255, 255, 0.70);
   font-size: 11px;
   font-weight: 900;
 }
 
-.candidate-passport-start-quick > div {
+.candidate-passport-start-quick > div,
+.candidate-passport-current-quick > div {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 7px;
 }
 
-.candidate-passport-start-quick button {
+.candidate-passport-start-quick button,
+.candidate-passport-current-quick button {
   min-height: 34px;
   padding: 7px 8px;
   color: #101820;
@@ -10221,13 +10225,15 @@ body.vacancy-first {
   cursor: pointer;
 }
 
-.candidate-passport-start-quick button.is-active {
+.candidate-passport-start-quick button.is-active,
+.candidate-passport-current-quick button.is-active {
   color: #101820;
   background: #bdf24b;
   border-color: rgba(189, 242, 75, 0.45);
 }
 
-.candidate-passport-start-quick button:focus-visible {
+.candidate-passport-start-quick button:focus-visible,
+.candidate-passport-current-quick button:focus-visible {
   outline: 3px solid rgba(189, 242, 75, 0.78);
   outline-offset: 2px;
 }
@@ -11767,7 +11773,8 @@ body.vacancy-first {
     gap: 9px;
   }
 
-  .candidate-passport-start-quick > div {
+  .candidate-passport-start-quick > div,
+  .candidate-passport-current-quick > div {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
