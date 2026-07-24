@@ -922,6 +922,15 @@
         <strong>${escapeHTML(profile.phone)}</strong>
         <small>WhatsApp</small>
       </div>
+      <div class="whatsapp-trust-check">
+        ${whatsappTrustCheckCopy().map(([title, text]) => `
+          <article>
+            <span aria-hidden="true">✓</span>
+            <strong>${escapeHTML(title)}</strong>
+            <small>${escapeHTML(text)}</small>
+          </article>
+        `).join("")}
+      </div>
       <p class="whatsapp-safety-warning">${escapeHTML(t("ui.antiFraudWarning"))}</p>
       <div class="whatsapp-safety-actions">
         <button class="button button-secondary" type="button" data-close-dialog>${escapeHTML(t("ui.close"))}</button>
@@ -934,6 +943,32 @@
       if (dialog.open) dialog.close();
     }, { once: true });
     if (!dialog.open) dialog.showModal();
+  }
+
+  function whatsappTrustCheckCopy() {
+    const copy = {
+      en: [
+        ["Verified contact", "The chat opens only with the recruiter number shown on this site."],
+        ["No payment first", "A job or housing place is not reserved by sending money to strangers."],
+        ["Conditions first", "City, start date, housing, schedule and gross rate are clarified before travel."]
+      ],
+      ru: [
+        ["Проверенный контакт", "Чат откроется только с номером рекрутера, указанным на этом сайте."],
+        ["Без оплаты заранее", "Вакансия или жильё не бронируются переводом денег незнакомым людям."],
+        ["Сначала условия", "Город, старт, жильё, график и ставка брутто уточняются до поездки."]
+      ],
+      uk: [
+        ["Перевірений контакт", "Чат відкриється тільки з номером рекрутера, вказаним на цьому сайті."],
+        ["Без оплати наперед", "Вакансія або житло не бронюються переказом грошей незнайомим людям."],
+        ["Спочатку умови", "Місто, старт, житло, графік і ставка брутто уточнюються до поїздки."]
+      ],
+      pl: [
+        ["Sprawdzony kontakt", "Czat otworzy się tylko z numerem rekrutera pokazanym na tej stronie."],
+        ["Bez wpłat z góry", "Pracy ani mieszkania nie rezerwuje się przelewem do obcych osób."],
+        ["Najpierw warunki", "Miasto, start, mieszkanie, grafik i stawka brutto są wyjaśniane przed wyjazdem."]
+      ]
+    };
+    return copy[i18n.locale] || copy.en;
   }
 
   window.PortalWhatsApp = { open: openWhatsAppSafety };
