@@ -8054,3 +8054,174 @@ body.vacancy-first {
     font-size: 13px;
   }
 }
+
+/* v15 · conversion helpers */
+.quick-start {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(0, 2fr);
+  align-items: center;
+  gap: 18px;
+  margin-top: clamp(18px, 3vw, 28px);
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(22, 34, 42, 0.06);
+}
+
+.quick-start h2,
+.quick-start p {
+  margin: 0;
+}
+
+.quick-start h2 {
+  margin-top: 3px;
+  color: #151b21;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.quick-start-actions {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.quick-chip {
+  min-height: 38px;
+  padding: 8px 12px;
+  color: #1d2a24;
+  background: #f2f6f4;
+  border: 1px solid #dfe8e3;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.quick-chip:hover,
+.quick-chip.active {
+  color: #fff;
+  background: #17211d;
+  border-color: #17211d;
+}
+
+.quick-chip-primary {
+  color: #fff;
+  background: #e51d2a;
+  border-color: #e51d2a;
+}
+
+.vacancy-first .job-card-actions-single {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px;
+}
+
+.vacancy-first .job-card-actions-single .button-icon {
+  width: 44px;
+  min-width: 44px;
+  padding: 0;
+}
+
+.vacancy-first .job-card-actions-single .button-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.home-guidance,
+.home-faq {
+  padding-top: clamp(28px, 5vw, 46px);
+}
+
+.home-process-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.home-faq .faq-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-faq .faq-list details {
+  background: #fff;
+  border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  .quick-start,
+  .home-process-list,
+  .home-faq .faq-list {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-start-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .quick-start {
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  .quick-start h2 {
+    font-size: 18px;
+  }
+
+  .quick-start .overline {
+    font-size: 9px;
+  }
+
+  .quick-start-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 7px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .quick-start-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quick-chip {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .quick-chip-primary {
+    min-width: 88px;
+  }
+
+  .home-guidance,
+  .home-faq {
+    padding-top: 24px;
+  }
+
+  .home-process-list {
+    gap: 8px;
+  }
+
+  .home-process-list li {
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .home-faq .faq-list {
+    gap: 8px;
+  }
+}

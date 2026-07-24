@@ -25,7 +25,8 @@
     installPrompt: null,
     toastTimer: null,
     jobReturnRoute: "jobs",
-    openJobId: ""
+    openJobId: "",
+    quickFilter: ""
   };
 
   const el = (id) => document.getElementById(id);
@@ -159,6 +160,111 @@
 
   function compareActionMarkup(compared, comparedLabel, compareLabel) {
     return `${compared ? svgIcon("check") : '<span aria-hidden="true">＋</span>'}<span>${escapeHTML(compared ? comparedLabel : compareLabel)}</span>`;
+  }
+
+  function quickStartCopy() {
+    const copy = {
+      ru: {
+        kicker: "Быстрый вход",
+        title: "Подберите направление",
+        poland: "Польша",
+        other: "Венгрия · Бельгия",
+        noExperience: "Без опыта",
+        driver: "Водитель",
+        survey: "Анкета"
+      },
+      uk: {
+        kicker: "Швидкий старт",
+        title: "Оберіть напрям",
+        poland: "Польща",
+        other: "Угорщина · Бельгія",
+        noExperience: "Без досвіду",
+        driver: "Водій",
+        survey: "Анкета"
+      },
+      pl: {
+        kicker: "Szybki start",
+        title: "Wybierz kierunek",
+        poland: "Polska",
+        other: "Węgry · Belgia",
+        noExperience: "Bez doświadczenia",
+        driver: "Kierowca",
+        survey: "Ankieta"
+      },
+      en: {
+        kicker: "Quick start",
+        title: "Choose a direction",
+        poland: "Poland",
+        other: "Hungary · Belgium",
+        noExperience: "No experience",
+        driver: "Driver",
+        survey: "Questionnaire"
+      },
+      az: {
+        kicker: "Sürətli seçim",
+        title: "İstiqamət seçin",
+        poland: "Polşa",
+        other: "Macarıstan · Belçika",
+        noExperience: "Təcrübəsiz",
+        driver: "Sürücü",
+        survey: "Anket"
+      },
+      ka: {
+        kicker: "სწრაფი არჩევა",
+        title: "აირჩიეთ მიმართულება",
+        poland: "პოლონეთი",
+        other: "უნგრეთი · ბელგია",
+        noExperience: "გამოცდილების გარეშე",
+        driver: "მძღოლი",
+        survey: "ანკეტა"
+      },
+      id: {
+        kicker: "Mulai cepat",
+        title: "Pilih arah kerja",
+        poland: "Polandia",
+        other: "Hungaria · Belgia",
+        noExperience: "Tanpa pengalaman",
+        driver: "Sopir",
+        survey: "Formulir"
+      },
+      es: {
+        kicker: "Inicio rápido",
+        title: "Elige una dirección",
+        poland: "Polonia",
+        other: "Hungría · Bélgica",
+        noExperience: "Sin experiencia",
+        driver: "Conductor",
+        survey: "Formulario"
+      },
+      fil: {
+        kicker: "Mabilis na simula",
+        title: "Pumili ng direksyon",
+        poland: "Poland",
+        other: "Hungary · Belgium",
+        noExperience: "Walang karanasan",
+        driver: "Driver",
+        survey: "Form"
+      },
+      ne: {
+        kicker: "छिटो सुरु",
+        title: "दिशा छान्नुहोस्",
+        poland: "पोल्याण्ड",
+        other: "हंगेरी · बेल्जियम",
+        noExperience: "अनुभव बिना",
+        driver: "चालक",
+        survey: "फारम"
+      },
+      hy: {
+        kicker: "Արագ ընտրություն",
+        title: "Ընտրեք ուղղությունը",
+        poland: "Լեհաստան",
+        other: "Հունգարիա · Բելգիա",
+        noExperience: "Առանց փորձի",
+        driver: "Վարորդ",
+        survey: "Հարցաթերթիկ"
+      }
+    };
+    return copy[i18n.locale] || copy.en;
   }
 
   function resourceIconName(id = "") {
@@ -359,6 +465,16 @@
         <p>${escapeHTML(item.answer)}</p>
       </details>
     `).join("");
+    if (el("home-faq-list")) {
+      el("home-faq-list").innerHTML = localizedFaq.slice(0, 4).map((item) => `
+        <details>
+          <summary>${escapeHTML(item.question)}</summary>
+          <p>${escapeHTML(item.answer)}</p>
+        </details>
+      `).join("");
+    }
+
+    renderQuickStart();
 
     el("clear-local-data").onclick = clearLocalData;
 
@@ -409,6 +525,25 @@
     document.head.append(schemaNode);
   }
 
+  function renderQuickStart() {
+    const copy = quickStartCopy();
+    if (el("quick-start-kicker")) el("quick-start-kicker").textContent = copy.kicker;
+    if (el("quick-start-heading")) el("quick-start-heading").textContent = copy.title;
+    const labels = {
+      "country:poland": copy.poland,
+      "country:other": copy.other,
+      "level:noExperience": copy.noExperience,
+      "category:driver": copy.driver
+    };
+    els("[data-quick-filter]").forEach((button) => {
+      button.textContent = labels[button.dataset.quickFilter] || button.textContent;
+      button.classList.toggle("active", state.quickFilter === button.dataset.quickFilter);
+      button.setAttribute("aria-pressed", String(state.quickFilter === button.dataset.quickFilter));
+    });
+    const surveyButton = document.querySelector(".quick-start [data-application-general]");
+    if (surveyButton) surveyButton.textContent = copy.survey;
+  }
+
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const visualType = jobVisualType(job.id);
@@ -448,6 +583,7 @@
         </p>
         <div class="job-card-actions job-card-actions-single">
           <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
+          <button class="button button-secondary button-icon" type="button" data-job-share="${escapeHTML(job.id)}" aria-label="${escapeHTML(t("ui.share"))}">${svgIcon("share")}</button>
         </div>
       </article>
     `;
@@ -521,7 +657,8 @@
       return (!query || searchable.includes(query))
         && (!category || view.category === category)
         && (!format || view.format === format)
-        && (!level || view.level === level);
+        && (!level || view.level === level)
+        && matchesQuickFilter(job);
     });
 
     result.sort((a, b) => {
@@ -537,11 +674,30 @@
     el("all-jobs").innerHTML = result.map((job) => renderJobCard(job, "catalog")).join("");
     el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
     el("jobs-empty").hidden = result.length > 0;
+    renderQuickStart();
   }
 
   function resetFilters() {
+    state.quickFilter = "";
     el("job-filters").reset();
     renderAllJobs();
+  }
+
+  function matchesQuickFilter(job) {
+    if (!state.quickFilter) return true;
+    const [type, value] = state.quickFilter.split(":");
+    if (type === "country" && value === "poland") return job.format === "Польша";
+    if (type === "country" && value === "other") return job.format !== "Польша";
+    if (type === "level" && value === "noExperience") return job.level === "Без опыта";
+    if (type === "category" && value === "driver") return job.id.startsWith("driver-") || job.category === "Водители";
+    return true;
+  }
+
+  function applyQuickFilter(filter) {
+    state.quickFilter = state.quickFilter === filter ? "" : filter;
+    el("job-filters").reset();
+    renderAllJobs();
+    showView("jobs");
   }
 
   function toggleFavorite(id) {
@@ -1132,6 +1288,17 @@
       const jobButton = event.target.closest("[data-job-open]");
       if (jobButton) {
         openJob(jobButton.dataset.jobOpen);
+        return;
+      }
+      const jobShareButton = event.target.closest("[data-job-share]");
+      if (jobShareButton) {
+        const job = jobById(jobShareButton.dataset.jobShare);
+        if (job) shareJob(job);
+        return;
+      }
+      const quickFilterButton = event.target.closest("[data-quick-filter]");
+      if (quickFilterButton) {
+        applyQuickFilter(quickFilterButton.dataset.quickFilter);
         return;
       }
       const surveyButton = event.target.closest("[data-job-survey]");
