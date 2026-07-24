@@ -8366,6 +8366,151 @@ body.vacancy-first {
   }
 }
 
+/* v72 · CTA and WhatsApp section style polish */
+.whatsapp-scripts,
+.after-whatsapp,
+.vacancy-first .home-match-cta,
+.vacancy-first .final-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.whatsapp-scripts::before,
+.after-whatsapp::before,
+.vacancy-first .home-match-cta::before,
+.vacancy-first .final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.12), transparent 28%, transparent 72%, rgba(189, 242, 75, 0.10)),
+    radial-gradient(circle at 12% 100%, rgba(37, 211, 102, 0.12), transparent 14rem);
+}
+
+.whatsapp-scripts > *,
+.after-whatsapp > *,
+.vacancy-first .home-match-cta > *,
+.vacancy-first .final-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.whatsapp-scripts {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(37, 211, 102, 0.22), transparent 16rem),
+    radial-gradient(circle at 95% 12%, rgba(229, 29, 42, 0.12), transparent 15rem),
+    linear-gradient(135deg, #0d1b15 0%, #183324 54%, #09120f 100%);
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 30px 74px rgba(16, 32, 24, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.whatsapp-script-card,
+.after-whatsapp-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.16), transparent 7rem),
+    rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+  backdrop-filter: blur(10px);
+}
+
+.whatsapp-script-card::after,
+.after-whatsapp-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -3rem -4rem auto;
+  width: 9rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 68%);
+}
+
+.whatsapp-script-card:hover,
+.after-whatsapp-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(189, 242, 75, 0.32);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.whatsapp-script-icon,
+.after-whatsapp-card span {
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  box-shadow: 0 12px 26px rgba(189, 242, 75, 0.18);
+}
+
+.whatsapp-script-card .button,
+.after-whatsapp-actions .button,
+.vacancy-first .home-match-cta .button,
+.vacancy-first .final-cta .button {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.whatsapp-script-card .button:hover,
+.after-whatsapp-actions .button:hover,
+.vacancy-first .home-match-cta .button:hover,
+.vacancy-first .final-cta .button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.20);
+}
+
+.after-whatsapp {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(189, 242, 75, 0.24), transparent 15rem),
+    radial-gradient(circle at 8% 90%, rgba(37, 211, 102, 0.12), transparent 15rem),
+    linear-gradient(135deg, #0d1714 0%, #172a20 54%, #09120f 100%);
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 30px 76px rgba(16, 32, 24, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.vacancy-first .home-match-cta,
+.vacancy-first .final-cta {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 34px 84px rgba(229, 29, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.button-whatsapp,
+.candidate-safety-contact,
+.recruiter-whatsapp {
+  box-shadow: 0 14px 32px rgba(18, 122, 66, 0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+
+.button-whatsapp:hover,
+.candidate-safety-contact:hover,
+.recruiter-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(18, 122, 66, 0.24);
+  filter: saturate(1.06);
+}
+
+@media (max-width: 720px) {
+  .whatsapp-scripts,
+  .after-whatsapp,
+  .vacancy-first .home-match-cta,
+  .vacancy-first .final-cta {
+    border-radius: 26px;
+  }
+
+  .whatsapp-script-card:hover,
+  .after-whatsapp-card:hover,
+  .whatsapp-script-card .button:hover,
+  .after-whatsapp-actions .button:hover,
+  .vacancy-first .home-match-cta .button:hover,
+  .vacancy-first .final-cta .button:hover,
+  .button-whatsapp:hover,
+  .candidate-safety-contact:hover,
+  .recruiter-whatsapp:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
