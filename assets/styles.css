@@ -8240,6 +8240,132 @@ body.vacancy-first {
   }
 }
 
+/* v71 · trust and recruiter style polish */
+.vacancy-first .trust-recruiter-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(189, 242, 75, 0.18), transparent 11rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 28px 68px rgba(16, 24, 32, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.vacancy-first .trust-recruiter-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.50), transparent 30%, transparent 76%, rgba(189, 242, 75, 0.10));
+}
+
+.vacancy-first .trust-recruiter-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow: 0 20px 46px rgba(16, 24, 32, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 48%, rgba(7, 16, 13, 0.28)),
+    radial-gradient(circle at 18% 12%, rgba(189, 242, 75, 0.18), transparent 9rem);
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage img {
+  filter: saturate(1.10) contrast(1.04) brightness(1.02);
+}
+
+.vacancy-first .recruiter-strip,
+.recruiter-strip {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.90), rgba(246, 250, 244, 0.82));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 16px 38px rgba(16, 24, 32, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(14px);
+}
+
+.vacancy-first .trust-cards article {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 8rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(247, 250, 246, 0.97));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 18px 42px rgba(16, 24, 32, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+}
+
+.vacancy-first .trust-cards article::after {
+  content: "";
+  position: absolute;
+  inset: auto -3rem -5rem auto;
+  width: 9rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(229, 29, 42, 0.08), transparent 68%);
+}
+
+.vacancy-first .trust-cards article:hover {
+  transform: translateY(-3px);
+  border-color: rgba(189, 242, 75, 0.30);
+  box-shadow: 0 24px 54px rgba(16, 24, 32, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.vacancy-first .trust-cards h3 {
+  letter-spacing: -0.02em;
+}
+
+.vacancy-first .catalog-proof-grid article {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 7rem),
+    rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 14px 34px rgba(16, 24, 32, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(10px);
+}
+
+.vacancy-first .catalog-proof-grid strong {
+  color: #102018;
+  letter-spacing: -0.04em;
+}
+
+.vacancy-first .candidate-safety-after-jobs {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(189, 242, 75, 0.16), transparent 12rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 22px 54px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .trust-recruiter-card,
+  .vacancy-first .trust-cards article,
+  .vacancy-first .catalog-proof-grid article,
+  .vacancy-first .candidate-safety-after-jobs {
+    border-radius: 24px;
+  }
+
+  .vacancy-first .trust-cards article:hover {
+    transform: none;
+  }
+
+  .vacancy-first .trust-recruiter .recruiter-photo-stage {
+    border-radius: 24px;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
