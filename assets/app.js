@@ -2628,6 +2628,11 @@
         stickyTitle: "Application",
         stickyNext: "Next",
         stickySend: "WhatsApp",
+        matchTitle: "Suitable jobs from your card",
+        matchEmpty: "Choose a country, experience or job direction to see personal suggestions.",
+        matchOpen: "Open job",
+        matchWhy: "Fits because",
+        matchCheck: "Clarify",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2689,6 +2694,11 @@
         stickyTitle: "Заявка",
         stickyNext: "Дальше",
         stickySend: "WhatsApp",
+        matchTitle: "Подходящие вакансии по вашей заявке",
+        matchEmpty: "Выберите страну, опыт или направление — и здесь появятся личные варианты.",
+        matchOpen: "Открыть вакансию",
+        matchWhy: "Подходит потому что",
+        matchCheck: "Уточнить",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2750,6 +2760,11 @@
         stickyTitle: "Заявка",
         stickyNext: "Далі",
         stickySend: "WhatsApp",
+        matchTitle: "Відповідні вакансії за вашою заявкою",
+        matchEmpty: "Оберіть країну, досвід або напрям — і тут з’являться особисті варіанти.",
+        matchOpen: "Відкрити вакансію",
+        matchWhy: "Підходить тому що",
+        matchCheck: "Уточнити",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2811,6 +2826,11 @@
         stickyTitle: "Zgłoszenie",
         stickyNext: "Dalej",
         stickySend: "WhatsApp",
+        matchTitle: "Pasujące oferty z Twojego zgłoszenia",
+        matchEmpty: "Wybierz kraj, doświadczenie albo kierunek — tutaj pojawią się osobiste propozycje.",
+        matchOpen: "Otwórz ofertę",
+        matchWhy: "Pasuje, bo",
+        matchCheck: "Wyjaśnij",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3195,6 +3215,56 @@
     `;
   }
 
+  function hasPassportMatchInput() {
+    return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
+  }
+
+  function candidatePassportMatchesHTML() {
+    const copy = candidatePassportCopy();
+    const fitCopy = passportFitCopy();
+    if (!hasPassportMatchInput()) {
+      return `
+        <section class="candidate-passport-matches is-empty" aria-label="${escapeHTML(copy.matchTitle)}">
+          <div class="candidate-passport-matches-head">
+            <strong>${escapeHTML(copy.matchTitle)}</strong>
+            <span>0%</span>
+          </div>
+          <p>${escapeHTML(copy.matchEmpty)}</p>
+        </section>
+      `;
+    }
+    const matches = topPassportMatches(3);
+    return `
+      <section class="candidate-passport-matches" aria-label="${escapeHTML(copy.matchTitle)}">
+        <div class="candidate-passport-matches-head">
+          <strong>${escapeHTML(copy.matchTitle)}</strong>
+          <span>${escapeHTML(fitCopy.label)}</span>
+        </div>
+        <div class="candidate-passport-match-grid">
+          ${matches.map(({ job, fit }, index) => {
+            const view = localizedJob(job);
+            const reasons = fit.reasons.filter((reason) => reason !== fitCopy.empty);
+            return `
+              <article class="candidate-passport-match-card">
+                <div>
+                  <b>${String(index + 1).padStart(2, "0")}</b>
+                  <strong>${fit.score}%</strong>
+                </div>
+                <h4>${escapeHTML(view.title)}</h4>
+                <p>${escapeHTML(view.format)} · ${formatSalary(view.salary)}</p>
+                <small>
+                  ${reasons.length ? `<span>${escapeHTML(copy.matchWhy)}:</span> ${escapeHTML(reasons.join(", "))}` : escapeHTML(fitCopy.empty)}
+                  ${fit.checks.length ? `<br><span>${escapeHTML(copy.matchCheck)}:</span> ${escapeHTML(fit.checks.join(", "))}` : ""}
+                </small>
+                <button class="text-link" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(copy.matchOpen)} →</button>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
+  }
+
   function candidatePassportCoachHTML(score, missing) {
     const copy = candidatePassportCopy();
     const nextKey = missing[0];
@@ -3272,6 +3342,7 @@
       </form>
       <aside class="candidate-passport-preview">
         ${candidatePassportCoachHTML(score, missing)}
+        ${candidatePassportMatchesHTML()}
         <div class="candidate-passport-message">
           <strong>${escapeHTML(copy.previewTitle)}</strong>
           <pre>${escapeHTML(candidatePublicPassportPreview())}</pre>
