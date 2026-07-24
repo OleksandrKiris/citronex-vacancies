@@ -398,10 +398,8 @@
 
   function renderDocumentsStep() {
     const legalStatuses = [
-      "statusEuCitizen", "statusVisaFree", "statusWorkVisa", "statusTemporaryResidence",
-      "statusPermanentResidence", "statusPeselUkr", "statusProtection", "statusNoDocuments", "other"
+      "statusReady", "statusClarify", "statusNoDocuments"
     ].map((key) => ({ value: key, label: t(`options.${key}`) }));
-    const hasStayDocument = state.values.legalStatus !== "statusNoDocuments";
     const targetCode = destinationCode(baseJob());
     const workRightLabel = targetCode
       ? `${t("form.workRight")} — ${i18n.countryName(targetCode)}`
@@ -409,12 +407,6 @@
     return `
       <div class="application-grid">
         ${field("legalStatus", t("form.legalStatus"), select("legalStatus", legalStatuses, "required"))}
-        ${state.values.legalStatus === "other"
-          ? field("otherLegalStatus", `${t("form.legalStatus")} — ${t("options.other")}`, input("otherLegalStatus", "text", "required"), t("form.latinHint"))
-          : ""}
-        ${hasStayDocument ? field("documentCountry", t("form.documentCountry"), select("documentCountry", countryOptions(COUNTRY_CODES), "required")) : ""}
-        ${hasStayDocument && state.values.documentCountry === "OTHER" ? field("otherDocumentCountry", t("form.otherCountry"), input("otherDocumentCountry", "text", "required"), t("form.latinHint")) : ""}
-        ${hasStayDocument ? field("documentExpiry", t("form.documentExpiry"), input("documentExpiry", "date")) : ""}
         ${field("workRight", workRightLabel, select("workRight", [
           { value: "yes", label: t("options.workRightYes") },
           { value: "no", label: t("options.workRightNo") },
@@ -527,20 +519,6 @@
           ${reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry))}
           ${reviewValue(t("form.currentCity"), state.values.currentCity)}
           ${reviewValue(t("form.legalStatus"), optionLabel("legalStatus", state.values.legalStatus))}
-          ${reviewValue(
-            `${t("form.legalStatus")} — ${t("options.other")}`,
-            state.values.legalStatus === "other" ? state.values.otherLegalStatus : ""
-          )}
-          ${reviewValue(
-            t("form.documentCountry"),
-            state.values.legalStatus === "statusNoDocuments"
-              ? ""
-              : localizedCountry(state.values.documentCountry, state.values.otherDocumentCountry)
-          )}
-          ${reviewValue(
-            t("form.documentExpiry"),
-            state.values.legalStatus === "statusNoDocuments" ? "" : state.values.documentExpiry
-          )}
           ${reviewValue(t("form.workRight"), state.values.workRight ? t(`options.workRight${state.values.workRight[0].toUpperCase()}${state.values.workRight.slice(1)}`) : "")}
           ${reviewValue(t("form.readyDate"), state.values.readyDate)}
           ${reviewValue(t("form.housing"), state.values.housing === "required" ? t("options.housingRequired") : t("options.housingNotRequired"))}
@@ -856,19 +834,11 @@
         state.error = t("form.latinError");
       }
     } else if (state.step === 2) {
-      const needsDocumentCountry = state.values.legalStatus !== "statusNoDocuments";
       if (
         !state.values.legalStatus
         || !state.values.workRight
-        || (needsDocumentCountry && !state.values.documentCountry)
-        || (state.values.legalStatus === "other" && !state.values.otherLegalStatus)
       ) {
         state.error = t("form.missingRequired");
-      } else if (
-        (state.values.legalStatus === "other" && !validateLatin(state.values.otherLegalStatus, true))
-        || (needsDocumentCountry && state.values.documentCountry === "OTHER" && !validateLatin(state.values.otherDocumentCountry, true))
-      ) {
-        state.error = t("form.latinError");
       }
     } else if (state.step === 3) {
       if (
@@ -912,14 +882,9 @@
 
   function englishOption(key) {
     const labels = {
-      statusEuCitizen: "EU / EEA / Swiss citizen",
-      statusVisaFree: "Visa-free stay / biometric passport",
-      statusWorkVisa: "Work visa",
-      statusTemporaryResidence: "Temporary residence permit",
-      statusPermanentResidence: "Permanent residence permit",
-      statusPeselUkr: "PESEL UKR / temporary protection",
-      statusProtection: "Asylum / international protection",
-      statusNoDocuments: "No work documents yet",
+      statusReady: "Work paperwork is ready",
+      statusClarify: "Work paperwork needs clarification",
+      statusNoDocuments: "Not ready yet",
       other: "Other",
       yes: "Yes",
       no: "No",
@@ -953,8 +918,8 @@
     const flags = [];
     const jobText = [job?.id, job?.category, job?.title, job?.level].join(" ").toLowerCase();
     if (state.values.workRight !== "yes") flags.push("Check right to work at destination");
-    if (state.values.legalStatus === "statusNoDocuments") flags.push("Candidate has no work documents yet");
-    if (state.values.legalStatus === "other") flags.push("Check legal status details manually");
+    if (state.values.legalStatus === "statusNoDocuments") flags.push("Work paperwork is not ready yet");
+    if (state.values.legalStatus === "statusClarify") flags.push("Clarify work paperwork before proposing a departure date");
     if (state.values.experience === "expNone" && job?.level !== "Без опыта") flags.push("No experience for a role that may require experience");
     if (jobText.includes("driver") || jobText.includes("водител")) {
       if (state.values.driverLicense !== "yes") flags.push("Driver role: confirm C+E license");
@@ -998,10 +963,7 @@
       `Citizenship: ${englishCountry(state.values.citizenship, state.values.otherCitizenship)}`,
       `Current location: ${englishCountry(state.values.currentCountry, state.values.otherCountry)}, ${state.values.currentCity}`,
       "",
-      `Legal status: ${englishOption(state.values.legalStatus)}`,
-      `Legal status details: ${state.values.legalStatus === "other" ? state.values.otherLegalStatus : "—"}`,
-      `Document issued by: ${state.values.legalStatus === "statusNoDocuments" ? "No document yet" : englishCountry(state.values.documentCountry, state.values.otherDocumentCountry)}`,
-      `Document valid until: ${state.values.legalStatus === "statusNoDocuments" ? "Not applicable" : state.values.documentExpiry || "Not provided"}`,
+      `Work paperwork status: ${englishOption(state.values.legalStatus)}`,
       `Right to work at destination: ${englishOption(state.values.workRight)}`,
       "",
       `Ready from: ${state.values.readyDate}`,

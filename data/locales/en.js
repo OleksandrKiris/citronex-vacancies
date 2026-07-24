@@ -157,7 +157,7 @@
       changeVacancy: "Change job",
       stepContact: "Contact",
       stepLocation: "Country and citizenship",
-      stepDocuments: "Documents",
+      stepDocuments: "Paperwork",
       stepWork: "Work availability",
       stepQualification: "Experience and qualifications",
       stepReview: "Review",
@@ -177,7 +177,7 @@
       documentCountry: "Which country issued your main residence document?",
       documentExpiry: "When does the document expire?",
       workRight: "Do you have the right to work in the country of the selected job?",
-      noDocumentNumbers: "Do not enter passport or residence-card numbers, bank details, or upload photos of documents through this website.",
+      noDocumentNumbers: "Do not enter document numbers, bank details, or upload document photos through this website.",
       readyDate: "From what date can you start?",
       housing: "Do you need accommodation from the employer?",
       travellingWith: "Are you travelling alone or with someone?",
@@ -225,14 +225,16 @@
       friends: "With friends",
       housingRequired: "Yes, I need accommodation",
       housingNotRequired: "No, I do not need accommodation",
-      statusEuCitizen: "EU / EEA / Swiss citizenship",
-      statusVisaFree: "Visa-free stay / biometric passport",
-      statusWorkVisa: "Work visa",
-      statusTemporaryResidence: "Temporary residence permit",
-      statusPermanentResidence: "Permanent residence permit",
-      statusPeselUkr: "PESEL UKR / temporary protection",
-      statusProtection: "Asylum / international protection",
-      statusNoDocuments: "I do not yet have documents for work",
+      statusReady: "Work paperwork is ready",
+      statusClarify: "Work paperwork needs clarification",
+      statusEuCitizen: "Status allows work",
+      statusVisaFree: "Status needs clarification",
+      statusWorkVisa: "Work paperwork is ready",
+      statusTemporaryResidence: "Status needs clarification",
+      statusPermanentResidence: "Status allows work",
+      statusPeselUkr: "Status needs clarification",
+      statusProtection: "Status needs clarification",
+      statusNoDocuments: "Work paperwork is not ready yet",
       workRightYes: "Yes",
       workRightNo: "No",
       workRightUnknown: "Needs to be checked",
@@ -652,7 +654,7 @@
           "Usually 8–12 hours, 5–6 days; the warehouse sets the schedule; organisational support from a coordinator.",
           "The exact address, room occupancy and rate must be confirmed."
         ],
-        statusNote: "A Polish karta pobytu alone does not confirm the right to work in Hungary."
+        statusNote: "A status from one country alone may not confirm the right to work in Hungary."
       },
       "banana-warehouse-belgium": {
         title: "Assignment to a banana warehouse — Belgium",
@@ -677,10 +679,10 @@
           "Documents allowing a legal assignment and work.",
           "A positive company decision and an actual site need."
         ],
-        niceToHave: ["Banana-warehouse experience.", "A valid Polish karta pobytu — subject to an additional check."],
+        niceToHave: ["Banana-warehouse experience.", "A work-permission status that can be confirmed separately."],
         benefits: [
           "Accommodation is provided, with conditions confirmed before travel; the Belgian site sets the schedule.",
-          "An assignment is not guaranteed even if you hold a residence card.",
+          "An assignment is not guaranteed until status, site need and conditions are confirmed.",
           "The rate, currency, pay components and deductions must all be confirmed."
         ],
         statusNote: "This is not mass recruitment; an assignment is possible only after checking the documents and the site’s need."

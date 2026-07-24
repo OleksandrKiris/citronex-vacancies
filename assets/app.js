@@ -375,9 +375,9 @@
         situationCoupleTitle: "Хочу приехать парой",
         situationCoupleText: "В анкете укажите поездку с партнёром, чтобы проверить жильё и места.",
         situationDriverTitle: "У меня C+E",
-        situationDriverText: "Проверьте водительские вакансии и готовность документов.",
-        situationDocumentsTitle: "Нужно проверить документы",
-        situationDocumentsText: "Анкета поможет передать гражданство, статус и право на работу без фото документов."
+        situationDriverText: "Проверьте водительские вакансии и что нужно уточнить перед стартом.",
+        situationDocumentsTitle: "Нужно уточнить оформление",
+        situationDocumentsText: "Анкета передаёт только общий статус и вопросы — без фото, номеров и личных кодов."
       },
       en: {
         situationsKicker: "Common situations",
@@ -397,9 +397,9 @@
         situationCoupleTitle: "I want to travel with a partner",
         situationCoupleText: "Use the form so housing and places can be checked together.",
         situationDriverTitle: "I have C+E",
-        situationDriverText: "Check driver roles and document readiness.",
-        situationDocumentsTitle: "My documents need checking",
-        situationDocumentsText: "The form sends citizenship, status and work-right details without document photos."
+        situationDriverText: "Check driver roles and what should be clarified before starting.",
+        situationDocumentsTitle: "I need to clarify paperwork",
+        situationDocumentsText: "The form sends only general status and questions — no photos, numbers or personal codes."
       }
     };
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
@@ -1337,14 +1337,14 @@
         good: [
           "готовы к физической работе и темпу на объекте",
           "понимаете, что ставки указаны брутто",
-          "готовы подтвердить документы перед выездом",
+          "готовы уточнить оформление перед выездом",
           "хотите официальное оформление и понятный процесс"
         ],
         careful: [
           "нужна гарантия 250–280 часов без проверки объекта",
-          "хотите точное нетто без расчёта по договору и документам",
+          "хотите точное нетто без расчёта по договору и условиям",
           "не готовы уточнять дату старта и жильё перед поездкой",
-          "ожидаете отправку документов в случайный чат без проверки"
+          "ожидаете отправку личных данных в случайный чат без проверки"
         ],
         cta: "Уточнить свою ситуацию"
       },
@@ -1357,14 +1357,14 @@
         good: [
           "готові до фізичної роботи і темпу на об’єкті",
           "розумієте, що ставки вказані брутто",
-          "готові підтвердити документи перед виїздом",
+          "готові уточнити оформлення перед виїздом",
           "хочете офіційне оформлення і зрозумілий процес"
         ],
         careful: [
           "потрібна гарантія 250–280 годин без перевірки об’єкта",
-          "хочете точне нетто без розрахунку за договором і документами",
+          "хочете точне нетто без розрахунку за договором і умовами",
           "не готові уточнювати дату старту і житло перед поїздкою",
-          "очікуєте відправку документів у випадковий чат без перевірки"
+          "очікуєте відправку особистих даних у випадковий чат без перевірки"
         ],
         cta: "Уточнити свою ситуацію"
       },
@@ -1377,14 +1377,14 @@
         good: [
           "jesteś gotowy/a na pracę fizyczną i tempo na obiekcie",
           "rozumiesz, że stawki są podane brutto",
-          "możesz potwierdzić dokumenty przed wyjazdem",
+          "możesz doprecyzować formalności przed wyjazdem",
           "chcesz legalny proces i jasne kolejne kroki"
         ],
         careful: [
           "potrzebujesz gwarancji 250–280 godzin bez potwierdzenia obiektu",
-          "chcesz dokładne netto bez kalkulacji umowy i dokumentów",
+          "chcesz dokładne netto bez kalkulacji umowy i warunków",
           "nie chcesz potwierdzać startu i zakwaterowania przed wyjazdem",
-          "oczekujesz wysyłki dokumentów do przypadkowego czatu"
+          "oczekujesz wysyłki danych osobowych do przypadkowego czatu"
         ],
         cta: "Dopytaj o swoją sytuację"
       },
@@ -1397,14 +1397,14 @@
         good: [
           "you are ready for physical work and workplace pace",
           "you understand that rates are shown gross",
-          "you can confirm documents before travelling",
+          "you can clarify paperwork before travelling",
           "you want legal work and a clear process"
         ],
         careful: [
           "you need a guaranteed 250–280 hours before the workplace is confirmed",
-          "you need exact net pay without contract and document calculation",
+          "you need exact net pay without contract and condition calculation",
           "you do not want to confirm start date and housing before travel",
-          "you expect to send documents to a random chat without verification"
+          "you expect to send personal data to a random chat without verification"
         ],
         cta: "Clarify my situation"
       }
@@ -1416,49 +1416,49 @@
     const copy = {
       ru: {
         kicker: "Безопасность кандидата",
-        title: "Перед документами проверьте контакт",
-        intro: "Сайт помогает выбрать вакансию, но документы и условия подтверждаются только в прямом контакте.",
+        title: "Перед личными данными проверьте контакт",
+        intro: "Сайт помогает выбрать вакансию, но чувствительные данные и условия подтверждаются только в прямом контакте.",
         items: [
           { title: "Не переводите деньги", text: "Не отправляйте оплату неизвестным людям за “бронь” вакансии или жилья." },
           { title: "Не отправляйте банковские коды", text: "CVV, SMS-коды и пароли от банка никогда не нужны для трудоустройства." },
           { title: "Сверяйте номер", text: "Пишите через кнопки на этом сайте — так меньше риск попасть в чужой чат." },
-          { title: "Условия подтверждаются", text: "Локация, дата старта, жильё, часы и документы уточняются до поездки." }
+          { title: "Условия подтверждаются", text: "Локация, дата старта, жильё, часы и оформление уточняются до поездки." }
         ],
         cta: "Проверить через WhatsApp"
       },
       uk: {
         kicker: "Безпека кандидата",
-        title: "Перед документами перевірте контакт",
-        intro: "Сайт допомагає обрати вакансію, але документи й умови підтверджуються тільки в прямому контакті.",
+        title: "Перед особистими даними перевірте контакт",
+        intro: "Сайт допомагає обрати вакансію, але чутливі дані й умови підтверджуються тільки в прямому контакті.",
         items: [
           { title: "Не переказуйте гроші", text: "Не надсилайте оплату невідомим людям за “бронь” вакансії або житла." },
           { title: "Не надсилайте банківські коди", text: "CVV, SMS-коди і паролі від банку ніколи не потрібні для працевлаштування." },
           { title: "Звіряйте номер", text: "Пишіть через кнопки на цьому сайті — так менший ризик потрапити в чужий чат." },
-          { title: "Умови підтверджуються", text: "Локація, дата старту, житло, години і документи уточнюються до поїздки." }
+          { title: "Умови підтверджуються", text: "Локація, дата старту, житло, години й оформлення уточнюються до поїздки." }
         ],
         cta: "Перевірити через WhatsApp"
       },
       pl: {
         kicker: "Bezpieczeństwo kandydata",
-        title: "Przed dokumentami sprawdź kontakt",
-        intro: "Strona pomaga wybrać ofertę, ale dokumenty i warunki potwierdzamy tylko w bezpośrednim kontakcie.",
+        title: "Przed danymi osobowymi sprawdź kontakt",
+        intro: "Strona pomaga wybrać ofertę, ale wrażliwe dane i warunki potwierdzamy tylko w bezpośrednim kontakcie.",
         items: [
           { title: "Nie przelewaj pieniędzy", text: "Nie płać obcym osobom za “rezerwację” pracy lub zakwaterowania." },
           { title: "Nie wysyłaj kodów bankowych", text: "CVV, kody SMS i hasła bankowe nigdy nie są potrzebne do zatrudnienia." },
           { title: "Sprawdź numer", text: "Pisz przez przyciski na tej stronie — zmniejsza to ryzyko fałszywego czatu." },
-          { title: "Warunki są potwierdzane", text: "Lokalizacja, start, mieszkanie, godziny i dokumenty są sprawdzane przed wyjazdem." }
+          { title: "Warunki są potwierdzane", text: "Lokalizacja, start, mieszkanie, godziny i formalności są sprawdzane przed wyjazdem." }
         ],
         cta: "Sprawdź przez WhatsApp"
       },
       en: {
         kicker: "Candidate safety",
-        title: "Check the contact before documents",
-        intro: "The site helps you choose a job, but documents and conditions are confirmed only in direct contact.",
+        title: "Check the contact before personal data",
+        intro: "The site helps you choose a job, but sensitive data and conditions are confirmed only in direct contact.",
         items: [
           { title: "Do not send money", text: "Do not pay unknown people for a job or housing “reservation”." },
           { title: "Do not send bank codes", text: "CVV, SMS codes and bank passwords are never needed for employment." },
           { title: "Check the number", text: "Use the buttons on this site to reduce the risk of a fake chat." },
-          { title: "Conditions are confirmed", text: "Location, start date, housing, hours and documents are checked before travel." }
+          { title: "Conditions are confirmed", text: "Location, start date, housing, hours and paperwork are checked before travel." }
         ],
         cta: "Verify via WhatsApp"
       }
@@ -1703,12 +1703,12 @@
         jobs: "вакансий",
         bestFor: "Лучше подходит",
         start: "Старт",
-        documents: "Документы",
+        documents: "Оформление",
         ask: "Что уточнить",
         open: "Смотреть вакансии",
         items: {
           poland: ["Самый широкий выбор", "Много вариантов без опыта", "Чаще всего понятный процесс", "Город, смены, жильё и дату выезда"],
-          hungary: ["Тем, кому важна конкретная страна", "Условия проверяем перед отправкой", "Оформление уточняется отдельно", "Документы, жильё и актуальный старт"],
+          hungary: ["Тем, кому важна конкретная страна", "Условия проверяем перед отправкой", "Оформление уточняется отдельно", "Оформление, жильё и актуальный старт"],
           belgium: ["Кандидатам под отдельные условия", "Нужна личная проверка деталей", "Процесс отличается от Польши", "Требования, ставка и доступные места"]
         }
       },
@@ -1719,12 +1719,12 @@
         jobs: "вакансій",
         bestFor: "Краще підходить",
         start: "Старт",
-        documents: "Документи",
+        documents: "Оформлення",
         ask: "Що уточнити",
         open: "Дивитися вакансії",
         items: {
           poland: ["Найширший вибір", "Багато варіантів без досвіду", "Зазвичай зрозумілий процес", "Місто, зміни, житло і дату виїзду"],
-          hungary: ["Тим, кому важлива конкретна країна", "Умови перевіряємо перед відправкою", "Оформлення уточнюється окремо", "Документи, житло і актуальний старт"],
+          hungary: ["Тим, кому важлива конкретна країна", "Умови перевіряємо перед відправкою", "Оформлення уточнюється окремо", "Оформлення, житло і актуальний старт"],
           belgium: ["Кандидатам під окремі умови", "Потрібна особиста перевірка деталей", "Процес відрізняється від Польщі", "Вимоги, ставка і доступні місця"]
         }
       },
@@ -1735,12 +1735,12 @@
         jobs: "ofert",
         bestFor: "Najlepsze dla",
         start: "Start",
-        documents: "Dokumenty",
+        documents: "Formalności",
         ask: "Co potwierdzić",
         open: "Zobacz oferty",
         items: {
           poland: ["Największy wybór", "Dużo opcji bez doświadczenia", "Najczęściej prosty proces", "Miasto, zmiany, zakwaterowanie i datę wyjazdu"],
-          hungary: ["Dla osób z konkretnym kierunkiem", "Warunki potwierdzamy przed wysłaniem", "Formalności osobno do sprawdzenia", "Dokumenty, mieszkanie i aktualny start"],
+          hungary: ["Dla osób z konkretnym kierunkiem", "Warunki potwierdzamy przed wysłaniem", "Formalności osobno do sprawdzenia", "Formalności, mieszkanie i aktualny start"],
           belgium: ["Dla kandydatów pod osobne warunki", "Wymaga osobistego sprawdzenia", "Proces inny niż w Polsce", "Wymagania, stawkę i dostępne miejsca"]
         }
       },
@@ -1751,12 +1751,12 @@
         jobs: "jobs",
         bestFor: "Best for",
         start: "Start",
-        documents: "Documents",
+        documents: "Paperwork",
         ask: "What to confirm",
         open: "View jobs",
         items: {
           poland: ["Widest choice", "Many no-experience options", "Usually the clearest process", "City, shifts, housing and departure date"],
-          hungary: ["People focused on this country", "Conditions are checked before sending", "Paperwork is confirmed separately", "Documents, housing and current start"],
+          hungary: ["People focused on this country", "Conditions are checked before sending", "Paperwork is confirmed separately", "Paperwork, housing and current start"],
           belgium: ["Candidates for special conditions", "Details need personal verification", "Process differs from Poland", "Requirements, rate and available places"]
         }
       }
@@ -1999,12 +1999,12 @@
         intro: "Choose a ready message — WhatsApp opens with clear details for the recruiter.",
         action: "Open WhatsApp",
         items: [
-          ["ukraine-poland", "I am from Ukraine", "I want work in Poland and need help choosing the right job.", "Hello! I am from Ukraine. I want to work in Poland. Please help me choose a suitable job. I can write my name, age, documents and when I can travel."],
-          ["no-experience", "I have no experience", "For candidates who need a simple start and training.", "Hello! I am looking for a job without experience. Please send me options where training is possible. I can provide my age, country, documents and start date."],
-          ["couple", "We are a couple", "Useful when housing and two places must be checked together.", "Hello! We are a couple and want to work together. Please check jobs with housing and two places. We can send our age, documents and possible start date."],
-          ["driver", "I am a driver", "For candidates with a driving licence or transport experience.", "Hello! I am interested in driver jobs. I can send my licence categories, experience, documents and when I am ready to start."],
+          ["ukraine-poland", "I am from Ukraine", "I want work in Poland and need help choosing the right job.", "Hello! I am from Ukraine. I want to work in Poland. Please help me choose a suitable job. I can write my name, age and when I can travel."],
+          ["no-experience", "I have no experience", "For candidates who need a simple start and training.", "Hello! I am looking for a job without experience. Please send me options where training is possible. I can provide my age, country and start date."],
+          ["couple", "We are a couple", "Useful when housing and two places must be checked together.", "Hello! We are a couple and want to work together. Please check jobs with housing and two places. We can send our age and possible start date."],
+          ["driver", "I am a driver", "For candidates with a driving licence or transport experience.", "Hello! I am interested in driver jobs. I can send my licence categories, experience and when I am ready to start."],
           ["housing", "I need housing details", "For candidates who first want to understand accommodation.", "Hello! I want to clarify housing before choosing a job. Please tell me what options are available and what should be checked before departure."],
-          ["start", "Nearest start date", "For candidates ready to move quickly.", "Hello! I am ready to start soon. Please tell me which jobs have the nearest available start date and what documents are needed."]
+          ["start", "Nearest start date", "For candidates ready to move quickly.", "Hello! I am ready to start soon. Please tell me which jobs have the nearest available start date and what should be clarified before departure."]
         ]
       },
       ru: {
@@ -2013,12 +2013,12 @@
         intro: "Выберите готовый вариант — WhatsApp откроется с понятным сообщением для рекрутера.",
         action: "Открыть WhatsApp",
         items: [
-          ["ukraine-poland", "Я из Украины", "Хочу работу в Польше и помощь с выбором вакансии.", "Здравствуйте! Я из Украины. Хочу работать в Польше. Помогите, пожалуйста, подобрать подходящую вакансию. Могу написать имя, возраст, документы и когда готов(а) выехать."],
-          ["no-experience", "Я без опыта", "Для кандидатов, которым нужен простой старт и обучение.", "Здравствуйте! Я ищу работу без опыта. Подскажите, пожалуйста, варианты, где можно начать с обучением. Могу написать возраст, страну, документы и дату старта."],
-          ["couple", "Мы пара", "Когда нужно сразу проверить жильё и два места.", "Здравствуйте! Мы пара и хотим работать вместе. Проверьте, пожалуйста, вакансии с жильём и двумя местами. Можем отправить возраст, документы и когда готовы начать."],
-          ["driver", "Я водитель", "Для кандидатов с правами или опытом вождения.", "Здравствуйте! Меня интересуют вакансии для водителей. Могу отправить категории прав, опыт, документы и когда готов(а) начать."],
+          ["ukraine-poland", "Я из Украины", "Хочу работу в Польше и помощь с выбором вакансии.", "Здравствуйте! Я из Украины. Хочу работать в Польше. Помогите, пожалуйста, подобрать подходящую вакансию. Могу написать имя, возраст и когда готов(а) выехать."],
+          ["no-experience", "Я без опыта", "Для кандидатов, которым нужен простой старт и обучение.", "Здравствуйте! Я ищу работу без опыта. Подскажите, пожалуйста, варианты, где можно начать с обучением. Могу написать возраст, страну и дату старта."],
+          ["couple", "Мы пара", "Когда нужно сразу проверить жильё и два места.", "Здравствуйте! Мы пара и хотим работать вместе. Проверьте, пожалуйста, вакансии с жильём и двумя местами. Можем отправить возраст и когда готовы начать."],
+          ["driver", "Я водитель", "Для кандидатов с правами или опытом вождения.", "Здравствуйте! Меня интересуют вакансии для водителей. Могу отправить категории прав, опыт и когда готов(а) начать."],
           ["housing", "Хочу уточнить жильё", "Когда сначала важно понять условия проживания.", "Здравствуйте! Хочу уточнить жильё перед выбором вакансии. Расскажите, пожалуйста, какие есть варианты и что нужно проверить до выезда."],
-          ["start", "Ближайший старт", "Для кандидатов, которые готовы выехать быстро.", "Здравствуйте! Я готов(а) начать в ближайшее время. Подскажите, пожалуйста, какие вакансии сейчас имеют ближайший старт и какие документы нужны."]
+          ["start", "Ближайший старт", "Для кандидатов, которые готовы выехать быстро.", "Здравствуйте! Я готов(а) начать в ближайшее время. Подскажите, пожалуйста, какие вакансии сейчас имеют ближайший старт и что нужно уточнить до выезда."]
         ]
       },
       uk: {
@@ -2027,12 +2027,12 @@
         intro: "Оберіть готовий варіант — WhatsApp відкриється зі зрозумілим повідомленням.",
         action: "Відкрити WhatsApp",
         items: [
-          ["ukraine-poland", "Я з України", "Хочу роботу в Польщі та допомогу з вибором вакансії.", "Вітаю! Я з України. Хочу працювати в Польщі. Допоможіть, будь ласка, підібрати відповідну вакансію. Можу написати ім’я, вік, документи і коли готовий/готова виїхати."],
-          ["no-experience", "Я без досвіду", "Для кандидатів, яким потрібен простий старт.", "Вітаю! Я шукаю роботу без досвіду. Підкажіть, будь ласка, варіанти, де можна почати з навчанням. Можу написати вік, країну, документи і дату старту."],
-          ["couple", "Ми пара", "Коли треба перевірити житло і два місця.", "Вітаю! Ми пара і хочемо працювати разом. Перевірте, будь ласка, вакансії з житлом і двома місцями. Можемо надіслати вік, документи і коли готові почати."],
-          ["driver", "Я водій", "Для кандидатів з правами або досвідом водіння.", "Вітаю! Мене цікавлять вакансії для водіїв. Можу надіслати категорії прав, досвід, документи і коли готовий/готова почати."],
+          ["ukraine-poland", "Я з України", "Хочу роботу в Польщі та допомогу з вибором вакансії.", "Вітаю! Я з України. Хочу працювати в Польщі. Допоможіть, будь ласка, підібрати відповідну вакансію. Можу написати ім’я, вік і коли готовий/готова виїхати."],
+          ["no-experience", "Я без досвіду", "Для кандидатів, яким потрібен простий старт.", "Вітаю! Я шукаю роботу без досвіду. Підкажіть, будь ласка, варіанти, де можна почати з навчанням. Можу написати вік, країну і дату старту."],
+          ["couple", "Ми пара", "Коли треба перевірити житло і два місця.", "Вітаю! Ми пара і хочемо працювати разом. Перевірте, будь ласка, вакансії з житлом і двома місцями. Можемо надіслати вік і коли готові почати."],
+          ["driver", "Я водій", "Для кандидатів з правами або досвідом водіння.", "Вітаю! Мене цікавлять вакансії для водіїв. Можу надіслати категорії прав, досвід і коли готовий/готова почати."],
           ["housing", "Хочу уточнити житло", "Коли спочатку важливо зрозуміти проживання.", "Вітаю! Хочу уточнити житло перед вибором вакансії. Розкажіть, будь ласка, які є варіанти і що треба перевірити до виїзду."],
-          ["start", "Найближчий старт", "Для кандидатів, які готові швидко виїхати.", "Вітаю! Я готовий/готова почати найближчим часом. Підкажіть, будь ласка, які вакансії зараз мають найближчий старт і які документи потрібні."]
+          ["start", "Найближчий старт", "Для кандидатів, які готові швидко виїхати.", "Вітаю! Я готовий/готова почати найближчим часом. Підкажіть, будь ласка, які вакансії зараз мають найближчий старт і що треба уточнити до виїзду."]
         ]
       },
       pl: {
@@ -2041,12 +2041,12 @@
         intro: "Wybierz gotową wiadomość — WhatsApp otworzy się z jasnym tekstem do rekrutera.",
         action: "Otwórz WhatsApp",
         items: [
-          ["ukraine-poland", "Jestem z Ukrainy", "Chcę pracować w Polsce i potrzebuję pomocy w wyborze.", "Dzień dobry! Jestem z Ukrainy. Chcę pracować w Polsce. Proszę pomóc mi wybrać odpowiednią ofertę. Mogę podać imię, wiek, dokumenty i termin wyjazdu."],
-          ["no-experience", "Bez doświadczenia", "Dla osób, które chcą zacząć z przyuczeniem.", "Dzień dobry! Szukam pracy bez doświadczenia. Proszę o opcje, gdzie możliwe jest przyuczenie. Mogę podać wiek, kraj, dokumenty i termin startu."],
-          ["couple", "Jedziemy jako para", "Gdy trzeba sprawdzić dwa miejsca i zakwaterowanie.", "Dzień dobry! Jesteśmy parą i chcemy pracować razem. Proszę sprawdzić oferty z zakwaterowaniem i dwoma miejscami. Możemy wysłać wiek, dokumenty i termin startu."],
-          ["driver", "Jestem kierowcą", "Dla kandydatów z prawem jazdy lub doświadczeniem.", "Dzień dobry! Interesują mnie oferty dla kierowców. Mogę podać kategorie prawa jazdy, doświadczenie, dokumenty i termin startu."],
+          ["ukraine-poland", "Jestem z Ukrainy", "Chcę pracować w Polsce i potrzebuję pomocy w wyborze.", "Dzień dobry! Jestem z Ukrainy. Chcę pracować w Polsce. Proszę pomóc mi wybrać odpowiednią ofertę. Mogę podać imię, wiek i termin wyjazdu."],
+          ["no-experience", "Bez doświadczenia", "Dla osób, które chcą zacząć z przyuczeniem.", "Dzień dobry! Szukam pracy bez doświadczenia. Proszę o opcje, gdzie możliwe jest przyuczenie. Mogę podać wiek, kraj i termin startu."],
+          ["couple", "Jedziemy jako para", "Gdy trzeba sprawdzić dwa miejsca i zakwaterowanie.", "Dzień dobry! Jesteśmy parą i chcemy pracować razem. Proszę sprawdzić oferty z zakwaterowaniem i dwoma miejscami. Możemy wysłać wiek i termin startu."],
+          ["driver", "Jestem kierowcą", "Dla kandydatów z prawem jazdy lub doświadczeniem.", "Dzień dobry! Interesują mnie oferty dla kierowców. Mogę podać kategorie prawa jazdy, doświadczenie i termin startu."],
           ["housing", "Chcę zapytać o mieszkanie", "Gdy najpierw trzeba zrozumieć zakwaterowanie.", "Dzień dobry! Chcę wyjaśnić zakwaterowanie przed wyborem pracy. Proszę powiedzieć, jakie są opcje i co trzeba sprawdzić przed wyjazdem."],
-          ["start", "Najbliższy start", "Dla osób gotowych zacząć szybko.", "Dzień dobry! Mogę zacząć w najbliższym czasie. Proszę powiedzieć, które oferty mają teraz najbliższy start i jakie dokumenty są potrzebne."]
+          ["start", "Najbliższy start", "Dla osób gotowych zacząć szybko.", "Dzień dobry! Mogę zacząć w najbliższym czasie. Proszę powiedzieć, które oferty mają teraz najbliższy start i co trzeba wyjaśnić przed wyjazdem."]
         ]
       }
     };
@@ -2087,7 +2087,7 @@
         cards: [
           ["Write in Latin letters", ["Full name", "Country and city now", "Preferred language", "Phone number with country code"]],
           ["Tell the work situation", ["Wanted country", "Experience or no experience", "Driver licence categories if relevant", "Alone, couple or group"]],
-          ["Confirm timing", ["When ready to leave or start", "Whether housing is needed", "Whether documents are ready", "Which job looks interesting"]],
+          ["Confirm timing", ["When ready to leave or start", "Whether housing is needed", "Whether work paperwork needs clarification", "Which job looks interesting"]],
           ["Do not send first", ["Passport photos", "Bank card details", "Personal codes", "Payments or deposits before conditions are confirmed"]]
         ]
       },
@@ -2098,7 +2098,7 @@
         cards: [
           ["Писать латиницей", ["Имя и фамилия", "Страна и город сейчас", "Удобный язык общения", "Телефон с кодом страны"]],
           ["Описать ситуацию", ["Желаемая страна", "Есть опыт или нет", "Категории прав, если водитель", "Один / пара / группа"]],
-          ["Уточнить сроки", ["Когда готовы выехать или начать", "Нужно ли жильё", "Готовы ли документы", "Какая вакансия интересна"]],
+          ["Уточнить сроки", ["Когда готовы выехать или начать", "Нужно ли жильё", "Нужно ли уточнить оформление", "Какая вакансия интересна"]],
           ["Не отправлять сразу", ["Фото паспорта", "Данные банковской карты", "Личные коды", "Оплаты или залоги до подтверждения условий"]]
         ]
       },
@@ -2109,7 +2109,7 @@
         cards: [
           ["Писати латиницею", ["Ім’я та прізвище", "Країна і місто зараз", "Зручна мова спілкування", "Телефон з кодом країни"]],
           ["Описати ситуацію", ["Бажана країна", "Є досвід чи немає", "Категорії прав, якщо водій", "Один / пара / група"]],
-          ["Уточнити строки", ["Коли готові виїхати або почати", "Чи потрібне житло", "Чи готові документи", "Яка вакансія цікава"]],
+          ["Уточнити строки", ["Коли готові виїхати або почати", "Чи потрібне житло", "Чи треба уточнити оформлення", "Яка вакансія цікава"]],
           ["Не надсилати одразу", ["Фото паспорта", "Дані банківської картки", "Особисті коди", "Оплати або завдатки до підтвердження умов"]]
         ]
       },
@@ -2120,7 +2120,7 @@
         cards: [
           ["Pisz alfabetem łacińskim", ["Imię i nazwisko", "Kraj i miasto teraz", "Wygodny język kontaktu", "Telefon z kodem kraju"]],
           ["Opisz sytuację", ["Preferowany kraj", "Doświadczenie lub jego brak", "Kategorie prawa jazdy, jeśli dotyczy", "Sam / para / grupa"]],
-          ["Potwierdź termin", ["Kiedy możesz wyjechać lub zacząć", "Czy potrzebne jest mieszkanie", "Czy dokumenty są gotowe", "Która oferta jest interesująca"]],
+          ["Potwierdź termin", ["Kiedy możesz wyjechać lub zacząć", "Czy potrzebne jest mieszkanie", "Czy formalności trzeba wyjaśnić", "Która oferta jest interesująca"]],
           ["Nie wysyłaj od razu", ["Zdjęć paszportu", "Danych karty bankowej", "Kodów osobistych", "Opłat ani zaliczek przed potwierdzeniem warunków"]]
         ]
       }
@@ -2154,11 +2154,11 @@
         previewTitle: "Recruiter will receive",
         scoreTitle: "Start readiness",
         scoreText: "The more complete the card, the faster the recruiter can check suitable jobs.",
-        privacy: "Stored locally on this device. No passport photos, bank cards or personal codes are needed here.",
-        send: "Send passport in WhatsApp",
-        copy: "Copy passport",
+        privacy: "Safe application: no document numbers, no document photos, no bank details. The form stays on this device until you press WhatsApp.",
+        send: "Send application in WhatsApp",
+        copy: "Copy application",
         clear: "Clear",
-        copied: "Candidate passport copied",
+        copied: "Candidate application copied",
         fillFromMatch: "Use quick answers",
         missing: "To improve readiness",
         ready: "Ready for recruiter review",
@@ -2171,7 +2171,7 @@
           destination: "Wanted country",
           people: "Who is going",
           experience: "Experience",
-          documents: "Documents / work status",
+          workDocs: "Are work documents ready?",
           readyDate: "Ready date",
           job: "Interesting job or direction"
         },
@@ -2180,7 +2180,6 @@
           birthDate: "Example: 1995-08-15",
           current: "Example: Poland, Wroclaw",
           citizenship: "Example: Ukraine",
-          documents: "Example: biometric passport, visa, PESEL...",
           readyDate: "Example: next week / 15 August",
           job: "Example: greenhouse / warehouse / driver"
         },
@@ -2188,11 +2187,17 @@
           language: ["English", "Ukrainian", "Polish", "Russian", "Spanish", "Other"],
           destination: ["Poland", "Hungary", "Belgium", "Not sure"],
           people: ["Only me", "Couple", "Group / friends"],
-          experience: ["No experience", "Have experience", "Driver", "Warehouse", "Greenhouse"]
+          experience: ["No experience", "Have experience", "Driver", "Warehouse", "Greenhouse"],
+          workDocs: ["Ready", "Not ready", "Need to clarify"]
         },
         messageTitle: "CITRONEX CANDIDATE PASSPORT",
         nextQuestions: "Suggested next questions",
-        questions: ["Which documents are ready?", "Which city and start date are available?", "Is housing needed?"]
+        safetyCards: [
+          ["No document numbers", "The site asks only for a general paperwork status."],
+          ["Only on this phone", "Answers stay in the browser until WhatsApp is pressed."],
+          ["Human check", "The recruiter confirms conditions personally before travel."]
+        ],
+        questions: ["Is work paperwork ready — without sending photos or numbers?", "Which city and start date are available?", "Is housing needed?"]
       },
       ru: {
         kicker: "Candidate Passport",
@@ -2202,11 +2207,11 @@
         previewTitle: "Рекрутер получит",
         scoreTitle: "Готовность к старту",
         scoreText: "Чем полнее карточка, тем быстрее рекрутер проверит подходящие вакансии.",
-        privacy: "Хранится локально на этом устройстве. Фото паспорта, карты и личные коды здесь не нужны.",
-        send: "Отправить паспорт в WhatsApp",
-        copy: "Скопировать паспорт",
+        privacy: "Безопасная заявка: без номеров документов, без фото документов, без банковских данных. Форма хранится на этом устройстве до нажатия WhatsApp.",
+        send: "Отправить заявку в WhatsApp",
+        copy: "Скопировать заявку",
         clear: "Очистить",
-        copied: "Паспорт кандидата скопирован",
+        copied: "Заявка кандидата скопирована",
         fillFromMatch: "Заполнить из подбора",
         missing: "Чтобы улучшить готовность",
         ready: "Готово для проверки рекрутером",
@@ -2219,7 +2224,7 @@
           destination: "Желаемая страна",
           people: "Кто едет",
           experience: "Опыт",
-          documents: "Документы / статус работы",
+          workDocs: "Оформление для работы готово?",
           readyDate: "Когда готовы",
           job: "Интересная вакансия или направление"
         },
@@ -2228,7 +2233,6 @@
           birthDate: "Например: 1995-08-15",
           current: "Например: Poland, Wroclaw",
           citizenship: "Например: Ukraine",
-          documents: "Например: биометрия, виза, PESEL...",
           readyDate: "Например: на следующей неделе / 15 августа",
           job: "Например: теплица / склад / водитель"
         },
@@ -2236,11 +2240,17 @@
           language: ["Русский", "Украинский", "Польский", "Английский", "Испанский", "Другой"],
           destination: ["Польша", "Венгрия", "Бельгия", "Пока не знаю"],
           people: ["Только я", "Пара", "Группа / друзья"],
-          experience: ["Без опыта", "Есть опыт", "Водитель", "Склад", "Теплица"]
+          experience: ["Без опыта", "Есть опыт", "Водитель", "Склад", "Теплица"],
+          workDocs: ["Готовы", "Не готовы", "Нужно уточнить"]
         },
         messageTitle: "CITRONEX CANDIDATE PASSPORT",
         nextQuestions: "Подсказка рекрутеру: следующий вопрос",
-        questions: ["Какие документы уже готовы?", "Какой город и дата старта подходят?", "Нужно ли жильё?"]
+        safetyCards: [
+          ["Без номеров документов", "Сайт спрашивает только общий статус оформления."],
+          ["Только на телефоне", "Ответы остаются в браузере до нажатия WhatsApp."],
+          ["Проверка человеком", "Рекрутер лично подтверждает условия перед поездкой."]
+        ],
+        questions: ["Оформление для работы готово — без фото и номеров?", "Какой город и дата старта подходят?", "Нужно ли жильё?"]
       },
       uk: {
         kicker: "Candidate Passport",
@@ -2250,11 +2260,11 @@
         previewTitle: "Рекрутер отримає",
         scoreTitle: "Готовність до старту",
         scoreText: "Чим повніша картка, тим швидше рекрутер перевірить відповідні вакансії.",
-        privacy: "Зберігається локально на цьому пристрої. Фото паспорта, картки і особисті коди тут не потрібні.",
-        send: "Надіслати паспорт у WhatsApp",
-        copy: "Скопіювати паспорт",
+        privacy: "Безпечна заявка: без номерів документів, без фото документів, без банківських даних. Форма зберігається на цьому пристрої до натискання WhatsApp.",
+        send: "Надіслати заявку у WhatsApp",
+        copy: "Скопіювати заявку",
         clear: "Очистити",
-        copied: "Паспорт кандидата скопійовано",
+        copied: "Заявку кандидата скопійовано",
         fillFromMatch: "Заповнити з підбору",
         missing: "Щоб покращити готовність",
         ready: "Готово для перевірки рекрутером",
@@ -2267,7 +2277,7 @@
           destination: "Бажана країна",
           people: "Хто їде",
           experience: "Досвід",
-          documents: "Документи / робочий статус",
+          workDocs: "Оформлення для роботи готове?",
           readyDate: "Коли готові",
           job: "Цікава вакансія або напрям"
         },
@@ -2276,7 +2286,6 @@
           birthDate: "Наприклад: 1995-08-15",
           current: "Наприклад: Poland, Wroclaw",
           citizenship: "Наприклад: Ukraine",
-          documents: "Наприклад: біометрія, віза, PESEL...",
           readyDate: "Наприклад: наступного тижня / 15 серпня",
           job: "Наприклад: теплиця / склад / водій"
         },
@@ -2284,11 +2293,17 @@
           language: ["Українська", "Польська", "Англійська", "Російська", "Іспанська", "Інша"],
           destination: ["Польща", "Угорщина", "Бельгія", "Поки не знаю"],
           people: ["Тільки я", "Пара", "Група / друзі"],
-          experience: ["Без досвіду", "Є досвід", "Водій", "Склад", "Теплиця"]
+          experience: ["Без досвіду", "Є досвід", "Водій", "Склад", "Теплиця"],
+          workDocs: ["Готові", "Не готові", "Потрібно уточнити"]
         },
         messageTitle: "CITRONEX CANDIDATE PASSPORT",
         nextQuestions: "Підказка рекрутеру: наступне питання",
-        questions: ["Які документи вже готові?", "Яке місто і дата старту підходять?", "Чи потрібне житло?"]
+        safetyCards: [
+          ["Без номерів документів", "Сайт питає тільки загальний статус оформлення."],
+          ["Тільки на телефоні", "Відповіді залишаються в браузері до натискання WhatsApp."],
+          ["Перевірка людиною", "Рекрутер особисто підтверджує умови перед поїздкою."]
+        ],
+        questions: ["Оформлення для роботи готове — без фото і номерів?", "Яке місто і дата старту підходять?", "Чи потрібне житло?"]
       },
       pl: {
         kicker: "Candidate Passport",
@@ -2298,11 +2313,11 @@
         previewTitle: "Rekruter otrzyma",
         scoreTitle: "Gotowość do startu",
         scoreText: "Im pełniejsza karta, tym szybciej rekruter sprawdzi pasujące oferty.",
-        privacy: "Przechowywane lokalnie na tym urządzeniu. Zdjęcia paszportu, karty i kody osobiste nie są tu potrzebne.",
-        send: "Wyślij paszport w WhatsApp",
-        copy: "Kopiuj paszport",
+        privacy: "Bezpieczne zgłoszenie: bez numerów dokumentów, bez zdjęć dokumentów, bez danych bankowych. Formularz zostaje na tym urządzeniu do naciśnięcia WhatsApp.",
+        send: "Wyślij zgłoszenie w WhatsApp",
+        copy: "Kopiuj zgłoszenie",
         clear: "Wyczyść",
-        copied: "Paszport kandydata skopiowany",
+        copied: "Zgłoszenie kandydata skopiowane",
         fillFromMatch: "Użyj szybkich odpowiedzi",
         missing: "Aby poprawić gotowość",
         ready: "Gotowe do sprawdzenia przez rekrutera",
@@ -2315,7 +2330,7 @@
           destination: "Preferowany kraj",
           people: "Kto jedzie",
           experience: "Doświadczenie",
-          documents: "Dokumenty / status pracy",
+          workDocs: "Czy formalności do pracy są gotowe?",
           readyDate: "Kiedy możesz zacząć",
           job: "Interesująca oferta lub kierunek"
         },
@@ -2324,7 +2339,6 @@
           birthDate: "Np. 1995-08-15",
           current: "Np. Poland, Wroclaw",
           citizenship: "Np. Ukraine",
-          documents: "Np. biometryczny paszport, wiza, PESEL...",
           readyDate: "Np. w przyszłym tygodniu / 15 sierpnia",
           job: "Np. szklarnia / magazyn / kierowca"
         },
@@ -2332,11 +2346,17 @@
           language: ["Polski", "Ukraiński", "Angielski", "Rosyjski", "Hiszpański", "Inny"],
           destination: ["Polska", "Węgry", "Belgia", "Nie wiem"],
           people: ["Tylko ja", "Para", "Grupa / znajomi"],
-          experience: ["Bez doświadczenia", "Mam doświadczenie", "Kierowca", "Magazyn", "Szklarnia"]
+          experience: ["Bez doświadczenia", "Mam doświadczenie", "Kierowca", "Magazyn", "Szklarnia"],
+          workDocs: ["Gotowe", "Nie gotowe", "Do wyjaśnienia"]
         },
         messageTitle: "CITRONEX CANDIDATE PASSPORT",
         nextQuestions: "Podpowiedź dla rekrutera: następne pytanie",
-        questions: ["Jakie dokumenty są gotowe?", "Jakie miasto i data startu pasują?", "Czy potrzebne jest mieszkanie?"]
+        safetyCards: [
+          ["Bez numerów dokumentów", "Strona pyta tylko o ogólny status formalności."],
+          ["Tylko na telefonie", "Odpowiedzi zostają w przeglądarce do naciśnięcia WhatsApp."],
+          ["Sprawdza człowiek", "Rekruter osobiście potwierdza warunki przed wyjazdem."]
+        ],
+        questions: ["Czy formalności do pracy są gotowe — bez zdjęć i numerów?", "Jakie miasto i data startu pasują?", "Czy potrzebne jest mieszkanie?"]
       }
     };
     return copy[i18n.locale] || copy.en;
@@ -2382,12 +2402,15 @@
     if (experience.includes("driver") || experience.includes("вод") || experience.includes("kierow")) tags.push("#driver");
     if (job.includes("green") || job.includes("тепл") || job.includes("szkl")) tags.push("#greenhouse");
     if (job.includes("warehouse") || job.includes("склад") || job.includes("magaz")) tags.push("#warehouse");
+    const workDocs = normalizePassportText(passportValue("workDocs"));
+    if (workDocs.includes("ready") || workDocs.includes("готов") || workDocs.includes("gotow")) tags.push("#work_docs_ready");
+    if (workDocs.includes("clar") || workDocs.includes("уточ") || workDocs.includes("wyja")) tags.push("#work_docs_clarify");
     if (passportValue("readyDate")) tags.push("#ready_date_set");
     return [...new Set(tags)];
   }
 
   function passportScore() {
-    const required = ["name", "birthDate", "current", "citizenship", "language", "destination", "people", "experience", "readyDate", "job"];
+    const required = ["name", "birthDate", "current", "citizenship", "language", "destination", "people", "experience", "workDocs", "readyDate", "job"];
     const filled = required.filter((key) => passportValue(key)).length;
     return {
       score: Math.round((filled / required.length) * 100),
@@ -2428,7 +2451,7 @@
       line("destination"),
       line("people"),
       line("experience"),
-      line("documents"),
+      line("workDocs"),
       line("readyDate"),
       line("job")
     ].join("\n");
@@ -2457,7 +2480,7 @@
       line("destination"),
       line("people"),
       line("experience"),
-      line("documents"),
+      line("workDocs"),
       line("readyDate"),
       line("job"),
       "",
@@ -2466,6 +2489,7 @@
       `Readiness: ${score}%`,
       `Tags: ${tags.join(" ")}`,
       `Missing: ${missing.length ? missing.map((key) => labels[key]).join(", ") : "nothing critical"}`,
+      "Safety rule: do not request document photos, document numbers, personal codes or bank data in first contact.",
       "",
       "Best vacancy matches:",
       ...matches.map(({ job, fit }, index) => {
@@ -2646,7 +2670,7 @@
       score += 14;
       reasons.push(copy.couple);
     }
-    if (!passportValue("documents")) checks.push(copy.askDocs);
+    if (!passportValue("workDocs")) checks.push(copy.askDocs);
     if (!passportValue("readyDate")) checks.push(copy.askStart);
     if (!reasons.length) score = Math.min(score, 35);
     return {
@@ -2685,6 +2709,15 @@
     layout.innerHTML = `
       <form class="candidate-passport-form" id="candidate-passport-form">
         <h3>${escapeHTML(copy.fieldsTitle)}</h3>
+        <div class="candidate-passport-safe-grid" aria-label="Candidate application safety">
+          ${(copy.safetyCards || []).map(([title, text]) => `
+            <article>
+              <span aria-hidden="true">✓</span>
+              <strong>${escapeHTML(title)}</strong>
+              <small>${escapeHTML(text)}</small>
+            </article>
+          `).join("")}
+        </div>
         <div class="candidate-passport-fields">
           ${passportFieldHTML("name")}
           ${passportFieldHTML("birthDate", "date")}
@@ -2694,7 +2727,7 @@
           ${passportSelectHTML("destination")}
           ${passportSelectHTML("people")}
           ${passportSelectHTML("experience")}
-          ${passportFieldHTML("documents")}
+          ${passportSelectHTML("workDocs")}
           ${passportFieldHTML("readyDate")}
           ${passportFieldHTML("job")}
         </div>
@@ -2826,7 +2859,7 @@
         start: "Старт",
         experience: "Опыт",
         load: "Нагрузка",
-        docs: "Документы",
+        docs: "Оформление",
         couples: "Пары",
         startCheck: "проверка",
         startEasy: "проще",
@@ -2845,7 +2878,7 @@
         start: "Старт",
         experience: "Досвід",
         load: "Навантаження",
-        docs: "Документи",
+        docs: "Оформлення",
         couples: "Пари",
         startCheck: "перевірка",
         startEasy: "простіше",
@@ -2864,7 +2897,7 @@
         start: "Start",
         experience: "Doświadczenie",
         load: "Obciążenie",
-        docs: "Dokumenty",
+        docs: "Formalności",
         couples: "Pary",
         startCheck: "sprawdzenie",
         startEasy: "łatwiej",
@@ -2883,7 +2916,7 @@
         start: "Start",
         experience: "Experience",
         load: "Workload",
-        docs: "Documents",
+        docs: "Paperwork",
         couples: "Couples",
         startCheck: "check",
         startEasy: "easier",
@@ -3229,7 +3262,7 @@
       negative.push(i18n.locale === "ru" ? "Не подходит, если нужна гарантированная дата старта без проверки мест" : "Not suitable if you need a guaranteed start date before availability is checked");
     }
     if (!negative.length) {
-      negative.push(i18n.locale === "ru" ? "Нужно отдельно подтвердить документы, ставку и место" : "Documents, rate and availability must be confirmed first");
+      negative.push(i18n.locale === "ru" ? "Нужно отдельно подтвердить оформление, ставку и место" : "Paperwork, rate and availability must be confirmed first");
     }
     return { positive: [...new Set(positive)].slice(0, 4), negative: [...new Set(negative)].slice(0, 4) };
   }
