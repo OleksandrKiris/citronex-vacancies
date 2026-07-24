@@ -2680,6 +2680,8 @@
         refCopied: "Application reference copied",
         currentQuickTitle: "Where are you now?",
         currentQuickOptions: ["Poland", "Ukraine", "Georgia", "Armenia", "Nepal", "Other country"],
+        citizenshipQuickTitle: "Citizenship",
+        citizenshipQuickOptions: ["Ukraine", "Georgia", "Armenia", "Nepal", "Azerbaijan", "Other"],
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2793,6 +2795,8 @@
         refCopied: "Номер заявки скопирован",
         currentQuickTitle: "Где вы сейчас?",
         currentQuickOptions: ["Польша", "Украина", "Грузия", "Армения", "Непал", "Другая страна"],
+        citizenshipQuickTitle: "Гражданство",
+        citizenshipQuickOptions: ["Украина", "Грузия", "Армения", "Непал", "Азербайджан", "Другое"],
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2906,6 +2910,8 @@
         refCopied: "Номер заявки скопійовано",
         currentQuickTitle: "Де ви зараз?",
         currentQuickOptions: ["Польща", "Україна", "Грузія", "Вірменія", "Непал", "Інша країна"],
+        citizenshipQuickTitle: "Громадянство",
+        citizenshipQuickOptions: ["Україна", "Грузія", "Вірменія", "Непал", "Азербайджан", "Інше"],
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3019,6 +3025,8 @@
         refCopied: "Numer zgłoszenia skopiowany",
         currentQuickTitle: "Gdzie jesteś teraz?",
         currentQuickOptions: ["Polska", "Ukraina", "Gruzja", "Armenia", "Nepal", "Inny kraj"],
+        citizenshipQuickTitle: "Obywatelstwo",
+        citizenshipQuickOptions: ["Ukraina", "Gruzja", "Armenia", "Nepal", "Azerbejdżan", "Inne"],
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3290,6 +3298,21 @@
     `;
   }
 
+  function passportCitizenshipQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("citizenship");
+    return `
+      <div class="candidate-passport-citizenship-quick" aria-label="${escapeHTML(copy.citizenshipQuickTitle)}">
+        <span>${escapeHTML(copy.citizenshipQuickTitle)}</span>
+        <div>
+          ${(copy.citizenshipQuickOptions || []).map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-citizenship="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3371,6 +3394,13 @@
 
   function applyPassportCurrentPlace(value) {
     state.passport.current = value;
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportCitizenship(value) {
+    state.passport.citizenship = value;
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3842,6 +3872,7 @@
           ${passportFieldHTML("current")}
           ${passportCurrentQuickHTML()}
           ${passportFieldHTML("citizenship")}
+          ${passportCitizenshipQuickHTML()}
           ${passportSelectHTML("language")}
           ${passportSelectHTML("destination")}
           ${passportSelectHTML("people")}
@@ -5093,6 +5124,11 @@
       const passportCurrentPlaceButton = event.target.closest("[data-passport-current-place]");
       if (passportCurrentPlaceButton) {
         applyPassportCurrentPlace(passportCurrentPlaceButton.dataset.passportCurrentPlace);
+        return;
+      }
+      const passportCitizenshipButton = event.target.closest("[data-passport-citizenship]");
+      if (passportCitizenshipButton) {
+        applyPassportCitizenship(passportCitizenshipButton.dataset.passportCitizenship);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
