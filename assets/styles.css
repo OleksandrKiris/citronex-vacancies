@@ -9194,6 +9194,76 @@ body.vacancy-first {
   box-shadow: 0 14px 32px rgba(9, 19, 15, 0.14);
 }
 
+.instant-whatsapp-preview {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1.7fr);
+  gap: 10px;
+  padding: 12px;
+  color: #17211d;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 249, 239, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  box-shadow: 0 14px 32px rgba(9, 19, 15, 0.12);
+}
+
+.instant-whatsapp-preview > div:first-child {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+
+.instant-whatsapp-preview strong {
+  color: #102018;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.instant-whatsapp-preview span {
+  color: #607066;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.instant-whatsapp-preview dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+
+.instant-whatsapp-preview dl div {
+  min-width: 0;
+  padding: 8px;
+  background: rgba(16, 32, 24, 0.05);
+  border: 1px solid rgba(16, 32, 24, 0.06);
+  border-radius: 12px;
+}
+
+.instant-whatsapp-preview dt,
+.instant-whatsapp-preview dd {
+  margin: 0;
+}
+
+.instant-whatsapp-preview dt {
+  color: #607066;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.instant-whatsapp-preview dd {
+  overflow: hidden;
+  color: #17211d;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+
 .instant-result-badge {
   width: max-content;
   max-width: 100%;
@@ -9289,6 +9359,63 @@ body.vacancy-first {
   padding: 7px 8px;
   border-radius: 7px;
   font-size: 12px;
+}
+
+.job-score {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.job-score-pill {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+  padding: 7px 8px;
+  background: #f4f7f5;
+  border: 1px solid #e4ebe7;
+  border-radius: 13px;
+}
+
+.job-score-pill small,
+.job-score-pill strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-score-pill small {
+  color: #68766d;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.job-score-pill strong {
+  color: #17211d;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.18;
+}
+
+.job-score-pill.is-good {
+  background: #edfff5;
+  border-color: rgba(15, 109, 76, 0.14);
+}
+
+.job-score-pill.is-good strong {
+  color: #0f6d4c;
+}
+
+.job-score-pill.is-warm {
+  background: #fff7e8;
+  border-color: rgba(255, 107, 53, 0.16);
+}
+
+.job-score-pill.is-warm strong {
+  color: #9a4a17;
 }
 
 @media (max-width: 980px) {
@@ -9420,6 +9547,15 @@ body.vacancy-first {
     gap: 6px;
   }
 
+  .instant-whatsapp-preview {
+    grid-template-columns: 1fr;
+    border-radius: 18px;
+  }
+
+  .instant-whatsapp-preview dl {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .instant-result-head small {
     display: none;
   }
@@ -9440,6 +9576,10 @@ body.vacancy-first {
   .instant-result-card {
     width: 260px;
     flex: 0 0 260px;
+  }
+
+  .job-score {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

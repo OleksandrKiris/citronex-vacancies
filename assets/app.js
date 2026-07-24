@@ -349,6 +349,9 @@
         messageJobs: "Подходящие вакансии",
         messageLanguage: "Язык сайта",
         messageLink: "Ссылка",
+        previewTitle: "В WhatsApp отправится",
+        previewLanguage: "Язык",
+        previewJobs: "Вакансии",
         badgeBest: "Лучший старт",
         badgeHours: "Больше часов",
         badgeDriver: "Для водителя",
@@ -390,6 +393,9 @@
         messageJobs: "Відповідні вакансії",
         messageLanguage: "Мова сайту",
         messageLink: "Посилання",
+        previewTitle: "У WhatsApp буде відправлено",
+        previewLanguage: "Мова",
+        previewJobs: "Вакансії",
         badgeBest: "Найкращий старт",
         badgeHours: "Більше годин",
         badgeDriver: "Для водія",
@@ -431,6 +437,9 @@
         messageJobs: "Pasujące oferty",
         messageLanguage: "Język strony",
         messageLink: "Link",
+        previewTitle: "Do WhatsApp trafi",
+        previewLanguage: "Język",
+        previewJobs: "Oferty",
         badgeBest: "Najlepszy start",
         badgeHours: "Więcej godzin",
         badgeDriver: "Dla kierowcy",
@@ -472,6 +481,9 @@
         messageJobs: "Suitable jobs",
         messageLanguage: "Site language",
         messageLink: "Link",
+        previewTitle: "WhatsApp will receive",
+        previewLanguage: "Language",
+        previewJobs: "Jobs",
         badgeBest: "Best start",
         badgeHours: "More hours",
         badgeDriver: "For drivers",
@@ -1537,6 +1549,28 @@
     ].join("\n");
   }
 
+  function instantMatchPreview(matches) {
+    const copy = instantMatchCopy();
+    const answers = [
+      [messageLabel(copy.country), instantChoiceLabel("country", state.instantMatch.country)],
+      [messageLabel(copy.experience), instantChoiceLabel("experience", state.instantMatch.experience)],
+      [messageLabel(copy.area), instantChoiceLabel("area", state.instantMatch.area)]
+    ];
+    const jobTitles = matches.slice(0, 2).map((job) => localizedJob(job).title);
+    return `
+      <aside class="instant-whatsapp-preview" aria-label="${escapeHTML(copy.previewTitle)}">
+        <div>
+          <strong>${escapeHTML(copy.previewTitle)}</strong>
+          <span>${escapeHTML(copy.previewLanguage)}: ${escapeHTML(i18n.languageName(i18n.locale))}</span>
+        </div>
+        <dl>
+          ${answers.map(([label, value]) => `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd></div>`).join("")}
+          <div><dt>${escapeHTML(copy.previewJobs)}</dt><dd>${matches.length} · ${jobTitles.map(escapeHTML).join(" / ")}</dd></div>
+        </dl>
+      </aside>
+    `;
+  }
+
   function openInstantMatchWhatsApp() {
     const fallbackPhone = String(profile.phone || "").replace(/\D/g, "");
     const whatsappUrl = profile.whatsapp || `https://wa.me/${fallbackPhone}`;
@@ -1582,6 +1616,7 @@
         <small>${escapeHTML(copy.note)}</small>
         <button class="button button-whatsapp instant-whatsapp" type="button" data-instant-whatsapp>${escapeHTML(copy.whatsapp)}</button>
       </div>
+      ${instantMatchPreview(matches)}
       <div class="instant-result-grid">
         ${matches.map((job) => {
           const view = localizedJob(job);
@@ -1629,6 +1664,115 @@
     `).join("");
   }
 
+  function jobScoreCopy() {
+    const copy = {
+      ru: {
+        start: "Старт",
+        experience: "Опыт",
+        load: "Нагрузка",
+        docs: "Документы",
+        couples: "Пары",
+        startCheck: "проверка",
+        startEasy: "проще",
+        expNone: "не нужен",
+        expUseful: "желателен",
+        expRequired: "обязателен",
+        loadMedium: "средняя",
+        loadHigh: "высокая",
+        loadResponsible: "ответственная",
+        docsStandard: "стандартно",
+        docsCheck: "проверить",
+        couplesYes: "возможно",
+        couplesClarify: "уточнить"
+      },
+      uk: {
+        start: "Старт",
+        experience: "Досвід",
+        load: "Навантаження",
+        docs: "Документи",
+        couples: "Пари",
+        startCheck: "перевірка",
+        startEasy: "простіше",
+        expNone: "не потрібен",
+        expUseful: "бажаний",
+        expRequired: "обов’язковий",
+        loadMedium: "середнє",
+        loadHigh: "високе",
+        loadResponsible: "відповідальна",
+        docsStandard: "стандартно",
+        docsCheck: "перевірити",
+        couplesYes: "можливо",
+        couplesClarify: "уточнити"
+      },
+      pl: {
+        start: "Start",
+        experience: "Doświadczenie",
+        load: "Obciążenie",
+        docs: "Dokumenty",
+        couples: "Pary",
+        startCheck: "sprawdzenie",
+        startEasy: "łatwiej",
+        expNone: "nie trzeba",
+        expUseful: "mile widziane",
+        expRequired: "wymagane",
+        loadMedium: "średnie",
+        loadHigh: "wysokie",
+        loadResponsible: "odpowiedzialna",
+        docsStandard: "standardowo",
+        docsCheck: "sprawdzić",
+        couplesYes: "możliwe",
+        couplesClarify: "dopytać"
+      },
+      en: {
+        start: "Start",
+        experience: "Experience",
+        load: "Workload",
+        docs: "Documents",
+        couples: "Couples",
+        startCheck: "check",
+        startEasy: "easier",
+        expNone: "not needed",
+        expUseful: "useful",
+        expRequired: "required",
+        loadMedium: "medium",
+        loadHigh: "high",
+        loadResponsible: "responsible",
+        docsStandard: "standard",
+        docsCheck: "check",
+        couplesYes: "possible",
+        couplesClarify: "clarify"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function jobScoreItems(job, view) {
+    const copy = jobScoreCopy();
+    const searchable = [job.id, job.category, job.level, view.title, view.level, ...(view.required || [])].join(" ").toLowerCase();
+    const isDriver = job.id.startsWith("driver-") || job.category === "Транспорт";
+    const isWarehouse = job.category === "Склад";
+    const isGreenhouse = job.category === "Теплицы";
+    const needsDocsCheck = isDriver || searchable.includes("udt") || searchable.includes("c+e") || searchable.includes("code 95") || job.level !== "Без опыта";
+    const couplesPossible = (view.candidates || []).some((candidate) => candidate.toLowerCase().includes("пар"));
+    const experienceValue = job.level === "Без опыта"
+      ? copy.expNone
+      : job.level.includes("желател")
+        ? copy.expUseful
+        : copy.expRequired;
+    const loadValue = isDriver
+      ? copy.loadResponsible
+      : (isWarehouse || isGreenhouse || job.category === "Производство")
+        ? copy.loadHigh
+        : copy.loadMedium;
+    return [
+      { label: copy.start, value: job.status === "open" ? copy.startEasy : copy.startCheck, tone: job.status === "open" ? "good" : "check" },
+      { label: copy.experience, value: experienceValue, tone: job.level === "Без опыта" ? "good" : "check" },
+      { label: copy.load, value: loadValue, tone: loadValue === copy.loadHigh ? "warm" : "check" },
+      { label: copy.docs, value: needsDocsCheck ? copy.docsCheck : copy.docsStandard, tone: needsDocsCheck ? "check" : "good" },
+      { label: copy.couples, value: couplesPossible ? copy.couplesYes : copy.couplesClarify, tone: couplesPossible ? "good" : "check" }
+    ];
+  }
+
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const visualType = jobVisualType(job.id);
@@ -1669,6 +1813,14 @@
             <dd>${escapeHTML(view.contract)}</dd>
           </div>
         </dl>
+        <div class="job-score" aria-label="Job score">
+          ${jobScoreItems(job, view).map((item) => `
+            <span class="job-score-pill is-${escapeHTML(item.tone)}">
+              <small>${escapeHTML(item.label)}</small>
+              <strong>${escapeHTML(item.value)}</strong>
+            </span>
+          `).join("")}
+        </div>
         <p class="job-card-availability">
           ${svgIcon("clock")}
           <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
