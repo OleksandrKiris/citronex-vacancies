@@ -3496,6 +3496,38 @@
   }
 
   function transliterateToLatin(value) {
+    const transliterateDevanagari = (text) => {
+      const consonants = {
+        क: "k", ख: "kh", ग: "g", घ: "gh", ङ: "ng", च: "ch", छ: "chh", ज: "j", झ: "jh", ञ: "ny",
+        ट: "t", ठ: "th", ड: "d", ढ: "dh", ण: "n", त: "t", थ: "th", द: "d", ध: "dh", न: "n",
+        प: "p", फ: "ph", ब: "b", भ: "bh", म: "m", य: "y", र: "r", ल: "l", व: "w",
+        श: "sh", ष: "sh", स: "s", ह: "h", क्ष: "ksh", त्र: "tr", ज्ञ: "gy"
+      };
+      const vowels = { अ: "a", आ: "aa", इ: "i", ई: "i", उ: "u", ऊ: "u", ए: "e", ऐ: "ai", ओ: "o", औ: "au", ऋ: "ri" };
+      const signs = { "ा": "a", "ि": "i", "ी": "i", "ु": "u", "ू": "u", "े": "e", "ै": "ai", "ो": "o", "ौ": "au", "ृ": "ri", "ं": "n", "ँ": "n", "ः": "h" };
+      let result = "";
+      for (let index = 0; index < text.length; index += 1) {
+        const pair = text.slice(index, index + 2);
+        const char = text[index];
+        const base = consonants[pair] || consonants[char];
+        if (base) {
+          if (consonants[pair]) index += 1;
+          const next = text[index + 1];
+          if (next === "्") {
+            result += base;
+            index += 1;
+          } else if (signs[next]) {
+            result += base + signs[next];
+            index += 1;
+          } else {
+            result += `${base}a`;
+          }
+        } else {
+          result += vowels[char] || signs[char] || (char === "्" ? "" : char);
+        }
+      }
+      return result;
+    };
     const map = {
       А: "A", а: "a", Б: "B", б: "b", В: "V", в: "v", Г: "H", г: "h", Ґ: "G", ґ: "g",
       Д: "D", д: "d", Е: "E", е: "e", Є: "Ye", є: "ie", Ж: "Zh", ж: "zh", З: "Z", з: "z",
@@ -3518,7 +3550,9 @@
       Տ: "T", տ: "t", Ր: "R", ր: "r", Ց: "Ts", ց: "ts", Ւ: "V", ւ: "v", Փ: "P", փ: "p",
       Ք: "K", ք: "k", Օ: "O", օ: "o", Ֆ: "F", ֆ: "f", և: "ev"
     };
-    return String(value || "")
+    const source = String(value || "");
+    const normalizedSource = /[\u0900-\u097F]/.test(source) ? transliterateDevanagari(source) : source;
+    return normalizedSource
       .split("")
       .map((char) => map[char] ?? char)
       .join("")
