@@ -79,7 +79,17 @@
 
   function persistPassport() {
     try {
+      state.passport._savedAt = new Date().toISOString();
       localStorage.setItem(STORAGE.passport, JSON.stringify(state.passport));
+    } catch {
+      showToast(t("ui.noteHelp"));
+    }
+  }
+
+  function clearPassport() {
+    state.passport = {};
+    try {
+      localStorage.removeItem(STORAGE.passport);
     } catch {
       showToast(t("ui.noteHelp"));
     }
@@ -2647,6 +2657,9 @@
         briefCountry: "Country",
         briefDirection: "Direction",
         briefStart: "Start",
+        saveTitle: "Saved on this phone",
+        saveEmpty: "Will be saved locally while you fill the form.",
+        saveOnlyAfterWhatsApp: "Not sent until WhatsApp is pressed",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2727,6 +2740,9 @@
         briefCountry: "Страна",
         briefDirection: "Направление",
         briefStart: "Старт",
+        saveTitle: "Сохранено на этом телефоне",
+        saveEmpty: "Будет сохраняться локально во время заполнения.",
+        saveOnlyAfterWhatsApp: "Не отправляется до нажатия WhatsApp",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2807,6 +2823,9 @@
         briefCountry: "Країна",
         briefDirection: "Напрям",
         briefStart: "Старт",
+        saveTitle: "Збережено на цьому телефоні",
+        saveEmpty: "Буде зберігатися локально під час заповнення.",
+        saveOnlyAfterWhatsApp: "Не надсилається до натискання WhatsApp",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2887,6 +2906,9 @@
         briefCountry: "Kraj",
         briefDirection: "Kierunek",
         briefStart: "Start",
+        saveTitle: "Zapisane na tym telefonie",
+        saveEmpty: "Będzie zapisywane lokalnie podczas wypełniania.",
+        saveOnlyAfterWhatsApp: "Nie wysyła się przed naciśnięciem WhatsApp",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3330,6 +3352,32 @@
     `;
   }
 
+  function passportSavedAtText() {
+    const value = state.passport?._savedAt;
+    if (!value) return "";
+    const savedAt = new Date(value);
+    if (Number.isNaN(savedAt.getTime())) return "";
+    try {
+      return new Intl.DateTimeFormat(i18n.localeTag(), { hour: "2-digit", minute: "2-digit" }).format(savedAt);
+    } catch {
+      return savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+  }
+
+  function candidatePassportSaveStatusHTML() {
+    const copy = candidatePassportCopy();
+    const savedAt = passportSavedAtText();
+    return `
+      <div class="candidate-passport-save-status${savedAt ? " is-saved" : ""}" role="status">
+        <span aria-hidden="true"></span>
+        <div>
+          <strong>${escapeHTML(savedAt ? `${copy.saveTitle} · ${savedAt}` : copy.saveTitle)}</strong>
+          <small>${escapeHTML(savedAt ? copy.saveOnlyAfterWhatsApp : copy.saveEmpty)}</small>
+        </div>
+      </div>
+    `;
+  }
+
   function hasPassportMatchInput() {
     return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
   }
@@ -3454,6 +3502,7 @@
           ${passportFieldHTML("job")}
         </div>
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
+        ${candidatePassportSaveStatusHTML()}
       </form>
       <aside class="candidate-passport-preview">
         ${candidatePassportCoachHTML(score, missing)}
@@ -4681,8 +4730,7 @@
       }
       const passportClearButton = event.target.closest("[data-passport-clear]");
       if (passportClearButton) {
-        state.passport = {};
-        persistPassport();
+        clearPassport();
         renderCandidatePassport();
         refreshJobLists();
         return;

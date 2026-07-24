@@ -10127,6 +10127,54 @@ body.vacancy-first {
   line-height: 1.42;
 }
 
+.candidate-passport-save-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+}
+
+.candidate-passport-save-status > span {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  background: #ffb84d;
+  border-radius: 999px;
+  box-shadow: 0 0 0 5px rgba(255, 184, 77, 0.12);
+}
+
+.candidate-passport-save-status.is-saved > span {
+  background: #bdf24b;
+  box-shadow: 0 0 0 5px rgba(189, 242, 75, 0.13);
+}
+
+.candidate-passport-save-status > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.candidate-passport-save-status strong {
+  overflow: hidden;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.candidate-passport-save-status small {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
 .candidate-passport-preview {
   align-content: start;
   background:
