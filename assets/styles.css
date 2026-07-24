@@ -9134,6 +9134,151 @@ body.vacancy-first::before {
   }
 }
 
+/* v77 · typography, badges and reading comfort polish */
+.vacancy-first {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+.vacancy-first h1,
+.vacancy-first h2,
+.vacancy-first h3 {
+  letter-spacing: -0.045em;
+}
+
+.vacancy-first p,
+.vacancy-first li,
+.resource-card p,
+.job-card-summary,
+.profile-experience-item p,
+.faq-list details p {
+  line-height: 1.58;
+}
+
+.vacancy-first .overline {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  color: #0f6d4c;
+  background: rgba(189, 242, 75, 0.16);
+  border: 1px solid rgba(15, 109, 76, 0.10);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.10em;
+}
+
+.vacancy-first .overline::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #bdf24b;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(189, 242, 75, 0.16);
+}
+
+.whatsapp-scripts .overline,
+.after-whatsapp .overline,
+.vacancy-first .home-match-cta .overline,
+.vacancy-first .final-cta .overline {
+  color: #d9ff78;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.vacancy-first .tag,
+.vacancy-first .status-tag,
+.tag,
+.status-tag,
+.offline-chip,
+.offline-ready {
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.vacancy-first .tag,
+.vacancy-first .status-tag {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(237, 247, 239, 0.88));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 6px 14px rgba(16, 24, 32, 0.05);
+}
+
+.vacancy-first .tag-country {
+  background: linear-gradient(180deg, #102018, #0f6d4c);
+  box-shadow: 0 10px 22px rgba(15, 109, 76, 0.14);
+}
+
+.job-card-highlights {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 7rem),
+    rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  border-radius: 18px;
+}
+
+.job-card-highlights li {
+  position: relative;
+  padding-left: 2px;
+}
+
+.job-card-highlights li::before {
+  box-shadow: 0 0 0 4px rgba(189, 242, 75, 0.13);
+}
+
+.profile-process li {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 7rem),
+    rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 12px 28px rgba(16, 24, 32, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.profile-process li::before {
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  box-shadow: 0 10px 22px rgba(189, 242, 75, 0.18);
+}
+
+.faq-list details {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 247, 0.92));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 10px 24px rgba(16, 24, 32, 0.06);
+}
+
+.faq-list summary {
+  font-weight: 900;
+}
+
+.faq-list details[open] {
+  border-color: rgba(189, 242, 75, 0.28);
+  box-shadow: 0 16px 34px rgba(16, 24, 32, 0.09);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first h1,
+  .vacancy-first h2,
+  .vacancy-first h3 {
+    letter-spacing: -0.035em;
+  }
+
+  .vacancy-first p,
+  .vacancy-first li,
+  .resource-card p,
+  .job-card-summary,
+  .profile-experience-item p,
+  .faq-list details p {
+    line-height: 1.5;
+  }
+
+  .vacancy-first .overline {
+    padding: 5px 8px;
+    font-size: 9px;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
