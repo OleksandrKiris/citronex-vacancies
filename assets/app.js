@@ -2682,6 +2682,7 @@
         currentQuickOptions: ["Poland", "Ukraine", "Georgia", "Armenia", "Nepal", "Other country"],
         citizenshipQuickTitle: "Citizenship",
         citizenshipQuickOptions: ["Ukraine", "Georgia", "Armenia", "Nepal", "Azerbaijan", "Other"],
+        languageQuickTitle: "Preferred language",
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2797,6 +2798,7 @@
         currentQuickOptions: ["Польша", "Украина", "Грузия", "Армения", "Непал", "Другая страна"],
         citizenshipQuickTitle: "Гражданство",
         citizenshipQuickOptions: ["Украина", "Грузия", "Армения", "Непал", "Азербайджан", "Другое"],
+        languageQuickTitle: "Быстрый выбор языка",
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2912,6 +2914,7 @@
         currentQuickOptions: ["Польща", "Україна", "Грузія", "Вірменія", "Непал", "Інша країна"],
         citizenshipQuickTitle: "Громадянство",
         citizenshipQuickOptions: ["Україна", "Грузія", "Вірменія", "Непал", "Азербайджан", "Інше"],
+        languageQuickTitle: "Швидкий вибір мови",
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3027,6 +3030,7 @@
         currentQuickOptions: ["Polska", "Ukraina", "Gruzja", "Armenia", "Nepal", "Inny kraj"],
         citizenshipQuickTitle: "Obywatelstwo",
         citizenshipQuickOptions: ["Ukraina", "Gruzja", "Armenia", "Nepal", "Azerbejdżan", "Inne"],
+        languageQuickTitle: "Szybki wybór języka",
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3313,6 +3317,22 @@
     `;
   }
 
+  function passportLanguageQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("language");
+    const options = copy.options.language || [];
+    return `
+      <div class="candidate-passport-language-quick" aria-label="${escapeHTML(copy.languageQuickTitle)}">
+        <span>${escapeHTML(copy.languageQuickTitle)}</span>
+        <div>
+          ${options.map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-language="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3401,6 +3421,13 @@
 
   function applyPassportCitizenship(value) {
     state.passport.citizenship = value;
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportLanguage(value) {
+    state.passport.language = value;
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3874,6 +3901,7 @@
           ${passportFieldHTML("citizenship")}
           ${passportCitizenshipQuickHTML()}
           ${passportSelectHTML("language")}
+          ${passportLanguageQuickHTML()}
           ${passportSelectHTML("destination")}
           ${passportSelectHTML("people")}
           ${passportSelectHTML("experience")}
@@ -5129,6 +5157,11 @@
       const passportCitizenshipButton = event.target.closest("[data-passport-citizenship]");
       if (passportCitizenshipButton) {
         applyPassportCitizenship(passportCitizenshipButton.dataset.passportCitizenship);
+        return;
+      }
+      const passportLanguageButton = event.target.closest("[data-passport-language]");
+      if (passportLanguageButton) {
+        applyPassportLanguage(passportLanguageButton.dataset.passportLanguage);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
