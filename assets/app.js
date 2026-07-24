@@ -2641,6 +2641,12 @@
         directionOk: "Job direction is clear",
         directionNeed: "Add job direction",
         safeOk: "Only safe fields are used",
+        briefTitle: "Short recruiter summary",
+        briefEmpty: "Fill a few fields and the site will build a clean summary.",
+        briefAge: "Age",
+        briefCountry: "Country",
+        briefDirection: "Direction",
+        briefStart: "Start",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2715,6 +2721,12 @@
         directionOk: "Направление работы понятно",
         directionNeed: "Добавьте направление работы",
         safeOk: "Используются только безопасные поля",
+        briefTitle: "Короткое резюме для рекрутера",
+        briefEmpty: "Заполните несколько полей — сайт соберёт чистое резюме.",
+        briefAge: "Возраст",
+        briefCountry: "Страна",
+        briefDirection: "Направление",
+        briefStart: "Старт",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2789,6 +2801,12 @@
         directionOk: "Напрям роботи зрозумілий",
         directionNeed: "Додайте напрям роботи",
         safeOk: "Використовуються тільки безпечні поля",
+        briefTitle: "Коротке резюме для рекрутера",
+        briefEmpty: "Заповніть кілька полів — сайт збере чисте резюме.",
+        briefAge: "Вік",
+        briefCountry: "Країна",
+        briefDirection: "Напрям",
+        briefStart: "Старт",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2863,6 +2881,12 @@
         directionOk: "Kierunek pracy jest jasny",
         directionNeed: "Dodaj kierunek pracy",
         safeOk: "Używane są tylko bezpieczne pola",
+        briefTitle: "Krótkie podsumowanie dla rekrutera",
+        briefEmpty: "Uzupełnij kilka pól, a strona złoży czyste podsumowanie.",
+        briefAge: "Wiek",
+        briefCountry: "Kraj",
+        briefDirection: "Kierunek",
+        briefStart: "Start",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3277,6 +3301,35 @@
     `;
   }
 
+  function candidatePassportBriefHTML() {
+    const copy = candidatePassportCopy();
+    const age = calculateAge(passportValue("birthDate"));
+    const chips = [
+      [copy.briefAge, age],
+      [copy.briefCountry, passportValue("destination")],
+      [copy.briefDirection, passportValue("job") || passportValue("experience")],
+      [copy.briefStart, passportValue("readyDate")]
+    ].filter(([, value]) => value);
+    return `
+      <section class="candidate-passport-brief" aria-label="${escapeHTML(copy.briefTitle)}">
+        <div class="candidate-passport-brief-head">
+          <strong>${escapeHTML(copy.briefTitle)}</strong>
+          <span>${chips.length}/4</span>
+        </div>
+        ${chips.length ? `
+          <div class="candidate-passport-brief-chips">
+            ${chips.map(([label, value]) => `
+              <span>
+                <small>${escapeHTML(label)}</small>
+                <b>${escapeHTML(value)}</b>
+              </span>
+            `).join("")}
+          </div>
+        ` : `<p>${escapeHTML(copy.briefEmpty)}</p>`}
+      </section>
+    `;
+  }
+
   function hasPassportMatchInput() {
     return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
   }
@@ -3405,6 +3458,7 @@
       <aside class="candidate-passport-preview">
         ${candidatePassportCoachHTML(score, missing)}
         ${candidatePassportSmartCheckHTML()}
+        ${candidatePassportBriefHTML()}
         ${candidatePassportMatchesHTML()}
         <div class="candidate-passport-message">
           <strong>${escapeHTML(copy.previewTitle)}</strong>

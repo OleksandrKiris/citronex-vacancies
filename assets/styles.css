@@ -10268,6 +10268,87 @@ body.vacancy-first {
   background: #ffb84d;
 }
 
+.candidate-passport-brief {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 8rem),
+    #ffffff;
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 20px;
+}
+
+.candidate-passport-brief-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.candidate-passport-brief-head strong {
+  color: #101820;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.candidate-passport-brief-head span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 24px;
+  padding: 0 8px;
+  color: #fff;
+  background: #e51d2a;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.candidate-passport-brief p {
+  margin: 0;
+  color: #5b6878;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.candidate-passport-brief-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.candidate-passport-brief-chips span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+  padding: 9px;
+  background: #f4f8f0;
+  border: 1px solid rgba(16, 32, 24, 0.06);
+  border-radius: 14px;
+}
+
+.candidate-passport-brief-chips small {
+  overflow: hidden;
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.candidate-passport-brief-chips b {
+  overflow: hidden;
+  color: #101820;
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .candidate-passport-matches {
   display: grid;
   gap: 10px;
