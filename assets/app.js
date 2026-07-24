@@ -14,13 +14,15 @@
   const STORAGE = {
     favorites: "career-hub:favorites:v1",
     compare: "career-hub:compare:v1",
-    notes: "career-hub:notes:v1"
+    notes: "career-hub:notes:v1",
+    passport: "career-hub:passport:v1"
   };
   const validRoutes = ["home", "jobs", "resources", "saved", "profile"];
   const state = {
     favorites: readStringSet(STORAGE.favorites),
     compare: readStringSet(STORAGE.compare),
     notes: readObject(STORAGE.notes),
+    passport: readObject(STORAGE.passport),
     resourceCategory: "__all__",
     installPrompt: null,
     toastTimer: null,
@@ -69,6 +71,14 @@
   function persistNotes() {
     try {
       localStorage.setItem(STORAGE.notes, JSON.stringify(state.notes));
+    } catch {
+      showToast(t("ui.noteHelp"));
+    }
+  }
+
+  function persistPassport() {
+    try {
+      localStorage.setItem(STORAGE.passport, JSON.stringify(state.passport));
     } catch {
       showToast(t("ui.noteHelp"));
     }
@@ -1052,6 +1062,7 @@
     renderInstantMatcher();
     renderWhatsAppScripts();
     renderCandidatePrep();
+    renderCandidatePassport();
     renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
@@ -2131,6 +2142,310 @@
         <ul>${items.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
       </article>
     `).join("");
+  }
+
+  function candidatePassportCopy() {
+    const copy = {
+      en: {
+        kicker: "Candidate Passport",
+        title: "Create an application without registration",
+        intro: "Fill in a short card. It stays only on this device and is sent to the recruiter only when you press WhatsApp.",
+        fieldsTitle: "Candidate details",
+        previewTitle: "Recruiter will receive",
+        scoreTitle: "Start readiness",
+        scoreText: "The more complete the card, the faster the recruiter can check suitable jobs.",
+        privacy: "Stored locally on this device. No passport photos, bank cards or personal codes are needed here.",
+        send: "Send passport in WhatsApp",
+        copy: "Copy passport",
+        clear: "Clear",
+        copied: "Candidate passport copied",
+        missing: "To improve readiness",
+        ready: "Ready for recruiter review",
+        labels: {
+          name: "Full name in Latin letters",
+          current: "Country / city now",
+          citizenship: "Citizenship",
+          language: "Preferred language",
+          destination: "Wanted country",
+          people: "Who is going",
+          experience: "Experience",
+          documents: "Documents / work status",
+          readyDate: "Ready date",
+          job: "Interesting job or direction"
+        },
+        placeholders: {
+          name: "Example: Oleksandr Kiris",
+          current: "Example: Poland, Wroclaw",
+          citizenship: "Example: Ukraine",
+          documents: "Example: biometric passport, visa, PESEL...",
+          readyDate: "Example: next week / 15 August",
+          job: "Example: greenhouse / warehouse / driver"
+        },
+        options: {
+          language: ["English", "Ukrainian", "Polish", "Russian", "Spanish", "Other"],
+          destination: ["Poland", "Hungary", "Belgium", "Not sure"],
+          people: ["Only me", "Couple", "Group / friends"],
+          experience: ["No experience", "Have experience", "Driver", "Warehouse", "Greenhouse"]
+        },
+        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        nextQuestions: "Suggested next questions",
+        questions: ["Which documents are ready?", "Which city and start date are available?", "Is housing needed?"]
+      },
+      ru: {
+        kicker: "Candidate Passport",
+        title: "Создайте заявку без регистрации",
+        intro: "Заполните короткую карточку. Она хранится только на этом устройстве и отправляется рекрутеру только после нажатия WhatsApp.",
+        fieldsTitle: "Данные кандидата",
+        previewTitle: "Рекрутер получит",
+        scoreTitle: "Готовность к старту",
+        scoreText: "Чем полнее карточка, тем быстрее рекрутер проверит подходящие вакансии.",
+        privacy: "Хранится локально на этом устройстве. Фото паспорта, карты и личные коды здесь не нужны.",
+        send: "Отправить паспорт в WhatsApp",
+        copy: "Скопировать паспорт",
+        clear: "Очистить",
+        copied: "Паспорт кандидата скопирован",
+        missing: "Чтобы улучшить готовность",
+        ready: "Готово для проверки рекрутером",
+        labels: {
+          name: "Имя и фамилия латиницей",
+          current: "Страна / город сейчас",
+          citizenship: "Гражданство",
+          language: "Удобный язык",
+          destination: "Желаемая страна",
+          people: "Кто едет",
+          experience: "Опыт",
+          documents: "Документы / статус работы",
+          readyDate: "Когда готовы",
+          job: "Интересная вакансия или направление"
+        },
+        placeholders: {
+          name: "Например: Oleksandr Kiris",
+          current: "Например: Poland, Wroclaw",
+          citizenship: "Например: Ukraine",
+          documents: "Например: биометрия, виза, PESEL...",
+          readyDate: "Например: на следующей неделе / 15 августа",
+          job: "Например: теплица / склад / водитель"
+        },
+        options: {
+          language: ["Русский", "Украинский", "Польский", "Английский", "Испанский", "Другой"],
+          destination: ["Польша", "Венгрия", "Бельгия", "Пока не знаю"],
+          people: ["Только я", "Пара", "Группа / друзья"],
+          experience: ["Без опыта", "Есть опыт", "Водитель", "Склад", "Теплица"]
+        },
+        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        nextQuestions: "Подсказка рекрутеру: следующий вопрос",
+        questions: ["Какие документы уже готовы?", "Какой город и дата старта подходят?", "Нужно ли жильё?"]
+      },
+      uk: {
+        kicker: "Candidate Passport",
+        title: "Створіть заявку без реєстрації",
+        intro: "Заповніть коротку картку. Вона зберігається тільки на цьому пристрої і надсилається рекрутеру лише після натискання WhatsApp.",
+        fieldsTitle: "Дані кандидата",
+        previewTitle: "Рекрутер отримає",
+        scoreTitle: "Готовність до старту",
+        scoreText: "Чим повніша картка, тим швидше рекрутер перевірить відповідні вакансії.",
+        privacy: "Зберігається локально на цьому пристрої. Фото паспорта, картки і особисті коди тут не потрібні.",
+        send: "Надіслати паспорт у WhatsApp",
+        copy: "Скопіювати паспорт",
+        clear: "Очистити",
+        copied: "Паспорт кандидата скопійовано",
+        missing: "Щоб покращити готовність",
+        ready: "Готово для перевірки рекрутером",
+        labels: {
+          name: "Ім’я та прізвище латиницею",
+          current: "Країна / місто зараз",
+          citizenship: "Громадянство",
+          language: "Зручна мова",
+          destination: "Бажана країна",
+          people: "Хто їде",
+          experience: "Досвід",
+          documents: "Документи / робочий статус",
+          readyDate: "Коли готові",
+          job: "Цікава вакансія або напрям"
+        },
+        placeholders: {
+          name: "Наприклад: Oleksandr Kiris",
+          current: "Наприклад: Poland, Wroclaw",
+          citizenship: "Наприклад: Ukraine",
+          documents: "Наприклад: біометрія, віза, PESEL...",
+          readyDate: "Наприклад: наступного тижня / 15 серпня",
+          job: "Наприклад: теплиця / склад / водій"
+        },
+        options: {
+          language: ["Українська", "Польська", "Англійська", "Російська", "Іспанська", "Інша"],
+          destination: ["Польща", "Угорщина", "Бельгія", "Поки не знаю"],
+          people: ["Тільки я", "Пара", "Група / друзі"],
+          experience: ["Без досвіду", "Є досвід", "Водій", "Склад", "Теплиця"]
+        },
+        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        nextQuestions: "Підказка рекрутеру: наступне питання",
+        questions: ["Які документи вже готові?", "Яке місто і дата старту підходять?", "Чи потрібне житло?"]
+      },
+      pl: {
+        kicker: "Candidate Passport",
+        title: "Utwórz zgłoszenie bez rejestracji",
+        intro: "Wypełnij krótką kartę. Zostaje tylko na tym urządzeniu i trafia do rekrutera dopiero po naciśnięciu WhatsApp.",
+        fieldsTitle: "Dane kandydata",
+        previewTitle: "Rekruter otrzyma",
+        scoreTitle: "Gotowość do startu",
+        scoreText: "Im pełniejsza karta, tym szybciej rekruter sprawdzi pasujące oferty.",
+        privacy: "Przechowywane lokalnie na tym urządzeniu. Zdjęcia paszportu, karty i kody osobiste nie są tu potrzebne.",
+        send: "Wyślij paszport w WhatsApp",
+        copy: "Kopiuj paszport",
+        clear: "Wyczyść",
+        copied: "Paszport kandydata skopiowany",
+        missing: "Aby poprawić gotowość",
+        ready: "Gotowe do sprawdzenia przez rekrutera",
+        labels: {
+          name: "Imię i nazwisko alfabetem łacińskim",
+          current: "Kraj / miasto teraz",
+          citizenship: "Obywatelstwo",
+          language: "Wygodny język",
+          destination: "Preferowany kraj",
+          people: "Kto jedzie",
+          experience: "Doświadczenie",
+          documents: "Dokumenty / status pracy",
+          readyDate: "Kiedy możesz zacząć",
+          job: "Interesująca oferta lub kierunek"
+        },
+        placeholders: {
+          name: "Np. Oleksandr Kiris",
+          current: "Np. Poland, Wroclaw",
+          citizenship: "Np. Ukraine",
+          documents: "Np. biometryczny paszport, wiza, PESEL...",
+          readyDate: "Np. w przyszłym tygodniu / 15 sierpnia",
+          job: "Np. szklarnia / magazyn / kierowca"
+        },
+        options: {
+          language: ["Polski", "Ukraiński", "Angielski", "Rosyjski", "Hiszpański", "Inny"],
+          destination: ["Polska", "Węgry", "Belgia", "Nie wiem"],
+          people: ["Tylko ja", "Para", "Grupa / znajomi"],
+          experience: ["Bez doświadczenia", "Mam doświadczenie", "Kierowca", "Magazyn", "Szklarnia"]
+        },
+        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        nextQuestions: "Podpowiedź dla rekrutera: następne pytanie",
+        questions: ["Jakie dokumenty są gotowe?", "Jakie miasto i data startu pasują?", "Czy potrzebne jest mieszkanie?"]
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function passportValue(key) {
+    return String(state.passport?.[key] || "").trim();
+  }
+
+  function passportScore() {
+    const required = ["name", "current", "citizenship", "language", "destination", "people", "experience", "readyDate", "job"];
+    const filled = required.filter((key) => passportValue(key)).length;
+    return {
+      score: Math.round((filled / required.length) * 100),
+      missing: required.filter((key) => !passportValue(key))
+    };
+  }
+
+  function candidatePassportMessage() {
+    const copy = candidatePassportCopy();
+    const labels = copy.labels;
+    const { score } = passportScore();
+    const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
+    const currentUrl = new URL(window.location.href);
+    currentUrl.hash = "";
+    return [
+      copy.messageTitle,
+      `Readiness: ${score}%`,
+      "",
+      line("name"),
+      line("current"),
+      line("citizenship"),
+      line("language"),
+      line("destination"),
+      line("people"),
+      line("experience"),
+      line("documents"),
+      line("readyDate"),
+      line("job"),
+      "",
+      `${copy.nextQuestions}:`,
+      ...copy.questions.map((question, index) => `${index + 1}. ${question}`),
+      "",
+      `Site: ${currentUrl.toString()}`
+    ].join("\n");
+  }
+
+  function passportFieldHTML(key, type = "text") {
+    const copy = candidatePassportCopy();
+    return `
+      <label class="candidate-passport-field">
+        <span>${escapeHTML(copy.labels[key])}</span>
+        <input type="${escapeHTML(type)}" data-passport-field="${escapeHTML(key)}" value="${escapeHTML(passportValue(key))}" placeholder="${escapeHTML(copy.placeholders[key] || "")}" autocomplete="off">
+      </label>
+    `;
+  }
+
+  function passportSelectHTML(key) {
+    const copy = candidatePassportCopy();
+    const value = passportValue(key);
+    return `
+      <label class="candidate-passport-field">
+        <span>${escapeHTML(copy.labels[key])}</span>
+        <select data-passport-field="${escapeHTML(key)}">
+          <option value="">—</option>
+          ${(copy.options[key] || []).map((option) => `<option value="${escapeHTML(option)}"${option === value ? " selected" : ""}>${escapeHTML(option)}</option>`).join("")}
+        </select>
+      </label>
+    `;
+  }
+
+  function renderCandidatePassport() {
+    const layout = el("candidate-passport-layout");
+    if (!layout) return;
+    const copy = candidatePassportCopy();
+    const { score, missing } = passportScore();
+    if (el("candidate-passport-kicker")) el("candidate-passport-kicker").textContent = copy.kicker;
+    if (el("candidate-passport-heading")) el("candidate-passport-heading").textContent = copy.title;
+    if (el("candidate-passport-intro")) el("candidate-passport-intro").textContent = copy.intro;
+    const message = candidatePassportMessage();
+    layout.innerHTML = `
+      <form class="candidate-passport-form" id="candidate-passport-form">
+        <h3>${escapeHTML(copy.fieldsTitle)}</h3>
+        <div class="candidate-passport-fields">
+          ${passportFieldHTML("name")}
+          ${passportFieldHTML("current")}
+          ${passportFieldHTML("citizenship")}
+          ${passportSelectHTML("language")}
+          ${passportSelectHTML("destination")}
+          ${passportSelectHTML("people")}
+          ${passportSelectHTML("experience")}
+          ${passportFieldHTML("documents")}
+          ${passportFieldHTML("readyDate")}
+          ${passportFieldHTML("job")}
+        </div>
+        <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
+      </form>
+      <aside class="candidate-passport-preview">
+        <div class="candidate-passport-score">
+          <div>
+            <strong>${score}%</strong>
+            <span>${escapeHTML(copy.scoreTitle)}</span>
+          </div>
+          <div class="candidate-passport-meter"><span style="width:${score}%"></span></div>
+          <p>${escapeHTML(copy.scoreText)}</p>
+        </div>
+        <div class="candidate-passport-message">
+          <strong>${escapeHTML(copy.previewTitle)}</strong>
+          <pre>${escapeHTML(message)}</pre>
+        </div>
+        <div class="candidate-passport-missing">
+          <strong>${escapeHTML(missing.length ? copy.missing : copy.ready)}</strong>
+          ${missing.length ? `<ul>${missing.slice(0, 4).map((key) => `<li>${escapeHTML(copy.labels[key])}</li>`).join("")}</ul>` : ""}
+        </div>
+        <div class="candidate-passport-actions">
+          <button class="button button-whatsapp" type="button" data-passport-whatsapp>${escapeHTML(copy.send)}</button>
+          <button class="button button-secondary" type="button" data-passport-copy>${escapeHTML(copy.copy)}</button>
+          <button class="button button-quiet" type="button" data-passport-clear>${escapeHTML(copy.clear)}</button>
+        </div>
+      </aside>
+    `;
   }
 
   function renderInstantMatcher() {
@@ -3302,6 +3617,23 @@
         if (message) openScenarioWhatsApp(message);
         return;
       }
+      const passportWhatsAppButton = event.target.closest("[data-passport-whatsapp]");
+      if (passportWhatsAppButton) {
+        openScenarioWhatsApp(candidatePassportMessage());
+        return;
+      }
+      const passportCopyButton = event.target.closest("[data-passport-copy]");
+      if (passportCopyButton) {
+        copyText(candidatePassportMessage(), candidatePassportCopy().copied);
+        return;
+      }
+      const passportClearButton = event.target.closest("[data-passport-clear]");
+      if (passportClearButton) {
+        state.passport = {};
+        persistPassport();
+        renderCandidatePassport();
+        return;
+      }
       const surveyButton = event.target.closest("[data-job-survey]");
       if (surveyButton) {
         const id = surveyButton.dataset.jobSurvey;
@@ -3343,6 +3675,18 @@
     document.addEventListener("change", (event) => {
       if (event.target.matches("[data-compare]")) {
         toggleCompare(event.target.dataset.compare, event.target.checked);
+      }
+      if (event.target.matches("[data-passport-field]")) {
+        state.passport[event.target.dataset.passportField] = event.target.value;
+        persistPassport();
+      }
+    });
+
+    document.addEventListener("input", (event) => {
+      if (event.target.matches("[data-passport-field]")) {
+        state.passport[event.target.dataset.passportField] = event.target.value;
+        persistPassport();
+        renderCandidatePassport();
       }
     });
 
