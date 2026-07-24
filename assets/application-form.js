@@ -551,6 +551,13 @@
           ${reviewValue(t("form.extraNotes"), state.values.extraNotes)}
         </dl>
       </div>
+      <aside class="application-safety-note">
+        <span aria-hidden="true">✓</span>
+        <div>
+          <strong>${escapeHTML(t("ui.recruiterEyebrow"))}: ${escapeHTML(profile.name)} · ${escapeHTML(profile.phone)}</strong>
+          <p>${escapeHTML(t("ui.antiFraudWarning"))}</p>
+        </div>
+      </aside>
       <section class="application-message-preview" aria-labelledby="application-message-heading">
         <div>
           <h3 id="application-message-heading">${escapeHTML(t("form.messagePreview"))}</h3>
@@ -1023,6 +1030,10 @@
     const base = profile.whatsapp || `https://wa.me/${String(profile.phone || "").replace(/\D/g, "")}`;
     const separator = base.includes("?") ? "&" : "?";
     const url = `${base}${separator}text=${encodeURIComponent(message)}`;
+    if (window.PortalWhatsApp?.open) {
+      window.PortalWhatsApp.open(url);
+      return;
+    }
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
@@ -1094,7 +1105,8 @@
       `${localized.title} (${job.id})`,
       `${t("ui.siteLanguage")}: ${i18n.languageName(i18n.locale)}`,
       "",
-      "Please confirm the current location, start date, schedule, housing and document requirements."
+      t("ui.startNeedsConfirmation"),
+      t("ui.bannerText")
     ].join("\n");
     openWhatsApp(message);
   }

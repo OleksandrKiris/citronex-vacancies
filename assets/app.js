@@ -211,6 +211,47 @@
     }
   }
 
+  function openWhatsAppSafety(url) {
+    if (!url) return;
+    if (!navigator.onLine) {
+      showToast(t("ui.whatsappNeedsInternet"));
+      return;
+    }
+    const dialog = el("whatsapp-safety-dialog");
+    const container = el("whatsapp-safety-content");
+    if (!dialog || !container) {
+      window.open(url, "_blank", "noopener,noreferrer");
+      return;
+    }
+    container.innerHTML = `
+      <header class="whatsapp-safety-header">
+        <span class="candidate-safety-icon" aria-hidden="true">${svgIcon("shield")}</span>
+        <div>
+          <p class="overline">${escapeHTML(t("ui.privacy"))}</p>
+          <h2 id="whatsapp-safety-title">${escapeHTML(t("ui.recruiterEyebrow"))}</h2>
+        </div>
+      </header>
+      <div class="whatsapp-recipient">
+        <span>${escapeHTML(profile.name)}</span>
+        <strong>${escapeHTML(profile.phone)}</strong>
+        <small>WhatsApp</small>
+      </div>
+      <p class="whatsapp-safety-warning">${escapeHTML(t("ui.antiFraudWarning"))}</p>
+      <div class="whatsapp-safety-actions">
+        <button class="button button-secondary" type="button" data-close-dialog>${escapeHTML(t("ui.close"))}</button>
+        <a class="button button-whatsapp" data-whatsapp-confirmed href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">
+          ${svgIcon("whatsapp")}<span>${escapeHTML(t("form.openWhatsapp"))}</span>
+        </a>
+      </div>
+    `;
+    container.querySelector("[data-whatsapp-confirmed]")?.addEventListener("click", () => {
+      if (dialog.open) dialog.close();
+    }, { once: true });
+    if (!dialog.open) dialog.showModal();
+  }
+
+  window.PortalWhatsApp = { open: openWhatsAppSafety };
+
   function renderProfileContent() {
     document.title = `${t("ui.navJobs")} Citronex · ${i18n.languageName(i18n.locale)}`;
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("ui.heroIntro"));
@@ -252,6 +293,8 @@
     const primaryContact = profile.whatsapp || mailto;
     el("header-contact").href = primaryContact;
     document.querySelector(".mobile-nav-whatsapp")?.setAttribute("href", primaryContact);
+    if (el("candidate-safety-contact")) el("candidate-safety-contact").href = primaryContact;
+    if (el("candidate-safety-phone")) el("candidate-safety-phone").textContent = profile.phone;
     if (el("home-email-link")) el("home-email-link").href = primaryContact;
     el("profile-whatsapp-link").href = profile.whatsapp || mailto;
     if (el("home-email-link")) {
@@ -399,10 +442,19 @@
           ${(view.candidates || []).slice(0, 3).map((candidate) => `<span>${svgIcon("check")}${escapeHTML(candidate)}</span>`).join("")}
         </div>
         ${view.statusNote ? `
-          <p class="job-card-status">
-            ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
-            <span>${escapeHTML(view.statusNote)}</span>
-          </p>
+          <div class="job-card-status">
+            <div class="job-status-badges">
+              <span class="${job.salary?.confirmed ? "is-confirmed" : "needs-confirmation"}">
+                ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
+                ${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}
+              </span>
+              <span class="needs-confirmation">
+                ${svgIcon("clock")}
+                ${escapeHTML(t("ui.startNeedsConfirmation"))}
+              </span>
+            </div>
+            <p>${escapeHTML(view.statusNote)}</p>
+          </div>
         ` : ""}
         ${highlights.length ? `
           <div class="job-card-highlights">
@@ -615,7 +667,21 @@
           ${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
       </div>
-      ${view.statusNote ? `<p class="availability-note">${svgIcon("whatsapp")}<span>${escapeHTML(view.statusNote)}</span></p>` : ""}
+      ${view.statusNote ? `
+        <div class="availability-note">
+          <div class="job-status-badges">
+            <span class="${job.salary?.confirmed ? "is-confirmed" : "needs-confirmation"}">
+              ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
+              ${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}
+            </span>
+            <span class="needs-confirmation">
+              ${svgIcon("clock")}
+              ${escapeHTML(t("ui.startNeedsConfirmation"))}
+            </span>
+          </div>
+          <p>${escapeHTML(view.statusNote)}</p>
+        </div>
+      ` : ""}
       ${(view.benefits || []).length ? `
         <section class="job-condition-overview">
           <div class="detail-section-heading">
@@ -746,8 +812,10 @@
   }
 
   function closeDialog(dialog, updateRoute = true) {
+    if (!dialog) return;
     if (dialog.open) dialog.close();
-    if (dialog.id === "job-dialog") state.openJobId = "";
+    if (dialog.id !== "job-dialog") return;
+    state.openJobId = "";
     document.getElementById("job-schema")?.remove();
     if (updateRoute && location.hash.startsWith("#job=")) {
       const returnRoute = validRoutes.includes(state.jobReturnRoute) ? state.jobReturnRoute : "jobs";
@@ -1057,6 +1125,12 @@
 
   function setupEvents() {
     document.addEventListener("click", (event) => {
+      const whatsappLink = event.target.closest('a[href*="wa.me"]');
+      if (whatsappLink && !whatsappLink.hasAttribute("data-whatsapp-confirmed")) {
+        event.preventDefault();
+        openWhatsAppSafety(whatsappLink.href);
+        return;
+      }
       const routeButton = event.target.closest("[data-route]");
       if (routeButton) {
         event.preventDefault();

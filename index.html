@@ -22,7 +22,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/citronex-logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="assets/styles.css?v=10">
+  <link rel="stylesheet" href="assets/styles.css?v=11">
   <title>Вакансии Citronex — каталог 2026</title>
 </head>
 <body>
@@ -244,6 +244,22 @@
         </article>
       </div>
 
+      <aside class="candidate-safety" aria-labelledby="candidate-safety-title">
+        <span class="candidate-safety-icon" aria-hidden="true">
+          <svg><use href="assets/icons.svg#icon-shield"></use></svg>
+        </span>
+        <div class="candidate-safety-copy">
+          <p class="overline" data-i18n="ui.trustKicker">Доверие строится на фактах</p>
+          <h2 id="candidate-safety-title" data-i18n="ui.privacy">Приватность и безопасность</h2>
+          <p data-i18n="ui.antiFraudWarning">Не отправляйте деньги, банковские данные или фотографии документов. Если вас об этом просят, прекратите общение и свяжитесь с рекрутером по номеру WhatsApp, указанному на этом сайте.</p>
+        </div>
+        <a class="candidate-safety-contact" id="candidate-safety-contact" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="ui.recruiterEyebrow">Ваш прямой контакт</span>
+          <strong id="candidate-safety-phone">+48 502 251 384</strong>
+          <small>WhatsApp ↗</small>
+        </a>
+      </aside>
+
       <form class="filters" id="job-filters" role="search">
         <label class="search-field">
           <span class="sr-only" data-i18n="ui.searchPlaceholder">Вакансия, страна или процесс</span>
@@ -444,6 +460,13 @@
     </div>
   </dialog>
 
+  <dialog class="modal whatsapp-safety-modal" id="whatsapp-safety-dialog" aria-labelledby="whatsapp-safety-title">
+    <div class="modal-shell modal-shell-narrow">
+      <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
+      <div id="whatsapp-safety-content"></div>
+    </div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite" hidden>
     <span id="toast-message"></span>
     <button id="toast-action" type="button" hidden></button>
@@ -462,7 +485,7 @@
   <script src="data/locales/hy.js"></script>
   <script src="data/content.js"></script>
   <script src="assets/i18n.js"></script>
-  <script src="assets/application-form.js?v=7"></script>
-  <script src="assets/app.js?v=10"></script>
+  <script src="assets/application-form.js?v=8"></script>
+  <script src="assets/app.js?v=11"></script>
 </body>
 </html>

@@ -6645,3 +6645,352 @@ body {
     font-size: 14px;
   }
 }
+
+/* v11 · candidate safety and transparent vacancy statuses */
+.candidate-safety {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin: 0 0 22px;
+  padding: 21px 22px;
+  overflow: hidden;
+  color: #f8f6f1;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(226, 28, 42, 0.2), transparent 34%),
+    linear-gradient(135deg, #18242c 0%, #24323b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 16px 34px rgba(19, 29, 36, 0.13);
+}
+
+.candidate-safety::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--brand-red);
+  content: "";
+}
+
+.candidate-safety-icon {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: white;
+  background: var(--brand-red);
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(226, 28, 42, 0.24);
+}
+
+.candidate-safety-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.candidate-safety-copy {
+  min-width: 0;
+}
+
+.candidate-safety-copy .overline,
+.whatsapp-safety-header .overline {
+  margin: 0 0 4px;
+  color: #f3a9af;
+  font-size: 10px;
+}
+
+.candidate-safety-copy h2 {
+  margin: 0 0 5px;
+  color: white;
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: -0.025em;
+}
+
+.candidate-safety-copy > p:last-child {
+  max-width: 780px;
+  margin: 0;
+  color: #d8e0e5;
+  font-size: 13px;
+  font-weight: 560;
+  line-height: 1.55;
+}
+
+.candidate-safety-contact {
+  display: grid;
+  min-width: 190px;
+  gap: 3px;
+  padding: 13px 15px;
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 13px;
+  text-decoration: none;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.candidate-safety-contact:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.candidate-safety-contact span,
+.candidate-safety-contact small {
+  color: #bdc8cf;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+}
+
+.candidate-safety-contact strong {
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.job-card-status {
+  display: block;
+  padding: 12px;
+  color: #4c5a63;
+  background: #f6f4f0;
+  border: 1px solid #e1ddd6;
+  border-left: 1px solid #e1ddd6;
+}
+
+.job-card[data-salary-confirmed="true"] .job-card-status {
+  border-left-color: #e1ddd6;
+}
+
+.job-card-status > p,
+.availability-note > p {
+  margin: 9px 0 0;
+  font-size: 12px;
+  font-weight: 640;
+  line-height: 1.48;
+}
+
+.job-status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.job-status-badges > span {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 820;
+  line-height: 1.25;
+}
+
+.job-status-badges svg,
+.job-card .job-status-badges svg,
+.availability-note .job-status-badges svg {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.job-status-badges .is-confirmed {
+  color: #456d28;
+  background: #edf5e7;
+  border-color: #d3e4c6;
+}
+
+.job-status-badges .is-confirmed svg,
+.job-card[data-salary-confirmed="true"] .job-status-badges .is-confirmed svg {
+  color: #587f35;
+}
+
+.job-status-badges .needs-confirmation {
+  color: #8a5149;
+  background: #fff1ed;
+  border-color: #f0d5cd;
+}
+
+.job-status-badges .needs-confirmation svg,
+.job-card[data-salary-confirmed="true"] .job-status-badges .needs-confirmation svg {
+  color: #b45b4e;
+}
+
+.availability-note {
+  display: block;
+  color: #4d5960;
+  background: #f6f4f0;
+  border-color: #e1ddd6;
+}
+
+.application-safety-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+  padding: 13px 14px;
+  color: #53443f;
+  background: #fff4f0;
+  border: 1px solid #efd9d1;
+  border-radius: 13px;
+}
+
+.application-safety-note > span {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: white;
+  background: var(--brand-red);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.application-safety-note strong {
+  display: block;
+  margin: 1px 0 4px;
+  font-size: 12px;
+}
+
+.application-safety-note p {
+  margin: 0;
+  color: #765e57;
+  font-size: 11.5px;
+  line-height: 1.48;
+}
+
+.whatsapp-safety-modal .modal-shell {
+  max-width: 560px;
+}
+
+.whatsapp-safety-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-right: 36px;
+}
+
+.whatsapp-safety-header h2 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 32px);
+  letter-spacing: -0.04em;
+}
+
+.whatsapp-safety-header .overline {
+  color: var(--brand-red);
+}
+
+.whatsapp-recipient {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 14px;
+  align-items: center;
+  margin: 20px 0 12px;
+  padding: 15px 16px;
+  background: #f3f1ed;
+  border: 1px solid #dfdbd4;
+  border-radius: 13px;
+}
+
+.whatsapp-recipient span {
+  color: #5b6770;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.whatsapp-recipient strong {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  color: var(--graphite);
+  font-size: 17px;
+}
+
+.whatsapp-recipient small {
+  color: var(--whatsapp);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.whatsapp-safety-warning {
+  margin: 0;
+  padding: 15px 16px;
+  color: #6f4a43;
+  background: #fff1ed;
+  border-left: 3px solid var(--brand-red);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 630;
+  line-height: 1.55;
+}
+
+.whatsapp-safety-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.whatsapp-safety-actions .button {
+  width: 100%;
+}
+
+@media (max-width: 760px) {
+  .candidate-safety {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 13px;
+    padding: 17px;
+  }
+
+  .candidate-safety-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .candidate-safety-copy > p:last-child {
+    font-size: 12px;
+  }
+
+  .candidate-safety-contact {
+    grid-column: 1 / -1;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 10px;
+  }
+
+  .candidate-safety-contact strong {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+  }
+
+  .job-status-badges {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .job-status-badges > span {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 430px) {
+  .whatsapp-recipient {
+    grid-template-columns: 1fr;
+  }
+
+  .whatsapp-recipient strong {
+    grid-row: auto;
+    grid-column: auto;
+  }
+
+  .whatsapp-safety-actions {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "citronex-jobs-";
-const CACHE_VERSION = "citronex-jobs-v10-premium-quality-2026-07-24";
+const CACHE_VERSION = "citronex-jobs-v11-trust-safety-2026-07-24";
 const CORE_SHELL = [
   "./",
   "./index.html",
@@ -7,10 +7,10 @@ const CORE_SHELL = [
   "./data/content.js",
   "./data/locales/ru.js",
   "./data/locales/en.js",
-  "./assets/styles.css?v=10",
+  "./assets/styles.css?v=11",
   "./assets/i18n.js",
-  "./assets/application-form.js?v=7",
-  "./assets/app.js?v=10",
+  "./assets/application-form.js?v=8",
+  "./assets/app.js?v=11",
   "./assets/icons.svg",
   "./assets/mobility-map.svg?v=10",
   "./assets/citronex-logo.jpg",
