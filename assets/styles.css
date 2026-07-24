@@ -8835,6 +8835,128 @@ body.vacancy-first {
   border-radius: 14px;
 }
 
+.honest-fit {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.82fr) minmax(0, 1.45fr);
+  gap: 16px;
+  margin-top: 18px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 9% 8%, rgba(189, 242, 75, 0.18), transparent 16rem),
+    linear-gradient(135deg, rgba(16, 32, 24, 0.98), rgba(24, 43, 32, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 24px 62px rgba(16, 24, 32, 0.13);
+  color: #fff;
+}
+
+.honest-fit-copy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.honest-fit-copy h2,
+.honest-fit-copy p {
+  margin: 0;
+}
+
+.honest-fit-copy .overline {
+  color: #bdf24b;
+}
+
+.honest-fit-copy h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(25px, 3.2vw, 40px);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+}
+
+.honest-fit-copy p:last-child {
+  color: rgba(255, 255, 255, 0.70);
+  font-size: 14px;
+  line-height: 1.48;
+}
+
+.honest-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.honest-fit-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+}
+
+.honest-fit-icon {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.honest-fit-good .honest-fit-icon {
+  color: #102018;
+  background: #bdf24b;
+}
+
+.honest-fit-careful .honest-fit-icon {
+  color: #fff;
+  background: #e51d2a;
+}
+
+.honest-fit-card h3 {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 19px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+}
+
+.honest-fit-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.honest-fit-card li {
+  position: relative;
+  padding-left: 18px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 13px;
+  line-height: 1.38;
+}
+
+.honest-fit-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.58em;
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.65;
+}
+
+.honest-fit-cta {
+  grid-column: 1 / -1;
+  min-height: 46px;
+  border-radius: 16px;
+}
+
 /* v18 · instant 30-second matcher */
 .instant-match {
   display: grid;
@@ -9034,6 +9156,7 @@ body.vacancy-first {
 @media (max-width: 980px) {
   .instant-match,
   .country-explorer,
+  .honest-fit,
   .instant-choice-grid,
   .instant-result-grid {
     grid-template-columns: 1fr;
@@ -9084,6 +9207,26 @@ body.vacancy-first {
     min-height: 242px;
     flex: 0 0 282px;
     border-radius: 20px;
+  }
+
+  .honest-fit {
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  .honest-fit-copy h2 {
+    font-size: 24px;
+  }
+
+  .honest-fit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .honest-fit-card {
+    padding: 14px;
+    border-radius: 18px;
   }
 
   .instant-match-copy h2 {
@@ -9211,6 +9354,34 @@ body.vacancy-first {
 .vacancy-first .job-card-actions .button,
 .vacancy-first .job-card-chat {
   border-radius: 14px;
+}
+
+.vacancy-first .job-card-actions-single {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr) 44px;
+}
+
+.vacancy-first .job-card-start {
+  gap: 7px;
+  padding-inline: 10px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.vacancy-first .job-card-start svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 420px) {
+  .vacancy-first .job-card-actions-single {
+    grid-template-columns: 1fr 44px;
+  }
+
+  .vacancy-first .job-card-start {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 
 .candidate-situation-card {

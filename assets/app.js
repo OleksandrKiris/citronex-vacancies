@@ -858,6 +858,7 @@
 
     renderQuickStart();
     renderCountryExplorer();
+    renderHonestFit();
     renderInstantMatcher();
     renderCandidateSituations();
 
@@ -1120,6 +1121,114 @@
       }
     };
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function honestFitCopy() {
+    const copy = {
+      ru: {
+        kicker: "Честно перед откликом",
+        title: "Кому это подходит — и кому лучше уточнить сразу",
+        intro: "Так кандидат быстрее понимает ожидания, а в WhatsApp приходит более осознанный запрос.",
+        goodTitle: "Подходит, если",
+        carefulTitle: "Лучше уточнить сразу, если",
+        good: [
+          "готовы к физической работе и темпу на объекте",
+          "понимаете, что ставки указаны брутто",
+          "готовы подтвердить документы перед выездом",
+          "хотите официальное оформление и понятный процесс"
+        ],
+        careful: [
+          "нужна гарантия 250–280 часов без проверки объекта",
+          "хотите точное нетто без расчёта по договору и документам",
+          "не готовы уточнять дату старта и жильё перед поездкой",
+          "ожидаете отправку документов в случайный чат без проверки"
+        ],
+        cta: "Уточнить свою ситуацию"
+      },
+      uk: {
+        kicker: "Чесно перед відгуком",
+        title: "Кому це підходить — і що краще уточнити одразу",
+        intro: "Кандидат швидше розуміє очікування, а в WhatsApp приходить більш свідомий запит.",
+        goodTitle: "Підходить, якщо",
+        carefulTitle: "Краще уточнити одразу, якщо",
+        good: [
+          "готові до фізичної роботи і темпу на об’єкті",
+          "розумієте, що ставки вказані брутто",
+          "готові підтвердити документи перед виїздом",
+          "хочете офіційне оформлення і зрозумілий процес"
+        ],
+        careful: [
+          "потрібна гарантія 250–280 годин без перевірки об’єкта",
+          "хочете точне нетто без розрахунку за договором і документами",
+          "не готові уточнювати дату старту і житло перед поїздкою",
+          "очікуєте відправку документів у випадковий чат без перевірки"
+        ],
+        cta: "Уточнити свою ситуацію"
+      },
+      pl: {
+        kicker: "Uczciwie przed kontaktem",
+        title: "Dla kogo to pasuje — i co warto od razu doprecyzować",
+        intro: "Kandydat szybciej rozumie oczekiwania, a wiadomość w WhatsApp jest konkretniejsza.",
+        goodTitle: "Pasuje, jeśli",
+        carefulTitle: "Doprecyzuj od razu, jeśli",
+        good: [
+          "jesteś gotowy/a na pracę fizyczną i tempo na obiekcie",
+          "rozumiesz, że stawki są podane brutto",
+          "możesz potwierdzić dokumenty przed wyjazdem",
+          "chcesz legalny proces i jasne kolejne kroki"
+        ],
+        careful: [
+          "potrzebujesz gwarancji 250–280 godzin bez potwierdzenia obiektu",
+          "chcesz dokładne netto bez kalkulacji umowy i dokumentów",
+          "nie chcesz potwierdzać startu i zakwaterowania przed wyjazdem",
+          "oczekujesz wysyłki dokumentów do przypadkowego czatu"
+        ],
+        cta: "Dopytaj o swoją sytuację"
+      },
+      en: {
+        kicker: "Honest before applying",
+        title: "Who this fits — and what should be clarified first",
+        intro: "Candidates understand expectations faster, and the WhatsApp request becomes more concrete.",
+        goodTitle: "Good fit if",
+        carefulTitle: "Clarify first if",
+        good: [
+          "you are ready for physical work and workplace pace",
+          "you understand that rates are shown gross",
+          "you can confirm documents before travelling",
+          "you want legal work and a clear process"
+        ],
+        careful: [
+          "you need a guaranteed 250–280 hours before the workplace is confirmed",
+          "you need exact net pay without contract and document calculation",
+          "you do not want to confirm start date and housing before travel",
+          "you expect to send documents to a random chat without verification"
+        ],
+        cta: "Clarify my situation"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function renderHonestFit() {
+    const container = el("honest-fit-grid");
+    if (!container) return;
+    const copy = honestFitCopy();
+    if (el("honest-fit-kicker")) el("honest-fit-kicker").textContent = copy.kicker;
+    if (el("honest-fit-heading")) el("honest-fit-heading").textContent = copy.title;
+    if (el("honest-fit-intro")) el("honest-fit-intro").textContent = copy.intro;
+    const columns = [
+      { type: "good", title: copy.goodTitle, items: copy.good },
+      { type: "careful", title: copy.carefulTitle, items: copy.careful }
+    ];
+    container.innerHTML = columns.map((column) => `
+      <article class="honest-fit-card honest-fit-${escapeHTML(column.type)}">
+        <span class="honest-fit-icon" aria-hidden="true">${column.type === "good" ? "✓" : "!"}</span>
+        <h3>${escapeHTML(column.title)}</h3>
+        <ul>${column.items.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+      </article>
+    `).join("") + `
+      <button class="button button-primary honest-fit-cta" type="button" data-application-general>${escapeHTML(copy.cta)}</button>
+    `;
   }
 
   function countryFilterValue(country) {
@@ -1396,6 +1505,13 @@
     const view = localizedJob(job);
     const visualType = jobVisualType(job.id);
     const titleId = `${context}-job-${job.id}-title`;
+    const startLabel = i18n.locale === "ru"
+      ? "Уточнить старт"
+      : i18n.locale === "uk"
+        ? "Уточнити старт"
+        : i18n.locale === "pl"
+          ? "Dopytaj o start"
+          : "Ask start date";
     return `
       <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
@@ -1431,6 +1547,7 @@
         </p>
         <div class="job-card-actions job-card-actions-single">
           <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
+          <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(startLabel)}</span></button>
           <button class="button button-secondary button-icon" type="button" data-job-share="${escapeHTML(job.id)}" aria-label="${escapeHTML(t("ui.share"))}">${svgIcon("share")}</button>
         </div>
       </article>
