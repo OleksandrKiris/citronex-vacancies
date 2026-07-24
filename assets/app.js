@@ -2684,6 +2684,7 @@
         citizenshipQuickOptions: ["Ukraine", "Georgia", "Armenia", "Nepal", "Azerbaijan", "Other"],
         languageQuickTitle: "Preferred language",
         destinationQuickTitle: "Wanted country",
+        peopleQuickTitle: "Who is going",
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2801,6 +2802,7 @@
         citizenshipQuickOptions: ["Украина", "Грузия", "Армения", "Непал", "Азербайджан", "Другое"],
         languageQuickTitle: "Быстрый выбор языка",
         destinationQuickTitle: "Быстрый выбор страны",
+        peopleQuickTitle: "Быстрый выбор состава",
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2918,6 +2920,7 @@
         citizenshipQuickOptions: ["Україна", "Грузія", "Вірменія", "Непал", "Азербайджан", "Інше"],
         languageQuickTitle: "Швидкий вибір мови",
         destinationQuickTitle: "Швидкий вибір країни",
+        peopleQuickTitle: "Швидкий вибір складу",
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3035,6 +3038,7 @@
         citizenshipQuickOptions: ["Ukraina", "Gruzja", "Armenia", "Nepal", "Azerbejdżan", "Inne"],
         languageQuickTitle: "Szybki wybór języka",
         destinationQuickTitle: "Szybki wybór kraju",
+        peopleQuickTitle: "Szybki wybór składu",
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3353,6 +3357,22 @@
     `;
   }
 
+  function passportPeopleQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("people");
+    const options = copy.options.people || [];
+    return `
+      <div class="candidate-passport-people-quick" aria-label="${escapeHTML(copy.peopleQuickTitle)}">
+        <span>${escapeHTML(copy.peopleQuickTitle)}</span>
+        <div>
+          ${options.map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-people="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3455,6 +3475,13 @@
 
   function applyPassportDestination(value) {
     state.passport.destination = value;
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportPeople(value) {
+    state.passport.people = value;
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3932,6 +3959,7 @@
           ${passportSelectHTML("destination")}
           ${passportDestinationQuickHTML()}
           ${passportSelectHTML("people")}
+          ${passportPeopleQuickHTML()}
           ${passportSelectHTML("experience")}
           ${passportSelectHTML("workDocs")}
           ${passportFieldHTML("readyDate")}
@@ -5195,6 +5223,11 @@
       const passportDestinationButton = event.target.closest("[data-passport-destination]");
       if (passportDestinationButton) {
         applyPassportDestination(passportDestinationButton.dataset.passportDestination);
+        return;
+      }
+      const passportPeopleButton = event.target.closest("[data-passport-people]");
+      if (passportPeopleButton) {
+        applyPassportPeople(passportPeopleButton.dataset.passportPeople);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
