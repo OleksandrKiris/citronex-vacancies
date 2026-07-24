@@ -2650,6 +2650,10 @@
         latinPreview: "Suggested",
         ageOk: "Age will be calculated for recruiter",
         ageNeed: "Add date of birth",
+        ageHelperTitle: "Local age check",
+        ageHelperEmpty: "Add date of birth and the site will calculate the age locally before WhatsApp opens.",
+        ageHelperReady: "Calculated age",
+        ageHelperPrivacy: "Only the prepared message is sent after you press WhatsApp.",
         directionOk: "Job direction is clear",
         directionNeed: "Add job direction",
         safeOk: "Only safe fields are used",
@@ -2776,6 +2780,10 @@
         latinPreview: "Вариант",
         ageOk: "Возраст посчитается для рекрутера",
         ageNeed: "Добавьте дату рождения",
+        ageHelperTitle: "Локальный расчёт возраста",
+        ageHelperEmpty: "Добавьте дату рождения — сайт сам посчитает возраст до открытия WhatsApp.",
+        ageHelperReady: "Посчитанный возраст",
+        ageHelperPrivacy: "Отправка происходит только после нажатия WhatsApp.",
         directionOk: "Направление работы понятно",
         directionNeed: "Добавьте направление работы",
         safeOk: "Используются только безопасные поля",
@@ -2902,6 +2910,10 @@
         latinPreview: "Варіант",
         ageOk: "Вік порахується для рекрутера",
         ageNeed: "Додайте дату народження",
+        ageHelperTitle: "Локальний розрахунок віку",
+        ageHelperEmpty: "Додайте дату народження — сайт сам порахує вік до відкриття WhatsApp.",
+        ageHelperReady: "Порахований вік",
+        ageHelperPrivacy: "Відправлення відбувається тільки після натискання WhatsApp.",
         directionOk: "Напрям роботи зрозумілий",
         directionNeed: "Додайте напрям роботи",
         safeOk: "Використовуються тільки безпечні поля",
@@ -3028,6 +3040,10 @@
         latinPreview: "Propozycja",
         ageOk: "Wiek zostanie obliczony dla rekrutera",
         ageNeed: "Dodaj datę urodzenia",
+        ageHelperTitle: "Lokalne liczenie wieku",
+        ageHelperEmpty: "Dodaj datę urodzenia — strona obliczy wiek lokalnie przed otwarciem WhatsApp.",
+        ageHelperReady: "Obliczony wiek",
+        ageHelperPrivacy: "Wysyłka następuje dopiero po naciśnięciu WhatsApp.",
         directionOk: "Kierunek pracy jest jasny",
         directionNeed: "Dodaj kierunek pracy",
         safeOk: "Używane są tylko bezpieczne pola",
@@ -3295,6 +3311,20 @@
         <span>${escapeHTML(copy.labels[key])}</span>
         <input type="${escapeHTML(type)}" data-passport-field="${escapeHTML(key)}" value="${escapeHTML(passportValue(key))}" placeholder="${escapeHTML(copy.placeholders[key] || "")}" autocomplete="off">
       </label>
+    `;
+  }
+
+  function passportAgeHelperHTML() {
+    const copy = candidatePassportCopy();
+    const age = calculateAge(passportValue("birthDate"));
+    return `
+      <div class="candidate-passport-age-helper${age ? " is-ready" : ""}" role="status">
+        <span aria-hidden="true">${age ? age : "?"}</span>
+        <div>
+          <strong>${escapeHTML(age ? `${copy.ageHelperReady}: ${age}` : copy.ageHelperTitle)}</strong>
+          <p>${escapeHTML(age ? copy.ageHelperPrivacy : copy.ageHelperEmpty)}</p>
+        </div>
+      </div>
     `;
   }
 
@@ -4044,6 +4074,7 @@
         <div class="candidate-passport-fields">
           ${passportFieldHTML("name")}
           ${passportFieldHTML("birthDate", "date")}
+          ${passportAgeHelperHTML()}
           ${passportFieldHTML("current")}
           ${passportCurrentQuickHTML()}
           ${passportFieldHTML("citizenship")}
