@@ -3148,8 +3148,10 @@
     const copy = candidatePassportCopy();
     const labels = copy.labels;
     const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
+    const id = passportValue("id");
     return [
       copy.messageTitle,
+      ...(id ? [`${copy.refTitle}: ${id}`] : []),
       "",
       line("name"),
       line("birthDate"),
