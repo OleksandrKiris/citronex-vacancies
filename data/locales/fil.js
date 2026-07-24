@@ -232,7 +232,6 @@
       statusWorkVisa: "Ready ang work paperwork",
       statusTemporaryResidence: "Kailangang linawin ang status",
       statusPermanentResidence: "Pinapayagan ng status ang trabaho",
-      statusPeselUkr: "Kailangang linawin ang status",
       statusProtection: "Kailangang linawin ang status",
       statusNoDocuments: "Hindi pa ready ang work paperwork",
       workRightYes: "Oo",

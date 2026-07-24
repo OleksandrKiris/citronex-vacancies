@@ -232,7 +232,6 @@
       statusWorkVisa: "Оформление для работы готово",
       statusTemporaryResidence: "Статус нужно уточнить",
       statusPermanentResidence: "Статус позволяет работать",
-      statusPeselUkr: "Статус нужно уточнить",
       statusProtection: "Статус нужно уточнить",
       statusNoDocuments: "Оформление для работы пока не готово",
       workRightYes: "Да",

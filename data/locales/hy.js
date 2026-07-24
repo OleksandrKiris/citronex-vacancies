@@ -248,7 +248,6 @@
       statusWorkVisa: "Աշխատանքի ձևակերպումը պատրաստ է",
       statusTemporaryResidence: "Կարգավիճակը պետք է ճշտել",
       statusPermanentResidence: "Կարգավիճակը թույլ է տալիս աշխատել",
-      statusPeselUkr: "Կարգավիճակը պետք է ճշտել",
       statusProtection: "Կարգավիճակը պետք է ճշտել",
       statusNoDocuments: "Աշխատանքի ձևակերպումը դեռ պատրաստ չէ",
       workRightYes: "Այո",

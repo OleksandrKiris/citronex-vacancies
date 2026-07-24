@@ -232,7 +232,6 @@
       statusWorkVisa: "Work paperwork is ready",
       statusTemporaryResidence: "Status needs clarification",
       statusPermanentResidence: "Status allows work",
-      statusPeselUkr: "Status needs clarification",
       statusProtection: "Status needs clarification",
       statusNoDocuments: "Work paperwork is not ready yet",
       workRightYes: "Yes",

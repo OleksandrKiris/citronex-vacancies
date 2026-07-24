@@ -232,7 +232,6 @@
       statusWorkVisa: "El trámite laboral está listo",
       statusTemporaryResidence: "El estatus debe aclararse",
       statusPermanentResidence: "El estatus permite trabajar",
-      statusPeselUkr: "El estatus debe aclararse",
       statusProtection: "El estatus debe aclararse",
       statusNoDocuments: "El trámite laboral aún no está listo",
       workRightYes: "Sí",
@@ -521,7 +520,7 @@
         summary: "Posible desplazamiento a un almacén belga para trabajadores autorizados, sujeto a documentos y necesidad del centro.",
         responsibilities: ["Clasificar, envasar y controlar la calidad de los plátanos.", "Preparar mercancía para envío.", "Trabajar con cajas y palés y seguir las instrucciones del centro."],
         required: ["En el procedimiento actual: ciudadanía ucraniana.", "Documentación para un desplazamiento y trabajo legales.", "Decisión favorable de la empresa y necesidad del centro."],
-        niceToHave: ["Experiencia en almacén de plátanos.", "Karta pobytu polaca vigente, sujeta a comprobación adicional."],
+        niceToHave: ["Experiencia en almacén de plátanos.", "Estatus laboral que pueda confirmarse por separado."],
         benefits: ["Se proporciona alojamiento; las condiciones se confirman antes de viajar.", "El centro belga fija el horario.", "El desplazamiento no se garantiza hasta confirmar estatus, necesidad del centro y condiciones.", "Tarifa, moneda, componentes del pago y descuentos deben confirmarse."],
         statusNote: "No es una vacante masiva; el desplazamiento solo es posible tras comprobar documentos y necesidad."
       }

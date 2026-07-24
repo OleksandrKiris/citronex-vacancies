@@ -248,7 +248,6 @@
       statusWorkVisa: "სამუშაოს გაფორმება მზად არის",
       statusTemporaryResidence: "სტატუსი დასაზუსტებელია",
       statusPermanentResidence: "სტატუსი მუშაობის საშუალებას იძლევა",
-      statusPeselUkr: "სტატუსი დასაზუსტებელია",
       statusProtection: "სტატუსი დასაზუსტებელია",
       statusNoDocuments: "სამუშაოს გაფორმება ჯერ მზად არ არის",
       workRightYes: "დიახ",

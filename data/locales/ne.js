@@ -232,7 +232,6 @@
       statusWorkVisa: "कामको प्रक्रिया तयार छ",
       statusTemporaryResidence: "स्थिति स्पष्ट गर्नुपर्छ",
       statusPermanentResidence: "स्थितिले काम गर्न अनुमति दिन्छ",
-      statusPeselUkr: "स्थिति स्पष्ट गर्नुपर्छ",
       statusProtection: "स्थिति स्पष्ट गर्नुपर्छ",
       statusNoDocuments: "कामको प्रक्रिया अझै तयार छैन",
       workRightYes: "हो",

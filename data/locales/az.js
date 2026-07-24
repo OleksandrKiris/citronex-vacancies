@@ -248,7 +248,6 @@
       statusWorkVisa: "İş rəsmiləşdirilməsi hazırdır",
       statusTemporaryResidence: "Status dəqiqləşdirilməlidir",
       statusPermanentResidence: "Status işləməyə imkan verir",
-      statusPeselUkr: "Status dəqiqləşdirilməlidir",
       statusProtection: "Status dəqiqləşdirilməlidir",
       statusNoDocuments: "İş rəsmiləşdirilməsi hələ hazır deyil",
       workRightYes: "Bəli",
@@ -514,7 +513,7 @@
         responsibilities: ["Bananları çeşidləmək, qablaşdırmaq və keyfiyyətini yoxlamaq.", "Məhsulu göndərişə hazırlamaq və qutu-palətlərlə işləmək.", "Təmizliyi qorumaq və obyektin göstərişlərinə əməl etmək."],
         required: ["Hazırkı göndəriş qaydasında — Ukrayna vətəndaşlığı.", "Qanuni ezamiyyət və iş üçün sənədlər.", "Şirkətin müsbət qərarı və obyekt ehtiyacı."],
         niceToHave: ["Banan anbarında təcrübə.", "Ayrıca təsdiqlənə bilən iş statusu."],
-        benefits: ["Yaşayış verilir; şərtlər səfərdən əvvəl təsdiqlənir.", "Qrafiki Belçika obyekti müəyyən edir.", "Karta pobytu olsa belə ezamiyyətə zəmanət verilmir.", "Tarif, valyuta, ödəniş tərkibi və tutulmalar təsdiqlənməlidir."],
+        benefits: ["Yaşayış verilir; şərtlər səfərdən əvvəl təsdiqlənir.", "Qrafiki Belçika obyekti müəyyən edir.", "Status, obyekt ehtiyacı və şərtlər təsdiqlənməyənə qədər ezamiyyətə zəmanət verilmir.", "Tarif, valyuta, ödəniş tərkibi və tutulmalar təsdiqlənməlidir."],
         statusNote: "Kütləvi vakansiya deyil; göndəriş yalnız sənədlər və ehtiyac yoxlandıqdan sonra mümkündür."
       }
     }

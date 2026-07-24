@@ -232,7 +232,6 @@
       statusWorkVisa: "Administrasi kerja siap",
       statusTemporaryResidence: "Status perlu diklarifikasi",
       statusPermanentResidence: "Status memungkinkan bekerja",
-      statusPeselUkr: "Status perlu diklarifikasi",
       statusProtection: "Status perlu diklarifikasi",
       statusNoDocuments: "Administrasi kerja belum siap",
       workRightYes: "Ya",
@@ -504,7 +503,7 @@
         required: ["Dalam perekrutan saat ini: kewarganegaraan Ukraina.", "Hak bekerja harus diperiksa sebelum berangkat.", "Siap untuk pekerjaan fisik dan memindahkan kotak."],
         niceToHave: ["Pengalaman gudang atau produksi pangan.", "Siap bekerja dalam shift."],
         benefits: ["Tempat tinggal gratis dekat tempat kerja.", "Biasanya 8–12 jam, 5–6 hari; jadwal ditentukan gudang.", "Dukungan organisasi dari koordinator.", "Alamat, penghuni kamar, dan tarif harus dikonfirmasi."],
-        statusNote: "Karta pobytu Polandia saja tidak membuktikan hak untuk bekerja di Hungaria."
+        statusNote: "Status dari satu negara saja mungkin tidak membuktikan hak untuk bekerja di Hungaria."
       },
       "banana-warehouse-belgium": {
         title: "Penugasan ke gudang pisang — Belgia",
@@ -521,7 +520,7 @@
         summary: "Kemungkinan penugasan ke gudang pisang Belgia bagi pekerja yang memenuhi syarat, jika dokumen dan kebutuhan lokasi tersedia.",
         responsibilities: ["Menyortir, mengemas, dan memeriksa mutu pisang.", "Menyiapkan produk untuk pengiriman.", "Menangani kotak dan palet serta mengikuti instruksi lokasi."],
         required: ["Dalam prosedur saat ini: kewarganegaraan Ukraina.", "Dokumen untuk penugasan dan pekerjaan legal.", "Persetujuan perusahaan dan kebutuhan dari lokasi."],
-        niceToHave: ["Pengalaman di gudang pisang.", "Karta pobytu Polandia yang masih berlaku, dengan pemeriksaan tambahan."],
+        niceToHave: ["Pengalaman di gudang pisang.", "Status kerja yang dapat dikonfirmasi secara terpisah."],
         benefits: ["Tempat tinggal disediakan; ketentuan dikonfirmasi sebelum berangkat.", "Jadwal ditentukan lokasi Belgia.", "Penugasan tidak dijamin sampai status, kebutuhan lokasi, dan ketentuan dikonfirmasi.", "Tarif, mata uang, komponen pembayaran, dan potongan harus dikonfirmasi."],
         statusNote: "Bukan lowongan massal; penugasan hanya mungkin setelah pemeriksaan dokumen dan kebutuhan."
       }
