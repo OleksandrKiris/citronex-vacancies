@@ -9967,6 +9967,77 @@ body.vacancy-first {
   color: #101820;
 }
 
+.candidate-passport-coach {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.22), transparent 9rem),
+    #101820;
+  border-radius: 18px;
+}
+
+.candidate-passport-coach.is-ready {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.30), transparent 9rem),
+    #0f6d4c;
+}
+
+.candidate-passport-coach-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.candidate-passport-coach-top span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.candidate-passport-coach-top strong {
+  color: #bdf24b;
+  font-size: 34px;
+  font-weight: 950;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+.candidate-passport-coach-meter {
+  overflow: hidden;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.candidate-passport-coach-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ffb84d, #bdf24b);
+  border-radius: inherit;
+}
+
+.candidate-passport-coach p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  line-height: 1.38;
+}
+
+.candidate-passport-coach p b {
+  color: #fff;
+}
+
+.candidate-passport-coach .button {
+  min-height: 38px;
+  color: #101820;
+  background: #bdf24b;
+  border-color: rgba(189, 242, 75, 0.45);
+  border-radius: 13px;
+}
+
 .candidate-passport-id {
   display: grid;
   gap: 6px;

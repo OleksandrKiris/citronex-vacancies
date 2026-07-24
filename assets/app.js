@@ -2447,6 +2447,11 @@
         fillFromMatch: "Use quick answers",
         missing: "To improve readiness",
         ready: "Ready for recruiter review",
+        completionTitle: "Application readiness",
+        completionPercent: "complete",
+        nextStep: "Next best step",
+        focusNext: "Add this",
+        readyText: "You can send the application in WhatsApp now.",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2500,6 +2505,11 @@
         fillFromMatch: "Заполнить из подбора",
         missing: "Чтобы улучшить готовность",
         ready: "Готово для проверки рекрутером",
+        completionTitle: "Готовность заявки",
+        completionPercent: "заполнено",
+        nextStep: "Следующий лучший шаг",
+        focusNext: "Добавить это",
+        readyText: "Теперь можно отправить заявку в WhatsApp.",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2553,6 +2563,11 @@
         fillFromMatch: "Заповнити з підбору",
         missing: "Щоб покращити готовність",
         ready: "Готово для перевірки рекрутером",
+        completionTitle: "Готовність заявки",
+        completionPercent: "заповнено",
+        nextStep: "Наступний найкращий крок",
+        focusNext: "Додати це",
+        readyText: "Тепер можна надіслати заявку у WhatsApp.",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2606,6 +2621,11 @@
         fillFromMatch: "Użyj szybkich odpowiedzi",
         missing: "Aby poprawić gotowość",
         ready: "Gotowe do sprawdzenia przez rekrutera",
+        completionTitle: "Gotowość zgłoszenia",
+        completionPercent: "uzupełnione",
+        nextStep: "Najlepszy następny krok",
+        focusNext: "Dodaj to",
+        readyText: "Możesz teraz wysłać zgłoszenie w WhatsApp.",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -2847,11 +2867,18 @@
     renderCandidatePassport();
   }
 
+  function focusPassportField(key) {
+    const field = document.querySelector(`[data-passport-field="${CSS.escape(key)}"]`);
+    if (!field) return;
+    field.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.setTimeout(() => field.focus({ preventScroll: true }), 240);
+  }
+
   function passportFitCopy() {
     const copy = {
       en: {
         label: "Passport fit",
-        empty: "Fill Candidate Passport",
+        empty: "Fill candidate application",
         why: "Why",
         check: "Check",
         country: "country matches",
@@ -2861,12 +2888,12 @@
         greenhouse: "greenhouse direction matches",
         couple: "may fit a couple",
         askCountry: "country",
-        askDocs: "documents",
+        askDocs: "paperwork",
         askStart: "start date"
       },
       ru: {
         label: "Совпадение",
-        empty: "Заполните паспорт",
+        empty: "Заполните заявку",
         why: "Почему",
         check: "Уточнить",
         country: "страна совпадает",
@@ -2876,12 +2903,12 @@
         greenhouse: "совпадает теплица",
         couple: "может подойти паре",
         askCountry: "страну",
-        askDocs: "документы",
+        askDocs: "оформление",
         askStart: "дату старта"
       },
       uk: {
         label: "Збіг",
-        empty: "Заповніть паспорт",
+        empty: "Заповніть заявку",
         why: "Чому",
         check: "Уточнити",
         country: "країна збігається",
@@ -2891,12 +2918,12 @@
         greenhouse: "збігається теплиця",
         couple: "може підійти парі",
         askCountry: "країну",
-        askDocs: "документи",
+        askDocs: "оформлення",
         askStart: "дату старту"
       },
       pl: {
         label: "Dopasowanie",
-        empty: "Wypełnij paszport",
+        empty: "Wypełnij zgłoszenie",
         why: "Dlaczego",
         check: "Sprawdź",
         country: "kraj pasuje",
@@ -2906,7 +2933,7 @@
         greenhouse: "pasuje szklarnia",
         couple: "może pasować dla pary",
         askCountry: "kraj",
-        askDocs: "dokumenty",
+        askDocs: "formalności",
         askStart: "datę startu"
       }
     };
@@ -2983,6 +3010,25 @@
     `;
   }
 
+  function candidatePassportCoachHTML(score, missing) {
+    const copy = candidatePassportCopy();
+    const nextKey = missing[0];
+    return `
+      <div class="candidate-passport-coach${missing.length ? "" : " is-ready"}">
+        <div class="candidate-passport-coach-top">
+          <span>${escapeHTML(copy.completionTitle)}</span>
+          <strong>${score}%</strong>
+        </div>
+        <div class="candidate-passport-coach-meter" aria-hidden="true"><span style="width:${score}%"></span></div>
+        <p>
+          <b>${escapeHTML(missing.length ? copy.nextStep : copy.ready)}:</b>
+          ${escapeHTML(missing.length ? copy.labels[nextKey] : copy.readyText)}
+        </p>
+        ${missing.length ? `<button class="button button-secondary" type="button" data-passport-focus-missing="${escapeHTML(nextKey)}">${escapeHTML(copy.focusNext)}</button>` : ""}
+      </div>
+    `;
+  }
+
   function renderCandidatePassport() {
     const layout = el("candidate-passport-layout");
     if (!layout) return;
@@ -3019,6 +3065,7 @@
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
       </form>
       <aside class="candidate-passport-preview">
+        ${candidatePassportCoachHTML(score, missing)}
         <div class="candidate-passport-message">
           <strong>${escapeHTML(copy.previewTitle)}</strong>
           <pre>${escapeHTML(candidatePublicPassportPreview())}</pre>
@@ -4220,6 +4267,11 @@
       if (passportFillButton) {
         fillPassportFromInstantMatch();
         refreshJobLists();
+        return;
+      }
+      const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
+      if (passportFocusButton) {
+        focusPassportField(passportFocusButton.dataset.passportFocusMissing);
         return;
       }
       const passportCopyButton = event.target.closest("[data-passport-copy]");
