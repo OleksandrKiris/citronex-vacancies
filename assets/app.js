@@ -2666,6 +2666,14 @@
           ["Clarify", "Recruiter checks start date, city and suitable jobs."],
           ["Confirm", "You receive exact conditions before any travel decision."]
         ],
+        quickTitle: "Quick start",
+        quickIntro: "Choose the closest path and correct details if needed.",
+        quickStarts: [
+          { id: "greenhouse", title: "Greenhouse", text: "Poland · no experience", job: "greenhouse" },
+          { id: "warehouse", title: "Warehouse", text: "Poland · simple start", job: "warehouse" },
+          { id: "driver", title: "Driver", text: "Transport direction", job: "driver" },
+          { id: "couple", title: "For a couple", text: "Start together", job: "greenhouse" }
+        ],
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2754,6 +2762,14 @@
           ["Отправка", "Откроется готовое сообщение в WhatsApp."],
           ["Уточнение", "Рекрутер проверит дату старта, город и подходящие вакансии."],
           ["Подтверждение", "Вы получите конкретные условия до решения о поездке."]
+        ],
+        quickTitle: "Быстрый старт",
+        quickIntro: "Выберите ближайший вариант и поправьте детали, если нужно.",
+        quickStarts: [
+          { id: "greenhouse", title: "Теплица", text: "Польша · можно без опыта", job: "теплица" },
+          { id: "warehouse", title: "Склад", text: "Польша · простой старт", job: "склад" },
+          { id: "driver", title: "Водитель", text: "Направление транспорта", job: "водитель" },
+          { id: "couple", title: "Для пары", text: "Старт вместе", job: "теплица" }
         ],
         labels: {
           name: "Имя и фамилия латиницей",
@@ -2844,6 +2860,14 @@
           ["Уточнення", "Рекрутер перевірить дату старту, місто і відповідні вакансії."],
           ["Підтвердження", "Ви отримаєте конкретні умови до рішення про поїздку."]
         ],
+        quickTitle: "Швидкий старт",
+        quickIntro: "Оберіть найближчий варіант і виправте деталі, якщо потрібно.",
+        quickStarts: [
+          { id: "greenhouse", title: "Теплиця", text: "Польща · можна без досвіду", job: "теплиця" },
+          { id: "warehouse", title: "Склад", text: "Польща · простий старт", job: "склад" },
+          { id: "driver", title: "Водій", text: "Напрям транспорту", job: "водій" },
+          { id: "couple", title: "Для пари", text: "Старт разом", job: "теплиця" }
+        ],
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2932,6 +2956,14 @@
           ["Wysyłka", "Otworzy się gotowa wiadomość w WhatsApp."],
           ["Ustalenie", "Rekruter sprawdzi termin startu, miasto i pasujące oferty."],
           ["Potwierdzenie", "Otrzymasz konkretne warunki przed decyzją o wyjeździe."]
+        ],
+        quickTitle: "Szybki start",
+        quickIntro: "Wybierz najbliższy wariant i popraw szczegóły, jeśli trzeba.",
+        quickStarts: [
+          { id: "greenhouse", title: "Szklarnia", text: "Polska · można bez doświadczenia", job: "szklarnia" },
+          { id: "warehouse", title: "Magazyn", text: "Polska · prosty start", job: "magazyn" },
+          { id: "driver", title: "Kierowca", text: "Kierunek transportu", job: "kierowca" },
+          { id: "couple", title: "Dla pary", text: "Start razem", job: "szklarnia" }
         ],
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
@@ -3172,6 +3204,46 @@
     ensurePassportId();
     persistPassport();
     renderCandidatePassport();
+  }
+
+  function candidatePassportQuickStartHTML() {
+    const copy = candidatePassportCopy();
+    return `
+      <section class="candidate-passport-quick" aria-label="${escapeHTML(copy.quickTitle)}">
+        <div>
+          <strong>${escapeHTML(copy.quickTitle)}</strong>
+          <small>${escapeHTML(copy.quickIntro)}</small>
+        </div>
+        <div class="candidate-passport-quick-grid">
+          ${(copy.quickStarts || []).map((item) => `
+            <button class="candidate-passport-quick-card" type="button" data-passport-quick-start="${escapeHTML(item.id)}">
+              <b>${escapeHTML(item.title)}</b>
+              <span>${escapeHTML(item.text)}</span>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function applyPassportQuickStart(id) {
+    const copy = candidatePassportCopy();
+    const quick = (copy.quickStarts || []).find((item) => item.id === id);
+    if (!quick) return;
+    if (!passportValue("language")) state.passport.language = passportOptionValue("language", 0);
+    state.passport.destination = passportOptionValue("destination", 0);
+    state.passport.job = quick.job;
+    if (id === "driver") {
+      state.passport.experience = passportOptionValue("experience", 2);
+      state.passport.people = passportValue("people") || passportOptionValue("people", 0);
+    } else {
+      state.passport.experience = passportOptionValue("experience", 0);
+      state.passport.people = id === "couple" ? passportOptionValue("people", 1) : (passportValue("people") || passportOptionValue("people", 0));
+    }
+    if (!passportValue("workDocs")) state.passport.workDocs = passportOptionValue("workDocs", 2);
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
   }
 
   function focusPassportField(key) {
@@ -3532,6 +3604,7 @@
             </article>
           `).join("")}
         </div>
+        ${candidatePassportQuickStartHTML()}
         <div class="candidate-passport-fields">
           ${passportFieldHTML("name")}
           ${passportFieldHTML("birthDate", "date")}
@@ -4761,6 +4834,11 @@
       if (passportFillButton) {
         fillPassportFromInstantMatch();
         refreshJobLists();
+        return;
+      }
+      const passportQuickStartButton = event.target.closest("[data-passport-quick-start]");
+      if (passportQuickStartButton) {
+        applyPassportQuickStart(passportQuickStartButton.dataset.passportQuickStart);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
