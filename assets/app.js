@@ -269,7 +269,7 @@
         survey: "Հարցաթերթիկ"
       }
     };
-    return copy[i18n.locale] || copy.en;
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
   function conversionCopy() {
@@ -319,7 +319,7 @@
         situationDocumentsText: "The form sends citizenship, status and work-right details without document photos."
       }
     };
-    return copy[i18n.locale] || copy.en;
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
   function instantMatchCopy() {
@@ -342,6 +342,13 @@
         results: "Подходящие варианты",
         open: "Открыть",
         apply: "Анкета",
+        whatsapp: "Написать по этим ответам",
+        messageTitle: "БЫСТРЫЙ ПОДБОР · CITRONEX",
+        messageIntro: "Здравствуйте! Хочу уточнить вакансии по моим быстрым ответам.",
+        messageAnswers: "Мои ответы",
+        messageJobs: "Подходящие вакансии",
+        messageLanguage: "Язык сайта",
+        messageLink: "Ссылка",
         note: "Подбор предварительный. Условия, документы и дату старта всё равно нужно подтвердить."
       },
       uk: {
@@ -362,6 +369,13 @@
         results: "Варіанти",
         open: "Відкрити",
         apply: "Анкета",
+        whatsapp: "Написати за цими відповідями",
+        messageTitle: "ШВИДКИЙ ПІДБІР · CITRONEX",
+        messageIntro: "Вітаю! Хочу уточнити вакансії за моїми швидкими відповідями.",
+        messageAnswers: "Мої відповіді",
+        messageJobs: "Відповідні вакансії",
+        messageLanguage: "Мова сайту",
+        messageLink: "Посилання",
         note: "Підбір попередній. Умови, документи і дату старту потрібно підтвердити."
       },
       pl: {
@@ -382,6 +396,13 @@
         results: "Dopasowane oferty",
         open: "Otwórz",
         apply: "Ankieta",
+        whatsapp: "Napisz z tymi odpowiedziami",
+        messageTitle: "SZYBKIE DOPASOWANIE · CITRONEX",
+        messageIntro: "Dzień dobry! Chcę dopytać o oferty według moich szybkich odpowiedzi.",
+        messageAnswers: "Moje odpowiedzi",
+        messageJobs: "Pasujące oferty",
+        messageLanguage: "Język strony",
+        messageLink: "Link",
         note: "To wstępne dopasowanie. Warunki, dokumenty i start trzeba potwierdzić."
       },
       en: {
@@ -402,7 +423,149 @@
         results: "Suitable jobs",
         open: "Open",
         apply: "Form",
+        whatsapp: "Message with these answers",
+        messageTitle: "QUICK MATCH · CITRONEX",
+        messageIntro: "Hello! I want to confirm jobs based on my quick answers.",
+        messageAnswers: "My answers",
+        messageJobs: "Suitable jobs",
+        messageLanguage: "Site language",
+        messageLink: "Link",
         note: "This is a preliminary match. Conditions, documents and start date still need confirmation."
+      },
+      az: {
+        kicker: "30 saniyəyə uyğun seçim",
+        title: "3 suala cavab verin",
+        intro: "Sayt vəziyyətinizə daha uyğun vakansiyaları dərhal göstərəcək.",
+        country: "Harada işləmək istəyirsiniz?",
+        experience: "Təcrübəniz",
+        area: "Hansı iş daha uyğundur?",
+        any: "Fərqi yoxdur",
+        poland: "Polşa",
+        other: "Macarıstan · Belçika",
+        noExperience: "Təcrübəsiz",
+        experienced: "Təcrübəm var",
+        greenhouse: "İstixana",
+        warehouse: "Anbar",
+        transport: "Sürücü",
+        results: "Uyğun vakansiyalar",
+        open: "Aç",
+        apply: "Anket",
+        whatsapp: "Bu cavablarla yazın",
+        messageTitle: "SÜRƏTLİ SEÇİM · CITRONEX",
+        messageIntro: "Salam! Sürətli cavablarıma əsasən vakansiyaları dəqiqləşdirmək istəyirəm.",
+        messageAnswers: "Cavablarım",
+        messageJobs: "Uyğun vakansiyalar",
+        messageLanguage: "Sayt dili",
+        messageLink: "Link",
+        note: "Bu ilkin seçimdir. Şərtlər, sənədlər və başlama tarixi təsdiqlənməlidir."
+      },
+      id: {
+        kicker: "Cocokkan dalam 30 detik",
+        title: "Jawab 3 pertanyaan",
+        intro: "Situs akan langsung menampilkan lowongan yang lebih sesuai dengan situasi Anda.",
+        country: "Di mana Anda ingin bekerja?",
+        experience: "Pengalaman Anda",
+        area: "Pekerjaan pilihan",
+        any: "Apa saja",
+        poland: "Polandia",
+        other: "Hungaria · Belgia",
+        noExperience: "Tanpa pengalaman",
+        experienced: "Berpengalaman",
+        greenhouse: "Rumah kaca",
+        warehouse: "Gudang",
+        transport: "Sopir",
+        results: "Lowongan yang cocok",
+        open: "Buka",
+        apply: "Formulir",
+        whatsapp: "Kirim jawaban ini",
+        messageTitle: "PENCOCOKAN CEPAT · CITRONEX",
+        messageIntro: "Halo! Saya ingin mengonfirmasi lowongan berdasarkan jawaban cepat saya.",
+        messageAnswers: "Jawaban saya",
+        messageJobs: "Lowongan yang cocok",
+        messageLanguage: "Bahasa situs",
+        messageLink: "Tautan",
+        note: "Ini pencocokan awal. Syarat, dokumen, dan tanggal mulai tetap perlu dikonfirmasi."
+      },
+      es: {
+        kicker: "Selección en 30 segundos",
+        title: "Responde 3 preguntas",
+        intro: "El sitio mostrará de inmediato las vacantes que mejor encajan con tu situación.",
+        country: "¿Dónde quieres trabajar?",
+        experience: "Tu experiencia",
+        area: "Trabajo preferido",
+        any: "Cualquiera",
+        poland: "Polonia",
+        other: "Hungría · Bélgica",
+        noExperience: "Sin experiencia",
+        experienced: "Con experiencia",
+        greenhouse: "Invernadero",
+        warehouse: "Almacén",
+        transport: "Conductor",
+        results: "Vacantes adecuadas",
+        open: "Abrir",
+        apply: "Formulario",
+        whatsapp: "Enviar estas respuestas",
+        messageTitle: "SELECCIÓN RÁPIDA · CITRONEX",
+        messageIntro: "Hola. Quiero confirmar vacantes según mis respuestas rápidas.",
+        messageAnswers: "Mis respuestas",
+        messageJobs: "Vacantes adecuadas",
+        messageLanguage: "Idioma del sitio",
+        messageLink: "Enlace",
+        note: "Es una selección preliminar. Las condiciones, documentos y fecha de inicio deben confirmarse."
+      },
+      fil: {
+        kicker: "Match sa 30 segundo",
+        title: "Sagutin ang 3 tanong",
+        intro: "Agad na ipapakita ng site ang mga trabahong mas bagay sa iyong sitwasyon.",
+        country: "Saan mo gustong magtrabaho?",
+        experience: "Iyong karanasan",
+        area: "Piniling trabaho",
+        any: "Kahit ano",
+        poland: "Poland",
+        other: "Hungary · Belgium",
+        noExperience: "Walang karanasan",
+        experienced: "May karanasan",
+        greenhouse: "Greenhouse",
+        warehouse: "Warehouse",
+        transport: "Driver",
+        results: "Bagay na trabaho",
+        open: "Buksan",
+        apply: "Form",
+        whatsapp: "Ipadala ang sagot",
+        messageTitle: "MABILIS NA MATCH · CITRONEX",
+        messageIntro: "Hello! Gusto kong kumpirmahin ang mga trabaho batay sa mabilis kong sagot.",
+        messageAnswers: "Mga sagot ko",
+        messageJobs: "Bagay na trabaho",
+        messageLanguage: "Wika ng site",
+        messageLink: "Link",
+        note: "Paunang match ito. Kailangang kumpirmahin ang kondisyon, dokumento at petsa ng simula."
+      },
+      hy: {
+        kicker: "Ընտրություն 30 վայրկյանում",
+        title: "Պատասխանեք 3 հարցի",
+        intro: "Կայքը անմիջապես ցույց կտա ձեր իրավիճակին ավելի համապատասխան աշխատանքները։",
+        country: "Որտե՞ղ եք ուզում աշխատել",
+        experience: "Ձեր փորձը",
+        area: "Ո՞ր աշխատանքն է մոտ",
+        any: "Կարևոր չէ",
+        poland: "Լեհաստան",
+        other: "Հունգարիա · Բելգիա",
+        noExperience: "Առանց փորձի",
+        experienced: "Փորձ ունեմ",
+        greenhouse: "Ջերմոց",
+        warehouse: "Պահեստ",
+        transport: "Վարորդ",
+        results: "Հարմար տարբերակներ",
+        open: "Բացել",
+        apply: "Անկետա",
+        whatsapp: "Գրել այս պատասխաններով",
+        messageTitle: "ԱՐԱԳ ԸՆՏՐՈՒԹՅՈՒՆ · CITRONEX",
+        messageIntro: "Բարև։ Ուզում եմ ճշտել աշխատանքները իմ արագ պատասխանների հիման վրա։",
+        messageAnswers: "Իմ պատասխանները",
+        messageJobs: "Հարմար աշխատանքներ",
+        messageLanguage: "Կայքի լեզուն",
+        messageLink: "Հղում",
+        note: "Սա նախնական ընտրություն է։ Պայմանները, փաստաթղթերը և սկսելու օրը պետք է հաստատել։"
       },
       ka: {
         kicker: "შერჩევა 30 წამში",
@@ -422,6 +585,13 @@
         results: "შესაფერისი ვარიანტები",
         open: "გახსნა",
         apply: "ანკეტა",
+        whatsapp: "მოწერა ამ პასუხებით",
+        messageTitle: "სწრაფი შერჩევა · CITRONEX",
+        messageIntro: "გამარჯობა! მინდა ვაკანსიების დაზუსტება ჩემი სწრაფი პასუხების მიხედვით.",
+        messageAnswers: "ჩემი პასუხები",
+        messageJobs: "შესაფერისი ვაკანსიები",
+        messageLanguage: "საიტის ენა",
+        messageLink: "ბმული",
         note: "ეს წინასწარი შერჩევაა. პირობები, დოკუმენტები და დაწყების თარიღი უნდა დადასტურდეს."
       },
       ne: {
@@ -442,10 +612,17 @@
         results: "उपयुक्त कामहरू",
         open: "खोल्नुहोस्",
         apply: "फारम",
+        whatsapp: "यी उत्तरसहित लेख्नुहोस्",
+        messageTitle: "छिटो मिलान · CITRONEX",
+        messageIntro: "नमस्ते! मेरा छिटो उत्तरका आधारमा कामहरू पुष्टि गर्न चाहन्छु।",
+        messageAnswers: "मेरा उत्तरहरू",
+        messageJobs: "उपयुक्त कामहरू",
+        messageLanguage: "साइट भाषा",
+        messageLink: "लिङ्क",
         note: "यो प्रारम्भिक मिलान हो। सर्त, कागजात र सुरु मिति पुष्टि गर्नुपर्छ।"
       }
     };
-    return copy[i18n.locale] || copy.en;
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
   function resourceIconName(id = "") {
@@ -764,6 +941,78 @@
       .map((item) => item.job);
   }
 
+  function instantChoiceLabel(group, value) {
+    const copy = instantMatchCopy();
+    const labels = {
+      country: {
+        any: copy.any,
+        poland: copy.poland,
+        other: copy.other
+      },
+      experience: {
+        any: copy.any,
+        none: copy.noExperience,
+        experienced: copy.experienced
+      },
+      area: {
+        any: copy.any,
+        greenhouse: copy.greenhouse,
+        warehouse: copy.warehouse,
+        transport: copy.transport
+      }
+    };
+    return labels[group]?.[value] || value;
+  }
+
+  function cleanText(value) {
+    const container = document.createElement("span");
+    container.innerHTML = String(value || "");
+    return container.textContent.replace(/\s+/g, " ").trim();
+  }
+
+  function messageLabel(value) {
+    return String(value || "").replace(/[?:؟¿]+$/u, "").trim();
+  }
+
+  function instantMatchMessage() {
+    const copy = instantMatchCopy();
+    const matches = instantMatches();
+    const currentUrl = new URL(window.location.href);
+    currentUrl.hash = "";
+    const answers = [
+      `${messageLabel(copy.country)}: ${instantChoiceLabel("country", state.instantMatch.country)}`,
+      `${messageLabel(copy.experience)}: ${instantChoiceLabel("experience", state.instantMatch.experience)}`,
+      `${messageLabel(copy.area)}: ${instantChoiceLabel("area", state.instantMatch.area)}`
+    ];
+    const suggestedJobs = matches.map((job, index) => {
+      const view = localizedJob(job);
+      const salary = cleanText(formatSalary(view.salary));
+      return `${index + 1}. ${view.title} (${job.id}) · ${view.format} · ${salary}`;
+    });
+    return [
+      copy.messageTitle,
+      copy.messageIntro,
+      "",
+      `${copy.messageAnswers}:`,
+      ...answers,
+      "",
+      `${copy.messageJobs}:`,
+      ...suggestedJobs,
+      "",
+      `${copy.messageLanguage}: ${i18n.languageName(i18n.locale)} (${i18n.locale})`,
+      `${copy.messageLink}: ${currentUrl.toString()}`,
+      "",
+      copy.note
+    ].join("\n");
+  }
+
+  function openInstantMatchWhatsApp() {
+    const fallbackPhone = String(profile.phone || "").replace(/\D/g, "");
+    const whatsappUrl = profile.whatsapp || `https://wa.me/${fallbackPhone}`;
+    const separator = whatsappUrl.includes("?") ? "&" : "?";
+    openWhatsAppSafety(`${whatsappUrl}${separator}text=${encodeURIComponent(instantMatchMessage())}`);
+  }
+
   function renderInstantMatcher() {
     const copy = instantMatchCopy();
     if (el("instant-match-kicker")) el("instant-match-kicker").textContent = copy.kicker;
@@ -800,6 +1049,7 @@
       <div class="instant-result-head">
         <strong>${escapeHTML(copy.results)}</strong>
         <small>${escapeHTML(copy.note)}</small>
+        <button class="button button-whatsapp instant-whatsapp" type="button" data-instant-whatsapp>${escapeHTML(copy.whatsapp)}</button>
       </div>
       <div class="instant-result-grid">
         ${matches.map((job) => {
@@ -1714,6 +1964,11 @@
           state.instantMatch[group] = value;
           renderInstantMatcher();
         }
+        return;
+      }
+      const instantWhatsAppButton = event.target.closest("[data-instant-whatsapp]");
+      if (instantWhatsAppButton) {
+        openInstantMatchWhatsApp();
         return;
       }
       const surveyButton = event.target.closest("[data-job-survey]");

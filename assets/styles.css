@@ -8458,7 +8458,7 @@ body.vacancy-first {
   }
 }
 
-/* v17 · instant 30-second matcher */
+/* v18 · instant 30-second matcher */
 .instant-match {
   display: grid;
   grid-template-columns: minmax(210px, 0.7fr) minmax(0, 2.3fr);
@@ -8553,7 +8553,7 @@ body.vacancy-first {
 
 .instant-result-head {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
 }
@@ -8567,6 +8567,15 @@ body.vacancy-first {
   color: rgba(255, 255, 255, 0.62);
   font-size: 11px;
   line-height: 1.35;
+}
+
+.instant-whatsapp {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .instant-result-grid {
@@ -8672,7 +8681,16 @@ body.vacancy-first {
 
   .instant-result-head {
     grid-template-columns: 1fr;
-    gap: 3px;
+    gap: 6px;
+  }
+
+  .instant-result-head small {
+    display: none;
+  }
+
+  .instant-whatsapp {
+    width: 100%;
+    justify-content: center;
   }
 
   .instant-result-grid {
