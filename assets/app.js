@@ -2675,6 +2675,8 @@
         refTitle: "Application reference",
         refEmpty: "Appears after the first answer.",
         refText: "Use this code if you continue the chat later.",
+        refCopy: "Copy reference",
+        refCopied: "Application reference copied",
         quickTitle: "Quick start",
         quickIntro: "Choose the closest path and correct details if needed.",
         quickStarts: [
@@ -2781,6 +2783,8 @@
         refTitle: "Номер заявки",
         refEmpty: "Появится после первого ответа.",
         refText: "Используйте этот код, если продолжите переписку позже.",
+        refCopy: "Скопировать номер",
+        refCopied: "Номер заявки скопирован",
         quickTitle: "Быстрый старт",
         quickIntro: "Выберите ближайший вариант и поправьте детали, если нужно.",
         quickStarts: [
@@ -2887,6 +2891,8 @@
         refTitle: "Номер заявки",
         refEmpty: "З’явиться після першої відповіді.",
         refText: "Використовуйте цей код, якщо продовжите чат пізніше.",
+        refCopy: "Скопіювати номер",
+        refCopied: "Номер заявки скопійовано",
         quickTitle: "Швидкий старт",
         quickIntro: "Оберіть найближчий варіант і виправте деталі, якщо потрібно.",
         quickStarts: [
@@ -2993,6 +2999,8 @@
         refTitle: "Numer zgłoszenia",
         refEmpty: "Pojawi się po pierwszej odpowiedzi.",
         refText: "Użyj tego kodu, jeśli wrócisz do rozmowy później.",
+        refCopy: "Kopiuj numer",
+        refCopied: "Numer zgłoszenia skopiowany",
         quickTitle: "Szybki start",
         quickIntro: "Wybierz najbliższy wariant i popraw szczegóły, jeśli trzeba.",
         quickStarts: [
@@ -3084,6 +3092,7 @@
           <strong>${escapeHTML(id || "CIT-••••")}</strong>
         </div>
         <p>${escapeHTML(id ? copy.refText : copy.refEmpty)}</p>
+        ${id ? `<button class="candidate-passport-reference-copy" type="button" data-passport-copy-reference="${escapeHTML(id)}">${escapeHTML(copy.refCopy)}</button>` : ""}
       </section>
     `;
   }
@@ -4959,6 +4968,11 @@
       const passportCopyButton = event.target.closest("[data-passport-copy]");
       if (passportCopyButton) {
         copyText(candidatePublicPassportPreview(), candidatePassportCopy().copied);
+        return;
+      }
+      const passportReferenceCopyButton = event.target.closest("[data-passport-copy-reference]");
+      if (passportReferenceCopyButton) {
+        copyText(passportReferenceCopyButton.dataset.passportCopyReference, candidatePassportCopy().refCopied);
         return;
       }
       const passportClearButton = event.target.closest("[data-passport-clear]");
