@@ -2164,6 +2164,7 @@
         ready: "Ready for recruiter review",
         labels: {
           name: "Full name in Latin letters",
+          birthDate: "Date of birth",
           current: "Country / city now",
           citizenship: "Citizenship",
           language: "Preferred language",
@@ -2176,6 +2177,7 @@
         },
         placeholders: {
           name: "Example: Oleksandr Kiris",
+          birthDate: "Example: 1995-08-15",
           current: "Example: Poland, Wroclaw",
           citizenship: "Example: Ukraine",
           documents: "Example: biometric passport, visa, PESEL...",
@@ -2210,6 +2212,7 @@
         ready: "Готово для проверки рекрутером",
         labels: {
           name: "Имя и фамилия латиницей",
+          birthDate: "Дата рождения",
           current: "Страна / город сейчас",
           citizenship: "Гражданство",
           language: "Удобный язык",
@@ -2222,6 +2225,7 @@
         },
         placeholders: {
           name: "Например: Oleksandr Kiris",
+          birthDate: "Например: 1995-08-15",
           current: "Например: Poland, Wroclaw",
           citizenship: "Например: Ukraine",
           documents: "Например: биометрия, виза, PESEL...",
@@ -2256,6 +2260,7 @@
         ready: "Готово для перевірки рекрутером",
         labels: {
           name: "Ім’я та прізвище латиницею",
+          birthDate: "Дата народження",
           current: "Країна / місто зараз",
           citizenship: "Громадянство",
           language: "Зручна мова",
@@ -2268,6 +2273,7 @@
         },
         placeholders: {
           name: "Наприклад: Oleksandr Kiris",
+          birthDate: "Наприклад: 1995-08-15",
           current: "Наприклад: Poland, Wroclaw",
           citizenship: "Наприклад: Ukraine",
           documents: "Наприклад: біометрія, віза, PESEL...",
@@ -2302,6 +2308,7 @@
         ready: "Gotowe do sprawdzenia przez rekrutera",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
+          birthDate: "Data urodzenia",
           current: "Kraj / miasto teraz",
           citizenship: "Obywatelstwo",
           language: "Wygodny język",
@@ -2314,6 +2321,7 @@
         },
         placeholders: {
           name: "Np. Oleksandr Kiris",
+          birthDate: "Np. 1995-08-15",
           current: "Np. Poland, Wroclaw",
           citizenship: "Np. Ukraine",
           documents: "Np. biometryczny paszport, wiza, PESEL...",
@@ -2379,7 +2387,7 @@
   }
 
   function passportScore() {
-    const required = ["name", "current", "citizenship", "language", "destination", "people", "experience", "readyDate", "job"];
+    const required = ["name", "birthDate", "current", "citizenship", "language", "destination", "people", "experience", "readyDate", "job"];
     const filled = required.filter((key) => passportValue(key)).length;
     return {
       score: Math.round((filled / required.length) * 100),
@@ -2387,22 +2395,62 @@
     };
   }
 
+  function calculateAge(birthDateValue) {
+    if (!birthDateValue) return "";
+    const birthDate = new Date(`${birthDateValue}T00:00:00`);
+    if (Number.isNaN(birthDate.getTime())) return "";
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age -= 1;
+    return age >= 0 && age < 100 ? String(age) : "";
+  }
+
+  function topPassportMatches(limit = 3) {
+    return jobs
+      .map((job) => ({ job, fit: jobPassportFit(job) }))
+      .sort((a, b) => b.fit.score - a.fit.score || new Date(b.job.updatedAt) - new Date(a.job.updatedAt))
+      .slice(0, limit);
+  }
+
+  function candidatePublicPassportPreview() {
+    const copy = candidatePassportCopy();
+    const labels = copy.labels;
+    const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
+    return [
+      copy.messageTitle,
+      "",
+      line("name"),
+      line("birthDate"),
+      line("current"),
+      line("citizenship"),
+      line("language"),
+      line("destination"),
+      line("people"),
+      line("experience"),
+      line("documents"),
+      line("readyDate"),
+      line("job")
+    ].join("\n");
+  }
+
   function candidatePassportMessage() {
     const copy = candidatePassportCopy();
     const labels = copy.labels;
-    const { score } = passportScore();
+    const { score, missing } = passportScore();
     const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
     const id = ensurePassportId();
     const tags = passportTags();
+    const age = calculateAge(passportValue("birthDate"));
+    const matches = topPassportMatches(3);
     const currentUrl = new URL(window.location.href);
     currentUrl.hash = "";
     return [
       copy.messageTitle,
       `Candidate-ID: ${id}`,
-      `Readiness: ${score}%`,
-      `Tags: ${tags.join(" ")}`,
       "",
       line("name"),
+      line("birthDate"),
       line("current"),
       line("citizenship"),
       line("language"),
@@ -2412,6 +2460,20 @@
       line("documents"),
       line("readyDate"),
       line("job"),
+      "",
+      "INTERNAL ANALYSIS FOR RECRUITER",
+      `Calculated age: ${age || "not provided"}`,
+      `Readiness: ${score}%`,
+      `Tags: ${tags.join(" ")}`,
+      `Missing: ${missing.length ? missing.map((key) => labels[key]).join(", ") : "nothing critical"}`,
+      "",
+      "Best vacancy matches:",
+      ...matches.map(({ job, fit }, index) => {
+        const view = localizedJob(job);
+        const reasons = fit.reasons.length ? fit.reasons.join(", ") : "needs manual check";
+        const checks = fit.checks.length ? ` | check: ${fit.checks.join(", ")}` : "";
+        return `${index + 1}. ${view.title} (${job.id}) — ${fit.score}% | ${reasons}${checks}`;
+      }),
       "",
       `${copy.nextQuestions}:`,
       ...copy.questions.map((question, index) => `${index + 1}. ${question}`),
@@ -2620,14 +2682,12 @@
     if (el("candidate-passport-kicker")) el("candidate-passport-kicker").textContent = copy.kicker;
     if (el("candidate-passport-heading")) el("candidate-passport-heading").textContent = copy.title;
     if (el("candidate-passport-intro")) el("candidate-passport-intro").textContent = copy.intro;
-    const message = candidatePassportMessage();
-    const passportId = passportValue("id");
-    const tags = passportTags();
     layout.innerHTML = `
       <form class="candidate-passport-form" id="candidate-passport-form">
         <h3>${escapeHTML(copy.fieldsTitle)}</h3>
         <div class="candidate-passport-fields">
           ${passportFieldHTML("name")}
+          ${passportFieldHTML("birthDate", "date")}
           ${passportFieldHTML("current")}
           ${passportFieldHTML("citizenship")}
           ${passportSelectHTML("language")}
@@ -2641,21 +2701,9 @@
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
       </form>
       <aside class="candidate-passport-preview">
-        <div class="candidate-passport-id">
-          <span>${escapeHTML(passportId)}</span>
-          <small>${tags.map((tag) => escapeHTML(tag)).join(" ")}</small>
-        </div>
-        <div class="candidate-passport-score">
-          <div>
-            <strong>${score}%</strong>
-            <span>${escapeHTML(copy.scoreTitle)}</span>
-          </div>
-          <div class="candidate-passport-meter"><span style="width:${score}%"></span></div>
-          <p>${escapeHTML(copy.scoreText)}</p>
-        </div>
         <div class="candidate-passport-message">
           <strong>${escapeHTML(copy.previewTitle)}</strong>
-          <pre>${escapeHTML(message)}</pre>
+          <pre>${escapeHTML(candidatePublicPassportPreview())}</pre>
         </div>
         <div class="candidate-passport-missing">
           <strong>${escapeHTML(missing.length ? copy.missing : copy.ready)}</strong>
@@ -2929,7 +2977,6 @@
             </span>
           `).join("")}
         </div>
-        ${renderPassportFit(job)}
         <p class="job-card-availability">
           ${svgIcon("clock")}
           <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
@@ -3854,7 +3901,7 @@
       }
       const passportCopyButton = event.target.closest("[data-passport-copy]");
       if (passportCopyButton) {
-        copyText(candidatePassportMessage(), candidatePassportCopy().copied);
+        copyText(candidatePublicPassportPreview(), candidatePassportCopy().copied);
         return;
       }
       const passportClearButton = event.target.closest("[data-passport-clear]");
