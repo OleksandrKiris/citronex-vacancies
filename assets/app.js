@@ -3835,7 +3835,11 @@
         </div>
         <div class="candidate-passport-missing">
           <strong>${escapeHTML(missing.length ? copy.missing : copy.ready)}</strong>
-          ${missing.length ? `<ul>${missing.slice(0, 4).map((key) => `<li>${escapeHTML(copy.labels[key])}</li>`).join("")}</ul>` : ""}
+          ${missing.length ? `<ul>${missing.slice(0, 4).map((key) => `
+            <li>
+              <button type="button" data-passport-focus-missing="${escapeHTML(key)}">${escapeHTML(copy.labels[key])}</button>
+            </li>
+          `).join("")}</ul>` : ""}
         </div>
         <div class="candidate-passport-actions">
           <button class="button button-whatsapp" type="button" data-passport-whatsapp>${escapeHTML(copy.send)}</button>

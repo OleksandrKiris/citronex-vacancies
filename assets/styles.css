@@ -10874,11 +10874,35 @@ body.vacancy-first {
 
 .candidate-passport-missing ul {
   display: grid;
-  gap: 4px;
+  gap: 6px;
   margin: 0;
-  padding-left: 18px;
+  padding: 0;
   color: #6b4b17;
   font-size: 12px;
+  list-style: none;
+}
+
+.candidate-passport-missing button {
+  width: 100%;
+  min-height: 32px;
+  padding: 7px 10px;
+  color: #6b4b17;
+  text-align: left;
+  background: rgba(255, 184, 77, 0.12);
+  border: 1px solid rgba(255, 184, 77, 0.20);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.candidate-passport-missing button::after {
+  content: " →";
+}
+
+.candidate-passport-missing button:focus-visible {
+  outline: 3px solid rgba(255, 184, 77, 0.34);
+  outline-offset: 2px;
 }
 
 .candidate-passport-actions {
