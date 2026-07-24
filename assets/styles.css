@@ -6994,3 +6994,69 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* v12 · authentic recruiter photography */
+.recruiter-photo-stage {
+  position: relative;
+  min-height: 330px;
+  margin: 0;
+  isolation: isolate;
+  background: #14241a;
+}
+
+.recruiter-photo-stage::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 16, 12, 0.04) 50%, rgba(8, 16, 12, 0.5) 100%),
+    linear-gradient(90deg, rgba(8, 16, 12, 0.14), transparent 40%);
+  content: "";
+  pointer-events: none;
+}
+
+.mobility-map.recruiter-photo-stage img {
+  display: block;
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+  object-position: 50% 31%;
+  background: #14241a;
+  transform: none;
+}
+
+.portrait-photo {
+  overflow: hidden;
+  padding: 0;
+  background: #d9e4d4;
+}
+
+.portrait-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 24%;
+  transform: scale(1.55);
+  transform-origin: 50% 24%;
+}
+
+.recruiter-strip .portrait-photo {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.18);
+}
+
+.profile-hero .portrait-photo {
+  border: 4px solid white;
+  box-shadow: 0 16px 34px rgba(22, 34, 42, 0.16);
+}
+
+@media (max-width: 940px) and (min-width: 721px) {
+  .recruiter-photo-stage {
+    min-height: 290px;
+  }
+
+  .mobility-map.recruiter-photo-stage img {
+    height: 290px;
+  }
+}

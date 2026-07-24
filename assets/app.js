@@ -275,9 +275,7 @@
       ["hero-response-time", profile.workHours || t("ui.workHours")],
       ["hero-work-hours", `${profile.workHours || t("ui.workHours")} · ${profile.timezone}`],
       ["contact-response", profile.workHours || t("ui.workHours")],
-      ["contact-timezone", profile.timezone],
-      ["hero-avatar", profile.initials],
-      ["profile-avatar", profile.initials]
+      ["contact-timezone", profile.timezone]
     ].forEach(([id, value]) => {
       if (el(id)) el(id).textContent = value;
     });

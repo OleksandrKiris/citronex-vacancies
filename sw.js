@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "citronex-jobs-";
-const CACHE_VERSION = "citronex-jobs-v11-trust-safety-r2-2026-07-24";
+const CACHE_VERSION = "citronex-jobs-v12-recruiter-photo-2026-07-24";
 const CORE_SHELL = [
   "./",
   "./index.html",
@@ -7,13 +7,14 @@ const CORE_SHELL = [
   "./data/content.js",
   "./data/locales/ru.js?v=11",
   "./data/locales/en.js?v=11",
-  "./assets/styles.css?v=11",
+  "./assets/styles.css?v=12",
   "./assets/i18n.js",
   "./assets/application-form.js?v=8",
-  "./assets/app.js?v=11",
+  "./assets/app.js?v=12",
   "./assets/icons.svg",
   "./assets/mobility-map.svg?v=10",
   "./assets/citronex-logo.jpg",
+  "./assets/oleksandr-kiris-greenhouse.jpg",
   "./assets/fonts/manrope-latin.woff2",
   "./assets/fonts/manrope-latin-ext.woff2",
   "./assets/fonts/manrope-cyrillic.woff2",
