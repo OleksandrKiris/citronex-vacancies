@@ -270,7 +270,7 @@
       ["hero-languages", (profile.channels || profile.languages || []).join(" · ")],
       ["hero-availability", t("ui.heroKicker")],
       ["hero-intro", t("ui.heroIntro")],
-      ["profile-bio", t("ui.heroIntro")],
+      ["profile-bio", t("ui.profileBio")],
       ["hero-promise", `«${t("ui.bannerText")}»`],
       ["hero-response-time", profile.workHours || t("ui.workHours")],
       ["hero-work-hours", `${profile.workHours || t("ui.workHours")} · ${profile.timezone}`],
@@ -381,11 +381,25 @@
       "@context": "https://schema.org",
       "@type": "Person",
       name: profile.name,
-      jobTitle: profile.role,
+      jobTitle: recruiterRole,
+      description: t("ui.profileBio"),
       email: `mailto:${profile.email}`,
       telephone: profile.phone,
       url: site.baseUrl,
-      sameAs: [profile.github, profile.linkedin].filter(Boolean)
+      sameAs: [profile.github, profile.linkedin].filter(Boolean),
+      knowsLanguage: ["Ukrainian", "Russian", "Polish", "English", "Georgian"],
+      knowsAbout: [
+        "Recruitment",
+        "Candidate onboarding",
+        "International workforce coordination",
+        "Greenhouse work",
+        "Python",
+        "Django"
+      ],
+      alumniOf: {
+        "@type": "EducationalOrganization",
+        name: "Coders Lab"
+      }
     };
     document.getElementById("person-schema")?.remove();
     const schemaNode = document.createElement("script");

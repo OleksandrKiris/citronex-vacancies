@@ -7060,3 +7060,208 @@ body {
     height: 290px;
   }
 }
+
+/* v13 · verified professional profile */
+.profile-background-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0, rgba(229, 29, 42, 0.1), transparent 34%),
+    linear-gradient(180deg, #fff, #fbfaf7);
+}
+
+.profile-background-card::before {
+  position: absolute;
+  top: 0;
+  left: clamp(24px, 4vw, 42px);
+  width: 72px;
+  height: 4px;
+  background: var(--brand-red);
+  border-radius: 0 0 999px 999px;
+  content: "";
+}
+
+.profile-background-card > h2 {
+  max-width: 650px;
+}
+
+.profile-story-copy {
+  max-width: 790px;
+  margin: 18px 0 0;
+  color: #45505a;
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.72;
+}
+
+.profile-experience-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.profile-experience-item {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #e3e6e7;
+  border-radius: 19px;
+}
+
+.profile-experience-item h3,
+.profile-experience-item p {
+  margin: 0;
+}
+
+.profile-experience-item h3 {
+  color: #151b21;
+  font-size: 15px;
+  line-height: 1.32;
+}
+
+.profile-experience-item p {
+  margin-top: 7px;
+  color: #5d6670;
+  font-size: 12px;
+  line-height: 1.58;
+}
+
+.profile-experience-icon,
+.profile-language-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: var(--brand-red);
+  background: var(--brand-red-soft);
+  border-radius: 15px;
+}
+
+.profile-experience-icon svg,
+.profile-language-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.profile-experience-date {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--brand-red);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.profile-experience-highlight {
+  background: linear-gradient(145deg, #fff4f4, #fff);
+  border-color: rgba(229, 29, 42, 0.3);
+}
+
+.profile-language-band {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: center;
+  gap: 17px;
+  margin-top: 14px;
+  padding: 21px 23px;
+  color: white;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(229, 29, 42, 0.28), transparent 36%),
+    #151c22;
+  border-radius: 20px;
+}
+
+.profile-language-band .profile-language-icon {
+  width: 54px;
+  height: 54px;
+  color: white;
+  background: var(--brand-red);
+}
+
+.profile-language-band .overline,
+.profile-language-band h3,
+.profile-language-band p {
+  margin: 0;
+}
+
+.profile-language-band .overline {
+  color: #ff9fa5;
+}
+
+.profile-language-band h3 {
+  margin-top: 2px;
+  color: white;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.profile-language-band p:last-child {
+  margin-top: 6px;
+  color: #d8dde0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.contact-card .button-secondary {
+  color: #151c22;
+  background: white;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-card .button-secondary:hover {
+  color: #151c22;
+  background: #f0f2f3;
+  border-color: white;
+}
+
+@media (max-width: 720px) {
+  .profile-experience-grid {
+    grid-template-columns: 1fr;
+    margin-top: 23px;
+  }
+
+  .profile-experience-item {
+    grid-template-columns: 43px minmax(0, 1fr);
+    gap: 12px;
+    padding: 17px;
+  }
+
+  .profile-experience-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+  }
+
+  .profile-language-band {
+    grid-template-columns: 43px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 18px 17px;
+  }
+
+  .profile-language-band .profile-language-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+  }
+
+  .profile-language-band h3 {
+    font-size: 14px;
+  }
+
+  .profile-story-copy {
+    font-size: 15px;
+    line-height: 1.66;
+  }
+}
