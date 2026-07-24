@@ -9734,6 +9734,29 @@ body.vacancy-first {
   color: #101820;
 }
 
+.candidate-passport-id {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  background: #101820;
+  border-radius: 18px;
+}
+
+.candidate-passport-id span {
+  color: #bdf24b;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.candidate-passport-id small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 .candidate-passport-score {
   display: grid;
   gap: 10px;
@@ -9840,6 +9863,71 @@ body.vacancy-first {
 
 .candidate-passport-actions [data-passport-clear] {
   grid-column: 1 / -1;
+}
+
+.passport-fit {
+  display: grid;
+  gap: 7px;
+  padding: 11px;
+  background: #f2f7ee;
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 16px;
+}
+
+.passport-fit.is-strong {
+  background: #edf8ee;
+  border-color: rgba(15, 109, 76, 0.16);
+}
+
+.passport-fit.is-empty {
+  background: #f7f3ee;
+}
+
+.passport-fit-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.passport-fit-top span {
+  color: #5b6878;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.passport-fit-top strong {
+  color: #0f6d4c;
+  font-size: 21px;
+  font-weight: 950;
+  letter-spacing: -0.05em;
+}
+
+.passport-fit-bar {
+  overflow: hidden;
+  height: 8px;
+  background: rgba(16, 32, 24, 0.08);
+  border-radius: 999px;
+}
+
+.passport-fit-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #e51d2a, #ffb84d 42%, #0f6d4c);
+  border-radius: inherit;
+}
+
+.passport-fit p {
+  margin: 0;
+  color: #415044;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.passport-fit b {
+  color: #101820;
 }
 
 .instant-result-card {

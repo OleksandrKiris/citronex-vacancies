@@ -2159,6 +2159,7 @@
         copy: "Copy passport",
         clear: "Clear",
         copied: "Candidate passport copied",
+        fillFromMatch: "Use quick answers",
         missing: "To improve readiness",
         ready: "Ready for recruiter review",
         labels: {
@@ -2204,6 +2205,7 @@
         copy: "Скопировать паспорт",
         clear: "Очистить",
         copied: "Паспорт кандидата скопирован",
+        fillFromMatch: "Заполнить из подбора",
         missing: "Чтобы улучшить готовность",
         ready: "Готово для проверки рекрутером",
         labels: {
@@ -2249,6 +2251,7 @@
         copy: "Скопіювати паспорт",
         clear: "Очистити",
         copied: "Паспорт кандидата скопійовано",
+        fillFromMatch: "Заповнити з підбору",
         missing: "Щоб покращити готовність",
         ready: "Готово для перевірки рекрутером",
         labels: {
@@ -2294,6 +2297,7 @@
         copy: "Kopiuj paszport",
         clear: "Wyczyść",
         copied: "Paszport kandydata skopiowany",
+        fillFromMatch: "Użyj szybkich odpowiedzi",
         missing: "Aby poprawić gotowość",
         ready: "Gotowe do sprawdzenia przez rekrutera",
         labels: {
@@ -2334,6 +2338,46 @@
     return String(state.passport?.[key] || "").trim();
   }
 
+  function normalizePassportText(value) {
+    return String(value || "").toLowerCase();
+  }
+
+  function passportTargetCountry() {
+    const destination = normalizePassportText(passportValue("destination"));
+    if (destination.includes("pol") || destination.includes("поль") || destination.includes("польщ") || destination.includes("polska")) return "poland";
+    if (destination.includes("hung") || destination.includes("węg") || destination.includes("венг") || destination.includes("угор")) return "hungary";
+    if (destination.includes("bel") || destination.includes("бель") || destination.includes("belg")) return "belgium";
+    return "";
+  }
+
+  function ensurePassportId() {
+    const currentId = passportValue("id");
+    if (currentId && !currentId.startsWith("CIT-INT-")) return currentId;
+    const citizenship = passportValue("citizenship").slice(0, 3).replace(/[^a-zа-яіїєґ]/gi, "").toUpperCase() || "INT";
+    if (currentId && citizenship === "INT") return currentId;
+    const random = currentId.split("-")[2] || Math.random().toString(16).slice(2, 6).toUpperCase();
+    state.passport.id = `CIT-${citizenship}-${random}`;
+    persistPassport();
+    return state.passport.id;
+  }
+
+  function passportTags() {
+    const tags = ["#citronex", "#candidate_passport"];
+    const target = passportTargetCountry();
+    if (target) tags.push(`#target_${target}`);
+    const people = normalizePassportText(passportValue("people"));
+    const experience = normalizePassportText(passportValue("experience"));
+    const job = normalizePassportText(passportValue("job"));
+    if (people.includes("пар") || people.includes("couple") || people.includes("para")) tags.push("#couple");
+    if (people.includes("group") || people.includes("груп") || people.includes("друз") || people.includes("znaj")) tags.push("#group");
+    if (experience.includes("без") || experience.includes("no experience") || experience.includes("bez do") || experience.includes("без дос")) tags.push("#no_experience");
+    if (experience.includes("driver") || experience.includes("вод") || experience.includes("kierow")) tags.push("#driver");
+    if (job.includes("green") || job.includes("тепл") || job.includes("szkl")) tags.push("#greenhouse");
+    if (job.includes("warehouse") || job.includes("склад") || job.includes("magaz")) tags.push("#warehouse");
+    if (passportValue("readyDate")) tags.push("#ready_date_set");
+    return [...new Set(tags)];
+  }
+
   function passportScore() {
     const required = ["name", "current", "citizenship", "language", "destination", "people", "experience", "readyDate", "job"];
     const filled = required.filter((key) => passportValue(key)).length;
@@ -2348,11 +2392,15 @@
     const labels = copy.labels;
     const { score } = passportScore();
     const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
+    const id = ensurePassportId();
+    const tags = passportTags();
     const currentUrl = new URL(window.location.href);
     currentUrl.hash = "";
     return [
       copy.messageTitle,
+      `Candidate-ID: ${id}`,
       `Readiness: ${score}%`,
+      `Tags: ${tags.join(" ")}`,
       "",
       line("name"),
       line("current"),
@@ -2396,6 +2444,174 @@
     `;
   }
 
+  function passportOptionValue(key, index) {
+    const options = candidatePassportCopy().options[key] || [];
+    return options[index] || "";
+  }
+
+  function fillPassportFromInstantMatch() {
+    const match = state.instantMatch;
+    if (!passportValue("language")) state.passport.language = passportOptionValue("language", 0);
+    if (match.current === "eu" && !passportValue("current")) state.passport.current = "EU";
+    if (match.current === "ukraine" && !passportValue("current")) state.passport.current = "Ukraine";
+    if (match.current === "other" && !passportValue("current")) state.passport.current = "Other country";
+    if (match.country === "poland") state.passport.destination = passportOptionValue("destination", 0);
+    if (match.country === "other") state.passport.destination = passportOptionValue("destination", 3) || passportOptionValue("destination", 1);
+    if (match.people === "solo") state.passport.people = passportOptionValue("people", 0);
+    if (match.people === "couple") state.passport.people = passportOptionValue("people", 1);
+    if (match.people === "group") state.passport.people = passportOptionValue("people", 2);
+    if (match.experience === "none") state.passport.experience = passportOptionValue("experience", 0);
+    if (match.experience === "experienced") state.passport.experience = passportOptionValue("experience", 1);
+    if (match.area === "transport") {
+      state.passport.experience = passportOptionValue("experience", 2);
+      state.passport.job = state.passport.job || "driver";
+    }
+    if (match.area === "warehouse") state.passport.job = state.passport.job || "warehouse";
+    if (match.area === "greenhouse") state.passport.job = state.passport.job || "greenhouse";
+    if (match.start === "soon") state.passport.readyDate = state.passport.readyDate || "as soon as possible";
+    if (match.start === "month") state.passport.readyDate = state.passport.readyDate || "this month";
+    if (match.start === "later") state.passport.readyDate = state.passport.readyDate || "later / checking";
+    ensurePassportId();
+    persistPassport();
+    renderCandidatePassport();
+  }
+
+  function passportFitCopy() {
+    const copy = {
+      en: {
+        label: "Passport fit",
+        empty: "Fill Candidate Passport",
+        why: "Why",
+        check: "Check",
+        country: "country matches",
+        noExperience: "can start without experience",
+        driver: "driver direction matches",
+        warehouse: "warehouse direction matches",
+        greenhouse: "greenhouse direction matches",
+        couple: "may fit a couple",
+        askCountry: "country",
+        askDocs: "documents",
+        askStart: "start date"
+      },
+      ru: {
+        label: "Совпадение",
+        empty: "Заполните паспорт",
+        why: "Почему",
+        check: "Уточнить",
+        country: "страна совпадает",
+        noExperience: "можно без опыта",
+        driver: "совпадает направление водителя",
+        warehouse: "совпадает склад",
+        greenhouse: "совпадает теплица",
+        couple: "может подойти паре",
+        askCountry: "страну",
+        askDocs: "документы",
+        askStart: "дату старта"
+      },
+      uk: {
+        label: "Збіг",
+        empty: "Заповніть паспорт",
+        why: "Чому",
+        check: "Уточнити",
+        country: "країна збігається",
+        noExperience: "можна без досвіду",
+        driver: "збігається напрям водія",
+        warehouse: "збігається склад",
+        greenhouse: "збігається теплиця",
+        couple: "може підійти парі",
+        askCountry: "країну",
+        askDocs: "документи",
+        askStart: "дату старту"
+      },
+      pl: {
+        label: "Dopasowanie",
+        empty: "Wypełnij paszport",
+        why: "Dlaczego",
+        check: "Sprawdź",
+        country: "kraj pasuje",
+        noExperience: "można bez doświadczenia",
+        driver: "pasuje kierowca",
+        warehouse: "pasuje magazyn",
+        greenhouse: "pasuje szklarnia",
+        couple: "może pasować dla pary",
+        askCountry: "kraj",
+        askDocs: "dokumenty",
+        askStart: "datę startu"
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function jobPassportFit(job) {
+    const copy = passportFitCopy();
+    const target = passportTargetCountry();
+    const experience = normalizePassportText(passportValue("experience"));
+    const people = normalizePassportText(passportValue("people"));
+    const desiredJob = normalizePassportText(passportValue("job"));
+    const hasPassportData = ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
+    if (!hasPassportData) return { score: 0, reasons: [copy.empty], checks: [] };
+    let score = 12;
+    const reasons = [];
+    const checks = [];
+    if (target) {
+      const countryMatch = (target === "poland" && job.format === "Польша") || (target === "hungary" && job.format === "Венгрия") || (target === "belgium" && job.format === "Бельгия");
+      if (countryMatch) {
+        score += 28;
+        reasons.push(copy.country);
+      } else {
+        checks.push(copy.askCountry);
+      }
+    }
+    if (experience.includes("без") || experience.includes("no experience") || experience.includes("bez do") || experience.includes("без дос")) {
+      if (job.level === "Без опыта") {
+        score += 22;
+        reasons.push(copy.noExperience);
+      }
+    }
+    if ((experience.includes("driver") || experience.includes("вод") || experience.includes("kierow") || desiredJob.includes("driver") || desiredJob.includes("вод")) && (job.id.startsWith("driver-") || job.category === "Транспорт")) {
+      score += 24;
+      reasons.push(copy.driver);
+    }
+    if ((desiredJob.includes("warehouse") || desiredJob.includes("склад") || desiredJob.includes("magaz")) && job.category === "Склад") {
+      score += 20;
+      reasons.push(copy.warehouse);
+    }
+    if ((desiredJob.includes("green") || desiredJob.includes("тепл") || desiredJob.includes("szkl")) && job.category === "Теплицы") {
+      score += 20;
+      reasons.push(copy.greenhouse);
+    }
+    if ((people.includes("пар") || people.includes("couple") || people.includes("para")) && (job.candidates || []).some((candidate) => normalizePassportText(candidate).includes("пар"))) {
+      score += 14;
+      reasons.push(copy.couple);
+    }
+    if (!passportValue("documents")) checks.push(copy.askDocs);
+    if (!passportValue("readyDate")) checks.push(copy.askStart);
+    if (!reasons.length) score = Math.min(score, 35);
+    return {
+      score: Math.min(100, Math.max(0, score)),
+      reasons: reasons.slice(0, 2),
+      checks: [...new Set(checks)].slice(0, 2)
+    };
+  }
+
+  function renderPassportFit(job) {
+    const copy = passportFitCopy();
+    const fit = jobPassportFit(job);
+    return `
+      <div class="passport-fit${fit.score >= 70 ? " is-strong" : fit.score <= 25 ? " is-empty" : ""}">
+        <div class="passport-fit-top">
+          <span>${escapeHTML(copy.label)}</span>
+          <strong>${fit.score}%</strong>
+        </div>
+        <div class="passport-fit-bar"><span style="width:${fit.score}%"></span></div>
+        <p>
+          ${fit.reasons.length ? `<b>${escapeHTML(copy.why)}:</b> ${escapeHTML(fit.reasons.join(", "))}` : escapeHTML(copy.empty)}
+          ${fit.checks.length ? `<br><b>${escapeHTML(copy.check)}:</b> ${escapeHTML(fit.checks.join(", "))}` : ""}
+        </p>
+      </div>
+    `;
+  }
+
   function renderCandidatePassport() {
     const layout = el("candidate-passport-layout");
     if (!layout) return;
@@ -2405,6 +2621,8 @@
     if (el("candidate-passport-heading")) el("candidate-passport-heading").textContent = copy.title;
     if (el("candidate-passport-intro")) el("candidate-passport-intro").textContent = copy.intro;
     const message = candidatePassportMessage();
+    const passportId = passportValue("id");
+    const tags = passportTags();
     layout.innerHTML = `
       <form class="candidate-passport-form" id="candidate-passport-form">
         <h3>${escapeHTML(copy.fieldsTitle)}</h3>
@@ -2423,6 +2641,10 @@
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
       </form>
       <aside class="candidate-passport-preview">
+        <div class="candidate-passport-id">
+          <span>${escapeHTML(passportId)}</span>
+          <small>${tags.map((tag) => escapeHTML(tag)).join(" ")}</small>
+        </div>
         <div class="candidate-passport-score">
           <div>
             <strong>${score}%</strong>
@@ -2441,6 +2663,7 @@
         </div>
         <div class="candidate-passport-actions">
           <button class="button button-whatsapp" type="button" data-passport-whatsapp>${escapeHTML(copy.send)}</button>
+          <button class="button button-primary" type="button" data-passport-fill-match>${escapeHTML(copy.fillFromMatch)}</button>
           <button class="button button-secondary" type="button" data-passport-copy>${escapeHTML(copy.copy)}</button>
           <button class="button button-quiet" type="button" data-passport-clear>${escapeHTML(copy.clear)}</button>
         </div>
@@ -2706,6 +2929,7 @@
             </span>
           `).join("")}
         </div>
+        ${renderPassportFit(job)}
         <p class="job-card-availability">
           ${svgIcon("clock")}
           <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
@@ -3622,6 +3846,12 @@
         openScenarioWhatsApp(candidatePassportMessage());
         return;
       }
+      const passportFillButton = event.target.closest("[data-passport-fill-match]");
+      if (passportFillButton) {
+        fillPassportFromInstantMatch();
+        refreshJobLists();
+        return;
+      }
       const passportCopyButton = event.target.closest("[data-passport-copy]");
       if (passportCopyButton) {
         copyText(candidatePassportMessage(), candidatePassportCopy().copied);
@@ -3632,6 +3862,7 @@
         state.passport = {};
         persistPassport();
         renderCandidatePassport();
+        refreshJobLists();
         return;
       }
       const surveyButton = event.target.closest("[data-job-survey]");
@@ -3679,6 +3910,8 @@
       if (event.target.matches("[data-passport-field]")) {
         state.passport[event.target.dataset.passportField] = event.target.value;
         persistPassport();
+        renderCandidatePassport();
+        refreshJobLists();
       }
     });
 
