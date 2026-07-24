@@ -8704,6 +8704,166 @@ body.vacancy-first::before {
   }
 }
 
+/* v74 · secondary screens visual polish */
+.resource-card,
+.empty-state,
+.profile-hero,
+.profile-experience-item,
+.profile-language-band,
+.contact-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.13), transparent 9rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: 0 18px 42px rgba(16, 24, 32, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+  transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+}
+
+.resource-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.46), transparent 28%, transparent 76%, rgba(189, 242, 75, 0.08));
+}
+
+.resource-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.resource-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(189, 242, 75, 0.30);
+  box-shadow: 0 24px 56px rgba(16, 24, 32, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+}
+
+.resource-card-icon {
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  box-shadow: 0 12px 26px rgba(189, 242, 75, 0.18);
+}
+
+.resource-card:nth-child(3n + 2) .resource-card-icon {
+  background: linear-gradient(180deg, #eef0ff, #d9ddff);
+  box-shadow: 0 12px 26px rgba(49, 87, 255, 0.12);
+}
+
+.resource-card:nth-child(3n + 3) .resource-card-icon {
+  background: linear-gradient(180deg, #fff0d8, #ffd49c);
+  box-shadow: 0 12px 26px rgba(255, 184, 77, 0.14);
+}
+
+.resource-filters {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(16, 24, 32, 0.07);
+  border-radius: 22px;
+  box-shadow: 0 14px 34px rgba(16, 24, 32, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.filter-chip {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: 0 6px 14px rgba(16, 24, 32, 0.05);
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #102018, #0f6d4c);
+  box-shadow: 0 12px 26px rgba(16, 32, 24, 0.14);
+}
+
+.empty-state {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(189, 242, 75, 0.18), transparent 11rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  border-radius: 30px;
+  box-shadow: 0 22px 54px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+.empty-state > span {
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  box-shadow: 0 16px 32px rgba(189, 242, 75, 0.20);
+}
+
+.profile-hero {
+  max-width: none;
+  padding: clamp(22px, 4vw, 34px);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(189, 242, 75, 0.14), transparent 12rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 247, 0.94));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  border-radius: 30px;
+  box-shadow: 0 22px 54px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.profile-hero .portrait-photo {
+  box-shadow: 0 20px 46px rgba(16, 24, 32, 0.16);
+}
+
+.profile-links a {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(237, 247, 239, 0.90));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 10px 22px rgba(16, 24, 32, 0.07);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.profile-links a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(16, 24, 32, 0.11);
+}
+
+.profile-experience-item {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 7rem),
+    rgba(255, 255, 255, 0.90);
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: 0 12px 28px rgba(16, 24, 32, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.profile-experience-highlight {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(229, 29, 42, 0.12), transparent 8rem),
+    linear-gradient(145deg, #fff7f7, #ffffff);
+}
+
+.profile-language-band {
+  box-shadow: 0 20px 46px rgba(16, 24, 32, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.contact-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 8rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: 0 20px 48px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+@media (max-width: 720px) {
+  .resource-card:hover,
+  .filter-chip:hover,
+  .profile-links a:hover {
+    transform: none;
+  }
+
+  .resource-filters,
+  .resource-card,
+  .empty-state,
+  .profile-hero,
+  .contact-card {
+    border-radius: 24px;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
