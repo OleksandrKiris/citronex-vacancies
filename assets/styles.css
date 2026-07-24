@@ -8999,6 +8999,141 @@ body.vacancy-first::before {
   }
 }
 
+/* v76 · refined motion and tactile visual polish */
+@keyframes citronex-soft-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes citronex-soft-glow {
+  0%,
+  100% {
+    box-shadow: 0 14px 32px rgba(18, 122, 66, 0.18);
+  }
+  50% {
+    box-shadow: 0 18px 42px rgba(18, 122, 66, 0.28);
+  }
+}
+
+.vacancy-first .hero-copy,
+.vacancy-first .quick-start,
+.vacancy-first .instant-match,
+.vacancy-first .candidate-passport,
+.vacancy-first .home-featured,
+.vacancy-first .trust-recruiter,
+.vacancy-first .job-card,
+.resource-card,
+.content-card,
+.empty-state {
+  animation: citronex-soft-rise 520ms cubic-bezier(0.2, 0.78, 0.22, 1) both;
+}
+
+.vacancy-first .job-card:nth-child(2),
+.resource-card:nth-child(2),
+.content-card:nth-child(2) {
+  animation-delay: 55ms;
+}
+
+.vacancy-first .job-card:nth-child(3),
+.resource-card:nth-child(3),
+.content-card:nth-child(3) {
+  animation-delay: 110ms;
+}
+
+.button-whatsapp,
+.mobile-nav-whatsapp,
+.recruiter-whatsapp {
+  animation: citronex-soft-glow 3.8s ease-in-out infinite;
+}
+
+.vacancy-first .button,
+.resource-card,
+.job-card,
+.candidate-passport-quick-card,
+.filter-chip,
+.profile-links a,
+.modal-close {
+  will-change: transform;
+}
+
+.vacancy-first .button:active,
+.resource-card:active,
+.job-card:active,
+.candidate-passport-quick-card:active,
+.filter-chip:active,
+.profile-links a:active {
+  transform: scale(0.985);
+}
+
+.candidate-passport-meter span,
+.candidate-passport-score span,
+.candidate-passport-send-meter i,
+.passport-sticky-meter span,
+.candidate-passport-coach-meter span {
+  transition: width 360ms cubic-bezier(0.2, 0.78, 0.22, 1);
+}
+
+.candidate-passport-smart span,
+.candidate-passport-send-checklist li,
+.candidate-passport-brief-chips span,
+.candidate-passport-match-card,
+.whatsapp-trust-check article {
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.candidate-passport-smart span:hover,
+.candidate-passport-send-checklist li:hover,
+.candidate-passport-brief-chips span:hover,
+.candidate-passport-match-card:hover,
+.whatsapp-trust-check article:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .button:active,
+  .resource-card:active,
+  .job-card:active,
+  .candidate-passport-quick-card:active,
+  .filter-chip:active,
+  .profile-links a:active {
+    transform: scale(0.992);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first .hero-copy,
+  .vacancy-first .quick-start,
+  .vacancy-first .instant-match,
+  .vacancy-first .candidate-passport,
+  .vacancy-first .home-featured,
+  .vacancy-first .trust-recruiter,
+  .vacancy-first .job-card,
+  .resource-card,
+  .content-card,
+  .empty-state,
+  .button-whatsapp,
+  .mobile-nav-whatsapp,
+  .recruiter-whatsapp {
+    animation: none !important;
+  }
+
+  .vacancy-first .button,
+  .resource-card,
+  .job-card,
+  .candidate-passport-quick-card,
+  .filter-chip,
+  .profile-links a,
+  .modal-close {
+    will-change: auto;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
