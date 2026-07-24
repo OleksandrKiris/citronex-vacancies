@@ -9391,6 +9391,106 @@ body.vacancy-first {
   gap: 8px;
 }
 
+.whatsapp-scripts {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(37, 211, 102, 0.18), transparent 15rem),
+    radial-gradient(circle at 95% 12%, rgba(229, 29, 42, 0.10), transparent 15rem),
+    linear-gradient(135deg, rgba(16, 32, 24, 0.98), rgba(24, 43, 32, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 28px;
+  box-shadow: 0 24px 58px rgba(16, 32, 24, 0.18);
+}
+
+.whatsapp-scripts-head {
+  display: grid;
+  max-width: 760px;
+  gap: 6px;
+}
+
+.whatsapp-scripts-head h2,
+.whatsapp-scripts-head p {
+  margin: 0;
+}
+
+.whatsapp-scripts-head .overline {
+  color: #bdf24b;
+}
+
+.whatsapp-scripts-head h2 {
+  color: #fff;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(25px, 3.2vw, 42px);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.whatsapp-scripts-head p:last-child {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.whatsapp-scripts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.whatsapp-script-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 22px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.whatsapp-script-icon {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: #102018;
+  background: #bdf24b;
+  border-radius: 15px;
+}
+
+.whatsapp-script-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.whatsapp-script-card h3,
+.whatsapp-script-card p {
+  margin: 0;
+}
+
+.whatsapp-script-card h3 {
+  color: #fff;
+  font-size: 21px;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+}
+
+.whatsapp-script-card p {
+  color: rgba(255, 255, 255, 0.70);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.whatsapp-script-card .button {
+  min-height: 42px;
+  margin-top: auto;
+  border-radius: 14px;
+}
+
 .instant-result-card {
   display: grid;
   gap: 8px;
@@ -9633,11 +9733,13 @@ body.vacancy-first {
   .country-explorer,
   .quick-share,
   .country-compare,
+  .whatsapp-scripts,
   .honest-fit,
   .anti-scam,
   .instant-choice-grid,
   .instant-result-grid,
-  .country-compare-grid {
+  .country-compare-grid,
+  .whatsapp-scripts-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -9735,6 +9837,34 @@ body.vacancy-first {
 
   .country-compare-title h3 {
     font-size: 22px;
+  }
+
+  .whatsapp-scripts {
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  .whatsapp-scripts-head h2 {
+    font-size: 24px;
+  }
+
+  .whatsapp-scripts-head p:last-child {
+    font-size: 13px;
+  }
+
+  .whatsapp-scripts-grid {
+    gap: 10px;
+  }
+
+  .whatsapp-script-card {
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .whatsapp-script-card h3 {
+    font-size: 20px;
   }
 
   .honest-fit {

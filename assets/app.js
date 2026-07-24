@@ -28,9 +28,12 @@
     openJobId: "",
     quickFilter: "",
     instantMatch: {
+      current: "any",
       country: "any",
       experience: "any",
-      area: "any"
+      area: "any",
+      people: "any",
+      start: "any"
     }
   };
 
@@ -267,6 +270,76 @@
         noExperience: "Առանց փորձի",
         driver: "Վարորդ",
         survey: "Հարցաթերթիկ"
+      }
+    };
+    const upgrade = {
+      en: {
+        title: "Answer 6 quick questions",
+        intro: "The site will show suitable jobs and prepare a clear WhatsApp message for the recruiter.",
+        current: "Where are you now?",
+        currentEu: "Already in EU",
+        currentUkraine: "Ukraine",
+        currentOther: "Other country",
+        people: "Who is going?",
+        solo: "Only me",
+        couple: "Couple",
+        group: "Group / friends",
+        start: "When can you start?",
+        soon: "As soon as possible",
+        month: "This month",
+        later: "Later / checking",
+        whatsapp: "Send my answers in WhatsApp"
+      },
+      ru: {
+        title: "Ответьте на 6 быстрых вопросов",
+        intro: "Сайт покажет подходящие вакансии и подготовит понятное сообщение рекрутеру в WhatsApp.",
+        current: "Где вы сейчас?",
+        currentEu: "Уже в ЕС",
+        currentUkraine: "Украина",
+        currentOther: "Другая страна",
+        people: "Кто едет?",
+        solo: "Только я",
+        couple: "Пара",
+        group: "Группа / друзья",
+        start: "Когда готовы начать?",
+        soon: "Как можно быстрее",
+        month: "В этом месяце",
+        later: "Позже / уточняю",
+        whatsapp: "Отправить мои ответы в WhatsApp"
+      },
+      uk: {
+        title: "Дайте 6 швидких відповідей",
+        intro: "Сайт покаже відповідні вакансії і підготує зрозуміле повідомлення рекрутеру в WhatsApp.",
+        current: "Де ви зараз?",
+        currentEu: "Вже в ЄС",
+        currentUkraine: "Україна",
+        currentOther: "Інша країна",
+        people: "Хто їде?",
+        solo: "Тільки я",
+        couple: "Пара",
+        group: "Група / друзі",
+        start: "Коли готові почати?",
+        soon: "Якнайшвидше",
+        month: "Цього місяця",
+        later: "Пізніше / уточнюю",
+        whatsapp: "Надіслати мої відповіді в WhatsApp"
+      },
+      pl: {
+        title: "Odpowiedz na 6 szybkich pytań",
+        intro: "Strona pokaże pasujące oferty i przygotuje jasną wiadomość do rekrutera w WhatsApp.",
+        current: "Gdzie jesteś teraz?",
+        currentEu: "Już w UE",
+        currentUkraine: "Ukraina",
+        currentOther: "Inny kraj",
+        people: "Kto jedzie?",
+        solo: "Tylko ja",
+        couple: "Para",
+        group: "Grupa / znajomi",
+        start: "Kiedy możesz zacząć?",
+        soon: "Jak najszybciej",
+        month: "W tym miesiącu",
+        later: "Później / sprawdzam",
+        whatsapp: "Wyślij moje odpowiedzi w WhatsApp"
       }
     };
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
@@ -690,7 +763,77 @@
         note: "यो प्रारम्भिक मिलान हो। सर्त, कागजात र सुरु मिति पुष्टि गर्नुपर्छ।"
       }
     };
-    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+    const upgrade = {
+      en: {
+        title: "Answer 6 quick questions",
+        intro: "The site will show suitable jobs and prepare a clear WhatsApp message for the recruiter.",
+        current: "Where are you now?",
+        currentEu: "Already in EU",
+        currentUkraine: "Ukraine",
+        currentOther: "Other country",
+        people: "Who is going?",
+        solo: "Only me",
+        couple: "Couple",
+        group: "Group / friends",
+        start: "When can you start?",
+        soon: "As soon as possible",
+        month: "This month",
+        later: "Later / checking",
+        whatsapp: "Send my answers in WhatsApp"
+      },
+      ru: {
+        title: "Ответьте на 6 быстрых вопросов",
+        intro: "Сайт покажет подходящие вакансии и подготовит понятное сообщение рекрутеру в WhatsApp.",
+        current: "Где вы сейчас?",
+        currentEu: "Уже в ЕС",
+        currentUkraine: "Украина",
+        currentOther: "Другая страна",
+        people: "Кто едет?",
+        solo: "Только я",
+        couple: "Пара",
+        group: "Группа / друзья",
+        start: "Когда готовы начать?",
+        soon: "Как можно быстрее",
+        month: "В этом месяце",
+        later: "Позже / уточняю",
+        whatsapp: "Отправить мои ответы в WhatsApp"
+      },
+      uk: {
+        title: "Дайте 6 швидких відповідей",
+        intro: "Сайт покаже відповідні вакансії і підготує зрозуміле повідомлення рекрутеру в WhatsApp.",
+        current: "Де ви зараз?",
+        currentEu: "Вже в ЄС",
+        currentUkraine: "Україна",
+        currentOther: "Інша країна",
+        people: "Хто їде?",
+        solo: "Тільки я",
+        couple: "Пара",
+        group: "Група / друзі",
+        start: "Коли готові почати?",
+        soon: "Якнайшвидше",
+        month: "Цього місяця",
+        later: "Пізніше / уточнюю",
+        whatsapp: "Надіслати мої відповіді в WhatsApp"
+      },
+      pl: {
+        title: "Odpowiedz na 6 szybkich pytań",
+        intro: "Strona pokaże pasujące oferty i przygotuje jasną wiadomość do rekrutera w WhatsApp.",
+        current: "Gdzie jesteś teraz?",
+        currentEu: "Już w UE",
+        currentUkraine: "Ukraina",
+        currentOther: "Inny kraj",
+        people: "Kto jedzie?",
+        solo: "Tylko ja",
+        couple: "Para",
+        group: "Grupa / znajomi",
+        start: "Kiedy możesz zacząć?",
+        soon: "Jak najszybciej",
+        month: "W tym miesiącu",
+        later: "Później / sprawdzam",
+        whatsapp: "Wyślij moje odpowiedzi w WhatsApp"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}), ...(upgrade[i18n.locale] || upgrade.en) };
   }
 
   function resourceIconName(id = "") {
@@ -907,6 +1050,7 @@
     renderHonestFit();
     renderAntiScam();
     renderInstantMatcher();
+    renderWhatsAppScripts();
     renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
@@ -1653,7 +1797,7 @@
   }
 
   function instantMatchScore(job) {
-    const { country, experience, area } = state.instantMatch;
+    const { current, country, experience, area, people, start } = state.instantMatch;
     let score = 0;
     if (country === "any") score += 1;
     else if (country === "poland" && job.format === "Польша") score += 8;
@@ -1670,6 +1814,13 @@
     else if (area === "warehouse" && job.category === "Склад") score += 7;
     else if (area === "transport" && (job.id.startsWith("driver-") || job.category === "Водители")) score += 9;
     else score -= 2;
+
+    if (people === "couple" && (job.candidates || []).some((candidate) => candidate.toLowerCase().includes("пар"))) score += 4;
+    if (people === "group" && job.places && job.places >= 3) score += 2;
+    if (start === "soon" && job.featured) score += 2;
+    if (start === "later") score += 1;
+    if (current === "eu" && job.format === "Польша") score += 1;
+    if (current === "ukraine" && job.format === "Польша") score += 1;
 
     if (["open", "verify"].includes(job.status)) score += 2;
     if (job.featured) score += 1;
@@ -1713,6 +1864,12 @@
   function instantChoiceLabel(group, value) {
     const copy = instantMatchCopy();
     const labels = {
+      current: {
+        any: copy.any,
+        eu: copy.currentEu,
+        ukraine: copy.currentUkraine,
+        other: copy.currentOther
+      },
       country: {
         any: copy.any,
         poland: copy.poland,
@@ -1728,6 +1885,18 @@
         greenhouse: copy.greenhouse,
         warehouse: copy.warehouse,
         transport: copy.transport
+      },
+      people: {
+        any: copy.any,
+        solo: copy.solo,
+        couple: copy.couple,
+        group: copy.group
+      },
+      start: {
+        any: copy.any,
+        soon: copy.soon,
+        month: copy.month,
+        later: copy.later
       }
     };
     return labels[group]?.[value] || value;
@@ -1749,9 +1918,12 @@
     const currentUrl = new URL(window.location.href);
     currentUrl.hash = "";
     const answers = [
+      `${messageLabel(copy.current)}: ${instantChoiceLabel("current", state.instantMatch.current)}`,
       `${messageLabel(copy.country)}: ${instantChoiceLabel("country", state.instantMatch.country)}`,
       `${messageLabel(copy.experience)}: ${instantChoiceLabel("experience", state.instantMatch.experience)}`,
-      `${messageLabel(copy.area)}: ${instantChoiceLabel("area", state.instantMatch.area)}`
+      `${messageLabel(copy.area)}: ${instantChoiceLabel("area", state.instantMatch.area)}`,
+      `${messageLabel(copy.people)}: ${instantChoiceLabel("people", state.instantMatch.people)}`,
+      `${messageLabel(copy.start)}: ${instantChoiceLabel("start", state.instantMatch.start)}`
     ];
     const suggestedJobs = matches.map((job, index) => {
       const view = localizedJob(job);
@@ -1778,9 +1950,12 @@
   function instantMatchPreview(matches) {
     const copy = instantMatchCopy();
     const answers = [
+      [messageLabel(copy.current), instantChoiceLabel("current", state.instantMatch.current)],
       [messageLabel(copy.country), instantChoiceLabel("country", state.instantMatch.country)],
       [messageLabel(copy.experience), instantChoiceLabel("experience", state.instantMatch.experience)],
-      [messageLabel(copy.area), instantChoiceLabel("area", state.instantMatch.area)]
+      [messageLabel(copy.area), instantChoiceLabel("area", state.instantMatch.area)],
+      [messageLabel(copy.people), instantChoiceLabel("people", state.instantMatch.people)],
+      [messageLabel(copy.start), instantChoiceLabel("start", state.instantMatch.start)]
     ];
     const jobTitles = matches.slice(0, 2).map((job) => localizedJob(job).title);
     return `
@@ -1804,6 +1979,93 @@
     openWhatsAppSafety(`${whatsappUrl}${separator}text=${encodeURIComponent(instantMatchMessage())}`);
   }
 
+  function whatsappScriptCopy() {
+    const copy = {
+      en: {
+        kicker: "Fast WhatsApp",
+        title: "Not sure what to write?",
+        intro: "Choose a ready message — WhatsApp opens with clear details for the recruiter.",
+        action: "Open WhatsApp",
+        items: [
+          ["ukraine-poland", "I am from Ukraine", "I want work in Poland and need help choosing the right job.", "Hello! I am from Ukraine. I want to work in Poland. Please help me choose a suitable job. I can write my name, age, documents and when I can travel."],
+          ["no-experience", "I have no experience", "For candidates who need a simple start and training.", "Hello! I am looking for a job without experience. Please send me options where training is possible. I can provide my age, country, documents and start date."],
+          ["couple", "We are a couple", "Useful when housing and two places must be checked together.", "Hello! We are a couple and want to work together. Please check jobs with housing and two places. We can send our age, documents and possible start date."],
+          ["driver", "I am a driver", "For candidates with a driving licence or transport experience.", "Hello! I am interested in driver jobs. I can send my licence categories, experience, documents and when I am ready to start."],
+          ["housing", "I need housing details", "For candidates who first want to understand accommodation.", "Hello! I want to clarify housing before choosing a job. Please tell me what options are available and what should be checked before departure."],
+          ["start", "Nearest start date", "For candidates ready to move quickly.", "Hello! I am ready to start soon. Please tell me which jobs have the nearest available start date and what documents are needed."]
+        ]
+      },
+      ru: {
+        kicker: "Быстрый WhatsApp",
+        title: "Не знаете, что написать?",
+        intro: "Выберите готовый вариант — WhatsApp откроется с понятным сообщением для рекрутера.",
+        action: "Открыть WhatsApp",
+        items: [
+          ["ukraine-poland", "Я из Украины", "Хочу работу в Польше и помощь с выбором вакансии.", "Здравствуйте! Я из Украины. Хочу работать в Польше. Помогите, пожалуйста, подобрать подходящую вакансию. Могу написать имя, возраст, документы и когда готов(а) выехать."],
+          ["no-experience", "Я без опыта", "Для кандидатов, которым нужен простой старт и обучение.", "Здравствуйте! Я ищу работу без опыта. Подскажите, пожалуйста, варианты, где можно начать с обучением. Могу написать возраст, страну, документы и дату старта."],
+          ["couple", "Мы пара", "Когда нужно сразу проверить жильё и два места.", "Здравствуйте! Мы пара и хотим работать вместе. Проверьте, пожалуйста, вакансии с жильём и двумя местами. Можем отправить возраст, документы и когда готовы начать."],
+          ["driver", "Я водитель", "Для кандидатов с правами или опытом вождения.", "Здравствуйте! Меня интересуют вакансии для водителей. Могу отправить категории прав, опыт, документы и когда готов(а) начать."],
+          ["housing", "Хочу уточнить жильё", "Когда сначала важно понять условия проживания.", "Здравствуйте! Хочу уточнить жильё перед выбором вакансии. Расскажите, пожалуйста, какие есть варианты и что нужно проверить до выезда."],
+          ["start", "Ближайший старт", "Для кандидатов, которые готовы выехать быстро.", "Здравствуйте! Я готов(а) начать в ближайшее время. Подскажите, пожалуйста, какие вакансии сейчас имеют ближайший старт и какие документы нужны."]
+        ]
+      },
+      uk: {
+        kicker: "Швидкий WhatsApp",
+        title: "Не знаєте, що написати?",
+        intro: "Оберіть готовий варіант — WhatsApp відкриється зі зрозумілим повідомленням.",
+        action: "Відкрити WhatsApp",
+        items: [
+          ["ukraine-poland", "Я з України", "Хочу роботу в Польщі та допомогу з вибором вакансії.", "Вітаю! Я з України. Хочу працювати в Польщі. Допоможіть, будь ласка, підібрати відповідну вакансію. Можу написати ім’я, вік, документи і коли готовий/готова виїхати."],
+          ["no-experience", "Я без досвіду", "Для кандидатів, яким потрібен простий старт.", "Вітаю! Я шукаю роботу без досвіду. Підкажіть, будь ласка, варіанти, де можна почати з навчанням. Можу написати вік, країну, документи і дату старту."],
+          ["couple", "Ми пара", "Коли треба перевірити житло і два місця.", "Вітаю! Ми пара і хочемо працювати разом. Перевірте, будь ласка, вакансії з житлом і двома місцями. Можемо надіслати вік, документи і коли готові почати."],
+          ["driver", "Я водій", "Для кандидатів з правами або досвідом водіння.", "Вітаю! Мене цікавлять вакансії для водіїв. Можу надіслати категорії прав, досвід, документи і коли готовий/готова почати."],
+          ["housing", "Хочу уточнити житло", "Коли спочатку важливо зрозуміти проживання.", "Вітаю! Хочу уточнити житло перед вибором вакансії. Розкажіть, будь ласка, які є варіанти і що треба перевірити до виїзду."],
+          ["start", "Найближчий старт", "Для кандидатів, які готові швидко виїхати.", "Вітаю! Я готовий/готова почати найближчим часом. Підкажіть, будь ласка, які вакансії зараз мають найближчий старт і які документи потрібні."]
+        ]
+      },
+      pl: {
+        kicker: "Szybki WhatsApp",
+        title: "Nie wiesz, co napisać?",
+        intro: "Wybierz gotową wiadomość — WhatsApp otworzy się z jasnym tekstem do rekrutera.",
+        action: "Otwórz WhatsApp",
+        items: [
+          ["ukraine-poland", "Jestem z Ukrainy", "Chcę pracować w Polsce i potrzebuję pomocy w wyborze.", "Dzień dobry! Jestem z Ukrainy. Chcę pracować w Polsce. Proszę pomóc mi wybrać odpowiednią ofertę. Mogę podać imię, wiek, dokumenty i termin wyjazdu."],
+          ["no-experience", "Bez doświadczenia", "Dla osób, które chcą zacząć z przyuczeniem.", "Dzień dobry! Szukam pracy bez doświadczenia. Proszę o opcje, gdzie możliwe jest przyuczenie. Mogę podać wiek, kraj, dokumenty i termin startu."],
+          ["couple", "Jedziemy jako para", "Gdy trzeba sprawdzić dwa miejsca i zakwaterowanie.", "Dzień dobry! Jesteśmy parą i chcemy pracować razem. Proszę sprawdzić oferty z zakwaterowaniem i dwoma miejscami. Możemy wysłać wiek, dokumenty i termin startu."],
+          ["driver", "Jestem kierowcą", "Dla kandydatów z prawem jazdy lub doświadczeniem.", "Dzień dobry! Interesują mnie oferty dla kierowców. Mogę podać kategorie prawa jazdy, doświadczenie, dokumenty i termin startu."],
+          ["housing", "Chcę zapytać o mieszkanie", "Gdy najpierw trzeba zrozumieć zakwaterowanie.", "Dzień dobry! Chcę wyjaśnić zakwaterowanie przed wyborem pracy. Proszę powiedzieć, jakie są opcje i co trzeba sprawdzić przed wyjazdem."],
+          ["start", "Najbliższy start", "Dla osób gotowych zacząć szybko.", "Dzień dobry! Mogę zacząć w najbliższym czasie. Proszę powiedzieć, które oferty mają teraz najbliższy start i jakie dokumenty są potrzebne."]
+        ]
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function openScenarioWhatsApp(message) {
+    const fallbackPhone = String(profile.phone || "").replace(/\D/g, "");
+    const whatsappUrl = profile.whatsapp || `https://wa.me/${fallbackPhone}`;
+    const separator = whatsappUrl.includes("?") ? "&" : "?";
+    openWhatsAppSafety(`${whatsappUrl}${separator}text=${encodeURIComponent(message)}`);
+  }
+
+  function renderWhatsAppScripts() {
+    const container = el("whatsapp-scripts-grid");
+    if (!container) return;
+    const copy = whatsappScriptCopy();
+    if (el("whatsapp-scripts-kicker")) el("whatsapp-scripts-kicker").textContent = copy.kicker;
+    if (el("whatsapp-scripts-heading")) el("whatsapp-scripts-heading").textContent = copy.title;
+    if (el("whatsapp-scripts-intro")) el("whatsapp-scripts-intro").textContent = copy.intro;
+    container.innerHTML = copy.items.map(([id, title, text, message]) => `
+      <article class="whatsapp-script-card">
+        <span class="whatsapp-script-icon">${svgIcon(id === "driver" ? "truck" : id === "housing" ? "home" : "whatsapp")}</span>
+        <h3>${escapeHTML(title)}</h3>
+        <p>${escapeHTML(text)}</p>
+        <button class="button button-whatsapp" type="button" data-scenario-whatsapp="${escapeHTML(id)}">${escapeHTML(copy.action)}</button>
+      </article>
+    `).join("");
+    container.dataset.messages = JSON.stringify(Object.fromEntries(copy.items.map(([id, , , message]) => [id, message])));
+  }
+
   function renderInstantMatcher() {
     const copy = instantMatchCopy();
     if (el("instant-match-kicker")) el("instant-match-kicker").textContent = copy.kicker;
@@ -1811,6 +2073,11 @@
     if (el("instant-match-intro")) el("instant-match-intro").textContent = copy.intro;
     if (!el("instant-match-panel")) return;
     const groups = [
+      {
+        id: "current",
+        title: copy.current,
+        choices: [["any", copy.any], ["eu", copy.currentEu], ["ukraine", copy.currentUkraine], ["other", copy.currentOther]]
+      },
       {
         id: "country",
         title: copy.country,
@@ -1825,6 +2092,16 @@
         id: "area",
         title: copy.area,
         choices: [["any", copy.any], ["greenhouse", copy.greenhouse], ["warehouse", copy.warehouse], ["transport", copy.transport]]
+      },
+      {
+        id: "people",
+        title: copy.people,
+        choices: [["any", copy.any], ["solo", copy.solo], ["couple", copy.couple], ["group", copy.group]]
+      },
+      {
+        id: "start",
+        title: copy.start,
+        choices: [["any", copy.any], ["soon", copy.soon], ["month", copy.month], ["later", copy.later]]
       }
     ];
     const matches = instantMatches();
@@ -2949,6 +3226,13 @@
       const instantWhatsAppButton = event.target.closest("[data-instant-whatsapp]");
       if (instantWhatsAppButton) {
         openInstantMatchWhatsApp();
+        return;
+      }
+      const scenarioWhatsAppButton = event.target.closest("[data-scenario-whatsapp]");
+      if (scenarioWhatsAppButton) {
+        const messages = JSON.parse(el("whatsapp-scripts-grid")?.dataset.messages || "{}");
+        const message = messages[scenarioWhatsAppButton.dataset.scenarioWhatsapp];
+        if (message) openScenarioWhatsApp(message);
         return;
       }
       const surveyButton = event.target.closest("[data-job-survey]");
