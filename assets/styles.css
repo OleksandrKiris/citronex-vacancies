@@ -9279,6 +9279,101 @@ body.vacancy-first::before {
   }
 }
 
+/* v78 · accessible focus and contrast visual polish */
+.vacancy-first :where(
+  button,
+  a,
+  input,
+  select,
+  summary,
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 3px solid rgba(189, 242, 75, 0.86);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 1px rgba(16, 32, 24, 0.22),
+    0 0 0 7px rgba(189, 242, 75, 0.18);
+}
+
+.vacancy-first .button:focus-visible,
+.vacancy-first .text-link:focus-visible,
+.vacancy-first .desktop-nav button:focus-visible,
+.vacancy-first .mobile-nav button:focus-visible,
+.vacancy-first .mobile-nav a:focus-visible,
+.filter-chip:focus-visible,
+.quick-chip:focus-visible {
+  outline: 0;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.90),
+    0 0 0 7px rgba(189, 242, 75, 0.72),
+    0 16px 34px rgba(16, 24, 32, 0.16);
+}
+
+.vacancy-first input:focus-visible,
+.vacancy-first select:focus-visible,
+.application-field input:focus-visible,
+.application-field select:focus-visible,
+.candidate-passport-field input:focus-visible,
+.candidate-passport-field select:focus-visible {
+  outline: 0;
+  border-color: rgba(15, 109, 76, 0.56);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.92),
+    0 0 0 7px rgba(189, 242, 75, 0.34),
+    0 14px 28px rgba(16, 24, 32, 0.12);
+}
+
+.vacancy-first .button-primary,
+.vacancy-first .button-whatsapp,
+.button-whatsapp {
+  border-color: rgba(255, 255, 255, 0.16);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.vacancy-first .button-secondary,
+.vacancy-first .button-quiet,
+.vacancy-first .button-light {
+  color: #102018;
+}
+
+.vacancy-first .text-link {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.vacancy-first .text-link:hover {
+  text-decoration-color: rgba(189, 242, 75, 0.92);
+}
+
+.candidate-passport-message pre,
+.application-message-preview,
+.resource-section,
+.detail-section {
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.vacancy-first ::selection {
+  color: #102018;
+  background: rgba(189, 242, 75, 0.70);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first :where(
+    button,
+    a,
+    input,
+    select,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.90),
+      0 0 0 5px rgba(189, 242, 75, 0.68);
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
