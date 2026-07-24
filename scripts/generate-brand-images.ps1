@@ -96,7 +96,10 @@ function New-BrandIcon {
 }
 
 function New-ShareCard {
-  param([string]$Path)
+  param(
+    [string]$Path,
+    [string]$LogoPath
+  )
 
   $bitmap = [System.Drawing.Bitmap]::new(1200, 630)
   $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
@@ -111,19 +114,19 @@ function New-ShareCard {
   $lime = New-Brush "#bdf24b"
   $cobalt = New-Brush "#3157ff"
   $green = New-Brush "#25d366"
+  $white = New-Brush "#ffffff"
 
   $gridPen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(12, 247, 245, 239), 1)
   for ($x = 0; $x -le 1200; $x += 44) { $graphics.DrawLine($gridPen, $x, 0, $x, 630) }
   for ($y = 0; $y -le 630; $y += 44) { $graphics.DrawLine($gridPen, 0, $y, 1200, $y) }
   $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(38, 49, 87, 255)), 930, -160, 420, 420)
 
-  Fill-RoundedRectangle $graphics $lime ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
-  $bagPen = [System.Drawing.Pen]::new($graphite.Color, 3)
-  $bagPen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-  $graphics.DrawRectangle($bagPen, 88, 91, 26, 20)
-  $graphics.DrawArc($bagPen, 95.5, 81, 12, 20, 180, 180)
-  $graphics.DrawLine($bagPen, 88, 99, 101, 103)
-  $graphics.DrawLine($bagPen, 101, 103, 114, 99)
+  $officialLogo = $null
+  Fill-RoundedRectangle $graphics $white ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
+  if (Test-Path -LiteralPath $LogoPath) {
+    $officialLogo = [System.Drawing.Image]::FromFile($LogoPath)
+    $graphics.DrawImage($officialLogo, [System.Drawing.Rectangle]::new(75, 69, 52, 52))
+  }
 
   $fontBrand = [System.Drawing.Font]::new("Arial", 20, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontMeta = [System.Drawing.Font]::new("Arial", 13, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
@@ -185,8 +188,9 @@ function New-ShareCard {
 
   $bitmap.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
 
-  @($gridPen, $bagPen, $panelPen, $routePen, $fontBrand, $fontMeta, $fontOverline, $fontHero, $fontLead, $fontNumber, $fontSmall, $fontPanel, $graphite, $panel, $cream, $muted, $lime, $cobalt, $green) |
+  @($gridPen, $panelPen, $routePen, $fontBrand, $fontMeta, $fontOverline, $fontHero, $fontLead, $fontNumber, $fontSmall, $fontPanel, $graphite, $panel, $cream, $muted, $lime, $cobalt, $green, $white) |
     ForEach-Object { $_.Dispose() }
+  if ($officialLogo) { $officialLogo.Dispose() }
   $graphics.Dispose()
   $bitmap.Dispose()
 }
@@ -194,6 +198,6 @@ function New-ShareCard {
 $assetPath = [System.IO.Path]::GetFullPath($OutputDirectory)
 New-BrandIcon -Size 192 -Path (Join-Path $assetPath "icon-192.png")
 New-BrandIcon -Size 512 -Path (Join-Path $assetPath "icon-512.png")
-New-ShareCard -Path (Join-Path $assetPath "share-card.png")
+New-ShareCard -Path (Join-Path $assetPath "share-card.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
 
 Write-Output "Generated icon-192.png, icon-512.png, and share-card.png"
