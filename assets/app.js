@@ -354,17 +354,16 @@
     document.head.append(schemaNode);
   }
 
-  function renderJobCard(job) {
+  function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const favorite = state.favorites.has(job.id);
     const compared = state.compare.has(job.id);
     const visualType = jobVisualType(job.id);
     const benefits = view.benefits || [];
-    const highlights = benefits.length > 1
-      ? [benefits[0], benefits[benefits.length - 1]]
-      : benefits;
+    const highlights = benefits.slice(0, 1);
+    const titleId = `${context}-job-${job.id}-title`;
     return `
-      <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}">
+      <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
           <div class="job-card-tags">
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
@@ -377,7 +376,7 @@
         <div class="job-card-identity">
           <span class="job-card-visual" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
           <div>
-            <h3><button class="job-title-button" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(view.title)}</button></h3>
+            <h3 id="${escapeHTML(titleId)}"><button class="job-title-button" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(view.title)}</button></h3>
             <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
           </div>
         </div>
@@ -399,6 +398,12 @@
         <div class="job-candidates" aria-label="${escapeHTML(t("ui.suitableFor"))}">
           ${(view.candidates || []).slice(0, 3).map((candidate) => `<span>${svgIcon("check")}${escapeHTML(candidate)}</span>`).join("")}
         </div>
+        ${view.statusNote ? `
+          <p class="job-card-status">
+            ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
+            <span>${escapeHTML(view.statusNote)}</span>
+          </p>
+        ` : ""}
         ${highlights.length ? `
           <div class="job-card-highlights">
             <strong>${escapeHTML(t("ui.conditions"))}</strong>
@@ -428,7 +433,7 @@
 
   function renderFeaturedJobs() {
     const featured = jobs.filter((job) => job.featured).slice(0, 3);
-    el("featured-jobs").innerHTML = featured.map(renderJobCard).join("");
+    el("featured-jobs").innerHTML = featured.map((job) => renderJobCard(job, "featured")).join("");
   }
 
   function populateFilters() {
@@ -488,7 +493,7 @@
 
   function renderAllJobs() {
     const result = filteredJobs();
-    el("all-jobs").innerHTML = result.map(renderJobCard).join("");
+    el("all-jobs").innerHTML = result.map((job) => renderJobCard(job, "catalog")).join("");
     el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
     el("jobs-empty").hidden = result.length > 0;
   }
@@ -534,7 +539,7 @@
 
   function renderSavedJobs() {
     const saved = jobs.filter((job) => state.favorites.has(job.id));
-    el("saved-jobs").innerHTML = saved.map(renderJobCard).join("");
+    el("saved-jobs").innerHTML = saved.map((job) => renderJobCard(job, "saved")).join("");
     el("saved-empty").hidden = saved.length > 0;
     const comparison = jobs.filter((job) => state.compare.has(job.id));
     el("compare-count").textContent = String(comparison.length);
@@ -590,7 +595,7 @@
               <span class="tag">${escapeHTML(view.category)}</span>
               <span class="tag">${escapeHTML(view.level)}</span>
             </div>
-            <h2>${escapeHTML(view.title)}</h2>
+            <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
             <p class="job-company">${escapeHTML(job.company)} · ${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</p>
           </div>
         </div>
@@ -861,7 +866,7 @@
         .map((category) => ({ value: category, label: category }))
     ];
     el("resource-filters").innerHTML = categories.map((category) => `
-      <button class="filter-chip${state.resourceCategory === category.value ? " active" : ""}" type="button" data-resource-category="${escapeHTML(category.value)}">${escapeHTML(category.label)}</button>
+      <button class="filter-chip${state.resourceCategory === category.value ? " active" : ""}" type="button" data-resource-category="${escapeHTML(category.value)}" aria-pressed="${state.resourceCategory === category.value}">${escapeHTML(category.label)}</button>
     `).join("");
     const filtered = state.resourceCategory === "__all__"
       ? visibleResources
@@ -875,7 +880,7 @@
     el("resource-dialog-content").innerHTML = `
       <header class="modal-heading resource-detail-header">
         <p class="overline">${escapeHTML(resource.category)}</p>
-        <h2>${escapeHTML(resource.title)}</h2>
+        <h2 id="resource-dialog-title">${escapeHTML(resource.title)}</h2>
         <div class="resource-detail-meta">
           <span>${escapeHTML(resource.readTime)}</span>
           <span>${escapeHTML(t("ui.updated"))} ${escapeHTML(formatDate(resource.updatedAt))}</span>
@@ -969,7 +974,15 @@
     });
     if (next === "saved") renderSavedJobs();
     if (updateHash) history.pushState(null, "", `#${next}`);
-    if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scroll) {
+      const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+      const heading = document.querySelector(`#view-${next} h1`);
+      if (heading) {
+        heading.setAttribute("tabindex", "-1");
+        heading.focus({ preventScroll: true });
+      }
+    }
   }
 
   function handleHashRoute() {

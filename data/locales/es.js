@@ -14,6 +14,7 @@
       navResources: "Guías",
       navSaved: "Guardadas",
       navProfile: "Sobre mí",
+      mainNavigation: "Navegación principal",
       contact: "Contacto",
       install: "Instalar",
       online: "En línea · el portal está listo para usarse sin conexión",

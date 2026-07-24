@@ -10,19 +10,19 @@
   <meta property="og:title" content="Citronex Jobs · Vacancies in 11 languages">
   <meta property="og:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
   <meta property="og:url" content="https://oleksandrkiris.github.io/citronex-vacancies/">
-  <meta property="og:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png?v=9">
+  <meta property="og:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png?v=10">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Citronex Jobs — вакансии и прямой контакт рекрутера">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Citronex Jobs · Vacancies in 11 languages">
   <meta name="twitter:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
-  <meta name="twitter:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png?v=9">
+  <meta name="twitter:image" content="https://oleksandrkiris.github.io/citronex-vacancies/assets/share-card.png?v=10">
   <link rel="canonical" href="https://oleksandrkiris.github.io/citronex-vacancies/">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/citronex-logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="assets/styles.css?v=9">
+  <link rel="stylesheet" href="assets/styles.css?v=10">
   <title>Вакансии Citronex — каталог 2026</title>
 </head>
 <body>
@@ -45,7 +45,7 @@
         </span>
       </button>
 
-      <nav class="desktop-nav" data-i18n-aria-label="ui.navHome" aria-label="Главная">
+      <nav class="desktop-nav" data-i18n-aria-label="ui.mainNavigation" aria-label="Основная навигация">
         <button type="button" data-route="home"><span data-i18n="ui.navHome">Главная</span></button>
         <button type="button" data-route="jobs"><span data-i18n="ui.navJobs">Вакансии</span> <span class="nav-count" id="nav-job-count">0</span></button>
         <button type="button" data-route="resources"><span data-i18n="ui.navResources">Материалы</span></button>
@@ -122,7 +122,7 @@
               <span class="mobility-status"><i aria-hidden="true"></i><span data-i18n="ui.offlineChip">Офлайн</span></span>
             </div>
             <div class="mobility-map">
-              <img src="assets/mobility-map.svg?v=9" alt="" width="760" height="480">
+              <img src="assets/mobility-map.svg?v=10" alt="" width="760" height="480">
             </div>
             <div class="recruiter-strip">
               <div class="portrait" id="hero-avatar" aria-hidden="true">OK</div>
@@ -404,7 +404,7 @@
     </div>
   </footer>
 
-  <nav class="mobile-nav" data-i18n-aria-label="ui.navHome" aria-label="Главная">
+  <nav class="mobile-nav" data-i18n-aria-label="ui.mainNavigation" aria-label="Основная навигация">
     <button type="button" data-route="home"><svg aria-hidden="true"><use href="assets/icons.svg#icon-home"></use></svg><small data-i18n="ui.navHome">Главная</small></button>
     <button type="button" data-route="jobs"><svg aria-hidden="true"><use href="assets/icons.svg#icon-jobs"></use></svg><small data-i18n="ui.navJobs">Вакансии</small></button>
     <button class="mobile-nav-match" type="button" data-application-general><span><svg aria-hidden="true"><use href="assets/icons.svg#icon-match"></use></svg></span><small data-i18n="ui.heroSurvey">Анкета</small></button>
@@ -412,7 +412,7 @@
     <a class="mobile-nav-whatsapp" href="https://wa.me/48502251384" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="assets/icons.svg#icon-whatsapp"></use></svg><small data-i18n="ui.contact">Связаться</small></a>
   </nav>
 
-  <dialog class="modal job-modal" id="job-dialog">
+  <dialog class="modal job-modal" id="job-dialog" aria-labelledby="job-dialog-title">
     <div class="modal-shell">
       <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div id="job-dialog-content"></div>
@@ -426,19 +426,19 @@
     </div>
   </dialog>
 
-  <dialog class="modal resource-modal" id="resource-dialog">
+  <dialog class="modal resource-modal" id="resource-dialog" aria-labelledby="resource-dialog-title">
     <div class="modal-shell modal-shell-narrow">
       <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div id="resource-dialog-content"></div>
     </div>
   </dialog>
 
-  <dialog class="modal compare-modal" id="compare-dialog">
+  <dialog class="modal compare-modal" id="compare-dialog" aria-labelledby="compare-dialog-title">
     <div class="modal-shell">
       <button class="icon-button modal-close" type="button" data-close-dialog data-i18n-aria-label="ui.close" aria-label="Закрыть">×</button>
       <div class="modal-heading">
         <p class="overline" data-i18n="ui.compare">Сравнить</p>
-        <h2><span data-i18n="ui.compare">Сравнение</span> · <span data-i18n="ui.navJobs">вакансии</span></h2>
+        <h2 id="compare-dialog-title"><span data-i18n="ui.compare">Сравнение</span> · <span data-i18n="ui.navJobs">вакансии</span></h2>
       </div>
       <div class="compare-wrap" id="compare-content"></div>
     </div>
@@ -463,6 +463,6 @@
   <script src="data/content.js"></script>
   <script src="assets/i18n.js"></script>
   <script src="assets/application-form.js?v=7"></script>
-  <script src="assets/app.js?v=9"></script>
+  <script src="assets/app.js?v=10"></script>
 </body>
 </html>

@@ -34,6 +34,33 @@
   unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
 }
 
+@font-face {
+  font-family: "Noto Sans Georgian Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/noto-sans-georgian-variable.woff2") format("woff2");
+  unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+}
+
+@font-face {
+  font-family: "Noto Sans Armenian Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/noto-sans-armenian-variable.woff2") format("woff2");
+  unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+}
+
+@font-face {
+  font-family: "Noto Sans Devanagari Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/noto-sans-devanagari-variable.woff2") format("woff2");
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
 :root {
   --ink: #101820;
   --ink-soft: #5b6878;
@@ -5469,7 +5496,7 @@ h3 {
   }
 }
 
-/* Citronex brand refresh v9: industrial premium, richer job information. */
+/* Citronex premium quality v10: calmer hierarchy, clearer jobs, better multilingual typography. */
 
 :root {
   --brand-red: #e51d2a;
@@ -5478,9 +5505,25 @@ h3 {
   --brand-coral: #ff6570;
   --brand-ivory: #faf8f3;
   --status-green: #25b765;
+  --whatsapp: #127a42;
   --cobalt: var(--brand-red);
   --cobalt-dark: var(--brand-red-dark);
   --focus: var(--brand-red);
+}
+
+html[lang="ka"] body,
+html[lang="ka"] body * {
+  font-family: "Noto Sans Georgian Variable", "Manrope", "Noto Sans", sans-serif;
+}
+
+html[lang="hy"] body,
+html[lang="hy"] body * {
+  font-family: "Noto Sans Armenian Variable", "Manrope", "Noto Sans", sans-serif;
+}
+
+html[lang="ne"] body,
+html[lang="ne"] body * {
+  font-family: "Noto Sans Devanagari Variable", "Manrope", "Noto Sans", sans-serif;
 }
 
 body {
@@ -5530,7 +5573,7 @@ body {
 }
 
 .header-contact svg {
-  color: var(--whatsapp);
+  color: white;
 }
 
 .demo-banner {
@@ -5541,12 +5584,9 @@ body {
 
 .hero {
   background:
-    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-    radial-gradient(circle at 84% 16%, rgba(229, 29, 42, 0.27), transparent 30rem),
-    radial-gradient(circle at 10% 90%, rgba(255, 101, 112, 0.1), transparent 26rem),
-    var(--graphite);
-  background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    radial-gradient(circle at 84% 12%, rgba(229, 29, 42, 0.3), transparent 29rem),
+    radial-gradient(circle at 7% 100%, rgba(255, 101, 112, 0.08), transparent 24rem),
+    linear-gradient(145deg, #101820 0%, #17191d 58%, #24171b 100%);
 }
 
 .hero::before {
@@ -5573,7 +5613,7 @@ body {
 }
 
 .hero .button-primary:hover {
-  background: var(--brand-coral);
+  background: var(--brand-red-dark);
 }
 
 .hero-facts dd {
@@ -5635,11 +5675,11 @@ body {
 
 .catalog-proof-grid article {
   min-width: 0;
-  padding: 15px 17px;
+  padding: 17px 18px;
   background: white;
   border: 1px solid #e3dfda;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(16, 24, 32, 0.045);
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(16, 24, 32, 0.04);
 }
 
 .catalog-proof-grid strong,
@@ -5663,9 +5703,9 @@ body {
 }
 
 .catalog-proof-grid span {
-  margin-top: 3px;
+  margin-top: 4px;
   color: #6b767f;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 650;
   line-height: 1.35;
 }
@@ -5677,7 +5717,7 @@ body {
 
 .filters input,
 .filters select {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .filters input:hover,
@@ -5688,31 +5728,44 @@ body {
 }
 
 .results-row p {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .job-card {
   min-height: 0;
-  padding: 21px;
+  padding: 23px;
   border-color: #e3dfda;
-  box-shadow: 0 14px 38px rgba(16, 24, 32, 0.07);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(16, 24, 32, 0.065);
 }
 
 .job-card:hover {
   border-color: #d5cbc5;
-  box-shadow: 0 25px 60px rgba(16, 24, 32, 0.12);
+  box-shadow: 0 22px 48px rgba(16, 24, 32, 0.11);
 }
 
-.job-card[data-visual="warehouse"] {
+.job-card[data-visual="warehouse"],
+.job-card[data-visual="transport"] {
   --job-accent: var(--brand-red);
   --job-soft: var(--brand-red-soft);
 }
 
+.job-card[data-visual="technical"],
+.job-card[data-visual="management"] {
+  --job-accent: #33444f;
+  --job-soft: #edf0f2;
+}
+
+.job-card[data-visual="agronomy"] {
+  --job-accent: #5f9026;
+  --job-soft: #f0f7e3;
+}
+
 .tag,
 .status-tag {
-  min-height: 26px;
-  padding-inline: 9px;
-  font-size: 10px;
+  min-height: 28px;
+  padding-inline: 10px;
+  font-size: 11px;
   letter-spacing: 0.025em;
 }
 
@@ -5722,7 +5775,7 @@ body {
 }
 
 .job-card h3 {
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.2;
 }
 
@@ -5733,8 +5786,8 @@ body {
 
 .job-company {
   margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.42;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .job-card-facts {
@@ -5743,24 +5796,24 @@ body {
 }
 
 .job-card-fact {
-  padding: 12px;
+  padding: 13px;
   background: #fbfaf7;
 }
 
 .job-card-fact dt {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.025em;
 }
 
 .job-card-fact dd {
-  margin-top: 5px;
-  font-size: 12px;
-  line-height: 1.42;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
   text-overflow: clip;
 }
 
 .job-card-fact .job-salary {
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .job-card-summary {
@@ -5768,9 +5821,9 @@ body {
   z-index: 1;
   margin: 15px 0 0;
   color: #4d5a64;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 570;
-  line-height: 1.56;
+  line-height: 1.58;
 }
 
 .job-candidates,
@@ -5796,7 +5849,7 @@ body {
   color: #34444f;
   background: #f1f3f1;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 730;
   line-height: 1.25;
 }
@@ -5806,6 +5859,39 @@ body {
   width: 12px;
   height: 12px;
   color: var(--status-green);
+}
+
+.job-card-status {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 13px 0 0;
+  padding: 11px 12px;
+  color: #4c5a63;
+  background: #f4f2ee;
+  border-left: 3px solid var(--brand-red);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.48;
+}
+
+.job-card-status svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--brand-red);
+}
+
+.job-card[data-salary-confirmed="true"] .job-card-status {
+  border-left-color: #668b34;
+}
+
+.job-card[data-salary-confirmed="true"] .job-card-status svg {
+  color: #668b34;
 }
 
 .job-card-highlights {
@@ -5821,7 +5907,7 @@ body {
 .job-card-highlights > strong {
   display: block;
   color: #854438;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 850;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -5839,7 +5925,7 @@ body {
   position: relative;
   padding-left: 15px;
   color: #5e514b;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 620;
   line-height: 1.42;
 }
@@ -5861,7 +5947,7 @@ body {
 
 .job-skills span {
   padding: 5px 8px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .job-card-actions {
@@ -5871,14 +5957,14 @@ body {
 }
 
 .job-card-actions .button {
-  min-height: 44px;
-  font-size: 11px;
+  min-height: 48px;
+  font-size: 13px;
 }
 
 .job-card-chat {
   display: flex;
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   align-items: center;
   justify-content: center;
   gap: 7px;
@@ -5889,14 +5975,14 @@ body {
   border: 1px solid #c5e9d4;
   border-radius: 12px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
 }
 
 .job-card-chat:hover {
   color: white;
-  background: #168f4d;
-  border-color: #168f4d;
+  background: #0e713c;
+  border-color: #0e713c;
 }
 
 .job-card-chat svg {
@@ -5911,11 +5997,19 @@ body {
 
 .job-card-footer small,
 .compare-check {
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .compare-check input {
   accent-color: var(--brand-red);
+}
+
+@media (min-width: 941px) {
+  #all-jobs,
+  #saved-jobs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
 }
 
 .process-section {
@@ -5939,12 +6033,12 @@ body {
 
 .process-list p {
   color: #c0c9cf;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.58;
 }
 
 .process-list h3 {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .trust-intro p:last-child,
@@ -5960,7 +6054,7 @@ body {
 }
 
 .trust-cards article:first-child p {
-  color: #ffe6e8;
+  color: white;
 }
 
 .trust-cards article:first-child .feature-icon {
@@ -5988,7 +6082,7 @@ body {
 }
 
 .final-cta p:last-child {
-  color: #ffe6e8;
+  color: white;
 }
 
 .final-cta .button-light {
@@ -6052,13 +6146,13 @@ body {
 }
 
 .job-detail-facts dt {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.035em;
 }
 
 .job-detail-facts dd {
   margin-top: 7px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -6096,7 +6190,7 @@ body {
   color: #7a5d54;
   background: #fff3ef;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 720;
 }
 
@@ -6110,7 +6204,7 @@ body {
   background: #edf8f1;
   border: 1px solid #c9e8d4;
   border-radius: 13px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 650;
   line-height: 1.5;
 }
@@ -6182,7 +6276,7 @@ body {
 .job-condition-grid p {
   margin: 1px 0 0;
   color: #4f5d66;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 630;
   line-height: 1.5;
 }
@@ -6254,13 +6348,15 @@ body {
 }
 
 .detail-side {
+  position: sticky;
+  top: 12px;
   padding: 20px;
   background: #f7f4ef;
   border: 1px solid #e7e0d8;
 }
 
 .hiring-list li {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.45;
 }
 
@@ -6269,7 +6365,7 @@ body {
 }
 
 .note-help {
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .job-detail-actions {
@@ -6292,17 +6388,17 @@ body {
 
 .job-detail-primary-actions .button {
   min-height: 50px;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .button-whatsapp {
   color: white;
-  background: #188e4e;
-  box-shadow: 0 10px 24px rgba(24, 142, 78, 0.18);
+  background: #127a42;
+  box-shadow: 0 10px 24px rgba(18, 122, 66, 0.18);
 }
 
 .button-whatsapp:hover {
-  background: #11713d;
+  background: #0b6134;
   transform: translateY(-2px);
 }
 
@@ -6313,9 +6409,18 @@ body {
 }
 
 .job-detail-tools .button {
-  min-height: 37px;
+  min-height: 44px;
   padding: 7px 11px;
-  font-size: 10px;
+  font-size: 11px;
+}
+
+.icon-button {
+  width: 44px;
+  height: 44px;
+}
+
+.filter-chip {
+  min-height: 44px;
 }
 
 .mobile-nav .mobile-nav-match {
@@ -6357,7 +6462,7 @@ body {
   }
 
   .hero-facts dd {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.35;
   }
 
@@ -6376,11 +6481,11 @@ body {
   }
 
   .recruiter-strip-copy .overline {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .recruiter-strip-copy p:last-child {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .catalog-proof-grid {
@@ -6398,12 +6503,12 @@ body {
   }
 
   .catalog-proof-grid span {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .filters input,
   .filters select {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .job-card {
@@ -6412,31 +6517,44 @@ body {
 
   .tag,
   .status-tag {
-    font-size: 10px;
-  }
-
-  .job-company,
-  .job-card-fact dd,
-  .job-card-summary {
-    font-size: 12px;
-  }
-
-  .job-card-fact dt,
-  .job-card-highlights > strong,
-  .job-skills span,
-  .job-card-footer small,
-  .compare-check {
-    font-size: 10px;
-  }
-
-  .job-card-highlights li,
-  .job-card-actions .button,
-  .job-card-chat {
     font-size: 11px;
   }
 
-  .process-list p {
+  .job-company,
+  .job-card-fact dd {
+    font-size: 13px;
+  }
+
+  .job-card-summary {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 14px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .job-card-fact dt,
+  .job-card-footer small,
+  .compare-check {
+    font-size: 11px;
+  }
+
+  .job-card-actions .button,
+  .job-card-chat {
+    font-size: 13px;
+  }
+
+  .job-card-status {
     font-size: 12px;
+  }
+
+  .job-card-highlights,
+  .job-skills {
+    display: none;
+  }
+
+  .process-list p {
+    font-size: 13px;
   }
 
   .resource-card p,
@@ -6461,6 +6579,10 @@ body {
     gap: 18px;
   }
 
+  .detail-side {
+    position: static;
+  }
+
   .job-detail-primary-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6479,23 +6601,29 @@ body {
   }
 
   .job-detail-primary-actions .button {
-    min-height: 52px;
+    min-height: 54px;
     padding-inline: 8px;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.2;
     white-space: normal;
   }
 
   .mobile-nav {
-    height: 70px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    height: 66px;
+    grid-template-columns: 0.95fr 1.18fr 0.95fr 0.95fr;
+  }
+
+  .mobile-nav > [data-route="home"] {
+    display: none;
   }
 
   .mobile-nav small {
     display: -webkit-box;
     max-width: 100%;
     overflow: hidden;
-    font-size: 9px;
-    line-height: 1.05;
+    font-size: 10px;
+    line-height: 1.08;
     text-align: center;
     text-overflow: ellipsis;
     white-space: normal;

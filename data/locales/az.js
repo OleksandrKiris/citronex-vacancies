@@ -14,6 +14,7 @@
       navResources: "Məlumatlar",
       navSaved: "Seçilmişlər",
       navProfile: "Haqqımda",
+      mainNavigation: "Əsas naviqasiya",
       contact: "Əlaqə",
       install: "Quraşdır",
       online: "Onlayn · portal oflayn işləməyə hazırdır",

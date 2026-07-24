@@ -14,6 +14,7 @@
       navResources: "Mga gabay",
       navSaved: "Naka-save",
       navProfile: "Tungkol sa akin",
+      mainNavigation: "Pangunahing nabigasyon",
       contact: "Makipag-ugnayan",
       install: "I-install",
       online: "Online · maaari ring gamitin ang portal offline",

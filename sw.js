@@ -1,4 +1,5 @@
-const CACHE_VERSION = "citronex-jobs-v9-brand-and-details-2026-07-24";
+const CACHE_PREFIX = "citronex-jobs-";
+const CACHE_VERSION = "citronex-jobs-v10-premium-quality-2026-07-24";
 const CORE_SHELL = [
   "./",
   "./index.html",
@@ -6,22 +7,27 @@ const CORE_SHELL = [
   "./data/content.js",
   "./data/locales/ru.js",
   "./data/locales/en.js",
-  "./assets/styles.css?v=9",
+  "./assets/styles.css?v=10",
   "./assets/i18n.js",
   "./assets/application-form.js?v=7",
-  "./assets/app.js?v=9",
+  "./assets/app.js?v=10",
   "./assets/icons.svg",
-  "./assets/mobility-map.svg?v=9",
+  "./assets/mobility-map.svg?v=10",
   "./assets/citronex-logo.jpg",
   "./assets/fonts/manrope-latin.woff2",
   "./assets/fonts/manrope-latin-ext.woff2",
   "./assets/fonts/manrope-cyrillic.woff2",
   "./assets/fonts/manrope-cyrillic-ext.woff2",
+  "./assets/fonts/noto-sans-georgian-variable.woff2",
+  "./assets/fonts/noto-sans-armenian-variable.woff2",
+  "./assets/fonts/noto-sans-devanagari-variable.woff2",
+  "./assets/fonts/OFL-1.1.txt",
+  "./assets/fonts/FONT-LICENSES.md",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/share-card.svg",
-  "./assets/share-card.png?v=9"
+  "./assets/share-card.png?v=10"
 ];
 const OPTIONAL_LOCALES = [
   "./data/locales/uk.js",
@@ -38,8 +44,7 @@ const OPTIONAL_LOCALES = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_VERSION).then(async (cache) => {
-      await cache.addAll(CORE_SHELL);
-      await Promise.allSettled(OPTIONAL_LOCALES.map((url) => cache.add(url)));
+      await cache.addAll([...CORE_SHELL, ...OPTIONAL_LOCALES]);
     })
   );
 });
@@ -48,7 +53,9 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
-        keys.filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key))
+        keys
+          .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_VERSION)
+          .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
   );
@@ -66,10 +73,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request)
-        .then((response) => {
+        .then(async (response) => {
           if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(event.request, copy));
+            const cache = await caches.open(CACHE_VERSION);
+            await cache.put(event.request, response.clone());
           }
           return response;
         })
@@ -81,18 +88,19 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  const networkUpdate = fetch(event.request)
+    .then(async (response) => {
+      if (response.ok) {
+        const cache = await caches.open(CACHE_VERSION);
+        await cache.put(event.request, response.clone());
+      }
+      return response;
+    });
+
+  event.waitUntil(networkUpdate.then(() => undefined).catch(() => undefined));
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      const update = fetch(event.request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_VERSION).then((cache) => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || update;
+      return cached || networkUpdate.catch(() => cached);
     })
   );
 });

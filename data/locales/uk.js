@@ -14,6 +14,7 @@
       navResources: "Матеріали",
       navSaved: "Збережені",
       navProfile: "Про мене",
+      mainNavigation: "Основна навігація",
       contact: "Зв’язатися",
       install: "Встановити",
       online: "Онлайн · портал готовий працювати офлайн",

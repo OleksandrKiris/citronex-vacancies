@@ -14,6 +14,7 @@
       navResources: "Panduan",
       navSaved: "Tersimpan",
       navProfile: "Tentang saya",
+      mainNavigation: "Navigasi utama",
       contact: "Hubungi",
       install: "Pasang",
       online: "Online · portal siap digunakan secara offline",

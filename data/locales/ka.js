@@ -14,6 +14,7 @@
       navResources: "მასალები",
       navSaved: "შენახული",
       navProfile: "ჩემ შესახებ",
+      mainNavigation: "მთავარი ნავიგაცია",
       contact: "დაკავშირება",
       install: "დაყენება",
       online: "ონლაინ · პორტალი მზადაა ოფლაინ მუშაობისთვის",

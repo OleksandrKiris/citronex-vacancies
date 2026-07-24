@@ -14,6 +14,7 @@
       navResources: "Materiały",
       navSaved: "Zapisane",
       navProfile: "O mnie",
+      mainNavigation: "Główna nawigacja",
       contact: "Kontakt",
       install: "Zainstaluj",
       online: "Online · portal działa także offline",

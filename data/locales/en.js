@@ -14,6 +14,7 @@
       navResources: "Guides",
       navSaved: "Saved",
       navProfile: "About me",
+      mainNavigation: "Main navigation",
       contact: "Contact",
       install: "Install",
       online: "Online · the portal is ready to work offline",

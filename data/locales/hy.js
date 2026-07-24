@@ -14,6 +14,7 @@
       navResources: "Նյութեր",
       navSaved: "Պահվածները",
       navProfile: "Իմ մասին",
+      mainNavigation: "Հիմնական նավարկում",
       contact: "Կապ հաստատել",
       install: "Տեղադրել",
       online: "Առցանց · պորտալը պատրաստ է անցանց աշխատանքի",
