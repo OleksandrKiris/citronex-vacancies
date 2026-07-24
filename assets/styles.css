@@ -10491,6 +10491,18 @@ body.vacancy-first {
   color: #fff;
 }
 
+.candidate-passport-coach-hint {
+  display: block;
+  padding: 9px 10px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 13px;
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.38;
+}
+
 .candidate-passport-coach .button {
   min-height: 38px;
   color: #101820;

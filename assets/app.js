@@ -2634,6 +2634,20 @@
         completionPercent: "complete",
         nextStep: "Next best step",
         focusNext: "Add this",
+        coachHintReady: "The recruiter receives a clear short message and can quickly check the right vacancy.",
+        coachHints: {
+          name: "Use Latin letters so your name is easy to copy into the work discussion.",
+          birthDate: "This lets the site calculate age locally and send a cleaner WhatsApp message.",
+          current: "Current country or city helps check realistic routes and start timing.",
+          citizenship: "Citizenship helps the recruiter understand which work path to clarify first.",
+          language: "Preferred language helps the recruiter answer in the most comfortable language.",
+          destination: "Wanted country makes vacancy suggestions more accurate.",
+          people: "This helps check whether the start is for one person, a couple or a group.",
+          experience: "Experience helps separate first-start roles from specialist or driver roles.",
+          workDocs: "Only a general status is needed here — no document numbers or photos.",
+          readyDate: "Start date is often the fastest way to find a suitable current vacancy.",
+          job: "A direction like greenhouse, warehouse or driver makes matching much sharper."
+        },
         readyText: "You can send the application in WhatsApp now.",
         stickyTitle: "Application",
         stickyNext: "Next",
@@ -2770,6 +2784,20 @@
         completionPercent: "заполнено",
         nextStep: "Следующий лучший шаг",
         focusNext: "Добавить это",
+        coachHintReady: "Рекрутер получит короткое понятное сообщение и быстрее проверит подходящую вакансию.",
+        coachHints: {
+          name: "Пишите латиницей, чтобы имя было легко скопировать в рабочее обсуждение.",
+          birthDate: "Так сайт локально посчитает возраст и отправит более чистое сообщение в WhatsApp.",
+          current: "Страна или город сейчас помогают понять реальный маршрут и сроки старта.",
+          citizenship: "Гражданство помогает понять, какой путь оформления нужно уточнить первым.",
+          language: "Удобный язык помогает рекрутеру ответить человеку понятнее.",
+          destination: "Желаемая страна делает подбор вакансий точнее.",
+          people: "Так видно, едет человек один, парой или группой.",
+          experience: "Опыт отделяет простой первый старт от специальных и водительских вакансий.",
+          workDocs: "Здесь нужен только общий статус — без номеров и фото документов.",
+          readyDate: "Дата старта часто быстрее всего помогает найти актуальную вакансию.",
+          job: "Направление вроде теплицы, склада или водителя делает подбор намного точнее."
+        },
         readyText: "Теперь можно отправить заявку в WhatsApp.",
         stickyTitle: "Заявка",
         stickyNext: "Дальше",
@@ -2906,6 +2934,20 @@
         completionPercent: "заповнено",
         nextStep: "Наступний найкращий крок",
         focusNext: "Додати це",
+        coachHintReady: "Рекрутер отримає коротке зрозуміле повідомлення і швидше перевірить відповідну вакансію.",
+        coachHints: {
+          name: "Пишіть латиницею, щоб ім'я було легко скопіювати в робоче обговорення.",
+          birthDate: "Так сайт локально порахує вік і підготує чистіше повідомлення в WhatsApp.",
+          current: "Країна або місто зараз допомагають зрозуміти реальний маршрут і строки старту.",
+          citizenship: "Громадянство допомагає зрозуміти, який шлях оформлення уточнити першим.",
+          language: "Зручна мова допомагає рекрутеру відповісти зрозуміліше.",
+          destination: "Бажана країна робить підбір вакансій точнішим.",
+          people: "Так видно, їде людина сама, парою чи групою.",
+          experience: "Досвід відділяє простий перший старт від спеціальних і водійських вакансій.",
+          workDocs: "Тут потрібен тільки загальний статус — без номерів і фото документів.",
+          readyDate: "Дата старту часто найшвидше допомагає знайти актуальну вакансію.",
+          job: "Напрям на кшталт теплиці, складу або водія робить підбір набагато точнішим."
+        },
         readyText: "Тепер можна надіслати заявку у WhatsApp.",
         stickyTitle: "Заявка",
         stickyNext: "Далі",
@@ -3042,6 +3084,20 @@
         completionPercent: "uzupełnione",
         nextStep: "Najlepszy następny krok",
         focusNext: "Dodaj to",
+        coachHintReady: "Rekruter dostanie krótką, czytelną wiadomość i szybciej sprawdzi właściwą ofertę.",
+        coachHints: {
+          name: "Użyj liter łacińskich, aby imię i nazwisko było łatwe do skopiowania.",
+          birthDate: "Strona lokalnie obliczy wiek i przygotuje czystszą wiadomość WhatsApp.",
+          current: "Obecny kraj lub miasto pomaga sprawdzić realną trasę i termin startu.",
+          citizenship: "Obywatelstwo pomaga ustalić, jaką ścieżkę pracy wyjaśnić najpierw.",
+          language: "Preferowany język pomaga rekruterowi odpowiedzieć zrozumiale.",
+          destination: "Wybrany kraj poprawia dopasowanie ofert.",
+          people: "Widać, czy start dotyczy jednej osoby, pary czy grupy.",
+          experience: "Doświadczenie oddziela pierwszy start od ofert specjalistycznych i kierowców.",
+          workDocs: "Wystarczy ogólny status — bez numerów i zdjęć dokumentów.",
+          readyDate: "Data startu często najszybciej pomaga znaleźć aktualną ofertę.",
+          job: "Kierunek jak szklarnia, magazyn lub kierowca wyraźnie poprawia dopasowanie."
+        },
         readyText: "Możesz teraz wysłać zgłoszenie w WhatsApp.",
         stickyTitle: "Zgłoszenie",
         stickyNext: "Dalej",
@@ -4054,6 +4110,7 @@
   function candidatePassportCoachHTML(score, missing) {
     const copy = candidatePassportCopy();
     const nextKey = missing[0];
+    const hint = nextKey ? copy.coachHints?.[nextKey] : copy.coachHintReady;
     return `
       <div class="candidate-passport-coach${missing.length ? "" : " is-ready"}">
         <div class="candidate-passport-coach-top">
@@ -4065,6 +4122,7 @@
           <b>${escapeHTML(missing.length ? copy.nextStep : copy.ready)}:</b>
           ${escapeHTML(missing.length ? copy.labels[nextKey] : copy.readyText)}
         </p>
+        ${hint ? `<small class="candidate-passport-coach-hint">${escapeHTML(hint)}</small>` : ""}
         ${missing.length ? `<button class="button button-secondary" type="button" data-passport-focus-missing="${escapeHTML(nextKey)}">${escapeHTML(copy.focusNext)}</button>` : ""}
       </div>
     `;
