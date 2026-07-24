@@ -902,6 +902,8 @@
 
     renderQuickStart();
     renderCountryExplorer();
+    renderQuickShareLinks();
+    renderCountryComparison();
     renderHonestFit();
     renderAntiScam();
     renderInstantMatcher();
@@ -1414,6 +1416,230 @@
             ${roles.slice(0, 3).map((role) => `<span>${escapeHTML(role)}</span>`).join("")}
           </div>
           <button class="button button-secondary country-card-action" type="button" data-quick-filter="${escapeHTML(filter)}">
+            ${escapeHTML(copy.open)}
+          </button>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function quickShareCopy() {
+    const copy = {
+      ru: {
+        kicker: "Готовые ссылки",
+        title: "Отправляйте сразу нужный сценарий",
+        intro: "Это короткие ссылки для кандидатов из разных стран: человек открывает уже нужный язык, страну или тип вакансии.",
+        open: "Открыть",
+        copy: "Скопировать",
+        copied: "Ссылка скопирована",
+        forWhom: "Кому отправлять",
+        links: [
+          ["Украина → Польша", "Кандидатам из Украины, которым проще читать на украинском и нужен быстрый старт в Польше.", { lang: "uk", country: "poland" }],
+          ["Без опыта", "Людям, которые впервые едут на работу и боятся сложных требований.", { lang: "ru", filter: "noExperience" }],
+          ["Водители", "Кандидатам с правами и опытом вождения, которым важны транспортные вакансии.", { lang: "ru", filter: "driver" }],
+          ["Теплицы", "Тем, кто готов к работе с растениями, сбором, уходом и сменами в теплицах.", { lang: "ru", filter: "greenhouse" }],
+          ["Склады", "Кандидатам, которые ищут склад, упаковку, комплектацию или похожую физическую работу.", { lang: "ru", filter: "warehouse" }],
+          ["Польский язык", "Кандидатам, которые живут в Польше или читают по-польски.", { lang: "pl", country: "poland" }],
+          ["English", "Кандидатам из стран, где удобнее начать на английском языке.", { lang: "en", country: "poland" }]
+        ]
+      },
+      uk: {
+        kicker: "Готові посилання",
+        title: "Надсилайте одразу потрібний сценарій",
+        intro: "Короткі посилання відкривають потрібну мову, країну або тип вакансії.",
+        open: "Відкрити",
+        copy: "Скопіювати",
+        copied: "Посилання скопійовано",
+        forWhom: "Кому надсилати",
+        links: [
+          ["Україна → Польща", "Кандидатам з України, яким зручніше читати українською.", { lang: "uk", country: "poland" }],
+          ["Без досвіду", "Людям, які їдуть вперше і хочуть простий старт.", { lang: "uk", filter: "noExperience" }],
+          ["Водії", "Кандидатам з правами та досвідом водіння.", { lang: "uk", filter: "driver" }],
+          ["Теплиці", "Для роботи з рослинами, збором і доглядом.", { lang: "uk", filter: "greenhouse" }],
+          ["Склади", "Для складу, пакування та комплектації.", { lang: "uk", filter: "warehouse" }],
+          ["Polski", "Кандидатам, яким зручна польська мова.", { lang: "pl", country: "poland" }],
+          ["English", "Кандидатам, яким зручніше почати англійською.", { lang: "en", country: "poland" }]
+        ]
+      },
+      pl: {
+        kicker: "Gotowe linki",
+        title: "Wyślij od razu właściwy scenariusz",
+        intro: "Krótkie linki otwierają właściwy język, kraj albo typ pracy.",
+        open: "Otwórz",
+        copy: "Kopiuj",
+        copied: "Link skopiowany",
+        forWhom: "Dla kogo",
+        links: [
+          ["Ukraina → Polska", "Dla kandydatów z Ukrainy, którzy wolą język ukraiński.", { lang: "uk", country: "poland" }],
+          ["Bez doświadczenia", "Dla osób, które zaczynają pierwszy raz.", { lang: "pl", filter: "noExperience" }],
+          ["Kierowcy", "Dla kandydatów z prawem jazdy i doświadczeniem.", { lang: "pl", filter: "driver" }],
+          ["Szklarnie", "Dla osób zainteresowanych pracą przy roślinach.", { lang: "pl", filter: "greenhouse" }],
+          ["Magazyny", "Dla kandydatów na pakowanie, kompletację i magazyn.", { lang: "pl", filter: "warehouse" }],
+          ["Polska", "Dla kandydatów, którzy chcą zobaczyć oferty w Polsce.", { lang: "pl", country: "poland" }],
+          ["English", "Dla kandydatów, którym łatwiej zacząć po angielsku.", { lang: "en", country: "poland" }]
+        ]
+      },
+      en: {
+        kicker: "Ready links",
+        title: "Send the right scenario immediately",
+        intro: "Short links open the right language, country, or vacancy type for the candidate.",
+        open: "Open",
+        copy: "Copy",
+        copied: "Link copied",
+        forWhom: "Best for",
+        links: [
+          ["Ukraine → Poland", "For Ukrainian candidates who prefer Ukrainian language.", { lang: "uk", country: "poland" }],
+          ["No experience", "For candidates starting their first job abroad.", { lang: "en", filter: "noExperience" }],
+          ["Drivers", "For candidates with driving experience.", { lang: "en", filter: "driver" }],
+          ["Greenhouses", "For candidates ready for plant and greenhouse work.", { lang: "en", filter: "greenhouse" }],
+          ["Warehouses", "For packing, picking and warehouse work.", { lang: "en", filter: "warehouse" }],
+          ["Polish language", "For candidates who live in Poland or read Polish.", { lang: "pl", country: "poland" }],
+          ["English", "For international candidates who prefer English.", { lang: "en", country: "poland" }]
+        ]
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function shareUrl(params = {}) {
+    const base = new URL(site.baseUrl || window.location.href, window.location.href);
+    base.search = "";
+    base.hash = "";
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) base.searchParams.set(key, value);
+    });
+    return base.toString();
+  }
+
+  function renderQuickShareLinks() {
+    const container = el("quick-share-grid");
+    if (!container) return;
+    const copy = quickShareCopy();
+    if (el("quick-share-kicker")) el("quick-share-kicker").textContent = copy.kicker;
+    if (el("quick-share-heading")) el("quick-share-heading").textContent = copy.title;
+    if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
+    container.innerHTML = copy.links.map(([title, text, params]) => {
+      const url = shareUrl(params);
+      const shortUrl = url.replace(/^https?:\/\//, "");
+      return `
+        <article class="quick-share-card">
+          <div>
+            <span class="quick-share-label">${escapeHTML(copy.forWhom)}</span>
+            <h3>${escapeHTML(title)}</h3>
+            <p>${escapeHTML(text)}</p>
+          </div>
+          <code>${escapeHTML(shortUrl)}</code>
+          <div class="quick-share-actions">
+            <a class="button button-primary" href="${escapeHTML(url)}">${escapeHTML(copy.open)}</a>
+            <button class="button button-secondary" type="button" data-copy-link="${escapeHTML(url)}">${escapeHTML(copy.copy)}</button>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function countryComparisonCopy() {
+    const copy = {
+      ru: {
+        kicker: "Сравнение стран",
+        title: "Польша, Венгрия или Бельгия?",
+        intro: "Кандидату легче доверять, когда он сразу понимает разницу: где больше вакансий, где проще старт и что нужно уточнить лично.",
+        jobs: "вакансий",
+        bestFor: "Лучше подходит",
+        start: "Старт",
+        documents: "Документы",
+        ask: "Что уточнить",
+        open: "Смотреть вакансии",
+        items: {
+          poland: ["Самый широкий выбор", "Много вариантов без опыта", "Чаще всего понятный процесс", "Город, смены, жильё и дату выезда"],
+          hungary: ["Тем, кому важна конкретная страна", "Условия проверяем перед отправкой", "Оформление уточняется отдельно", "Документы, жильё и актуальный старт"],
+          belgium: ["Кандидатам под отдельные условия", "Нужна личная проверка деталей", "Процесс отличается от Польши", "Требования, ставка и доступные места"]
+        }
+      },
+      uk: {
+        kicker: "Порівняння країн",
+        title: "Польща, Угорщина чи Бельгія?",
+        intro: "Кандидату легше довіряти, коли різниця між напрямками зрозуміла одразу.",
+        jobs: "вакансій",
+        bestFor: "Краще підходить",
+        start: "Старт",
+        documents: "Документи",
+        ask: "Що уточнити",
+        open: "Дивитися вакансії",
+        items: {
+          poland: ["Найширший вибір", "Багато варіантів без досвіду", "Зазвичай зрозумілий процес", "Місто, зміни, житло і дату виїзду"],
+          hungary: ["Тим, кому важлива конкретна країна", "Умови перевіряємо перед відправкою", "Оформлення уточнюється окремо", "Документи, житло і актуальний старт"],
+          belgium: ["Кандидатам під окремі умови", "Потрібна особиста перевірка деталей", "Процес відрізняється від Польщі", "Вимоги, ставка і доступні місця"]
+        }
+      },
+      pl: {
+        kicker: "Porównanie krajów",
+        title: "Polska, Węgry czy Belgia?",
+        intro: "Kandydat szybciej ufa stronie, gdy od razu widzi różnicę między kierunkami.",
+        jobs: "ofert",
+        bestFor: "Najlepsze dla",
+        start: "Start",
+        documents: "Dokumenty",
+        ask: "Co potwierdzić",
+        open: "Zobacz oferty",
+        items: {
+          poland: ["Największy wybór", "Dużo opcji bez doświadczenia", "Najczęściej prosty proces", "Miasto, zmiany, zakwaterowanie i datę wyjazdu"],
+          hungary: ["Dla osób z konkretnym kierunkiem", "Warunki potwierdzamy przed wysłaniem", "Formalności osobno do sprawdzenia", "Dokumenty, mieszkanie i aktualny start"],
+          belgium: ["Dla kandydatów pod osobne warunki", "Wymaga osobistego sprawdzenia", "Proces inny niż w Polsce", "Wymagania, stawkę i dostępne miejsca"]
+        }
+      },
+      en: {
+        kicker: "Country comparison",
+        title: "Poland, Hungary or Belgium?",
+        intro: "Candidates trust the offer faster when they immediately understand the difference between directions.",
+        jobs: "jobs",
+        bestFor: "Best for",
+        start: "Start",
+        documents: "Documents",
+        ask: "What to confirm",
+        open: "View jobs",
+        items: {
+          poland: ["Widest choice", "Many no-experience options", "Usually the clearest process", "City, shifts, housing and departure date"],
+          hungary: ["People focused on this country", "Conditions are checked before sending", "Paperwork is confirmed separately", "Documents, housing and current start"],
+          belgium: ["Candidates for special conditions", "Details need personal verification", "Process differs from Poland", "Requirements, rate and available places"]
+        }
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function renderCountryComparison() {
+    const container = el("country-compare-grid");
+    if (!container) return;
+    const copy = countryComparisonCopy();
+    if (el("country-compare-kicker")) el("country-compare-kicker").textContent = copy.kicker;
+    if (el("country-compare-heading")) el("country-compare-heading").textContent = copy.title;
+    if (el("country-compare-intro")) el("country-compare-intro").textContent = copy.intro;
+    const items = [
+      ["poland", "PL", "Польша"],
+      ["hungary", "HU", "Венгрия"],
+      ["belgium", "BE", "Бельгия"]
+    ];
+    container.innerHTML = items.map(([key, code, format]) => {
+      const countryJobs = jobs.filter((job) => job.format === format);
+      const details = copy.items[key];
+      const filter = countryFilterValue(format);
+      return `
+        <article class="country-compare-card">
+          <div class="country-compare-title">
+            <span class="country-code">${escapeHTML(code)}</span>
+            <div>
+              <h3>${escapeHTML(i18n.countryName(code) || format)}</h3>
+              <p>${countryJobs.length} ${escapeHTML(copy.jobs)}</p>
+            </div>
+          </div>
+          <dl>
+            <div><dt>${escapeHTML(copy.bestFor)}</dt><dd>${escapeHTML(details[0])}</dd></div>
+            <div><dt>${escapeHTML(copy.start)}</dt><dd>${escapeHTML(details[1])}</dd></div>
+            <div><dt>${escapeHTML(copy.documents)}</dt><dd>${escapeHTML(details[2])}</dd></div>
+            <div><dt>${escapeHTML(copy.ask)}</dt><dd>${escapeHTML(details[3])}</dd></div>
+          </dl>
+          <button class="button button-secondary country-compare-action" type="button" data-quick-filter="${escapeHTML(filter)}">
             ${escapeHTML(copy.open)}
           </button>
         </article>
@@ -2699,6 +2925,11 @@
       if (jobShareButton) {
         const job = jobById(jobShareButton.dataset.jobShare);
         if (job) shareJob(job);
+        return;
+      }
+      const copyLinkButton = event.target.closest("[data-copy-link]");
+      if (copyLinkButton) {
+        copyText(copyLinkButton.dataset.copyLink, quickShareCopy().copied);
         return;
       }
       const quickFilterButton = event.target.closest("[data-quick-filter]");
