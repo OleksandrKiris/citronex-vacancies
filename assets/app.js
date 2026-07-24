@@ -2660,6 +2660,12 @@
         saveTitle: "Saved on this phone",
         saveEmpty: "Will be saved locally while you fill the form.",
         saveOnlyAfterWhatsApp: "Not sent until WhatsApp is pressed",
+        afterTitle: "After WhatsApp",
+        afterSteps: [
+          ["Send", "Your prepared message opens in WhatsApp."],
+          ["Clarify", "Recruiter checks start date, city and suitable jobs."],
+          ["Confirm", "You receive exact conditions before any travel decision."]
+        ],
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2743,6 +2749,12 @@
         saveTitle: "Сохранено на этом телефоне",
         saveEmpty: "Будет сохраняться локально во время заполнения.",
         saveOnlyAfterWhatsApp: "Не отправляется до нажатия WhatsApp",
+        afterTitle: "Что будет после WhatsApp",
+        afterSteps: [
+          ["Отправка", "Откроется готовое сообщение в WhatsApp."],
+          ["Уточнение", "Рекрутер проверит дату старта, город и подходящие вакансии."],
+          ["Подтверждение", "Вы получите конкретные условия до решения о поездке."]
+        ],
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2826,6 +2838,12 @@
         saveTitle: "Збережено на цьому телефоні",
         saveEmpty: "Буде зберігатися локально під час заповнення.",
         saveOnlyAfterWhatsApp: "Не надсилається до натискання WhatsApp",
+        afterTitle: "Що буде після WhatsApp",
+        afterSteps: [
+          ["Надсилання", "Відкриється готове повідомлення у WhatsApp."],
+          ["Уточнення", "Рекрутер перевірить дату старту, місто і відповідні вакансії."],
+          ["Підтвердження", "Ви отримаєте конкретні умови до рішення про поїздку."]
+        ],
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2909,6 +2927,12 @@
         saveTitle: "Zapisane na tym telefonie",
         saveEmpty: "Będzie zapisywane lokalnie podczas wypełniania.",
         saveOnlyAfterWhatsApp: "Nie wysyła się przed naciśnięciem WhatsApp",
+        afterTitle: "Co będzie po WhatsApp",
+        afterSteps: [
+          ["Wysyłka", "Otworzy się gotowa wiadomość w WhatsApp."],
+          ["Ustalenie", "Rekruter sprawdzi termin startu, miasto i pasujące oferty."],
+          ["Potwierdzenie", "Otrzymasz konkretne warunki przed decyzją o wyjeździe."]
+        ],
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3378,6 +3402,26 @@
     `;
   }
 
+  function candidatePassportAfterHTML() {
+    const copy = candidatePassportCopy();
+    return `
+      <section class="candidate-passport-after" aria-label="${escapeHTML(copy.afterTitle)}">
+        <strong>${escapeHTML(copy.afterTitle)}</strong>
+        <ol>
+          ${(copy.afterSteps || []).map(([title, text]) => `
+            <li>
+              <span aria-hidden="true"></span>
+              <div>
+                <b>${escapeHTML(title)}</b>
+                <small>${escapeHTML(text)}</small>
+              </div>
+            </li>
+          `).join("")}
+        </ol>
+      </section>
+    `;
+  }
+
   function hasPassportMatchInput() {
     return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
   }
@@ -3523,6 +3567,7 @@
           <button class="button button-secondary" type="button" data-passport-copy>${escapeHTML(copy.copy)}</button>
           <button class="button button-quiet" type="button" data-passport-clear>${escapeHTML(copy.clear)}</button>
         </div>
+        ${candidatePassportAfterHTML()}
       </aside>
     `;
     renderPassportSticky();
