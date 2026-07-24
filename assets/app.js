@@ -2672,6 +2672,9 @@
         sendReadyGood: "Good enough to send.",
         sendReadyStrong: "Strong application — ready to send.",
         sendReadyNext: "Add next",
+        refTitle: "Application reference",
+        refEmpty: "Appears after the first answer.",
+        refText: "Use this code if you continue the chat later.",
         quickTitle: "Quick start",
         quickIntro: "Choose the closest path and correct details if needed.",
         quickStarts: [
@@ -2775,6 +2778,9 @@
         sendReadyGood: "Уже достаточно хорошо для отправки.",
         sendReadyStrong: "Сильная заявка — можно отправлять.",
         sendReadyNext: "Добавить",
+        refTitle: "Номер заявки",
+        refEmpty: "Появится после первого ответа.",
+        refText: "Используйте этот код, если продолжите переписку позже.",
         quickTitle: "Быстрый старт",
         quickIntro: "Выберите ближайший вариант и поправьте детали, если нужно.",
         quickStarts: [
@@ -2878,6 +2884,9 @@
         sendReadyGood: "Уже достатньо добре для надсилання.",
         sendReadyStrong: "Сильна заявка — можна надсилати.",
         sendReadyNext: "Додати",
+        refTitle: "Номер заявки",
+        refEmpty: "З’явиться після першої відповіді.",
+        refText: "Використовуйте цей код, якщо продовжите чат пізніше.",
         quickTitle: "Швидкий старт",
         quickIntro: "Оберіть найближчий варіант і виправте деталі, якщо потрібно.",
         quickStarts: [
@@ -2981,6 +2990,9 @@
         sendReadyGood: "Wystarczająco dobrze do wysłania.",
         sendReadyStrong: "Mocne zgłoszenie — gotowe do wysłania.",
         sendReadyNext: "Dodaj",
+        refTitle: "Numer zgłoszenia",
+        refEmpty: "Pojawi się po pierwszej odpowiedzi.",
+        refText: "Użyj tego kodu, jeśli wrócisz do rozmowy później.",
         quickTitle: "Szybki start",
         quickIntro: "Wybierz najbliższy wariant i popraw szczegóły, jeśli trzeba.",
         quickStarts: [
@@ -3055,6 +3067,25 @@
     state.passport.id = `CIT-${citizenship}-${random}`;
     persistPassport();
     return state.passport.id;
+  }
+
+  function hasPassportVisibleInput() {
+    return ["name", "birthDate", "current", "citizenship", "language", "destination", "people", "experience", "workDocs", "readyDate", "job"]
+      .some((key) => passportValue(key));
+  }
+
+  function candidatePassportReferenceHTML() {
+    const copy = candidatePassportCopy();
+    const id = hasPassportVisibleInput() ? ensurePassportId() : "";
+    return `
+      <section class="candidate-passport-reference${id ? " is-active" : ""}" aria-label="${escapeHTML(copy.refTitle)}">
+        <div>
+          <small>${escapeHTML(copy.refTitle)}</small>
+          <strong>${escapeHTML(id || "CIT-••••")}</strong>
+        </div>
+        <p>${escapeHTML(id ? copy.refText : copy.refEmpty)}</p>
+      </section>
+    `;
   }
 
   function passportTags() {
@@ -3695,6 +3726,7 @@
       </form>
       <aside class="candidate-passport-preview">
         ${candidatePassportCoachHTML(score, missing)}
+        ${candidatePassportReferenceHTML()}
         ${candidatePassportSmartCheckHTML()}
         ${candidatePassportBriefHTML()}
         ${candidatePassportMatchesHTML()}
