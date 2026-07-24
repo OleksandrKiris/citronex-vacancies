@@ -10149,6 +10149,10 @@ body.vacancy-first {
   border-radius: 13px;
 }
 
+.passport-sticky {
+  display: none;
+}
+
 .candidate-passport-id {
   display: grid;
   gap: 6px;
@@ -10613,6 +10617,85 @@ body.vacancy-first {
   body {
     max-width: 100%;
     overflow-x: clip;
+  }
+
+  body {
+    padding-bottom: calc(148px + env(safe-area-inset-bottom));
+  }
+
+  .passport-sticky {
+    position: fixed;
+    right: max(10px, env(safe-area-inset-right));
+    bottom: calc(82px + env(safe-area-inset-bottom));
+    left: max(10px, env(safe-area-inset-left));
+    z-index: 88;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 9px 10px;
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(189, 242, 75, 0.20), transparent 10rem),
+      rgba(16, 24, 32, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 0 18px 44px rgba(16, 24, 32, 0.34);
+    backdrop-filter: blur(18px);
+  }
+
+  .passport-sticky-meter {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+  }
+
+  .passport-sticky-meter span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #ffb84d, #bdf24b);
+    border-radius: inherit;
+  }
+
+  .passport-sticky-copy {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .passport-sticky-copy strong {
+    overflow: hidden;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 950;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .passport-sticky-copy small {
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .passport-sticky-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .passport-sticky-actions .button {
+    min-height: 36px;
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .quick-start {

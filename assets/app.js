@@ -2590,6 +2590,9 @@
         nextStep: "Next best step",
         focusNext: "Add this",
         readyText: "You can send the application in WhatsApp now.",
+        stickyTitle: "Application",
+        stickyNext: "Next",
+        stickySend: "WhatsApp",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2648,6 +2651,9 @@
         nextStep: "Следующий лучший шаг",
         focusNext: "Добавить это",
         readyText: "Теперь можно отправить заявку в WhatsApp.",
+        stickyTitle: "Заявка",
+        stickyNext: "Дальше",
+        stickySend: "WhatsApp",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2706,6 +2712,9 @@
         nextStep: "Наступний найкращий крок",
         focusNext: "Додати це",
         readyText: "Тепер можна надіслати заявку у WhatsApp.",
+        stickyTitle: "Заявка",
+        stickyNext: "Далі",
+        stickySend: "WhatsApp",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2764,6 +2773,9 @@
         nextStep: "Najlepszy następny krok",
         focusNext: "Dodaj to",
         readyText: "Możesz teraz wysłać zgłoszenie w WhatsApp.",
+        stickyTitle: "Zgłoszenie",
+        stickyNext: "Dalej",
+        stickySend: "WhatsApp",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3167,6 +3179,27 @@
     `;
   }
 
+  function renderPassportSticky() {
+    const container = el("passport-sticky");
+    if (!container) return;
+    const copy = candidatePassportCopy();
+    const { score, missing } = passportScore();
+    const nextKey = missing[0];
+    const statusText = missing.length ? copy.labels[nextKey] : copy.readyText;
+    container.innerHTML = `
+      <div class="passport-sticky-meter" aria-hidden="true"><span style="width:${score}%"></span></div>
+      <div class="passport-sticky-copy">
+        <strong>${escapeHTML(copy.stickyTitle)} · ${score}%</strong>
+        <small>${escapeHTML(statusText)}</small>
+      </div>
+      <div class="passport-sticky-actions">
+        ${missing.length ? `<button class="button button-secondary" type="button" data-passport-focus-missing="${escapeHTML(nextKey)}">${escapeHTML(copy.stickyNext)}</button>` : ""}
+        <button class="button button-whatsapp" type="button" data-passport-whatsapp>${escapeHTML(copy.stickySend)}</button>
+      </div>
+    `;
+    container.hidden = false;
+  }
+
   function renderCandidatePassport() {
     const layout = el("candidate-passport-layout");
     if (!layout) return;
@@ -3220,6 +3253,7 @@
         </div>
       </aside>
     `;
+    renderPassportSticky();
   }
 
   function renderInstantMatcher() {
