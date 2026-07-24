@@ -9349,6 +9349,108 @@ body.vacancy-first {
   border-radius: 14px;
 }
 
+.after-whatsapp {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(189, 242, 75, 0.18), transparent 15rem),
+    linear-gradient(135deg, #101820, #17261f);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 30px;
+  box-shadow: 0 24px 62px rgba(16, 32, 24, 0.18);
+}
+
+.after-whatsapp-head {
+  display: grid;
+  max-width: 760px;
+  gap: 6px;
+}
+
+.after-whatsapp-head h2,
+.after-whatsapp-head p {
+  margin: 0;
+}
+
+.after-whatsapp-head .overline {
+  color: #bdf24b;
+}
+
+.after-whatsapp-head h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.after-whatsapp-head p:last-child {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.after-whatsapp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.after-whatsapp-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 182px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 22px;
+}
+
+.after-whatsapp-card span {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #101820;
+  background: #bdf24b;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.after-whatsapp-card h3,
+.after-whatsapp-card p {
+  margin: 0;
+}
+
+.after-whatsapp-card h3 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.after-whatsapp-card p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  line-height: 1.42;
+}
+
+.after-whatsapp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.after-whatsapp-actions .button {
+  min-height: 46px;
+  border-radius: 16px;
+}
+
 /* v18 · instant 30-second matcher */
 .instant-match {
   display: grid;
@@ -10304,6 +10406,7 @@ body.vacancy-first {
   .quick-share,
   .country-compare,
   .decision-path,
+  .after-whatsapp,
   .whatsapp-scripts,
   .candidate-prep,
   .candidate-passport,
@@ -10313,6 +10416,7 @@ body.vacancy-first {
   .instant-result-grid,
   .country-compare-grid,
   .decision-path-grid,
+  .after-whatsapp-grid,
   .whatsapp-scripts-grid,
   .candidate-prep-grid,
   .candidate-passport-safe-grid,
@@ -10451,6 +10555,42 @@ body.vacancy-first {
 
   .decision-path-card h3 {
     font-size: 20px;
+  }
+
+  .after-whatsapp {
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  .after-whatsapp-head h2 {
+    font-size: 24px;
+  }
+
+  .after-whatsapp-head p:last-child {
+    font-size: 13px;
+  }
+
+  .after-whatsapp-grid {
+    gap: 10px;
+  }
+
+  .after-whatsapp-card {
+    grid-template-columns: auto 1fr;
+    min-height: 0;
+    align-items: start;
+    padding: 13px;
+    border-radius: 18px;
+  }
+
+  .after-whatsapp-card p {
+    grid-column: 2;
+  }
+
+  .after-whatsapp-actions {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .whatsapp-scripts-head h2 {

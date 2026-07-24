@@ -1064,6 +1064,7 @@
     renderWhatsAppScripts();
     renderCandidatePrep();
     renderCandidatePassport();
+    renderAfterWhatsApp();
     renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
@@ -1339,6 +1340,82 @@
     refreshJobLists();
     el("candidate-passport-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
     showToast(copy.prepared);
+  }
+
+  function afterWhatsAppCopy() {
+    const copy = {
+      en: {
+        kicker: "After WhatsApp",
+        title: "You will know the next step",
+        intro: "The application does not disappear into a void: the recruiter receives a clear card and checks conditions for your situation.",
+        send: "Send application",
+        jobs: "View jobs",
+        steps: [
+          ["1", "I receive your card", "Name, language, country, experience, start date and general paperwork status."],
+          ["2", "I check real options", "Vacancy, city, schedule, housing and gross rate are verified before promises."],
+          ["3", "We clarify questions", "If something is missing, I ask only what is needed — no document numbers on the site."],
+          ["4", "You decide calmly", "You get the next step only after conditions are clear enough."]
+        ]
+      },
+      ru: {
+        kicker: "После WhatsApp",
+        title: "Вы будете понимать следующий шаг",
+        intro: "Заявка не исчезает в пустоту: рекрутер получает понятную карточку и проверяет условия по вашей ситуации.",
+        send: "Отправить заявку",
+        jobs: "Смотреть вакансии",
+        steps: [
+          ["1", "Я получаю вашу карточку", "Имя, язык, страна, опыт, дата старта и общий статус оформления."],
+          ["2", "Проверяю реальные варианты", "Вакансия, город, график, жильё и ставка брутто проверяются до обещаний."],
+          ["3", "Уточняем вопросы", "Если чего-то не хватает, спрашиваю только нужное — без номеров документов на сайте."],
+          ["4", "Вы решаете спокойно", "Следующий шаг появляется только когда условия достаточно понятны."]
+        ]
+      },
+      uk: {
+        kicker: "Після WhatsApp",
+        title: "Ви будете розуміти наступний крок",
+        intro: "Заявка не зникає в порожнечу: рекрутер отримує зрозумілу картку й перевіряє умови під вашу ситуацію.",
+        send: "Надіслати заявку",
+        jobs: "Дивитися вакансії",
+        steps: [
+          ["1", "Я отримую вашу картку", "Ім’я, мова, країна, досвід, дата старту й загальний статус оформлення."],
+          ["2", "Перевіряю реальні варіанти", "Вакансія, місто, графік, житло й ставка брутто перевіряються до обіцянок."],
+          ["3", "Уточнюємо питання", "Якщо чогось бракує, питаю тільки потрібне — без номерів документів на сайті."],
+          ["4", "Ви вирішуєте спокійно", "Наступний крок з’являється тільки коли умови достатньо зрозумілі."]
+        ]
+      },
+      pl: {
+        kicker: "Po WhatsApp",
+        title: "Będziesz znać następny krok",
+        intro: "Zgłoszenie nie znika w próżni: rekruter dostaje jasną kartę i sprawdza warunki pod Twoją sytuację.",
+        send: "Wyślij zgłoszenie",
+        jobs: "Zobacz oferty",
+        steps: [
+          ["1", "Otrzymuję Twoją kartę", "Imię, język, kraj, doświadczenie, data startu i ogólny status formalności."],
+          ["2", "Sprawdzam realne opcje", "Oferta, miasto, grafik, mieszkanie i stawka brutto są weryfikowane przed obietnicami."],
+          ["3", "Doprecyzowujemy pytania", "Jeśli czegoś brakuje, pytam tylko o potrzebne rzeczy — bez numerów dokumentów na stronie."],
+          ["4", "Decydujesz spokojnie", "Następny krok pojawia się dopiero, gdy warunki są wystarczająco jasne."]
+        ]
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function renderAfterWhatsApp() {
+    const container = el("after-whatsapp-grid");
+    if (!container) return;
+    const copy = afterWhatsAppCopy();
+    if (el("after-whatsapp-kicker")) el("after-whatsapp-kicker").textContent = copy.kicker;
+    if (el("after-whatsapp-heading")) el("after-whatsapp-heading").textContent = copy.title;
+    if (el("after-whatsapp-intro")) el("after-whatsapp-intro").textContent = copy.intro;
+    if (el("after-whatsapp-send")) el("after-whatsapp-send").textContent = copy.send;
+    if (el("after-whatsapp-jobs")) el("after-whatsapp-jobs").textContent = copy.jobs;
+    container.innerHTML = copy.steps.map(([number, title, text]) => `
+      <article class="after-whatsapp-card">
+        <span>${escapeHTML(number)}</span>
+        <h3>${escapeHTML(title)}</h3>
+        <p>${escapeHTML(text)}</p>
+      </article>
+    `).join("");
   }
 
   function countryExplorerCopy() {
