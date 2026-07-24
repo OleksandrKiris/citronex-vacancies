@@ -2677,6 +2677,8 @@
         refText: "Use this code if you continue the chat later.",
         refCopy: "Copy reference",
         refCopied: "Application reference copied",
+        startQuickTitle: "Quick start date",
+        startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
         quickIntro: "Choose the closest path and correct details if needed.",
         quickStarts: [
@@ -2785,6 +2787,8 @@
         refText: "Используйте этот код, если продолжите переписку позже.",
         refCopy: "Скопировать номер",
         refCopied: "Номер заявки скопирован",
+        startQuickTitle: "Быстрая дата старта",
+        startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
         quickIntro: "Выберите ближайший вариант и поправьте детали, если нужно.",
         quickStarts: [
@@ -2893,6 +2897,8 @@
         refText: "Використовуйте цей код, якщо продовжите чат пізніше.",
         refCopy: "Скопіювати номер",
         refCopied: "Номер заявки скопійовано",
+        startQuickTitle: "Швидка дата старту",
+        startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
         quickIntro: "Оберіть найближчий варіант і виправте деталі, якщо потрібно.",
         quickStarts: [
@@ -3001,6 +3007,8 @@
         refText: "Użyj tego kodu, jeśli wrócisz do rozmowy później.",
         refCopy: "Kopiuj numer",
         refCopied: "Numer zgłoszenia skopiowany",
+        startQuickTitle: "Szybka data startu",
+        startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
         quickIntro: "Wybierz najbliższy wariant i popraw szczegóły, jeśli trzeba.",
         quickStarts: [
@@ -3240,6 +3248,21 @@
     `;
   }
 
+  function passportStartQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("readyDate");
+    return `
+      <div class="candidate-passport-start-quick" aria-label="${escapeHTML(copy.startQuickTitle)}">
+        <span>${escapeHTML(copy.startQuickTitle)}</span>
+        <div>
+          ${(copy.startQuickOptions || []).map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-start-date="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3307,6 +3330,13 @@
       state.passport.people = id === "couple" ? passportOptionValue("people", 1) : (passportValue("people") || passportOptionValue("people", 0));
     }
     if (!passportValue("workDocs")) state.passport.workDocs = passportOptionValue("workDocs", 2);
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportStartDate(value) {
+    state.passport.readyDate = value;
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3730,6 +3760,7 @@
           ${passportSelectHTML("experience")}
           ${passportSelectHTML("workDocs")}
           ${passportFieldHTML("readyDate")}
+          ${passportStartQuickHTML()}
           ${passportFieldHTML("job")}
         </div>
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
@@ -4960,6 +4991,11 @@
       const passportLatinButton = event.target.closest("[data-passport-latin-name]");
       if (passportLatinButton) {
         applyPassportLatinName();
+        return;
+      }
+      const passportStartDateButton = event.target.closest("[data-passport-start-date]");
+      if (passportStartDateButton) {
+        applyPassportStartDate(passportStartDateButton.dataset.passportStartDate);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
