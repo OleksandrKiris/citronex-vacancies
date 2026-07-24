@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
-  <title id="title">Вакансии Citronex</title>
-  <rect width="512" height="512" rx="124" fill="#173f3b"/>
-  <circle cx="405" cy="108" r="66" fill="#d8ef8e" opacity=".16"/>
-  <circle cx="88" cy="428" r="98" fill="#4d9481" opacity=".14"/>
-  <path d="M126 158h260v196H126z" fill="none" stroke="#d8ef8e" stroke-width="22" rx="18"/>
-  <path d="M203 158v-28c0-25 20-45 45-45h16c25 0 45 20 45 45v28" fill="none" stroke="#d8ef8e" stroke-width="22" stroke-linecap="round"/>
-  <path d="M126 227c72 42 188 42 260 0" fill="none" stroke="#fbfaf6" stroke-width="20" stroke-linecap="round"/>
-  <circle cx="256" cy="253" r="18" fill="#d8ef8e"/>
+  <title id="title">Citronex Jobs</title>
+  <rect width="512" height="512" rx="124" fill="#101820"/>
+  <circle cx="402" cy="106" r="74" fill="#3157ff" opacity=".36"/>
+  <circle cx="84" cy="430" r="104" fill="#bdf24b" opacity=".1"/>
+  <path d="M119 170h274v190H119z" fill="none" stroke="#bdf24b" stroke-width="22" stroke-linejoin="round"/>
+  <path d="M203 170v-26c0-28 22-50 50-50h6c28 0 50 22 50 50v26" fill="none" stroke="#bdf24b" stroke-width="22" stroke-linecap="round"/>
+  <path d="M119 234c74 41 200 41 274 0" fill="none" stroke="#f7f5ef" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="256" cy="260" r="19" fill="#3157ff" stroke="#bdf24b" stroke-width="8"/>
 </svg>

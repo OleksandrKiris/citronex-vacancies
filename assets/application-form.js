@@ -25,6 +25,8 @@
     "stepQualification",
     "stepReview"
   ];
+  const MATCH_STEP_COUNT = 4;
+  const MATCH_RESULTS_STEP = MATCH_STEP_COUNT;
   const LATIN_NAME = /^[\p{Script=Latin}\p{Mark}\s'-]+$/u;
   const LATIN_TEXT = /^[\p{Script=Latin}\p{Mark}\d\s.,'()/:+&\-]*$/u;
   const PHONE = /^\+[1-9]\d{7,14}$/;
@@ -132,6 +134,34 @@
     return [
       "none", "driver", "udt", "mechanic", "leader", "agronomy", "other"
     ].map((value) => ({ value, label: t(`options.matchQualification${value[0].toUpperCase()}${value.slice(1)}`) }));
+  }
+
+  function matchChoiceCards(name, label, items, describedBy = "") {
+    const current = String(state.values[name] ?? "");
+    const legendId = `matcher-${name}-legend`;
+    return `
+      <fieldset class="matcher-choice-fieldset">
+        <legend id="${escapeHTML(legendId)}">${escapeHTML(label)}</legend>
+        <div class="matcher-choice-grid" role="radiogroup" aria-labelledby="${escapeHTML(legendId)}"${describedBy ? ` aria-describedby="${escapeHTML(describedBy)}"` : ""} aria-required="true">
+          ${items.map((item) => {
+            const selected = current === String(item.value);
+            return `
+              <label class="matcher-choice${selected ? " is-selected" : ""}">
+                <input
+                  type="radio"
+                  name="${escapeHTML(name)}"
+                  value="${escapeHTML(item.value)}"
+                  ${selected ? "checked" : ""}
+                  required
+                >
+                <span class="matcher-choice-label">${escapeHTML(item.label)}</span>
+                <span class="matcher-choice-check" aria-hidden="true">✓</span>
+              </label>
+            `;
+          }).join("")}
+        </div>
+      </fieldset>
+    `;
   }
 
   function qualificationFieldsForType(type) {
@@ -260,26 +290,38 @@
     return `${amount} ${view.salary.currency} · ${t("ui.grossSalary")}`;
   }
 
-  function renderMatchPreferences() {
-    const experienceItems = ["expNone", "expUnder6", "exp6to12", "exp1to2", "exp2plus"]
-      .map((key) => ({ value: key, label: t(`options.${key}`) }));
-    return `
-      <div class="matcher-privacy-note">
-        <span aria-hidden="true">✓</span>
-        <p>${escapeHTML(t("form.matchPrivacy"))}</p>
-      </div>
-      <div class="application-grid">
-        ${field("preferredDestination", t("form.preferredDestination"), select("preferredDestination", [
+  function renderMatchStep() {
+    if (state.matchStep === 0) {
+      return `
+        <div class="matcher-privacy-note" id="matcher-privacy-note">
+          <span aria-hidden="true">✓</span>
+          <p>${escapeHTML(t("form.matchPrivacy"))}</p>
+        </div>
+        ${matchChoiceCards("preferredDestination", t("form.preferredDestination"), [
           { value: "any", label: t("options.matchCountryAny") },
           { value: "PL", label: i18n.countryName("PL") },
           { value: "HU", label: i18n.countryName("HU") },
           { value: "BE", label: i18n.countryName("BE") }
-        ], "required"))}
-        ${field("preferredArea", t("form.preferredArea"), select("preferredArea", matchAreaItems(), "required"))}
-        ${field("experience", t("form.experience"), select("experience", experienceItems, "required"))}
-        ${field("qualificationType", t("form.qualificationType"), select("qualificationType", matchQualificationItems(), "required"))}
-        ${qualificationFieldsForType(state.values.qualificationType)}
-      </div>
+        ], "matcher-privacy-note")}
+      `;
+    }
+    if (state.matchStep === 1) {
+      return matchChoiceCards("preferredArea", t("form.preferredArea"), matchAreaItems());
+    }
+    if (state.matchStep === 2) {
+      const experienceItems = ["expNone", "expUnder6", "exp6to12", "exp1to2", "exp2plus"]
+        .map((key) => ({ value: key, label: t(`options.${key}`) }));
+      return matchChoiceCards("experience", t("form.experience"), experienceItems);
+    }
+    const qualificationType = state.values.qualificationType || "";
+    const qualificationFields = qualificationFieldsForType(qualificationType);
+    return `
+      ${matchChoiceCards("qualificationType", t("form.qualificationType"), matchQualificationItems())}
+      ${qualificationFields ? `
+        <div class="application-grid matcher-qualification-fields" role="region" aria-label="${escapeHTML(t("form.qualificationType"))}" aria-live="polite">
+          ${qualificationFields}
+        </div>
+      ` : ""}
     `;
   }
 
@@ -545,32 +587,48 @@
     const dialog = document.getElementById("application-dialog");
     const container = document.getElementById("application-dialog-content");
     if (!dialog || !container) return;
-    const isResults = state.matchStep === 1;
+    const isResults = state.matchStep === MATCH_RESULTS_STEP;
+    const stepTitles = [
+      t("form.preferredDestination"),
+      t("form.preferredArea"),
+      t("form.experience"),
+      t("form.qualificationType")
+    ];
+    const visibleStep = isResults ? MATCH_STEP_COUNT : state.matchStep + 1;
+    const progress = (visibleStep / MATCH_STEP_COUNT) * 100;
+    const title = isResults ? t("form.matchResultsTitle") : stepTitles[state.matchStep];
     container.innerHTML = `
       <header class="application-header">
         <p class="overline">${escapeHTML(t("form.matchKicker"))}</p>
-        <h2 id="application-step-title" tabindex="-1">${escapeHTML(isResults ? t("form.matchResultsTitle") : t("form.matchTitle"))}</h2>
+        <h2 id="application-step-title" tabindex="-1">${escapeHTML(title)}</h2>
         <p>${escapeHTML(isResults ? t("form.matchResultsHint") : t("form.matchIntro"))}</p>
-        <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.matchStep + 1} ${t("ui.of")} 2`)}" aria-valuemin="1" aria-valuemax="2" aria-valuenow="${state.matchStep + 1}">
-          <span style="width:${isResults ? 100 : 50}%"></span>
+        <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${visibleStep} ${t("ui.of")} ${MATCH_STEP_COUNT}`)}" aria-valuemin="1" aria-valuemax="${MATCH_STEP_COUNT}" aria-valuenow="${visibleStep}">
+          <span style="width:${progress}%"></span>
         </div>
-        <small>${escapeHTML(t("ui.formStep"))} ${state.matchStep + 1} ${escapeHTML(t("ui.of"))} 2</small>
+        <small>${escapeHTML(t("ui.formStep"))} ${visibleStep} ${escapeHTML(t("ui.of"))} ${MATCH_STEP_COUNT}</small>
       </header>
       <form id="matching-form" novalidate>
         <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
-        <section class="application-step">
-          ${isResults ? renderMatchResults() : renderMatchPreferences()}
+        <section class="application-step"${isResults ? ' aria-live="polite"' : ""}>
+          ${isResults ? renderMatchResults() : renderMatchStep()}
         </section>
-        <footer class="application-actions">
+        <footer class="application-actions matcher-step-nav">
           <button class="button button-secondary" type="button" data-match-back ${state.matchStep === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
-          ${isResults ? "" : `<button class="button button-primary" type="submit">${escapeHTML(t("form.showMatches"))} →</button>`}
+          ${isResults ? "" : `
+            <button class="button button-primary" type="submit">
+              ${escapeHTML(state.matchStep === MATCH_STEP_COUNT - 1 ? t("form.showMatches") : t("form.next"))} →
+            </button>
+          `}
         </footer>
       </form>
     `;
-    container.querySelector("[name='qualificationType']")?.addEventListener("change", collectMatchAndRender);
+    container.querySelectorAll(".matcher-choice input[type='radio']").forEach((radio) => {
+      radio.addEventListener("change", handleMatchChoiceChange);
+    });
     container.querySelector("[data-match-back]")?.addEventListener("click", () => {
+      collectMatchValues();
       state.error = "";
-      state.matchStep = 0;
+      state.matchStep = Math.max(0, state.matchStep - 1);
       renderMatcher(true);
     });
     container.querySelectorAll("[data-match-select]").forEach((button) => {
@@ -641,18 +699,50 @@
     }
   }
 
-  function collectMatchAndRender() {
-    collectMatchValues();
-    renderMatcher();
+  function clearQualificationAnswersExcept(type) {
+    const fieldGroups = {
+      driver: ["driverLicense", "code95", "tachograph", "reeferExperience"],
+      udt: ["udtLicense", "udtCategory"],
+      leader: ["leadershipExperience"],
+      mechanic: ["mechanicExperience"],
+      agronomy: ["specialistEducation"]
+    };
+    Object.entries(fieldGroups).forEach(([group, names]) => {
+      if (group !== type) names.forEach((name) => delete state.values[name]);
+    });
   }
 
-  function validateMatch() {
+  function handleMatchChoiceChange(event) {
+    collectMatchValues();
+    const group = event.target.closest(".matcher-choice-grid");
+    group?.querySelectorAll(".matcher-choice").forEach((choice) => {
+      choice.classList.toggle("is-selected", choice.contains(event.target));
+    });
     state.error = "";
-    const required = ["preferredDestination", "preferredArea", "experience", "qualificationType"];
-    if (required.some((name) => !state.values[name])) {
+    if (event.target.name !== "qualificationType") return;
+    clearQualificationAnswersExcept(event.target.value);
+    const selectedValue = event.target.value;
+    renderMatcher();
+    requestAnimationFrame(() => {
+      [...document.querySelectorAll('[name="qualificationType"]')]
+        .find((radio) => radio.value === selectedValue)
+        ?.focus({ preventScroll: true });
+    });
+  }
+
+  function validateMatchStep(step = state.matchStep) {
+    state.error = "";
+    const requiredByStep = [
+      ["preferredDestination"],
+      ["preferredArea"],
+      ["experience"],
+      ["qualificationType"]
+    ];
+    if ((requiredByStep[step] || []).some((name) => !state.values[name])) {
       state.error = t("form.missingRequired");
       return false;
     }
+    if (step !== MATCH_STEP_COUNT - 1) return true;
     const qualificationRequired = state.values.qualificationType === "driver"
       ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
       : state.values.qualificationType === "udt"
@@ -675,13 +765,19 @@
   function handleMatchSubmit(event) {
     event.preventDefault();
     collectMatchValues();
-    if (!validateMatch()) {
+    if (!validateMatchStep()) {
       renderMatcher();
       document.getElementById("application-error")?.focus();
       return;
     }
+    if (state.matchStep < MATCH_STEP_COUNT - 1) {
+      state.matchStep += 1;
+      state.error = "";
+      renderMatcher(true);
+      return;
+    }
     state.recommendations = recommendJobs();
-    state.matchStep = 1;
+    state.matchStep = MATCH_RESULTS_STEP;
     state.error = "";
     renderMatcher(true);
   }

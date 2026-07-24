@@ -1,4 +1,4 @@
-const CACHE_VERSION = "citronex-jobs-v6-matching-2026-07-23";
+const CACHE_VERSION = "citronex-jobs-v7-human-mobility-2026-07-24";
 const CORE_SHELL = [
   "./",
   "./index.html",
@@ -6,10 +6,16 @@ const CORE_SHELL = [
   "./data/content.js",
   "./data/locales/ru.js",
   "./data/locales/en.js",
-  "./assets/styles.css",
+  "./assets/styles.css?v=7",
   "./assets/i18n.js",
-  "./assets/application-form.js",
-  "./assets/app.js",
+  "./assets/application-form.js?v=7",
+  "./assets/app.js?v=7",
+  "./assets/icons.svg",
+  "./assets/mobility-map.svg",
+  "./assets/fonts/manrope-latin.woff2",
+  "./assets/fonts/manrope-latin-ext.woff2",
+  "./assets/fonts/manrope-cyrillic.woff2",
+  "./assets/fonts/manrope-cyrillic-ext.woff2",
   "./assets/icon.svg",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
