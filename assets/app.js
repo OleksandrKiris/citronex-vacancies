@@ -2685,6 +2685,7 @@
         languageQuickTitle: "Preferred language",
         destinationQuickTitle: "Wanted country",
         peopleQuickTitle: "Who is going",
+        experienceQuickTitle: "Experience / direction",
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2803,6 +2804,7 @@
         languageQuickTitle: "Быстрый выбор языка",
         destinationQuickTitle: "Быстрый выбор страны",
         peopleQuickTitle: "Быстрый выбор состава",
+        experienceQuickTitle: "Опыт / направление",
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2921,6 +2923,7 @@
         languageQuickTitle: "Швидкий вибір мови",
         destinationQuickTitle: "Швидкий вибір країни",
         peopleQuickTitle: "Швидкий вибір складу",
+        experienceQuickTitle: "Досвід / напрям",
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3039,6 +3042,7 @@
         languageQuickTitle: "Szybki wybór języka",
         destinationQuickTitle: "Szybki wybór kraju",
         peopleQuickTitle: "Szybki wybór składu",
+        experienceQuickTitle: "Doświadczenie / kierunek",
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3373,6 +3377,22 @@
     `;
   }
 
+  function passportExperienceQuickHTML() {
+    const copy = candidatePassportCopy();
+    const current = passportValue("experience");
+    const options = copy.options.experience || [];
+    return `
+      <div class="candidate-passport-experience-quick" aria-label="${escapeHTML(copy.experienceQuickTitle)}">
+        <span>${escapeHTML(copy.experienceQuickTitle)}</span>
+        <div>
+          ${options.map((option) => `
+            <button class="${option === current ? "is-active" : ""}" type="button" data-passport-experience="${escapeHTML(option)}">${escapeHTML(option)}</button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
   function passportOptionValue(key, index) {
     const options = candidatePassportCopy().options[key] || [];
     return options[index] || "";
@@ -3482,6 +3502,28 @@
 
   function applyPassportPeople(value) {
     state.passport.people = value;
+    persistPassport();
+    renderCandidatePassport();
+    refreshJobLists();
+  }
+
+  function applyPassportExperience(value) {
+    state.passport.experience = value;
+    const options = candidatePassportCopy().options.experience || [];
+    const normalized = normalizePassportText(value);
+    if (
+      value === options[2]
+      || value === options[3]
+      || value === options[4]
+      || normalized.includes("driver")
+      || normalized.includes("kierow")
+      || normalized.includes("warehouse")
+      || normalized.includes("magaz")
+      || normalized.includes("greenhouse")
+      || normalized.includes("szkl")
+    ) {
+      state.passport.job = value;
+    }
     persistPassport();
     renderCandidatePassport();
     refreshJobLists();
@@ -3961,6 +4003,7 @@
           ${passportSelectHTML("people")}
           ${passportPeopleQuickHTML()}
           ${passportSelectHTML("experience")}
+          ${passportExperienceQuickHTML()}
           ${passportSelectHTML("workDocs")}
           ${passportFieldHTML("readyDate")}
           ${passportStartQuickHTML()}
@@ -5228,6 +5271,11 @@
       const passportPeopleButton = event.target.closest("[data-passport-people]");
       if (passportPeopleButton) {
         applyPassportPeople(passportPeopleButton.dataset.passportPeople);
+        return;
+      }
+      const passportExperienceButton = event.target.closest("[data-passport-experience]");
+      if (passportExperienceButton) {
+        applyPassportExperience(passportExperienceButton.dataset.passportExperience);
         return;
       }
       const passportFocusButton = event.target.closest("[data-passport-focus-missing]");
