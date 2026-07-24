@@ -2677,6 +2677,12 @@
         sendReadyGood: "Good enough to send.",
         sendReadyStrong: "Strong application — ready to send.",
         sendReadyNext: "Add next",
+        sendChecklistTitle: "Before sending",
+        sendChecklistReady: "Ready",
+        sendChecklistMissing: "Useful to add",
+        sendChecklistSafe: "Safe fields only",
+        sendChecklistAge: "Age is calculated locally",
+        sendChecklistMatches: "Suitable jobs are prepared",
         refTitle: "Application reference",
         refEmpty: "Appears after the first answer.",
         refText: "Use this code if you continue the chat later.",
@@ -2807,6 +2813,12 @@
         sendReadyGood: "Уже достаточно хорошо для отправки.",
         sendReadyStrong: "Сильная заявка — можно отправлять.",
         sendReadyNext: "Добавить",
+        sendChecklistTitle: "Перед отправкой",
+        sendChecklistReady: "Готово",
+        sendChecklistMissing: "Полезно добавить",
+        sendChecklistSafe: "Только безопасные поля",
+        sendChecklistAge: "Возраст посчитан локально",
+        sendChecklistMatches: "Подходящие вакансии подготовлены",
         refTitle: "Номер заявки",
         refEmpty: "Появится после первого ответа.",
         refText: "Используйте этот код, если продолжите переписку позже.",
@@ -2937,6 +2949,12 @@
         sendReadyGood: "Уже достатньо добре для надсилання.",
         sendReadyStrong: "Сильна заявка — можна надсилати.",
         sendReadyNext: "Додати",
+        sendChecklistTitle: "Перед відправленням",
+        sendChecklistReady: "Готово",
+        sendChecklistMissing: "Корисно додати",
+        sendChecklistSafe: "Тільки безпечні поля",
+        sendChecklistAge: "Вік пораховано локально",
+        sendChecklistMatches: "Відповідні вакансії підготовлено",
         refTitle: "Номер заявки",
         refEmpty: "З’явиться після першої відповіді.",
         refText: "Використовуйте цей код, якщо продовжите чат пізніше.",
@@ -3067,6 +3085,12 @@
         sendReadyGood: "Wystarczająco dobrze do wysłania.",
         sendReadyStrong: "Mocne zgłoszenie — gotowe do wysłania.",
         sendReadyNext: "Dodaj",
+        sendChecklistTitle: "Przed wysłaniem",
+        sendChecklistReady: "Gotowe",
+        sendChecklistMissing: "Warto dodać",
+        sendChecklistSafe: "Tylko bezpieczne pola",
+        sendChecklistAge: "Wiek liczony lokalnie",
+        sendChecklistMatches: "Dopasowane oferty przygotowane",
         refTitle: "Numer zgłoszenia",
         refEmpty: "Pojawi się po pierwszej odpowiedzi.",
         refText: "Użyj tego kodu, jeśli wrócisz do rozmowy później.",
@@ -3947,6 +3971,12 @@
     const level = score >= 82 ? "strong" : score >= 55 ? "good" : "weak";
     const text = level === "strong" ? copy.sendReadyStrong : level === "good" ? copy.sendReadyGood : copy.sendReadyWeak;
     const nextKey = missing[0];
+    const checklist = [
+      { ok: true, text: copy.sendChecklistSafe },
+      { ok: Boolean(calculateAge(passportValue("birthDate"))), text: copy.sendChecklistAge },
+      { ok: hasPassportMatchInput(), text: copy.sendChecklistMatches },
+      ...missing.slice(0, 3).map((key) => ({ ok: false, text: `${copy.sendChecklistMissing}: ${copy.labels[key]}` }))
+    ];
     return `
       <section class="candidate-passport-send-ready is-${level}" aria-label="${escapeHTML(copy.sendReadyTitle)}">
         <div>
@@ -3955,6 +3985,17 @@
         </div>
         <div class="candidate-passport-send-meter" aria-hidden="true"><i style="width:${score}%"></i></div>
         <p>${escapeHTML(text)}</p>
+        <div class="candidate-passport-send-checklist" aria-label="${escapeHTML(copy.sendChecklistTitle)}">
+          <small>${escapeHTML(copy.sendChecklistTitle)}</small>
+          <ul>
+            ${checklist.slice(0, 6).map((item) => `
+              <li class="${item.ok ? "is-ok" : "is-missing"}">
+                <i aria-hidden="true">${item.ok ? "✓" : "+"}</i>
+                <span>${escapeHTML(item.ok ? `${copy.sendChecklistReady}: ${item.text}` : item.text)}</span>
+              </li>
+            `).join("")}
+          </ul>
+        </div>
         ${nextKey ? `<button class="text-link" type="button" data-passport-focus-missing="${escapeHTML(nextKey)}">${escapeHTML(copy.sendReadyNext)}: ${escapeHTML(copy.labels[nextKey])} →</button>` : ""}
       </section>
     `;

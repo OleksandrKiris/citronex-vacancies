@@ -11108,6 +11108,64 @@ body.vacancy-first {
   line-height: 1.35;
 }
 
+.candidate-passport-send-checklist {
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  background: rgba(16, 32, 24, 0.045);
+  border: 1px solid rgba(16, 32, 24, 0.07);
+  border-radius: 15px;
+}
+
+.candidate-passport-send-checklist small {
+  color: #667166;
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.candidate-passport-send-checklist ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.candidate-passport-send-checklist li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 7px;
+  align-items: start;
+  color: #415044;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.3;
+}
+
+.candidate-passport-send-checklist i {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #101820;
+  background: #eef4ef;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 1000;
+}
+
+.candidate-passport-send-checklist .is-ok i {
+  background: #bdf24b;
+}
+
+.candidate-passport-send-checklist .is-missing i {
+  color: #ffffff;
+  background: #e51d2a;
+}
+
 .candidate-passport-send-ready .text-link {
   justify-self: start;
   min-height: 28px;
