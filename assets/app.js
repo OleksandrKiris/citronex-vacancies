@@ -324,7 +324,9 @@
     const availableCount = jobs.filter((job) => ["open", "verify"].includes(job.status)).length;
     el("hero-open-count").textContent = String(availableCount);
     el("nav-job-count").textContent = String(availableCount);
+    if (el("catalog-job-count")) el("catalog-job-count").textContent = String(availableCount);
     if (el("hero-rate")) el("hero-rate").textContent = site.baseRate || "31,40 PLN";
+    if (el("catalog-base-rate")) el("catalog-base-rate").textContent = site.baseRate || "31,40 PLN";
     if (el("hero-rate-label")) el("hero-rate-label").textContent = t("ui.grossRate");
     const bannerVisible = Boolean(site.isDemo || site.notice);
     el("demo-banner").hidden = !bannerVisible;
@@ -357,6 +359,10 @@
     const favorite = state.favorites.has(job.id);
     const compared = state.compare.has(job.id);
     const visualType = jobVisualType(job.id);
+    const benefits = view.benefits || [];
+    const highlights = benefits.length > 1
+      ? [benefits[0], benefits[benefits.length - 1]]
+      : benefits;
     return `
       <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}">
         <div class="job-card-top">
@@ -389,13 +395,26 @@
             <dd>${escapeHTML(view.contract)}</dd>
           </div>
         </dl>
+        <p class="job-card-summary">${escapeHTML(view.summary || "")}</p>
+        <div class="job-candidates" aria-label="${escapeHTML(t("ui.suitableFor"))}">
+          ${(view.candidates || []).slice(0, 3).map((candidate) => `<span>${svgIcon("check")}${escapeHTML(candidate)}</span>`).join("")}
+        </div>
+        ${highlights.length ? `
+          <div class="job-card-highlights">
+            <strong>${escapeHTML(t("ui.conditions"))}</strong>
+            <ul>
+              ${highlights.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}
+            </ul>
+          </div>
+        ` : ""}
         <div class="job-skills">
           ${(view.skills || []).slice(0, 4).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
         <div class="job-card-actions">
           <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(t("ui.takeSurvey"))}</span></button>
-          <button class="button button-secondary" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.clarify"))}</span></button>
+          <button class="button button-secondary" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
         </div>
+        <button class="job-card-chat" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.clarify"))}</span></button>
         <div class="job-card-footer">
           <small>${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</small>
           <label class="compare-check">
@@ -555,6 +574,12 @@
       t("form.openWhatsapp")
     ];
     const visualType = jobVisualType(job.id);
+    const conditionCards = (view.benefits || []).map((item) => `
+      <article>
+        <span aria-hidden="true">${svgIcon("check")}</span>
+        <p>${escapeHTML(item)}</p>
+      </article>
+    `).join("");
     el("job-dialog-content").innerHTML = `
       <header class="job-detail-header" data-visual="${visualType}">
         <div class="job-detail-identity">
@@ -576,28 +601,41 @@
         <div><dt>${svgIcon("clock")}<span>${escapeHTML(t("ui.contract"))}</span></dt><dd>${escapeHTML(view.contract)}</dd></div>
         <div><dt>${svgIcon("people")}<span>${escapeHTML(t("ui.suitableFor"))}</span></dt><dd>${escapeHTML((view.candidates || []).join(", "))}</dd></div>
       </dl>
-      <p class="detail-intro">${escapeHTML(view.summary)}</p>
-      ${view.statusNote ? `<p class="confidential-note">${escapeHTML(view.statusNote)}</p>` : ""}
+      <div class="job-detail-summary">
+        <p class="detail-intro">${escapeHTML(view.summary)}</p>
+        <div class="job-detail-candidates" aria-label="${escapeHTML(t("ui.suitableFor"))}">
+          ${(view.candidates || []).map((candidate) => `<span>${svgIcon("check")}${escapeHTML(candidate)}</span>`).join("")}
+        </div>
+        <div class="job-detail-skills">
+          ${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
+        </div>
+      </div>
+      ${view.statusNote ? `<p class="availability-note">${svgIcon("whatsapp")}<span>${escapeHTML(view.statusNote)}</span></p>` : ""}
+      ${(view.benefits || []).length ? `
+        <section class="job-condition-overview">
+          <div class="detail-section-heading">
+            <p class="overline">${escapeHTML(t("ui.details"))}</p>
+            <h3>${escapeHTML(t("ui.conditions"))}</h3>
+          </div>
+          <div class="job-condition-grid">${conditionCards}</div>
+        </section>
+      ` : ""}
       <div class="job-detail-grid">
         <div>
-          <section class="detail-section">
-            <h3>${escapeHTML(t("ui.responsibilities"))}</h3>
+          <details class="detail-disclosure" open>
+            <summary>${escapeHTML(t("ui.responsibilities"))}</summary>
             ${listMarkup(view.responsibilities || [])}
-          </section>
-          <section class="detail-section">
-            <h3>${escapeHTML(t("ui.required"))}</h3>
+          </details>
+          <details class="detail-disclosure" open>
+            <summary>${escapeHTML(t("ui.required"))}</summary>
             ${listMarkup(view.required || [])}
-          </section>
+          </details>
           ${(view.niceToHave || []).length ? `
-            <section class="detail-section">
-              <h3>${escapeHTML(t("ui.niceToHave"))}</h3>
+            <details class="detail-disclosure">
+              <summary>${escapeHTML(t("ui.niceToHave"))}</summary>
               ${listMarkup(view.niceToHave)}
-            </section>
+            </details>
           ` : ""}
-          <section class="detail-section">
-            <h3>${escapeHTML(t("ui.conditions"))}</h3>
-            ${listMarkup(view.benefits || [])}
-          </section>
         </div>
         <aside class="detail-side">
           <section class="detail-section">
@@ -612,12 +650,16 @@
         </aside>
       </div>
       <div class="job-detail-actions">
-        <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(t("ui.takeSurvey"))}</span></button>
-        <button class="button button-secondary" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.askAboutJob"))}</span></button>
-        <button class="button button-secondary" type="button" id="job-favorite">${favoriteActionMarkup(favorite, t("ui.saved"), t("ui.save"))}</button>
-        <button class="button button-secondary" type="button" id="job-compare">${compareActionMarkup(compared, t("ui.inComparison"), t("ui.compare"))}</button>
-        <button class="button button-secondary" type="button" id="job-share">${escapeHTML(t("ui.share"))}</button>
-        <button class="button button-quiet" type="button" id="job-print">${escapeHTML(t("ui.print"))}</button>
+        <div class="job-detail-primary-actions">
+          <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(t("ui.takeSurvey"))}</span></button>
+          <button class="button button-whatsapp" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.askAboutJob"))}</span></button>
+        </div>
+        <div class="job-detail-tools">
+          <button class="button button-secondary" type="button" id="job-favorite">${favoriteActionMarkup(favorite, t("ui.saved"), t("ui.save"))}</button>
+          <button class="button button-secondary" type="button" id="job-compare">${compareActionMarkup(compared, t("ui.inComparison"), t("ui.compare"))}</button>
+          <button class="button button-secondary" type="button" id="job-share">${escapeHTML(t("ui.share"))}</button>
+          <button class="button button-quiet" type="button" id="job-print">${escapeHTML(t("ui.print"))}</button>
+        </div>
       </div>
     `;
 

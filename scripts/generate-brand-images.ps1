@@ -53,44 +53,26 @@ function New-Brush([string]$Hex) {
 function New-BrandIcon {
   param(
     [int]$Size,
-    [string]$Path
+    [string]$Path,
+    [string]$LogoPath
   )
 
   $bitmap = [System.Drawing.Bitmap]::new($Size, $Size)
   $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
   $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
-  $graphics.Clear([System.Drawing.Color]::Transparent)
+  $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+  $graphics.Clear([System.Drawing.Color]::White)
 
-  $scale = $Size / 512.0
-  $graphite = New-Brush "#101820"
-  $lime = New-Brush "#bdf24b"
-  $cobalt = New-Brush "#3157ff"
-  $cream = New-Brush "#f7f5ef"
-
-  Fill-RoundedRectangle $graphics $graphite ([System.Drawing.RectangleF]::new(0, 0, $Size, $Size)) (124 * $scale)
-  $graphics.FillEllipse($cobalt, 328 * $scale, 32 * $scale, 148 * $scale, 148 * $scale)
-
-  $limePen = [System.Drawing.Pen]::new($lime.Color, 22 * $scale)
-  $limePen.LineJoin = [System.Drawing.Drawing2D.LineJoin]::Round
-  $creamPen = [System.Drawing.Pen]::new($cream.Color, 20 * $scale)
-  $creamPen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
-  $creamPen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-
-  $graphics.DrawRectangle($limePen, 119 * $scale, 170 * $scale, 274 * $scale, 190 * $scale)
-  $graphics.DrawArc($limePen, 203 * $scale, 94 * $scale, 106 * $scale, 100 * $scale, 180, 180)
-  $graphics.DrawLine($creamPen, 124 * $scale, 236 * $scale, 210 * $scale, 272 * $scale)
-  $graphics.DrawLine($creamPen, 210 * $scale, 272 * $scale, 302 * $scale, 272 * $scale)
-  $graphics.DrawLine($creamPen, 302 * $scale, 272 * $scale, 388 * $scale, 236 * $scale)
-  $graphics.FillEllipse($cobalt, 237 * $scale, 241 * $scale, 38 * $scale, 38 * $scale)
+  $officialLogo = $null
+  if (Test-Path -LiteralPath $LogoPath) {
+    $officialLogo = [System.Drawing.Image]::FromFile($LogoPath)
+    $inset = [int]($Size * 0.055)
+    $graphics.DrawImage($officialLogo, [System.Drawing.Rectangle]::new($inset, $inset, $Size - (2 * $inset), $Size - (2 * $inset)))
+  }
 
   $bitmap.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
 
-  $limePen.Dispose()
-  $creamPen.Dispose()
-  $graphite.Dispose()
-  $lime.Dispose()
-  $cobalt.Dispose()
-  $cream.Dispose()
+  if ($officialLogo) { $officialLogo.Dispose() }
   $graphics.Dispose()
   $bitmap.Dispose()
 }
@@ -111,15 +93,15 @@ function New-ShareCard {
   $panel = New-Brush "#1b2936"
   $cream = New-Brush "#f7f5ef"
   $muted = New-Brush "#aebbc7"
-  $lime = New-Brush "#bdf24b"
-  $cobalt = New-Brush "#3157ff"
+  $lime = New-Brush "#ff6570"
+  $cobalt = New-Brush "#e51d2a"
   $green = New-Brush "#25d366"
   $white = New-Brush "#ffffff"
 
   $gridPen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(12, 247, 245, 239), 1)
   for ($x = 0; $x -le 1200; $x += 44) { $graphics.DrawLine($gridPen, $x, 0, $x, 630) }
   for ($y = 0; $y -le 630; $y += 44) { $graphics.DrawLine($gridPen, 0, $y, 1200, $y) }
-  $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(38, 49, 87, 255)), 930, -160, 420, 420)
+  $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(44, 229, 29, 42)), 930, -160, 420, 420)
 
   $officialLogo = $null
   Fill-RoundedRectangle $graphics $white ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
@@ -196,8 +178,8 @@ function New-ShareCard {
 }
 
 $assetPath = [System.IO.Path]::GetFullPath($OutputDirectory)
-New-BrandIcon -Size 192 -Path (Join-Path $assetPath "icon-192.png")
-New-BrandIcon -Size 512 -Path (Join-Path $assetPath "icon-512.png")
+New-BrandIcon -Size 192 -Path (Join-Path $assetPath "icon-192.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
+New-BrandIcon -Size 512 -Path (Join-Path $assetPath "icon-512.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
 New-ShareCard -Path (Join-Path $assetPath "share-card.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
 
 Write-Output "Generated icon-192.png, icon-512.png, and share-card.png"

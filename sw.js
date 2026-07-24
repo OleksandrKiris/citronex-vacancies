@@ -1,4 +1,4 @@
-const CACHE_VERSION = "citronex-jobs-v8-official-logo-2026-07-24";
+const CACHE_VERSION = "citronex-jobs-v9-brand-and-details-2026-07-24";
 const CORE_SHELL = [
   "./",
   "./index.html",
@@ -6,12 +6,12 @@ const CORE_SHELL = [
   "./data/content.js",
   "./data/locales/ru.js",
   "./data/locales/en.js",
-  "./assets/styles.css?v=8",
+  "./assets/styles.css?v=9",
   "./assets/i18n.js",
   "./assets/application-form.js?v=7",
-  "./assets/app.js?v=7",
+  "./assets/app.js?v=9",
   "./assets/icons.svg",
-  "./assets/mobility-map.svg",
+  "./assets/mobility-map.svg?v=9",
   "./assets/citronex-logo.jpg",
   "./assets/fonts/manrope-latin.woff2",
   "./assets/fonts/manrope-latin-ext.woff2",
@@ -21,7 +21,7 @@ const CORE_SHELL = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/share-card.svg",
-  "./assets/share-card.png"
+  "./assets/share-card.png?v=9"
 ];
 const OPTIONAL_LOCALES = [
   "./data/locales/uk.js",

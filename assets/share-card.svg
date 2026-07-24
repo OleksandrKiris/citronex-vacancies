@@ -4,12 +4,12 @@
   <defs>
     <linearGradient id="share-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#101820"/>
-      <stop offset="1" stop-color="#17263a"/>
+      <stop offset="1" stop-color="#2a1b22"/>
     </linearGradient>
     <linearGradient id="share-route" x1="747" y1="200" x2="1080" y2="404" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#bdf24b"/>
-      <stop offset=".5" stop-color="#3d63ff"/>
-      <stop offset="1" stop-color="#bdf24b"/>
+      <stop stop-color="#ff6570"/>
+      <stop offset=".5" stop-color="#e51d2a"/>
+      <stop offset="1" stop-color="#ff6570"/>
     </linearGradient>
     <pattern id="share-grid" width="44" height="44" patternUnits="userSpaceOnUse">
       <path d="M44 0H0v44" fill="none" stroke="#f7f5ef" stroke-opacity=".05"/>
@@ -18,8 +18,8 @@
 
   <rect width="1200" height="630" fill="url(#share-bg)"/>
   <rect width="1200" height="630" fill="url(#share-grid)"/>
-  <circle cx="1124" cy="34" r="210" fill="#3d63ff" opacity=".16"/>
-  <circle cx="78" cy="664" r="240" fill="#bdf24b" opacity=".07"/>
+  <circle cx="1124" cy="34" r="210" fill="#e51d2a" opacity=".2"/>
+  <circle cx="78" cy="664" r="240" fill="#ff6570" opacity=".09"/>
 
   <g font-family="Arial, 'Segoe UI', sans-serif">
     <g transform="translate(72 66)">
@@ -29,7 +29,7 @@
       <text x="76" y="48" fill="#aebbc7" font-size="14" font-weight="700" letter-spacing="1.8">OLEKSANDR · DIRECT RECRUITER CONTACT</text>
     </g>
 
-    <text x="72" y="236" fill="#bdf24b" font-size="18" font-weight="800" letter-spacing="3.2">WORK ACROSS EUROPE</text>
+    <text x="72" y="236" fill="#ff6570" font-size="18" font-weight="800" letter-spacing="3.2">WORK ACROSS EUROPE</text>
     <text x="72" y="318" fill="#f7f5ef" font-size="72" font-weight="800" letter-spacing="-2.8">Find work.</text>
     <text x="72" y="392" fill="#f7f5ef" font-size="72" font-weight="800" letter-spacing="-2.8">Know the terms.</text>
     <text x="72" y="443" fill="#aebbc7" font-size="23" font-weight="500">Match locally. Review everything. Message directly.</text>
@@ -50,7 +50,7 @@
   <g transform="translate(690 130)">
     <rect width="438" height="390" rx="34" fill="#f7f5ef" fill-opacity=".055" stroke="#f7f5ef" stroke-opacity=".13"/>
     <rect x="28" y="28" width="382" height="48" rx="15" fill="#f7f5ef" fill-opacity=".07"/>
-    <circle cx="52" cy="52" r="7" fill="#bdf24b"/>
+    <circle cx="52" cy="52" r="7" fill="#ff6570"/>
     <text x="70" y="58" fill="#f7f5ef" font-family="Arial, 'Segoe UI', sans-serif" font-size="14" font-weight="800" letter-spacing="1.4">YOUR WORK ROUTE</text>
 
     <path d="M76 150c76-36 118 123 206 105 53-11 64-84 109-95" fill="none" stroke="#f7f5ef" stroke-opacity=".13" stroke-width="11" stroke-linecap="round"/>
@@ -58,25 +58,25 @@
 
     <g font-family="Arial, 'Segoe UI', sans-serif" font-weight="800" text-anchor="middle">
       <g transform="translate(76 150)">
-        <circle r="20" fill="#bdf24b"/>
-        <circle r="6" fill="#101820"/>
+        <circle r="20" fill="#ff6570"/>
+        <circle r="6" fill="#fff"/>
         <text y="42" fill="#f7f5ef" font-size="13" letter-spacing="2">PL</text>
       </g>
       <g transform="translate(282 255)">
-        <circle r="22" fill="#3d63ff" stroke="#f7f5ef" stroke-width="3"/>
+        <circle r="22" fill="#e51d2a" stroke="#f7f5ef" stroke-width="3"/>
         <circle r="6" fill="#f7f5ef"/>
         <text y="44" fill="#f7f5ef" font-size="13" letter-spacing="2">HU</text>
       </g>
       <g transform="translate(391 160)">
-        <circle r="20" fill="#bdf24b"/>
-        <circle r="6" fill="#101820"/>
+        <circle r="20" fill="#ff6570"/>
+        <circle r="6" fill="#fff"/>
         <text y="42" fill="#f7f5ef" font-size="13" letter-spacing="2">BE</text>
       </g>
     </g>
 
     <g transform="translate(28 316)" font-family="Arial, 'Segoe UI', sans-serif" font-size="12" font-weight="800" letter-spacing="1">
       <rect width="382" height="46" rx="14" fill="#101820" fill-opacity=".52"/>
-      <text x="20" y="28" fill="#bdf24b">MATCH</text>
+      <text x="20" y="28" fill="#ff6570">MATCH</text>
       <text x="104" y="28" fill="#718190">→</text>
       <text x="139" y="28" fill="#f7f5ef">REVIEW</text>
       <text x="235" y="28" fill="#718190">→</text>

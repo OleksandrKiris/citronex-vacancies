@@ -2,12 +2,12 @@
   <defs>
     <linearGradient id="map-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#101820"/>
-      <stop offset="1" stop-color="#17263a"/>
+      <stop offset="1" stop-color="#2a1b22"/>
     </linearGradient>
     <linearGradient id="route-line" x1="164" y1="140" x2="610" y2="318" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#bdf24b"/>
-      <stop offset=".48" stop-color="#3d63ff"/>
-      <stop offset="1" stop-color="#bdf24b"/>
+      <stop stop-color="#ff6570"/>
+      <stop offset=".48" stop-color="#e51d2a"/>
+      <stop offset="1" stop-color="#ff6570"/>
     </linearGradient>
     <pattern id="map-grid" width="42" height="42" patternUnits="userSpaceOnUse">
       <path d="M42 0H0v42" fill="none" stroke="#f7f5ef" stroke-opacity=".055"/>
@@ -25,27 +25,27 @@
     <path d="M532 68c46-9 103 8 128 48 22 36 10 77 18 116 8 42 39 79 28 123-12 49-68 75-117 65-44-9-64-47-79-86-14-38-36-72-27-114 12-57 50-136 49-152Z"/>
   </g>
 
-  <circle cx="164" cy="140" r="32" fill="#bdf24b" opacity=".12" filter="url(#node-glow)"/>
-  <circle cx="380" cy="302" r="32" fill="#3d63ff" opacity=".28" filter="url(#node-glow)"/>
-  <circle cx="610" cy="176" r="32" fill="#bdf24b" opacity=".12" filter="url(#node-glow)"/>
+  <circle cx="164" cy="140" r="32" fill="#ff6570" opacity=".2" filter="url(#node-glow)"/>
+  <circle cx="380" cy="302" r="32" fill="#e51d2a" opacity=".32" filter="url(#node-glow)"/>
+  <circle cx="610" cy="176" r="32" fill="#ff6570" opacity=".2" filter="url(#node-glow)"/>
 
   <path d="M164 140C232 143 277 283 380 302S534 190 610 176" fill="none" stroke="#f7f5ef" stroke-opacity=".18" stroke-width="10" stroke-linecap="round"/>
   <path d="M164 140C232 143 277 283 380 302S534 190 610 176" fill="none" stroke="url(#route-line)" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 13"/>
 
   <g font-family="Arial, 'Segoe UI', sans-serif" font-weight="800" text-anchor="middle">
     <g transform="translate(164 140)">
-      <circle r="23" fill="#bdf24b"/>
-      <circle r="8" fill="#101820"/>
+      <circle r="23" fill="#ff6570"/>
+      <circle r="8" fill="#ffffff"/>
       <text y="48" fill="#f7f5ef" font-size="15" letter-spacing="2">PL</text>
     </g>
     <g transform="translate(380 302)">
-      <circle r="25" fill="#3d63ff" stroke="#f7f5ef" stroke-width="3"/>
+      <circle r="25" fill="#e51d2a" stroke="#f7f5ef" stroke-width="3"/>
       <circle r="8" fill="#f7f5ef"/>
       <text y="50" fill="#f7f5ef" font-size="15" letter-spacing="2">HU</text>
     </g>
     <g transform="translate(610 176)">
-      <circle r="23" fill="#bdf24b"/>
-      <circle r="8" fill="#101820"/>
+      <circle r="23" fill="#ff6570"/>
+      <circle r="8" fill="#ffffff"/>
       <text y="48" fill="#f7f5ef" font-size="15" letter-spacing="2">BE</text>
     </g>
   </g>
@@ -53,11 +53,11 @@
   <g transform="translate(46 386)">
     <rect width="668" height="58" rx="18" fill="#f7f5ef" fill-opacity=".08" stroke="#f7f5ef" stroke-opacity=".12"/>
     <g font-family="Arial, 'Segoe UI', sans-serif" font-size="13" font-weight="700" letter-spacing="1.2">
-      <circle cx="28" cy="29" r="7" fill="#bdf24b"/>
+      <circle cx="28" cy="29" r="7" fill="#ff6570"/>
       <text x="47" y="34" fill="#f7f5ef">MATCH</text>
       <path d="M150 29h48" stroke="#f7f5ef" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
       <path d="m191 23 7 6-7 6" fill="none" stroke="#f7f5ef" stroke-opacity=".55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="234" cy="29" r="7" fill="#3d63ff"/>
+      <circle cx="234" cy="29" r="7" fill="#e51d2a"/>
       <text x="253" y="34" fill="#f7f5ef">REVIEW</text>
       <path d="M372 29h48" stroke="#f7f5ef" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
       <path d="m413 23 7 6-7 6" fill="none" stroke="#f7f5ef" stroke-opacity=".55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
