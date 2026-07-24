@@ -8225,3 +8225,235 @@ body.vacancy-first {
     gap: 8px;
   }
 }
+
+/* v16 · trust and decision tools */
+.candidate-situations {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 2.3fr);
+  align-items: start;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.candidate-situations h2,
+.candidate-situations p {
+  margin: 0;
+}
+
+.candidate-situations h2 {
+  margin-top: 3px;
+  color: #151b21;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.14;
+}
+
+.candidate-situation-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.candidate-situation-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 13px;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(22, 34, 42, 0.05);
+}
+
+.candidate-situation-card > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  color: #e51d2a;
+  background: #fff0f1;
+  border-radius: 8px;
+}
+
+.candidate-situation-card svg {
+  width: 17px;
+  height: 17px;
+}
+
+.candidate-situation-card h3 {
+  margin: 0;
+  color: #151b21;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.candidate-situation-card p {
+  color: #607066;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.candidate-situation-card .text-link {
+  justify-self: start;
+  padding: 0;
+  font-size: 12px;
+}
+
+.job-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.job-fit-card,
+.gross-estimate,
+.related-jobs {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #e1e8e4;
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgba(22, 34, 42, 0.05);
+}
+
+.job-fit-card h3 {
+  margin: 0 0 10px;
+  color: #151b21;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.job-fit-positive {
+  border-color: #cae8d7;
+  background: #f7fcf9;
+}
+
+.job-fit-negative {
+  border-color: #f0d2d4;
+  background: #fff8f8;
+}
+
+.gross-estimate,
+.related-jobs {
+  margin-top: 18px;
+}
+
+.gross-estimate dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.gross-estimate dl div {
+  padding: 12px;
+  background: #f4f7f5;
+  border: 1px solid #e2ebe6;
+  border-radius: 8px;
+}
+
+.gross-estimate dt {
+  color: #68766d;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.gross-estimate dd {
+  margin: 4px 0 0;
+  color: #0f6d4c;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.gross-estimate > p {
+  margin: 12px 0 0;
+  color: #607066;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.related-job-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.related-job-grid article {
+  padding: 14px;
+  background: #f6f8f7;
+  border: 1px solid #e1e8e4;
+  border-radius: 8px;
+}
+
+.related-job-grid h4 {
+  margin: 0;
+  color: #151b21;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.related-job-grid p {
+  margin: 7px 0 10px;
+  color: #607066;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+@media (max-width: 1100px) {
+  .candidate-situations,
+  .candidate-situation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .candidate-situation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .candidate-situations {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .candidate-situations h2 {
+    font-size: 18px;
+  }
+
+  .candidate-situation-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .candidate-situation-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .candidate-situation-card {
+    width: 220px;
+    flex: 0 0 220px;
+    padding: 12px;
+  }
+
+  .job-fit-grid,
+  .gross-estimate dl,
+  .related-job-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-fit-card,
+  .gross-estimate,
+  .related-jobs {
+    padding: 14px;
+  }
+}

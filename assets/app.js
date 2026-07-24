@@ -267,6 +267,56 @@
     return copy[i18n.locale] || copy.en;
   }
 
+  function conversionCopy() {
+    const copy = {
+      ru: {
+        situationsKicker: "Частые ситуации",
+        situationsTitle: "Найдите себя",
+        showJobs: "Показать вакансии",
+        startSurvey: "Заполнить анкету",
+        fitTitle: "Кому подходит",
+        notFitTitle: "Может не подойти",
+        grossTitle: "Быстрый расчёт брутто",
+        grossNote: "Это брутто, не нетто и не гарантия часов. Точный график подтверждается перед поездкой.",
+        relatedTitle: "Похожие вакансии",
+        openRelated: "Открыть",
+        situationPolandTitle: "Я сейчас в Польше",
+        situationPolandText: "Сразу смотрите доступные вакансии в Польше и уточняйте дату старта.",
+        situationNoExperienceTitle: "Я без опыта",
+        situationNoExperienceText: "Начните с теплиц, сортировки или склада, где есть обучение.",
+        situationCoupleTitle: "Хочу приехать парой",
+        situationCoupleText: "В анкете укажите поездку с партнёром, чтобы проверить жильё и места.",
+        situationDriverTitle: "У меня C+E",
+        situationDriverText: "Проверьте водительские вакансии и готовность документов.",
+        situationDocumentsTitle: "Нужно проверить документы",
+        situationDocumentsText: "Анкета поможет передать гражданство, статус и право на работу без фото документов."
+      },
+      en: {
+        situationsKicker: "Common situations",
+        situationsTitle: "Find your path",
+        showJobs: "Show jobs",
+        startSurvey: "Start form",
+        fitTitle: "Good fit",
+        notFitTitle: "May not fit",
+        grossTitle: "Quick gross estimate",
+        grossNote: "Gross only, not net pay and not guaranteed hours. The schedule is confirmed before travel.",
+        relatedTitle: "Similar jobs",
+        openRelated: "Open",
+        situationPolandTitle: "I am already in Poland",
+        situationPolandText: "Start with jobs in Poland and confirm the nearest start date.",
+        situationNoExperienceTitle: "I have no experience",
+        situationNoExperienceText: "Start with greenhouse, sorting or warehouse work with training.",
+        situationCoupleTitle: "I want to travel with a partner",
+        situationCoupleText: "Use the form so housing and places can be checked together.",
+        situationDriverTitle: "I have C+E",
+        situationDriverText: "Check driver roles and document readiness.",
+        situationDocumentsTitle: "My documents need checking",
+        situationDocumentsText: "The form sends citizenship, status and work-right details without document photos."
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
   function resourceIconName(id = "") {
     const iconById = {
       "pay-and-hours": "jobs",
@@ -475,6 +525,7 @@
     }
 
     renderQuickStart();
+    renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
 
@@ -542,6 +593,28 @@
     });
     const surveyButton = document.querySelector(".quick-start [data-application-general]");
     if (surveyButton) surveyButton.textContent = copy.survey;
+  }
+
+  function renderCandidateSituations() {
+    const copy = conversionCopy();
+    if (el("candidate-situations-kicker")) el("candidate-situations-kicker").textContent = copy.situationsKicker;
+    if (el("candidate-situations-heading")) el("candidate-situations-heading").textContent = copy.situationsTitle;
+    if (!el("candidate-situation-grid")) return;
+    const situations = [
+      { id: "poland", title: copy.situationPolandTitle, text: copy.situationPolandText, action: copy.showJobs, filter: "country:poland" },
+      { id: "no-exp", title: copy.situationNoExperienceTitle, text: copy.situationNoExperienceText, action: copy.showJobs, filter: "level:noExperience" },
+      { id: "couple", title: copy.situationCoupleTitle, text: copy.situationCoupleText, action: copy.startSurvey, survey: true },
+      { id: "driver", title: copy.situationDriverTitle, text: copy.situationDriverText, action: copy.showJobs, filter: "category:driver" },
+      { id: "documents", title: copy.situationDocumentsTitle, text: copy.situationDocumentsText, action: copy.startSurvey, survey: true }
+    ];
+    el("candidate-situation-grid").innerHTML = situations.map((item) => `
+      <article class="candidate-situation-card">
+        <span aria-hidden="true">${svgIcon(item.survey ? "shield" : item.id === "driver" ? "truck" : "check")}</span>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p>${escapeHTML(item.text)}</p>
+        <button class="text-link" type="button" ${item.survey ? "data-application-general" : `data-quick-filter="${escapeHTML(item.filter)}"`}>${escapeHTML(item.action)} →</button>
+      </article>
+    `).join("");
   }
 
   function renderJobCard(job, context = "catalog") {
@@ -754,6 +827,100 @@
     return `<ul class="detail-list">${items.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>`;
   }
 
+  function jobFitItems(job, view) {
+    const positive = [...(view.candidates || []).slice(0, 3)];
+    const negative = [];
+    const searchable = [job.id, job.category, view.title, view.level, ...(view.required || [])].join(" ").toLowerCase();
+    if (view.level === "Без опыта") {
+      positive.push(i18n.locale === "ru" ? "Можно начать после обучения на объекте" : "Training is provided on site");
+    } else {
+      positive.push(i18n.locale === "ru" ? "Подходит кандидатам с подтверждённым опытом" : "Best for candidates with proven experience");
+    }
+    if (searchable.includes("driver") || searchable.includes("водител")) {
+      negative.push(i18n.locale === "ru" ? "Не подойдёт без C+E, Code 95 или карты тахографа" : "Not suitable without C+E, Code 95 or tachograph card");
+    }
+    if (searchable.includes("udt")) {
+      negative.push(i18n.locale === "ru" ? "Не подойдёт без польского UDT или проверки допуска" : "Not suitable without Polish UDT or eligibility check");
+    }
+    if (job.category === "Теплицы" || job.category === "Склад") {
+      negative.push(i18n.locale === "ru" ? "Может быть тяжело, если не готовы работать стоя и в темпе" : "May be hard if standing work and pace are a problem");
+    }
+    if (view.statusNote) {
+      negative.push(i18n.locale === "ru" ? "Не подходит, если нужна гарантированная дата старта без проверки мест" : "Not suitable if you need a guaranteed start date before availability is checked");
+    }
+    if (!negative.length) {
+      negative.push(i18n.locale === "ru" ? "Нужно отдельно подтвердить документы, ставку и место" : "Documents, rate and availability must be confirmed first");
+    }
+    return { positive: [...new Set(positive)].slice(0, 4), negative: [...new Set(negative)].slice(0, 4) };
+  }
+
+  function grossEstimateMarkup(job, view) {
+    if (!job.salary?.min || !job.salary?.confirmed || job.salary.period !== "час") return "";
+    const copy = conversionCopy();
+    const formatter = new Intl.NumberFormat(i18n.localeTag(), {
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0
+    });
+    const rows = [200, 250, 280].map((hours) => {
+      const amount = formatter.format(Math.round(job.salary.min * hours));
+      return `<div><dt>${hours} h</dt><dd>${amount} ${escapeHTML(job.salary.currency)}</dd></div>`;
+    }).join("");
+    return `
+      <section class="gross-estimate">
+        <div class="detail-section-heading">
+          <p class="overline">${escapeHTML(t("ui.grossSalary"))}</p>
+          <h3>${escapeHTML(copy.grossTitle)}</h3>
+        </div>
+        <dl>${rows}</dl>
+        <p>${escapeHTML(copy.grossNote)}</p>
+      </section>
+    `;
+  }
+
+  function relatedJobs(job) {
+    const scored = jobs
+      .filter((candidate) => candidate.id !== job.id)
+      .map((candidate) => {
+        let score = 0;
+        if (candidate.category === job.category) score += 5;
+        if (candidate.format === job.format) score += 3;
+        if (candidate.level === job.level) score += 2;
+        if (job.id.startsWith("driver-") && candidate.id.startsWith("driver-")) score += 6;
+        if (job.id.includes("warehouse") && candidate.id.includes("warehouse")) score += 4;
+        if (job.id.startsWith("greenhouse-") && candidate.id.startsWith("greenhouse-")) score += 4;
+        if (["open", "verify"].includes(candidate.status)) score += 1;
+        return { job: candidate, score };
+      })
+      .sort((a, b) => b.score - a.score || new Date(b.job.updatedAt) - new Date(a.job.updatedAt));
+    return scored.slice(0, 3).map((item) => item.job);
+  }
+
+  function relatedJobsMarkup(job) {
+    const copy = conversionCopy();
+    const related = relatedJobs(job);
+    if (!related.length) return "";
+    return `
+      <section class="related-jobs">
+        <div class="detail-section-heading">
+          <p class="overline">${escapeHTML(t("ui.navJobs"))}</p>
+          <h3>${escapeHTML(copy.relatedTitle)}</h3>
+        </div>
+        <div class="related-job-grid">
+          ${related.map((item) => {
+            const view = localizedJob(item);
+            return `
+              <article>
+                <h4>${escapeHTML(view.title)}</h4>
+                <p>${escapeHTML(view.format)} · ${formatSalary(view.salary)}</p>
+                <button class="text-link" type="button" data-job-open="${escapeHTML(item.id)}">${escapeHTML(copy.openRelated)} →</button>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
+  }
+
   function openJob(id, updateRoute = true) {
     const job = jobById(id);
     if (!job) {
@@ -776,6 +943,8 @@
       t("form.openWhatsapp")
     ];
     const visualType = jobVisualType(job.id);
+    const fit = jobFitItems(job, view);
+    const copy = conversionCopy();
     const conditionCards = (view.benefits || []).map((item) => `
       <article>
         <span aria-hidden="true">${svgIcon("check")}</span>
@@ -812,6 +981,16 @@
           ${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
       </div>
+      <section class="job-fit-grid" aria-label="${escapeHTML(copy.fitTitle)}">
+        <article class="job-fit-card job-fit-positive">
+          <h3>${escapeHTML(copy.fitTitle)}</h3>
+          ${listMarkup(fit.positive)}
+        </article>
+        <article class="job-fit-card job-fit-negative">
+          <h3>${escapeHTML(copy.notFitTitle)}</h3>
+          ${listMarkup(fit.negative)}
+        </article>
+      </section>
       ${view.statusNote ? `
         <div class="availability-note">
           <div class="job-status-badges">
@@ -836,6 +1015,7 @@
           <div class="job-condition-grid">${conditionCards}</div>
         </section>
       ` : ""}
+      ${grossEstimateMarkup(job, view)}
       <div class="job-detail-grid">
         <div>
           <details class="detail-disclosure" open>
@@ -877,6 +1057,7 @@
           <button class="button button-quiet" type="button" id="job-print">${escapeHTML(t("ui.print"))}</button>
         </div>
       </div>
+      ${relatedJobsMarkup(job)}
     `;
 
     el("job-note").addEventListener("input", (event) => {

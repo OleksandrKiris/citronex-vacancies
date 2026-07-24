@@ -949,6 +949,24 @@
     return job?.format || "To be confirmed";
   }
 
+  function candidateCheckFlags(job) {
+    const flags = [];
+    const jobText = [job?.id, job?.category, job?.title, job?.level].join(" ").toLowerCase();
+    if (state.values.workRight !== "yes") flags.push("Check right to work at destination");
+    if (state.values.legalStatus === "statusNoDocuments") flags.push("Candidate has no work documents yet");
+    if (state.values.legalStatus === "other") flags.push("Check legal status details manually");
+    if (state.values.experience === "expNone" && job?.level !== "Без опыта") flags.push("No experience for a role that may require experience");
+    if (jobText.includes("driver") || jobText.includes("водител")) {
+      if (state.values.driverLicense !== "yes") flags.push("Driver role: confirm C+E license");
+      if (state.values.code95 !== "yes") flags.push("Driver role: confirm Code 95");
+      if (state.values.tachograph !== "yes") flags.push("Driver role: confirm tachograph card");
+    }
+    if (jobText.includes("udt") && state.values.udtLicense !== "yes") flags.push("UDT role: confirm Polish UDT");
+    if (state.values.partnerAlsoApplies === "yes") flags.push("Second person also applies: check two places and housing");
+    if (!flags.length) flags.push("No obvious red flags from the questionnaire");
+    return flags;
+  }
+
   function buildMessage() {
     const job = effectiveJob();
     const localized = localizedJob();
@@ -968,6 +986,8 @@
       `Vacancy: ${localized?.title || job?.title || "Not selected"}`,
       `Vacancy ID: ${job?.id || "—"}`,
       `Destination: ${destination(job)}`,
+      `Gross rate shown: ${job?.salary?.confirmed ? "Yes" : "Needs confirmation"}`,
+      `Salary note: ${localized?.salary?.note || job?.salary?.note || "—"}`,
       `Site language: ${i18n.languageName(state.values.preferredLanguage || i18n.locale)} (${state.values.preferredLanguage || i18n.locale})`,
       state.values.matchedJobId ? "Vacancy selected by the on-site matching questionnaire: Yes" : "",
       "",
@@ -993,6 +1013,9 @@
       `Experience details: ${state.values.experienceDetails || "—"}`,
       ...qualification,
       `Question / notes: ${state.values.extraNotes || "—"}`,
+      "",
+      "CHECK BEFORE OFFER:",
+      ...candidateCheckFlags(job).map((flag) => `- ${flag}`),
       "",
       "Candidate confirmed the data and chose to contact the recruiter via WhatsApp."
     ].filter((line, index, lines) => line !== "" || lines[index - 1] !== "").join("\n");
