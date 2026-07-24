@@ -9528,6 +9528,136 @@ body.vacancy-first::before {
   }
 }
 
+/* v80 · catalog controls and vacancy detail visual polish */
+.vacancy-first .results-row {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 8rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(247, 250, 246, 0.88));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 16px 36px rgba(16, 24, 32, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.80);
+}
+
+.vacancy-first .results-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.38), transparent 32%, transparent 78%, rgba(189, 242, 75, 0.08));
+}
+
+.vacancy-first .results-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vacancy-first .catalog-saved-link {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  color: #102018;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(16, 24, 32, 0.06);
+}
+
+.vacancy-first .nav-count,
+#compare-count,
+#saved-badge {
+  display: inline-grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  padding: 0 6px;
+  color: #102018;
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(189, 242, 75, 0.18);
+  font-size: 11px;
+  font-weight: 1000;
+}
+
+.compare-check {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(237, 247, 239, 0.84));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 8px 18px rgba(16, 24, 32, 0.06);
+}
+
+.compare-check input {
+  accent-color: #0f6d4c;
+}
+
+.vacancy-first .job-card-status,
+.vacancy-first .job-card-availability,
+.vacancy-first .job-card-start {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 6rem),
+    rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76), 0 8px 18px rgba(16, 24, 32, 0.045);
+}
+
+.vacancy-first .job-card[data-salary-confirmed="true"] .job-card-status {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 6rem),
+    linear-gradient(145deg, #efffe8, #ffffff);
+  border-color: rgba(15, 109, 76, 0.14);
+}
+
+.vacancy-first .job-card-status svg,
+.vacancy-first .job-card-availability svg,
+.vacancy-first .job-card-start svg {
+  filter: drop-shadow(0 6px 10px rgba(15, 109, 76, 0.10));
+}
+
+.compare-wrap {
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 10rem),
+    rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.compare-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.compare-table th,
+.compare-table td {
+  border-color: rgba(16, 24, 32, 0.08);
+}
+
+.compare-table thead th {
+  background: linear-gradient(180deg, #102018, #173623);
+}
+
+.compare-table tbody th {
+  background: rgba(247, 250, 246, 0.92);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .results-row {
+    gap: 8px;
+    border-radius: 18px;
+  }
+
+  .vacancy-first .catalog-saved-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .compare-wrap {
+    border-radius: 18px;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
