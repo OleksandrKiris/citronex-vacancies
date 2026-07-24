@@ -2686,6 +2686,13 @@
         destinationQuickTitle: "Wanted country",
         peopleQuickTitle: "Who is going",
         experienceQuickTitle: "Experience / direction",
+        experienceCoachTitle: "What this means",
+        experienceCoachDefault: "Choose the closest experience option and the site will make job suggestions clearer.",
+        experienceCoachNoExperience: "Good path for a first start: greenhouse, warehouse and simple production roles are usually easier to discuss first.",
+        experienceCoachExperienced: "Add the exact direction in the next field so the recruiter can compare you with better-paid or more specific roles.",
+        experienceCoachDriver: "Driver direction selected. The WhatsApp message will help the recruiter ask about category, route type and start date.",
+        experienceCoachWarehouse: "Warehouse direction selected. The site will prioritize practical roles and questions about shifts, city and start date.",
+        experienceCoachGreenhouse: "Greenhouse direction selected. This is a clear route for candidates from different countries, including first starts.",
         startQuickTitle: "Quick start date",
         startQuickOptions: ["As soon as possible", "This week", "This month", "Need to clarify"],
         quickTitle: "Quick start",
@@ -2805,6 +2812,13 @@
         destinationQuickTitle: "Быстрый выбор страны",
         peopleQuickTitle: "Быстрый выбор состава",
         experienceQuickTitle: "Опыт / направление",
+        experienceCoachTitle: "Что это значит",
+        experienceCoachDefault: "Выберите ближайший вариант опыта — сайт понятнее подберёт вакансии и следующий вопрос.",
+        experienceCoachNoExperience: "Хороший путь для первого старта: теплица, склад и простое производство обычно проще обсудить сначала.",
+        experienceCoachExperienced: "Добавьте точное направление в следующем поле, чтобы рекрутер мог сравнить вас с более подходящими вакансиями.",
+        experienceCoachDriver: "Выбрано направление водителя. Сообщение в WhatsApp поможет уточнить категорию, тип маршрута и дату старта.",
+        experienceCoachWarehouse: "Выбран склад. Сайт будет лучше подбирать практичные роли и вопросы по сменам, городу и старту.",
+        experienceCoachGreenhouse: "Выбрана теплица. Это понятный маршрут для кандидатов из разных стран, в том числе для первого выезда.",
         startQuickTitle: "Быстрая дата старта",
         startQuickOptions: ["Как можно скорее", "На этой неделе", "В этом месяце", "Нужно уточнить"],
         quickTitle: "Быстрый старт",
@@ -2924,6 +2938,13 @@
         destinationQuickTitle: "Швидкий вибір країни",
         peopleQuickTitle: "Швидкий вибір складу",
         experienceQuickTitle: "Досвід / напрям",
+        experienceCoachTitle: "Що це означає",
+        experienceCoachDefault: "Оберіть найближчий варіант досвіду — сайт точніше покаже вакансії та наступне питання.",
+        experienceCoachNoExperience: "Добрий шлях для першого старту: теплиця, склад і просте виробництво зазвичай легше обговорити спочатку.",
+        experienceCoachExperienced: "Додайте точний напрям у наступному полі, щоб рекрутер міг порівняти вас із кращими варіантами.",
+        experienceCoachDriver: "Обрано напрям водія. Повідомлення в WhatsApp допоможе уточнити категорію, тип маршруту та дату старту.",
+        experienceCoachWarehouse: "Обрано склад. Сайт краще підбиратиме практичні ролі та питання щодо змін, міста й старту.",
+        experienceCoachGreenhouse: "Обрано теплицю. Це зрозумілий маршрут для кандидатів із різних країн, зокрема для першого виїзду.",
         startQuickTitle: "Швидка дата старту",
         startQuickOptions: ["Якнайшвидше", "Цього тижня", "Цього місяця", "Потрібно уточнити"],
         quickTitle: "Швидкий старт",
@@ -3043,6 +3064,13 @@
         destinationQuickTitle: "Szybki wybór kraju",
         peopleQuickTitle: "Szybki wybór składu",
         experienceQuickTitle: "Doświadczenie / kierunek",
+        experienceCoachTitle: "Co to oznacza",
+        experienceCoachDefault: "Wybierz najbliższą opcję doświadczenia — strona lepiej pokaże oferty i następne pytanie.",
+        experienceCoachNoExperience: "Dobry kierunek na pierwszy start: szklarnia, magazyn i prosta produkcja są zwykle łatwiejsze do omówienia.",
+        experienceCoachExperienced: "Dodaj dokładny kierunek w następnym polu, aby rekruter mógł porównać Cię z lepszymi ofertami.",
+        experienceCoachDriver: "Wybrano kierowcę. Wiadomość WhatsApp pomoże ustalić kategorię, typ trasy i datę startu.",
+        experienceCoachWarehouse: "Wybrano magazyn. Strona lepiej dobierze praktyczne role oraz pytania o zmiany, miasto i start.",
+        experienceCoachGreenhouse: "Wybrano szklarnię. To jasna ścieżka dla kandydatów z różnych krajów, także na pierwszy wyjazd.",
         startQuickTitle: "Szybka data startu",
         startQuickOptions: ["Jak najszybciej", "W tym tygodniu", "W tym miesiącu", "Do wyjaśnienia"],
         quickTitle: "Szybki start",
@@ -3388,6 +3416,30 @@
           ${options.map((option) => `
             <button class="${option === current ? "is-active" : ""}" type="button" data-passport-experience="${escapeHTML(option)}">${escapeHTML(option)}</button>
           `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function passportExperienceCoachHTML() {
+    const copy = candidatePassportCopy();
+    const value = passportValue("experience");
+    const options = copy.options.experience || [];
+    const index = options.indexOf(value);
+    const map = [
+      copy.experienceCoachNoExperience,
+      copy.experienceCoachExperienced,
+      copy.experienceCoachDriver,
+      copy.experienceCoachWarehouse,
+      copy.experienceCoachGreenhouse
+    ];
+    const text = map[index] || copy.experienceCoachDefault;
+    return `
+      <div class="candidate-passport-experience-coach${value ? " is-active" : ""}">
+        <span aria-hidden="true">${value ? "✓" : "i"}</span>
+        <div>
+          <strong>${escapeHTML(copy.experienceCoachTitle)}</strong>
+          <p>${escapeHTML(text)}</p>
         </div>
       </div>
     `;
@@ -4004,6 +4056,7 @@
           ${passportPeopleQuickHTML()}
           ${passportSelectHTML("experience")}
           ${passportExperienceQuickHTML()}
+          ${passportExperienceCoachHTML()}
           ${passportSelectHTML("workDocs")}
           ${passportFieldHTML("readyDate")}
           ${passportStartQuickHTML()}
