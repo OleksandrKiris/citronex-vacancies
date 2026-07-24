@@ -1060,6 +1060,7 @@
     renderHonestFit();
     renderAntiScam();
     renderInstantMatcher();
+    renderDecisionPath();
     renderWhatsAppScripts();
     renderCandidatePrep();
     renderCandidatePassport();
@@ -1131,6 +1132,213 @@
     });
     const surveyButton = document.querySelector(".quick-start [data-application-general]");
     if (surveyButton) surveyButton.textContent = copy.survey;
+  }
+
+  function decisionPathCopy() {
+    const copy = {
+      en: {
+        kicker: "Quick start",
+        title: "Choose your situation — the site prepares your application",
+        intro: "One tap fills safe application details: no document numbers, no photos and no bank information.",
+        action: "Prepare my application",
+        prepared: "Application prepared. Check the fields and send it in WhatsApp.",
+        hints: {
+          noExperience: "greenhouse / warehouse",
+          couple: "work for couple",
+          driver: "driver",
+          unsure: "need advice"
+        },
+        cards: {
+          noExperience: {
+            title: "I have no experience",
+            text: "Start with greenhouse, sorting or warehouse work with training.",
+            badge: "Training"
+          },
+          couple: {
+            title: "We travel as a couple",
+            text: "The recruiter will see that two places and housing should be checked together.",
+            badge: "2 people"
+          },
+          driver: {
+            title: "I am a driver",
+            text: "The application will point the conversation toward transport roles.",
+            badge: "C+E"
+          },
+          unsure: {
+            title: "I am not sure yet",
+            text: "Use this when the country, city or start date still needs advice.",
+            badge: "Need advice"
+          }
+        }
+      },
+      ru: {
+        kicker: "Быстрый старт",
+        title: "Выберите ситуацию — сайт подготовит заявку",
+        intro: "Один тап заполнит часть анкеты безопасными данными: без номеров документов, фото и банковской информации.",
+        action: "Подготовить заявку",
+        prepared: "Заявка подготовлена. Проверьте поля и отправьте её в WhatsApp.",
+        hints: {
+          noExperience: "теплица / склад",
+          couple: "работа для пары",
+          driver: "водитель",
+          unsure: "нужен совет"
+        },
+        cards: {
+          noExperience: {
+            title: "Я без опыта",
+            text: "Подойдёт старт с теплиц, сортировки или склада, где есть обучение.",
+            badge: "Обучение"
+          },
+          couple: {
+            title: "Едем парой",
+            text: "Рекрутер сразу увидит, что нужно проверить два места и жильё вместе.",
+            badge: "2 человека"
+          },
+          driver: {
+            title: "Я водитель",
+            text: "Заявка направит разговор к транспортным вакансиям.",
+            badge: "C+E"
+          },
+          unsure: {
+            title: "Пока не знаю",
+            text: "Если страна, город или дата старта ещё требуют совета.",
+            badge: "Нужен совет"
+          }
+        }
+      },
+      uk: {
+        kicker: "Швидкий старт",
+        title: "Оберіть ситуацію — сайт підготує заявку",
+        intro: "Один тап заповнить частину анкети безпечними даними: без номерів документів, фото й банківської інформації.",
+        action: "Підготувати заявку",
+        prepared: "Заявку підготовлено. Перевірте поля й надішліть її у WhatsApp.",
+        hints: {
+          noExperience: "теплиця / склад",
+          couple: "робота для пари",
+          driver: "водій",
+          unsure: "потрібна порада"
+        },
+        cards: {
+          noExperience: {
+            title: "Я без досвіду",
+            text: "Підійде старт із теплиць, сортування або складу, де є навчання.",
+            badge: "Навчання"
+          },
+          couple: {
+            title: "Їдемо парою",
+            text: "Рекрутер одразу побачить, що треба перевірити два місця й житло разом.",
+            badge: "2 людини"
+          },
+          driver: {
+            title: "Я водій",
+            text: "Заявка направить розмову до транспортних вакансій.",
+            badge: "C+E"
+          },
+          unsure: {
+            title: "Поки не знаю",
+            text: "Якщо країна, місто або дата старту ще потребують поради.",
+            badge: "Потрібна порада"
+          }
+        }
+      },
+      pl: {
+        kicker: "Szybki start",
+        title: "Wybierz sytuację — strona przygotuje zgłoszenie",
+        intro: "Jedno kliknięcie uzupełni bezpieczne dane: bez numerów dokumentów, zdjęć i danych bankowych.",
+        action: "Przygotuj zgłoszenie",
+        prepared: "Zgłoszenie przygotowane. Sprawdź pola i wyślij je w WhatsApp.",
+        hints: {
+          noExperience: "szklarnia / magazyn",
+          couple: "praca dla pary",
+          driver: "kierowca",
+          unsure: "potrzebna rada"
+        },
+        cards: {
+          noExperience: {
+            title: "Nie mam doświadczenia",
+            text: "Dobry start to szklarnie, sortowanie lub magazyn z przyuczeniem.",
+            badge: "Szkolenie"
+          },
+          couple: {
+            title: "Jedziemy parą",
+            text: "Rekruter od razu zobaczy, że trzeba sprawdzić dwa miejsca i mieszkanie.",
+            badge: "2 osoby"
+          },
+          driver: {
+            title: "Jestem kierowcą",
+            text: "Zgłoszenie skieruje rozmowę na oferty transportowe.",
+            badge: "C+E"
+          },
+          unsure: {
+            title: "Jeszcze nie wiem",
+            text: "Gdy kraj, miasto lub data startu wymagają porady.",
+            badge: "Potrzebna rada"
+          }
+        }
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function renderDecisionPath() {
+    const container = el("decision-path-grid");
+    if (!container) return;
+    const copy = decisionPathCopy();
+    if (el("decision-path-kicker")) el("decision-path-kicker").textContent = copy.kicker;
+    if (el("decision-path-heading")) el("decision-path-heading").textContent = copy.title;
+    if (el("decision-path-intro")) el("decision-path-intro").textContent = copy.intro;
+    const cards = [
+      ["noExperience", copy.cards.noExperience],
+      ["couple", copy.cards.couple],
+      ["driver", copy.cards.driver],
+      ["unsure", copy.cards.unsure]
+    ];
+    container.innerHTML = cards.map(([id, card]) => `
+      <article class="decision-path-card">
+        <span>${escapeHTML(card.badge)}</span>
+        <h3>${escapeHTML(card.title)}</h3>
+        <p>${escapeHTML(card.text)}</p>
+        <button class="button button-secondary" type="button" data-decision-path="${escapeHTML(id)}">${escapeHTML(copy.action)}</button>
+      </article>
+    `).join("");
+  }
+
+  function applyDecisionPath(path) {
+    const copy = decisionPathCopy();
+    const language = passportOptionValue("language", 0);
+    if (!passportValue("language")) state.passport.language = language;
+    if (path === "noExperience") {
+      state.instantMatch.experience = "none";
+      state.instantMatch.area = "greenhouse";
+      state.passport.experience = passportOptionValue("experience", 0);
+      state.passport.job = state.passport.job || copy.hints.noExperience;
+    }
+    if (path === "couple") {
+      state.instantMatch.people = "couple";
+      state.passport.people = passportOptionValue("people", 1);
+      state.passport.job = state.passport.job || copy.hints.couple;
+    }
+    if (path === "driver") {
+      state.instantMatch.experience = "experienced";
+      state.instantMatch.area = "transport";
+      state.passport.experience = passportOptionValue("experience", 2);
+      state.passport.job = state.passport.job || copy.hints.driver;
+    }
+    if (path === "unsure") {
+      state.instantMatch.country = "any";
+      state.instantMatch.start = "later";
+      state.passport.destination = passportOptionValue("destination", 3);
+      state.passport.readyDate = state.passport.readyDate || copy.hints.unsure;
+      state.passport.job = state.passport.job || copy.hints.unsure;
+    }
+    if (!passportValue("workDocs")) state.passport.workDocs = passportOptionValue("workDocs", 2);
+    ensurePassportId();
+    persistPassport();
+    renderInstantMatcher();
+    renderCandidatePassport();
+    refreshJobLists();
+    el("candidate-passport-heading")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    showToast(copy.prepared);
   }
 
   function countryExplorerCopy() {
@@ -3912,6 +4120,11 @@
       const instantWhatsAppButton = event.target.closest("[data-instant-whatsapp]");
       if (instantWhatsAppButton) {
         openInstantMatchWhatsApp();
+        return;
+      }
+      const decisionPathButton = event.target.closest("[data-decision-path]");
+      if (decisionPathButton) {
+        applyDecisionPath(decisionPathButton.dataset.decisionPath);
         return;
       }
       const scenarioWhatsAppButton = event.target.closest("[data-scenario-whatsapp]");

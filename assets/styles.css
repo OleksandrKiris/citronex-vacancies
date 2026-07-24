@@ -9260,6 +9260,95 @@ body.vacancy-first {
   border-radius: 16px;
 }
 
+/* v34 · decision path that prepares the safe application */
+.decision-path {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 20px;
+  color: #101820;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(229, 29, 42, 0.10), transparent 14rem),
+    linear-gradient(135deg, #ffffff, #f7fbf2);
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 30px;
+  box-shadow: 0 20px 54px rgba(16, 32, 24, 0.10);
+}
+
+.decision-path-head {
+  display: grid;
+  max-width: 760px;
+  gap: 6px;
+}
+
+.decision-path-head h2,
+.decision-path-head p {
+  margin: 0;
+}
+
+.decision-path-head h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.decision-path-head p:last-child {
+  color: #5b6878;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.decision-path-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.decision-path-card {
+  display: grid;
+  gap: 10px;
+  min-height: 238px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 14px 32px rgba(16, 32, 24, 0.08);
+}
+
+.decision-path-card > span {
+  justify-self: start;
+  padding: 6px 9px;
+  color: #0f6d4c;
+  background: #edfff5;
+  border: 1px solid rgba(15, 109, 76, 0.12);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.decision-path-card h3 {
+  margin: 0;
+  color: #101820;
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.decision-path-card p {
+  margin: 0;
+  color: #5b6878;
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+.decision-path-card .button {
+  align-self: end;
+  min-height: 42px;
+  border-radius: 14px;
+}
+
 /* v18 · instant 30-second matcher */
 .instant-match {
   display: grid;
@@ -10214,6 +10303,7 @@ body.vacancy-first {
   .country-explorer,
   .quick-share,
   .country-compare,
+  .decision-path,
   .whatsapp-scripts,
   .candidate-prep,
   .candidate-passport,
@@ -10222,6 +10312,7 @@ body.vacancy-first {
   .instant-choice-grid,
   .instant-result-grid,
   .country-compare-grid,
+  .decision-path-grid,
   .whatsapp-scripts-grid,
   .candidate-prep-grid,
   .candidate-passport-safe-grid,
@@ -10331,6 +10422,35 @@ body.vacancy-first {
     margin-top: 12px;
     padding: 14px;
     border-radius: 24px;
+  }
+
+  .decision-path {
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 24px;
+  }
+
+  .decision-path-head h2 {
+    font-size: 24px;
+  }
+
+  .decision-path-head p:last-child {
+    font-size: 13px;
+  }
+
+  .decision-path-grid {
+    gap: 10px;
+  }
+
+  .decision-path-card {
+    min-height: 0;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .decision-path-card h3 {
+    font-size: 20px;
   }
 
   .whatsapp-scripts-head h2 {
