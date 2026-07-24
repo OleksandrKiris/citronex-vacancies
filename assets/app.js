@@ -2633,6 +2633,14 @@
         matchOpen: "Open job",
         matchWhy: "Fits because",
         matchCheck: "Clarify",
+        smartTitle: "Smart check",
+        latinOk: "Name is easy to copy",
+        latinNeed: "Write name in Latin letters",
+        ageOk: "Age will be calculated for recruiter",
+        ageNeed: "Add date of birth",
+        directionOk: "Job direction is clear",
+        directionNeed: "Add job direction",
+        safeOk: "Only safe fields are used",
         labels: {
           name: "Full name in Latin letters",
           birthDate: "Date of birth",
@@ -2699,6 +2707,14 @@
         matchOpen: "Открыть вакансию",
         matchWhy: "Подходит потому что",
         matchCheck: "Уточнить",
+        smartTitle: "Умная проверка",
+        latinOk: "Имя удобно скопировать",
+        latinNeed: "Напишите имя латиницей",
+        ageOk: "Возраст посчитается для рекрутера",
+        ageNeed: "Добавьте дату рождения",
+        directionOk: "Направление работы понятно",
+        directionNeed: "Добавьте направление работы",
+        safeOk: "Используются только безопасные поля",
         labels: {
           name: "Имя и фамилия латиницей",
           birthDate: "Дата рождения",
@@ -2765,6 +2781,14 @@
         matchOpen: "Відкрити вакансію",
         matchWhy: "Підходить тому що",
         matchCheck: "Уточнити",
+        smartTitle: "Розумна перевірка",
+        latinOk: "Ім’я зручно скопіювати",
+        latinNeed: "Напишіть ім’я латиницею",
+        ageOk: "Вік порахується для рекрутера",
+        ageNeed: "Додайте дату народження",
+        directionOk: "Напрям роботи зрозумілий",
+        directionNeed: "Додайте напрям роботи",
+        safeOk: "Використовуються тільки безпечні поля",
         labels: {
           name: "Ім’я та прізвище латиницею",
           birthDate: "Дата народження",
@@ -2831,6 +2855,14 @@
         matchOpen: "Otwórz ofertę",
         matchWhy: "Pasuje, bo",
         matchCheck: "Wyjaśnij",
+        smartTitle: "Szybkie sprawdzenie",
+        latinOk: "Imię łatwo skopiować",
+        latinNeed: "Wpisz imię alfabetem łacińskim",
+        ageOk: "Wiek zostanie obliczony dla rekrutera",
+        ageNeed: "Dodaj datę urodzenia",
+        directionOk: "Kierunek pracy jest jasny",
+        directionNeed: "Dodaj kierunek pracy",
+        safeOk: "Używane są tylko bezpieczne pola",
         labels: {
           name: "Imię i nazwisko alfabetem łacińskim",
           birthDate: "Data urodzenia",
@@ -3215,6 +3247,36 @@
     `;
   }
 
+  function passportNameLooksLatin() {
+    const name = passportValue("name");
+    if (!name) return false;
+    return !/[А-Яа-яІіЇїЄєҐґԱ-ֆა-ჰऀ-ॿ]/.test(name);
+  }
+
+  function candidatePassportSmartCheckHTML() {
+    const copy = candidatePassportCopy();
+    const age = calculateAge(passportValue("birthDate"));
+    const checks = [
+      { ok: passportNameLooksLatin(), text: passportNameLooksLatin() ? copy.latinOk : copy.latinNeed },
+      { ok: Boolean(age), text: age ? `${copy.ageOk}: ${age}` : copy.ageNeed },
+      { ok: Boolean(passportValue("job") || passportValue("experience")), text: passportValue("job") || passportValue("experience") ? copy.directionOk : copy.directionNeed },
+      { ok: true, text: copy.safeOk }
+    ];
+    return `
+      <section class="candidate-passport-smart" aria-label="${escapeHTML(copy.smartTitle)}">
+        <strong>${escapeHTML(copy.smartTitle)}</strong>
+        <div>
+          ${checks.map((item) => `
+            <span class="${item.ok ? "is-ok" : "is-waiting"}">
+              <i aria-hidden="true">${item.ok ? "✓" : "!"}</i>
+              ${escapeHTML(item.text)}
+            </span>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
   function hasPassportMatchInput() {
     return ["destination", "experience", "people", "job", "readyDate"].some((key) => passportValue(key));
   }
@@ -3342,6 +3404,7 @@
       </form>
       <aside class="candidate-passport-preview">
         ${candidatePassportCoachHTML(score, missing)}
+        ${candidatePassportSmartCheckHTML()}
         ${candidatePassportMatchesHTML()}
         <div class="candidate-passport-message">
           <strong>${escapeHTML(copy.previewTitle)}</strong>

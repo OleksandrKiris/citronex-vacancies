@@ -10205,6 +10205,69 @@ body.vacancy-first {
   border-radius: 13px;
 }
 
+.candidate-passport-smart {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background:
+    linear-gradient(135deg, rgba(16, 32, 24, 0.96), rgba(15, 109, 76, 0.94));
+  border: 1px solid rgba(189, 242, 75, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 16px 34px rgba(9, 19, 15, 0.14);
+}
+
+.candidate-passport-smart > strong {
+  color: #bdf24b;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.candidate-passport-smart > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.candidate-passport-smart span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 7px 9px;
+  color: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.candidate-passport-smart i {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: #101820;
+  background: #bdf24b;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 950;
+}
+
+.candidate-passport-smart .is-waiting {
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 184, 77, 0.12);
+  border-color: rgba(255, 184, 77, 0.20);
+}
+
+.candidate-passport-smart .is-waiting i {
+  background: #ffb84d;
+}
+
 .candidate-passport-matches {
   display: grid;
   gap: 10px;
