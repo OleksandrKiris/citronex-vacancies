@@ -10503,6 +10503,35 @@ body.vacancy-first {
   background: #ffb84d;
 }
 
+.candidate-passport-latin-suggestion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 10px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(189, 242, 75, 0.10);
+  border: 1px solid rgba(189, 242, 75, 0.18);
+  border-radius: 16px;
+}
+
+.candidate-passport-latin-suggestion small {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.candidate-passport-latin-suggestion b {
+  overflow: hidden;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 950;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .candidate-passport-latin-action {
   justify-self: start;
   min-height: 34px;

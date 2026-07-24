@@ -2647,6 +2647,7 @@
         latinOk: "Name is easy to copy",
         latinNeed: "Write name in Latin letters",
         latinAction: "Make Latin",
+        latinPreview: "Suggested",
         ageOk: "Age will be calculated for recruiter",
         ageNeed: "Add date of birth",
         directionOk: "Job direction is clear",
@@ -2757,6 +2758,7 @@
         latinOk: "Имя удобно скопировать",
         latinNeed: "Напишите имя латиницей",
         latinAction: "Сделать латиницей",
+        latinPreview: "Вариант",
         ageOk: "Возраст посчитается для рекрутера",
         ageNeed: "Добавьте дату рождения",
         directionOk: "Направление работы понятно",
@@ -2867,6 +2869,7 @@
         latinOk: "Ім’я зручно скопіювати",
         latinNeed: "Напишіть ім’я латиницею",
         latinAction: "Зробити латиницею",
+        latinPreview: "Варіант",
         ageOk: "Вік порахується для рекрутера",
         ageNeed: "Додайте дату народження",
         directionOk: "Напрям роботи зрозумілий",
@@ -2977,6 +2980,7 @@
         latinOk: "Imię łatwo skopiować",
         latinNeed: "Wpisz imię alfabetem łacińskim",
         latinAction: "Zmień na łacińskie",
+        latinPreview: "Propozycja",
         ageOk: "Wiek zostanie obliczony dla rekrutera",
         ageNeed: "Dodaj datę urodzenia",
         directionOk: "Kierunek pracy jest jasny",
@@ -3512,7 +3516,7 @@
 
   function applyPassportLatinName() {
     const latinName = transliterateToLatin(passportValue("name"));
-    if (!latinName) return;
+    if (!latinName || latinName === passportValue("name")) return;
     state.passport.name = latinName;
     persistPassport();
     renderCandidatePassport();
@@ -3522,7 +3526,8 @@
   function candidatePassportSmartCheckHTML() {
     const copy = candidatePassportCopy();
     const age = calculateAge(passportValue("birthDate"));
-    const needsLatinAction = Boolean(passportValue("name")) && !passportNameLooksLatin();
+    const latinSuggestion = transliterateToLatin(passportValue("name"));
+    const needsLatinAction = Boolean(passportValue("name")) && !passportNameLooksLatin() && latinSuggestion && latinSuggestion !== passportValue("name");
     const checks = [
       { ok: passportNameLooksLatin(), text: passportNameLooksLatin() ? copy.latinOk : copy.latinNeed },
       { ok: Boolean(age), text: age ? `${copy.ageOk}: ${age}` : copy.ageNeed },
@@ -3540,7 +3545,13 @@
             </span>
           `).join("")}
         </div>
-        ${needsLatinAction ? `<button class="candidate-passport-latin-action" type="button" data-passport-latin-name>${escapeHTML(copy.latinAction)}</button>` : ""}
+        ${needsLatinAction ? `
+          <div class="candidate-passport-latin-suggestion">
+            <small>${escapeHTML(copy.latinPreview)}</small>
+            <b>${escapeHTML(latinSuggestion)}</b>
+            <button class="candidate-passport-latin-action" type="button" data-passport-latin-name>${escapeHTML(copy.latinAction)}</button>
+          </div>
+        ` : ""}
       </section>
     `;
   }
