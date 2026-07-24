@@ -26,7 +26,12 @@
     toastTimer: null,
     jobReturnRoute: "jobs",
     openJobId: "",
-    quickFilter: ""
+    quickFilter: "",
+    instantMatch: {
+      country: "any",
+      experience: "any",
+      area: "any"
+    }
   };
 
   const el = (id) => document.getElementById(id);
@@ -317,6 +322,132 @@
     return copy[i18n.locale] || copy.en;
   }
 
+  function instantMatchCopy() {
+    const copy = {
+      ru: {
+        kicker: "Подбор за 30 секунд",
+        title: "Ответьте на 3 вопроса",
+        intro: "Сайт сразу покажет вакансии, которые больше подходят под вашу ситуацию.",
+        country: "Где хотите работать?",
+        experience: "Ваш опыт",
+        area: "Что ближе?",
+        any: "Не важно",
+        poland: "Польша",
+        other: "Венгрия · Бельгия",
+        noExperience: "Без опыта",
+        experienced: "Есть опыт",
+        greenhouse: "Теплица",
+        warehouse: "Склад",
+        transport: "Водитель",
+        results: "Подходящие варианты",
+        open: "Открыть",
+        apply: "Анкета",
+        note: "Подбор предварительный. Условия, документы и дату старта всё равно нужно подтвердить."
+      },
+      uk: {
+        kicker: "Підбір за 30 секунд",
+        title: "Дайте 3 відповіді",
+        intro: "Сайт одразу покаже вакансії, які більше підходять під вашу ситуацію.",
+        country: "Де хочете працювати?",
+        experience: "Ваш досвід",
+        area: "Що ближче?",
+        any: "Неважливо",
+        poland: "Польща",
+        other: "Угорщина · Бельгія",
+        noExperience: "Без досвіду",
+        experienced: "Є досвід",
+        greenhouse: "Теплиця",
+        warehouse: "Склад",
+        transport: "Водій",
+        results: "Варіанти",
+        open: "Відкрити",
+        apply: "Анкета",
+        note: "Підбір попередній. Умови, документи і дату старту потрібно підтвердити."
+      },
+      pl: {
+        kicker: "Dopasowanie w 30 sekund",
+        title: "Odpowiedz na 3 pytania",
+        intro: "Strona od razu pokaże oferty najlepiej pasujące do Twojej sytuacji.",
+        country: "Gdzie chcesz pracować?",
+        experience: "Doświadczenie",
+        area: "Co wybierasz?",
+        any: "Bez różnicy",
+        poland: "Polska",
+        other: "Węgry · Belgia",
+        noExperience: "Bez doświadczenia",
+        experienced: "Mam doświadczenie",
+        greenhouse: "Szklarnia",
+        warehouse: "Magazyn",
+        transport: "Kierowca",
+        results: "Dopasowane oferty",
+        open: "Otwórz",
+        apply: "Ankieta",
+        note: "To wstępne dopasowanie. Warunki, dokumenty i start trzeba potwierdzić."
+      },
+      en: {
+        kicker: "Match in 30 seconds",
+        title: "Answer 3 questions",
+        intro: "The site will immediately show jobs that fit your situation better.",
+        country: "Where do you want to work?",
+        experience: "Your experience",
+        area: "Preferred work",
+        any: "Any",
+        poland: "Poland",
+        other: "Hungary · Belgium",
+        noExperience: "No experience",
+        experienced: "Experienced",
+        greenhouse: "Greenhouse",
+        warehouse: "Warehouse",
+        transport: "Driver",
+        results: "Suitable jobs",
+        open: "Open",
+        apply: "Form",
+        note: "This is a preliminary match. Conditions, documents and start date still need confirmation."
+      },
+      ka: {
+        kicker: "შერჩევა 30 წამში",
+        title: "უპასუხეთ 3 კითხვას",
+        intro: "საიტი მაშინვე გაჩვენებთ უფრო შესაფერის ვაკანსიებს.",
+        country: "სად გსურთ მუშაობა?",
+        experience: "გამოცდილება",
+        area: "რა გირჩევნიათ?",
+        any: "ნებისმიერი",
+        poland: "პოლონეთი",
+        other: "უნგრეთი · ბელგია",
+        noExperience: "გამოცდილების გარეშე",
+        experienced: "გამოცდილებით",
+        greenhouse: "სათბური",
+        warehouse: "საწყობი",
+        transport: "მძღოლი",
+        results: "შესაფერისი ვარიანტები",
+        open: "გახსნა",
+        apply: "ანკეტა",
+        note: "ეს წინასწარი შერჩევაა. პირობები, დოკუმენტები და დაწყების თარიღი უნდა დადასტურდეს."
+      },
+      ne: {
+        kicker: "३० सेकेन्डमा मिलान",
+        title: "३ प्रश्नको उत्तर दिनुहोस्",
+        intro: "साइटले तपाईंको अवस्थासँग मिल्ने कामहरू तुरुन्त देखाउँछ।",
+        country: "कहाँ काम गर्न चाहनुहुन्छ?",
+        experience: "अनुभव",
+        area: "कामको प्रकार",
+        any: "जे भए पनि",
+        poland: "पोल्याण्ड",
+        other: "हंगेरी · बेल्जियम",
+        noExperience: "अनुभव छैन",
+        experienced: "अनुभव छ",
+        greenhouse: "ग्रीनहाउस",
+        warehouse: "गोदाम",
+        transport: "चालक",
+        results: "उपयुक्त कामहरू",
+        open: "खोल्नुहोस्",
+        apply: "फारम",
+        note: "यो प्रारम्भिक मिलान हो। सर्त, कागजात र सुरु मिति पुष्टि गर्नुपर्छ।"
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
   function resourceIconName(id = "") {
     const iconById = {
       "pay-and-hours": "jobs",
@@ -525,6 +656,7 @@
     }
 
     renderQuickStart();
+    renderInstantMatcher();
     renderCandidateSituations();
 
     el("clear-local-data").onclick = clearLocalData;
@@ -593,6 +725,99 @@
     });
     const surveyButton = document.querySelector(".quick-start [data-application-general]");
     if (surveyButton) surveyButton.textContent = copy.survey;
+  }
+
+  function instantChoiceButton(group, value, label) {
+    const active = state.instantMatch[group] === value;
+    return `<button class="instant-choice${active ? " active" : ""}" type="button" data-instant-choice="${escapeHTML(group)}:${escapeHTML(value)}" aria-pressed="${active}">${escapeHTML(label)}</button>`;
+  }
+
+  function instantMatchScore(job) {
+    const { country, experience, area } = state.instantMatch;
+    let score = 0;
+    if (country === "any") score += 1;
+    else if (country === "poland" && job.format === "Польша") score += 8;
+    else if (country === "other" && job.format !== "Польша") score += 8;
+    else score -= 4;
+
+    if (experience === "any") score += 1;
+    else if (experience === "none" && job.level === "Без опыта") score += 7;
+    else if (experience === "experienced" && job.level !== "Без опыта") score += 7;
+    else if (experience === "experienced") score += 2;
+
+    if (area === "any") score += 1;
+    else if (area === "greenhouse" && job.category === "Теплицы") score += 7;
+    else if (area === "warehouse" && job.category === "Склад") score += 7;
+    else if (area === "transport" && (job.id.startsWith("driver-") || job.category === "Водители")) score += 9;
+    else score -= 2;
+
+    if (["open", "verify"].includes(job.status)) score += 2;
+    if (job.featured) score += 1;
+    return score;
+  }
+
+  function instantMatches() {
+    return jobs
+      .map((job) => ({ job, score: instantMatchScore(job) }))
+      .sort((a, b) => b.score - a.score || new Date(b.job.updatedAt) - new Date(a.job.updatedAt))
+      .slice(0, 3)
+      .map((item) => item.job);
+  }
+
+  function renderInstantMatcher() {
+    const copy = instantMatchCopy();
+    if (el("instant-match-kicker")) el("instant-match-kicker").textContent = copy.kicker;
+    if (el("instant-match-heading")) el("instant-match-heading").textContent = copy.title;
+    if (el("instant-match-intro")) el("instant-match-intro").textContent = copy.intro;
+    if (!el("instant-match-panel")) return;
+    const groups = [
+      {
+        id: "country",
+        title: copy.country,
+        choices: [["any", copy.any], ["poland", copy.poland], ["other", copy.other]]
+      },
+      {
+        id: "experience",
+        title: copy.experience,
+        choices: [["any", copy.any], ["none", copy.noExperience], ["experienced", copy.experienced]]
+      },
+      {
+        id: "area",
+        title: copy.area,
+        choices: [["any", copy.any], ["greenhouse", copy.greenhouse], ["warehouse", copy.warehouse], ["transport", copy.transport]]
+      }
+    ];
+    const matches = instantMatches();
+    el("instant-match-panel").innerHTML = `
+      <div class="instant-choice-grid">
+        ${groups.map((group) => `
+          <fieldset class="instant-choice-group">
+            <legend>${escapeHTML(group.title)}</legend>
+            <div>${group.choices.map(([value, label]) => instantChoiceButton(group.id, value, label)).join("")}</div>
+          </fieldset>
+        `).join("")}
+      </div>
+      <div class="instant-result-head">
+        <strong>${escapeHTML(copy.results)}</strong>
+        <small>${escapeHTML(copy.note)}</small>
+      </div>
+      <div class="instant-result-grid">
+        ${matches.map((job) => {
+          const view = localizedJob(job);
+          return `
+            <article class="instant-result-card">
+              <span>${escapeHTML(view.format)} · ${escapeHTML(view.level)}</span>
+              <h3>${escapeHTML(view.title)}</h3>
+              <p>${formatSalary(view.salary)}</p>
+              <div>
+                <button class="button button-primary" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(copy.open)}</button>
+                <button class="button button-secondary" type="button" data-job-survey="${escapeHTML(job.id)}">${escapeHTML(copy.apply)}</button>
+              </div>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
   }
 
   function renderCandidateSituations() {
@@ -1480,6 +1705,15 @@
       const quickFilterButton = event.target.closest("[data-quick-filter]");
       if (quickFilterButton) {
         applyQuickFilter(quickFilterButton.dataset.quickFilter);
+        return;
+      }
+      const instantChoice = event.target.closest("[data-instant-choice]");
+      if (instantChoice) {
+        const [group, value] = instantChoice.dataset.instantChoice.split(":");
+        if (group && value && Object.hasOwn(state.instantMatch, group)) {
+          state.instantMatch[group] = value;
+          renderInstantMatcher();
+        }
         return;
       }
       const surveyButton = event.target.closest("[data-job-survey]");
