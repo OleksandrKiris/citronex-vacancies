@@ -355,6 +355,14 @@
         badgeNoExperience: "Без опыта",
         badgeCountry: "Подходит по стране",
         badgeStable: "Стабильный вариант",
+        whyTitle: "Почему подходит",
+        whyCountry: "выбранная страна совпадает с вакансией",
+        whyNoExperience: "можно рассматривать без опыта",
+        whyExperience: "подходит для кандидата с опытом",
+        whyGreenhouse: "вы выбрали теплицу",
+        whyWarehouse: "вы выбрали склад",
+        whyDriver: "вы выбрали направление водителя",
+        whyFeatured: "часто подходит как стартовый вариант",
         note: "Подбор предварительный. Условия, документы и дату старта всё равно нужно подтвердить."
       },
       uk: {
@@ -388,6 +396,14 @@
         badgeNoExperience: "Без досвіду",
         badgeCountry: "Підходить за країною",
         badgeStable: "Стабільний варіант",
+        whyTitle: "Чому підходить",
+        whyCountry: "обрана країна збігається з вакансією",
+        whyNoExperience: "можна розглядати без досвіду",
+        whyExperience: "підходить кандидату з досвідом",
+        whyGreenhouse: "ви обрали теплицю",
+        whyWarehouse: "ви обрали склад",
+        whyDriver: "ви обрали напрям водія",
+        whyFeatured: "часто підходить як стартовий варіант",
         note: "Підбір попередній. Умови, документи і дату старту потрібно підтвердити."
       },
       pl: {
@@ -421,6 +437,14 @@
         badgeNoExperience: "Bez doświadczenia",
         badgeCountry: "Pasuje do kraju",
         badgeStable: "Stabilna opcja",
+        whyTitle: "Dlaczego pasuje",
+        whyCountry: "wybrany kraj pasuje do oferty",
+        whyNoExperience: "można rozważyć bez doświadczenia",
+        whyExperience: "pasuje do kandydata z doświadczeniem",
+        whyGreenhouse: "wybrano szklarnię",
+        whyWarehouse: "wybrano magazyn",
+        whyDriver: "wybrano kierowcę",
+        whyFeatured: "często dobra opcja na start",
         note: "To wstępne dopasowanie. Warunki, dokumenty i start trzeba potwierdzić."
       },
       en: {
@@ -454,6 +478,14 @@
         badgeNoExperience: "No experience",
         badgeCountry: "Country match",
         badgeStable: "Stable option",
+        whyTitle: "Why it fits",
+        whyCountry: "selected country matches this job",
+        whyNoExperience: "can be considered without experience",
+        whyExperience: "fits candidates with experience",
+        whyGreenhouse: "you selected greenhouse work",
+        whyWarehouse: "you selected warehouse work",
+        whyDriver: "you selected driver work",
+        whyFeatured: "often works well as a starting option",
         note: "This is a preliminary match. Conditions, documents and start date still need confirmation."
       },
       az: {
@@ -859,6 +891,7 @@
     renderQuickStart();
     renderCountryExplorer();
     renderHonestFit();
+    renderAntiScam();
     renderInstantMatcher();
     renderCandidateSituations();
 
@@ -1209,6 +1242,80 @@
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
+  function antiScamCopy() {
+    const copy = {
+      ru: {
+        kicker: "Безопасность кандидата",
+        title: "Перед документами проверьте контакт",
+        intro: "Сайт помогает выбрать вакансию, но документы и условия подтверждаются только в прямом контакте.",
+        items: [
+          { title: "Не переводите деньги", text: "Не отправляйте оплату неизвестным людям за “бронь” вакансии или жилья." },
+          { title: "Не отправляйте банковские коды", text: "CVV, SMS-коды и пароли от банка никогда не нужны для трудоустройства." },
+          { title: "Сверяйте номер", text: "Пишите через кнопки на этом сайте — так меньше риск попасть в чужой чат." },
+          { title: "Условия подтверждаются", text: "Локация, дата старта, жильё, часы и документы уточняются до поездки." }
+        ],
+        cta: "Проверить через WhatsApp"
+      },
+      uk: {
+        kicker: "Безпека кандидата",
+        title: "Перед документами перевірте контакт",
+        intro: "Сайт допомагає обрати вакансію, але документи й умови підтверджуються тільки в прямому контакті.",
+        items: [
+          { title: "Не переказуйте гроші", text: "Не надсилайте оплату невідомим людям за “бронь” вакансії або житла." },
+          { title: "Не надсилайте банківські коди", text: "CVV, SMS-коди і паролі від банку ніколи не потрібні для працевлаштування." },
+          { title: "Звіряйте номер", text: "Пишіть через кнопки на цьому сайті — так менший ризик потрапити в чужий чат." },
+          { title: "Умови підтверджуються", text: "Локація, дата старту, житло, години і документи уточнюються до поїздки." }
+        ],
+        cta: "Перевірити через WhatsApp"
+      },
+      pl: {
+        kicker: "Bezpieczeństwo kandydata",
+        title: "Przed dokumentami sprawdź kontakt",
+        intro: "Strona pomaga wybrać ofertę, ale dokumenty i warunki potwierdzamy tylko w bezpośrednim kontakcie.",
+        items: [
+          { title: "Nie przelewaj pieniędzy", text: "Nie płać obcym osobom za “rezerwację” pracy lub zakwaterowania." },
+          { title: "Nie wysyłaj kodów bankowych", text: "CVV, kody SMS i hasła bankowe nigdy nie są potrzebne do zatrudnienia." },
+          { title: "Sprawdź numer", text: "Pisz przez przyciski na tej stronie — zmniejsza to ryzyko fałszywego czatu." },
+          { title: "Warunki są potwierdzane", text: "Lokalizacja, start, mieszkanie, godziny i dokumenty są sprawdzane przed wyjazdem." }
+        ],
+        cta: "Sprawdź przez WhatsApp"
+      },
+      en: {
+        kicker: "Candidate safety",
+        title: "Check the contact before documents",
+        intro: "The site helps you choose a job, but documents and conditions are confirmed only in direct contact.",
+        items: [
+          { title: "Do not send money", text: "Do not pay unknown people for a job or housing “reservation”." },
+          { title: "Do not send bank codes", text: "CVV, SMS codes and bank passwords are never needed for employment." },
+          { title: "Check the number", text: "Use the buttons on this site to reduce the risk of a fake chat." },
+          { title: "Conditions are confirmed", text: "Location, start date, housing, hours and documents are checked before travel." }
+        ],
+        cta: "Verify via WhatsApp"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function renderAntiScam() {
+    const container = el("anti-scam-grid");
+    if (!container) return;
+    const copy = antiScamCopy();
+    if (el("anti-scam-kicker")) el("anti-scam-kicker").textContent = copy.kicker;
+    if (el("anti-scam-heading")) el("anti-scam-heading").textContent = copy.title;
+    if (el("anti-scam-intro")) el("anti-scam-intro").textContent = copy.intro;
+    container.innerHTML = copy.items.map((item, index) => `
+      <article class="anti-scam-card">
+        <span aria-hidden="true">${index + 1}</span>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p>${escapeHTML(item.text)}</p>
+      </article>
+    `).join("") + `
+      <a class="button button-whatsapp anti-scam-cta" href="${escapeHTML(profile.whatsapp || "#")}" target="_blank" rel="noopener noreferrer">
+        ${escapeHTML(copy.cta)}
+      </a>
+    `;
+  }
+
   function renderHonestFit() {
     const container = el("honest-fit-grid");
     if (!container) return;
@@ -1349,6 +1456,22 @@
     return copy.badgeHours;
   }
 
+  function instantJobReasons(job) {
+    const copy = instantMatchCopy();
+    const reasons = [];
+    if ((state.instantMatch.country === "poland" && job.format === "Польша") || (state.instantMatch.country === "other" && job.format !== "Польша")) {
+      reasons.push(copy.whyCountry);
+    }
+    if (state.instantMatch.experience === "none" || job.level === "Без опыта") reasons.push(copy.whyNoExperience);
+    if (state.instantMatch.experience === "experienced" && job.level !== "Без опыта") reasons.push(copy.whyExperience);
+    if (state.instantMatch.area === "greenhouse" && job.category === "Теплицы") reasons.push(copy.whyGreenhouse);
+    if (state.instantMatch.area === "warehouse" && job.category === "Склад") reasons.push(copy.whyWarehouse);
+    if (state.instantMatch.area === "transport" && (job.id.startsWith("driver-") || job.category === "Транспорт")) reasons.push(copy.whyDriver);
+    if (!reasons.length && job.featured) reasons.push(copy.whyFeatured);
+    if (!reasons.length) reasons.push(copy.badgeStable);
+    return reasons.slice(0, 2);
+  }
+
   function instantChoiceLabel(group, value) {
     const copy = instantMatchCopy();
     const labels = {
@@ -1462,12 +1585,17 @@
       <div class="instant-result-grid">
         ${matches.map((job) => {
           const view = localizedJob(job);
+          const reasons = instantJobReasons(job);
           return `
             <article class="instant-result-card">
               <strong class="instant-result-badge">${escapeHTML(instantJobBadge(job, matches.indexOf(job)))}</strong>
               <span>${escapeHTML(view.format)} · ${escapeHTML(view.level)}</span>
               <h3>${escapeHTML(view.title)}</h3>
               <p>${formatSalary(view.salary)}</p>
+              <div class="instant-reasons">
+                <small>${escapeHTML(copy.whyTitle)}</small>
+                <ul>${reasons.map((reason) => `<li>${escapeHTML(reason)}</li>`).join("")}</ul>
+              </div>
               <div>
                 <button class="button button-primary" type="button" data-job-open="${escapeHTML(job.id)}">${escapeHTML(copy.open)}</button>
                 <button class="button button-secondary" type="button" data-job-survey="${escapeHTML(job.id)}">${escapeHTML(copy.apply)}</button>
@@ -1658,6 +1786,8 @@
     if (type === "country" && value === "other") return job.format !== "Польша";
     if (type === "level" && value === "noExperience") return job.level === "Без опыта";
     if (type === "category" && value === "driver") return job.id.startsWith("driver-") || job.category === "Водители";
+    if (type === "category" && value === "greenhouse") return job.category === "Теплицы";
+    if (type === "category" && value === "warehouse") return job.category === "Склад";
     return true;
   }
 
@@ -1666,6 +1796,53 @@
     el("job-filters").reset();
     renderAllJobs();
     showView("jobs");
+  }
+
+  function urlQuickFilter() {
+    const params = new URL(window.location.href).searchParams;
+    const country = String(params.get("country") || "").toLowerCase();
+    const filter = String(params.get("filter") || params.get("direction") || "").toLowerCase();
+    const countryMap = {
+      pl: "country:poland",
+      poland: "country:poland",
+      polska: "country:poland",
+      hu: "country:hungary",
+      hungary: "country:hungary",
+      wegry: "country:hungary",
+      węgry: "country:hungary",
+      be: "country:belgium",
+      belgium: "country:belgium",
+      belgia: "country:belgium"
+    };
+    const filterMap = {
+      driver: "category:driver",
+      drivers: "category:driver",
+      transport: "category:driver",
+      ce: "category:driver",
+      noexperience: "level:noExperience",
+      "no-experience": "level:noExperience",
+      beginner: "level:noExperience",
+      greenhouse: "category:greenhouse",
+      glasshouse: "category:greenhouse",
+      warehouse: "category:warehouse",
+      sklad: "category:warehouse",
+      "skład": "category:warehouse"
+    };
+    return countryMap[country] || filterMap[filter] || "";
+  }
+
+  function applyUrlIntent() {
+    const quickFilter = urlQuickFilter();
+    if (!quickFilter) return "";
+    state.quickFilter = quickFilter;
+    const [, value] = quickFilter.split(":");
+    if (quickFilter === "country:poland") state.instantMatch.country = "poland";
+    if (quickFilter === "country:hungary" || quickFilter === "country:belgium") state.instantMatch.country = "other";
+    if (quickFilter === "category:driver") state.instantMatch.area = "transport";
+    if (quickFilter === "category:greenhouse") state.instantMatch.area = "greenhouse";
+    if (quickFilter === "category:warehouse") state.instantMatch.area = "warehouse";
+    if (quickFilter === "level:noExperience") state.instantMatch.experience = "none";
+    return value ? "jobs" : "";
   }
 
   function toggleFavorite(id) {
@@ -2489,6 +2666,7 @@
   function init() {
     i18n.init();
     sanitizeStoredState();
+    const urlIntentRoute = applyUrlIntent();
     renderProfileContent();
     populateFilters();
     renderResources();
@@ -2497,7 +2675,8 @@
     setupInstallFlow();
     updateConnectionStatus();
     registerServiceWorker();
-    handleHashRoute();
+    if (urlIntentRoute && !location.hash) showView(urlIntentRoute, false, false);
+    else handleHashRoute();
   }
 
   init();
