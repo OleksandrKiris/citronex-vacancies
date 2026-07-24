@@ -8511,6 +8511,199 @@ body.vacancy-first {
   }
 }
 
+/* v73 · full-page visual rhythm polish */
+body.vacancy-first {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(189, 242, 75, 0.16), transparent 18rem),
+    radial-gradient(circle at 92% 24%, rgba(229, 29, 42, 0.08), transparent 18rem),
+    linear-gradient(180deg, #fffdf8 0%, #f6faf4 42%, #fffdf8 100%);
+}
+
+body.vacancy-first::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(16, 24, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 24, 32, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 74%, transparent 100%);
+}
+
+.vacancy-first .section,
+.vacancy-first .quick-start,
+.vacancy-first .country-explorer,
+.vacancy-first .quick-share,
+.vacancy-first .country-compare,
+.vacancy-first .honest-fit,
+.vacancy-first .anti-scam,
+.vacancy-first .priority-picker,
+.vacancy-first .decision-path,
+.vacancy-first .candidate-prep,
+.vacancy-first .candidate-passport,
+.vacancy-first .candidate-situations {
+  scroll-margin-top: 92px;
+}
+
+.vacancy-first .section-heading,
+.vacancy-first .page-heading,
+.candidate-situations-head,
+.whatsapp-scripts-head,
+.after-whatsapp-head {
+  position: relative;
+}
+
+.vacancy-first .section-heading::before,
+.vacancy-first .page-heading::before,
+.candidate-situations-head::before,
+.whatsapp-scripts-head::before,
+.after-whatsapp-head::before {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 5px;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #e51d2a, #ffb84d, #bdf24b);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(229, 29, 42, 0.16);
+}
+
+.vacancy-first .section-heading h2,
+.vacancy-first .page-heading h1,
+.candidate-situations h2,
+.instant-match-copy h2,
+.quick-start h2,
+.whatsapp-scripts-head h2,
+.after-whatsapp-head h2 {
+  text-wrap: balance;
+}
+
+.vacancy-first .section-heading p,
+.vacancy-first .page-heading p,
+.candidate-situations-head p,
+.instant-match-copy p,
+.quick-start p,
+.whatsapp-scripts-head p:last-child,
+.after-whatsapp-head p:last-child {
+  text-wrap: pretty;
+}
+
+.vacancy-first .quick-start,
+.vacancy-first .country-explorer,
+.vacancy-first .quick-share,
+.vacancy-first .country-compare,
+.vacancy-first .honest-fit,
+.vacancy-first .anti-scam,
+.vacancy-first .priority-picker,
+.vacancy-first .decision-path,
+.vacancy-first .candidate-prep,
+.vacancy-first .candidate-situations,
+.vacancy-first .content-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 10rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 247, 0.94));
+  border: 1px solid rgba(16, 24, 32, 0.075);
+  box-shadow: 0 18px 44px rgba(16, 24, 32, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.vacancy-first .quick-start::after,
+.vacancy-first .country-explorer::after,
+.vacancy-first .quick-share::after,
+.vacancy-first .country-compare::after,
+.vacancy-first .honest-fit::after,
+.vacancy-first .anti-scam::after,
+.vacancy-first .priority-picker::after,
+.vacancy-first .decision-path::after,
+.vacancy-first .candidate-prep::after,
+.vacancy-first .candidate-situations::after,
+.vacancy-first .content-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.42), transparent 26%, transparent 78%, rgba(189, 242, 75, 0.08));
+}
+
+.vacancy-first .quick-start > *,
+.vacancy-first .country-explorer > *,
+.vacancy-first .quick-share > *,
+.vacancy-first .country-compare > *,
+.vacancy-first .honest-fit > *,
+.vacancy-first .anti-scam > *,
+.vacancy-first .priority-picker > *,
+.vacancy-first .decision-path > *,
+.vacancy-first .candidate-prep > *,
+.vacancy-first .candidate-situations > *,
+.vacancy-first .content-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.instant-match {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(189, 242, 75, 0.18), transparent 12rem),
+    radial-gradient(circle at 100% 100%, rgba(229, 29, 42, 0.08), transparent 12rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 246, 0.96));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 22px 56px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+.instant-match::after {
+  content: "";
+  position: absolute;
+  right: -6rem;
+  top: -7rem;
+  width: 17rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 10deg, rgba(189, 242, 75, 0.18) 0deg 8deg, transparent 8deg 18deg);
+  border-radius: 50%;
+  opacity: 0.52;
+}
+
+.instant-match > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 720px) {
+  body.vacancy-first::before {
+    background-size: 34px 34px;
+    opacity: 0.72;
+  }
+
+  .vacancy-first .section-heading::before,
+  .vacancy-first .page-heading::before,
+  .candidate-situations-head::before,
+  .whatsapp-scripts-head::before,
+  .after-whatsapp-head::before {
+    width: 44px;
+    height: 4px;
+    margin-bottom: 10px;
+  }
+
+  .vacancy-first .quick-start,
+  .vacancy-first .country-explorer,
+  .vacancy-first .quick-share,
+  .vacancy-first .country-compare,
+  .vacancy-first .honest-fit,
+  .vacancy-first .anti-scam,
+  .vacancy-first .priority-picker,
+  .vacancy-first .decision-path,
+  .vacancy-first .candidate-prep,
+  .vacancy-first .candidate-situations,
+  .vacancy-first .content-card,
+  .instant-match {
+    border-radius: 24px;
+  }
+}
+
 @media (max-width: 380px) {
   .vacancy-first .hero h1 {
     font-size: 29px;
