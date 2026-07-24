@@ -349,6 +349,12 @@
         messageJobs: "Подходящие вакансии",
         messageLanguage: "Язык сайта",
         messageLink: "Ссылка",
+        badgeBest: "Лучший старт",
+        badgeHours: "Больше часов",
+        badgeDriver: "Для водителя",
+        badgeNoExperience: "Без опыта",
+        badgeCountry: "Подходит по стране",
+        badgeStable: "Стабильный вариант",
         note: "Подбор предварительный. Условия, документы и дату старта всё равно нужно подтвердить."
       },
       uk: {
@@ -376,6 +382,12 @@
         messageJobs: "Відповідні вакансії",
         messageLanguage: "Мова сайту",
         messageLink: "Посилання",
+        badgeBest: "Найкращий старт",
+        badgeHours: "Більше годин",
+        badgeDriver: "Для водія",
+        badgeNoExperience: "Без досвіду",
+        badgeCountry: "Підходить за країною",
+        badgeStable: "Стабільний варіант",
         note: "Підбір попередній. Умови, документи і дату старту потрібно підтвердити."
       },
       pl: {
@@ -403,6 +415,12 @@
         messageJobs: "Pasujące oferty",
         messageLanguage: "Język strony",
         messageLink: "Link",
+        badgeBest: "Najlepszy start",
+        badgeHours: "Więcej godzin",
+        badgeDriver: "Dla kierowcy",
+        badgeNoExperience: "Bez doświadczenia",
+        badgeCountry: "Pasuje do kraju",
+        badgeStable: "Stabilna opcja",
         note: "To wstępne dopasowanie. Warunki, dokumenty i start trzeba potwierdzić."
       },
       en: {
@@ -430,6 +448,12 @@
         messageJobs: "Suitable jobs",
         messageLanguage: "Site language",
         messageLink: "Link",
+        badgeBest: "Best start",
+        badgeHours: "More hours",
+        badgeDriver: "For drivers",
+        badgeNoExperience: "No experience",
+        badgeCountry: "Country match",
+        badgeStable: "Stable option",
         note: "This is a preliminary match. Conditions, documents and start date still need confirmation."
       },
       az: {
@@ -833,6 +857,7 @@
     }
 
     renderQuickStart();
+    renderCountryExplorer();
     renderInstantMatcher();
     renderCandidateSituations();
 
@@ -904,6 +929,270 @@
     if (surveyButton) surveyButton.textContent = copy.survey;
   }
 
+  function countryExplorerCopy() {
+    const copy = {
+      ru: {
+        kicker: "Вакансии по странам",
+        title: "Сначала выберите страну",
+        intro: "Так быстрее понять ставку, жильё, документы и ближайший подходящий вариант.",
+        jobs: "вакансий",
+        from: "от",
+        gross: "брутто",
+        housing: "Жильё уточняем перед стартом",
+        poland: "Самый широкий выбор: теплицы, склад, производство и водители.",
+        hungary: "Варианты для кандидатов, которым важна страна и оформление.",
+        belgium: "Отдельные условия, документы и старт всегда уточняются лично.",
+        noExperience: "без опыта",
+        pairs: "пары",
+        drivers: "водители",
+        specialists: "специалисты",
+        open: "Показать вакансии"
+      },
+      uk: {
+        kicker: "Вакансії за країнами",
+        title: "Спочатку оберіть країну",
+        intro: "Так швидше зрозуміти ставку, житло, документи і найближчий варіант.",
+        jobs: "вакансій",
+        from: "від",
+        gross: "брутто",
+        housing: "Житло уточнюємо перед стартом",
+        poland: "Найширший вибір: теплиці, склад, виробництво і водії.",
+        hungary: "Варіанти для кандидатів, яким важлива країна та оформлення.",
+        belgium: "Окремі умови, документи і старт завжди уточнюються особисто.",
+        noExperience: "без досвіду",
+        pairs: "пари",
+        drivers: "водії",
+        specialists: "спеціалісти",
+        open: "Показати вакансії"
+      },
+      pl: {
+        kicker: "Oferty według kraju",
+        title: "Najpierw wybierz kraj",
+        intro: "Szybciej sprawdzisz stawkę, zakwaterowanie, dokumenty i najlepszą opcję.",
+        jobs: "ofert",
+        from: "od",
+        gross: "brutto",
+        housing: "Zakwaterowanie potwierdzamy przed startem",
+        poland: "Najszerszy wybór: szklarnie, magazyn, produkcja i kierowcy.",
+        hungary: "Opcje dla kandydatów, dla których ważny jest kraj i formalności.",
+        belgium: "Warunki, dokumenty i start zawsze potwierdzamy indywidualnie.",
+        noExperience: "bez doświadczenia",
+        pairs: "pary",
+        drivers: "kierowcy",
+        specialists: "specjaliści",
+        open: "Pokaż oferty"
+      },
+      en: {
+        kicker: "Jobs by country",
+        title: "Choose the country first",
+        intro: "It helps candidates quickly understand pay, housing, documents and the best next option.",
+        jobs: "jobs",
+        from: "from",
+        gross: "gross",
+        housing: "Housing is confirmed before start",
+        poland: "The widest choice: greenhouse, warehouse, production and drivers.",
+        hungary: "Options for candidates who care about the country and paperwork.",
+        belgium: "Conditions, documents and start date are always confirmed personally.",
+        noExperience: "no experience",
+        pairs: "couples",
+        drivers: "drivers",
+        specialists: "specialists",
+        open: "Show jobs"
+      },
+      az: {
+        kicker: "Ölkələr üzrə vakansiyalar",
+        title: "Əvvəlcə ölkəni seçin",
+        intro: "Maaşı, yaşayışı, sənədləri və uyğun variantı daha tez anlamağa kömək edir.",
+        jobs: "vakansiya",
+        from: "başlayır",
+        gross: "brutto",
+        housing: "Yaşayış startdan əvvəl təsdiqlənir",
+        poland: "Ən geniş seçim: istixana, anbar, istehsal və sürücülər.",
+        hungary: "Ölkə və rəsmiləşdirmə vacib olan namizədlər üçün seçimlər.",
+        belgium: "Şərtlər, sənədlər və start tarixi fərdi təsdiqlənir.",
+        noExperience: "təcrübəsiz",
+        pairs: "cütlüklər",
+        drivers: "sürücülər",
+        specialists: "mütəxəssislər",
+        open: "Vakansiyaları göstər"
+      },
+      ka: {
+        kicker: "ვაკანსიები ქვეყნების მიხედვით",
+        title: "ჯერ ქვეყანა აირჩიეთ",
+        intro: "ასე სწრაფად გაიგებთ ანაზღაურებას, საცხოვრებელს, დოკუმენტებს და საუკეთესო ვარიანტს.",
+        jobs: "ვაკანსია",
+        from: "დან",
+        gross: "ბრუტო",
+        housing: "საცხოვრებელი დასაწყისამდე ზუსტდება",
+        poland: "ყველაზე ფართო არჩევანი: სათბური, საწყობი, წარმოება და მძღოლები.",
+        hungary: "ვარიანტები მათთვის, ვისთვისაც ქვეყანა და გაფორმება მნიშვნელოვანია.",
+        belgium: "პირობები, დოკუმენტები და დაწყება პირადად ზუსტდება.",
+        noExperience: "გამოცდილების გარეშე",
+        pairs: "წყვილები",
+        drivers: "მძღოლები",
+        specialists: "სპეციალისტები",
+        open: "ვაკანსიების ჩვენება"
+      },
+      id: {
+        kicker: "Lowongan per negara",
+        title: "Pilih negara dulu",
+        intro: "Ini membantu memahami gaji, tempat tinggal, dokumen, dan opsi terbaik lebih cepat.",
+        jobs: "lowongan",
+        from: "mulai",
+        gross: "gross",
+        housing: "Akomodasi dikonfirmasi sebelum mulai",
+        poland: "Pilihan terluas: greenhouse, gudang, produksi, dan sopir.",
+        hungary: "Opsi untuk kandidat yang fokus pada negara dan dokumen.",
+        belgium: "Syarat, dokumen, dan tanggal mulai selalu dikonfirmasi pribadi.",
+        noExperience: "tanpa pengalaman",
+        pairs: "pasangan",
+        drivers: "sopir",
+        specialists: "spesialis",
+        open: "Tampilkan lowongan"
+      },
+      es: {
+        kicker: "Vacantes por país",
+        title: "Primero elige el país",
+        intro: "Así es más fácil entender salario, alojamiento, documentos y la mejor opción.",
+        jobs: "vacantes",
+        from: "desde",
+        gross: "bruto",
+        housing: "El alojamiento se confirma antes del inicio",
+        poland: "La opción más amplia: invernadero, almacén, producción y conductores.",
+        hungary: "Opciones para candidatos que priorizan país y documentos.",
+        belgium: "Condiciones, documentos e inicio se confirman personalmente.",
+        noExperience: "sin experiencia",
+        pairs: "parejas",
+        drivers: "conductores",
+        specialists: "especialistas",
+        open: "Mostrar vacantes"
+      },
+      fil: {
+        kicker: "Trabaho ayon sa bansa",
+        title: "Pumili muna ng bansa",
+        intro: "Mas mabilis makita ang sahod, tirahan, dokumento, at bagay na opsyon.",
+        jobs: "trabaho",
+        from: "mula",
+        gross: "gross",
+        housing: "Kinukumpirma ang tirahan bago magsimula",
+        poland: "Pinakamalawak na pagpipilian: greenhouse, warehouse, production at driver.",
+        hungary: "Opsyon para sa kandidato na mahalaga ang bansa at papeles.",
+        belgium: "Kondisyon, dokumento at start date ay kinukumpirma nang personal.",
+        noExperience: "walang experience",
+        pairs: "couples",
+        drivers: "drivers",
+        specialists: "specialists",
+        open: "Ipakita ang trabaho"
+      },
+      ne: {
+        kicker: "देश अनुसार काम",
+        title: "पहिले देश छान्नुहोस्",
+        intro: "यसले तलब, बसाइ, कागजात र राम्रो विकल्प छिटो बुझ्न मद्दत गर्छ।",
+        jobs: "काम",
+        from: "देखि",
+        gross: "gross",
+        housing: "बसाइ सुरु अघि पुष्टि हुन्छ",
+        poland: "सबैभन्दा धेरै विकल्प: ग्रीनहाउस, गोदाम, उत्पादन र चालक।",
+        hungary: "देश र कागजात महत्त्वपूर्ण हुने उम्मेदवारका लागि विकल्प।",
+        belgium: "सर्त, कागजात र सुरु मिति व्यक्तिगत रूपमा पुष्टि हुन्छ।",
+        noExperience: "अनुभव छैन",
+        pairs: "जोडी",
+        drivers: "चालक",
+        specialists: "विशेषज्ञ",
+        open: "काम देखाउनुहोस्"
+      },
+      hy: {
+        kicker: "Աշխատանք ըստ երկրների",
+        title: "Նախ ընտրեք երկիրը",
+        intro: "Այսպես ավելի արագ պարզ է դառնում վճարը, բնակարանը, փաստաթղթերը և լավագույն տարբերակը։",
+        jobs: "աշխատանք",
+        from: "սկսած",
+        gross: "բրուտտո",
+        housing: "Բնակարանը հաստատվում է մեկնարկից առաջ",
+        poland: "Ամենալայն ընտրությունը՝ ջերմոց, պահեստ, արտադրություն և վարորդներ։",
+        hungary: "Տարբերակներ նրանց համար, ում կարևոր է երկիրը և ձևակերպումը։",
+        belgium: "Պայմանները, փաստաթղթերը և մեկնարկը հաստատվում են անձամբ։",
+        noExperience: "առանց փորձի",
+        pairs: "զույգեր",
+        drivers: "վարորդներ",
+        specialists: "մասնագետներ",
+        open: "Ցույց տալ աշխատանքները"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function countryFilterValue(country) {
+    if (country === "Польша") return "country:poland";
+    if (country === "Венгрия") return "country:hungary";
+    if (country === "Бельгия") return "country:belgium";
+    return "country:other";
+  }
+
+  function countryCode(country) {
+    if (country === "Польша") return "PL";
+    if (country === "Венгрия") return "HU";
+    if (country === "Бельгия") return "BE";
+    return "";
+  }
+
+  function minSalaryLabel(countryJobs) {
+    const salaries = countryJobs
+      .map((job) => job.salary?.min)
+      .filter((value) => Number.isFinite(Number(value)))
+      .map(Number);
+    if (!salaries.length) return "";
+    const min = Math.min(...salaries);
+    const currency = countryJobs.find((job) => Number(job.salary?.min) === min)?.salary?.currency || "";
+    return `${min.toLocaleString(i18n.localeTag(), { minimumFractionDigits: min % 1 ? 1 : 0, maximumFractionDigits: 2 })} ${currency}`;
+  }
+
+  function renderCountryExplorer() {
+    const container = el("country-explorer-grid");
+    if (!container) return;
+    const copy = countryExplorerCopy();
+    if (el("country-explorer-kicker")) el("country-explorer-kicker").textContent = copy.kicker;
+    if (el("country-explorer-heading")) el("country-explorer-heading").textContent = copy.title;
+    if (el("country-explorer-intro")) el("country-explorer-intro").textContent = copy.intro;
+    const countryNotes = {
+      "Польша": copy.poland,
+      "Венгрия": copy.hungary,
+      "Бельгия": copy.belgium
+    };
+    const countryOrder = ["Польша", "Венгрия", "Бельгия"];
+    container.innerHTML = countryOrder.map((country) => {
+      const countryJobs = jobs.filter((job) => job.format === country);
+      const code = countryCode(country);
+      const roles = [];
+      if (countryJobs.some((job) => job.level === "Без опыта")) roles.push(copy.noExperience);
+      if (countryJobs.some((job) => (job.candidates || []).some((candidate) => candidate.toLowerCase().includes("пар")))) roles.push(copy.pairs);
+      if (countryJobs.some((job) => job.id.startsWith("driver-") || job.category === "Транспорт")) roles.push(copy.drivers);
+      if (roles.length < 3 && countryJobs.some((job) => job.level !== "Без опыта")) roles.push(copy.specialists);
+      const filter = countryFilterValue(country);
+      const active = state.quickFilter === filter;
+      return `
+        <article class="country-card${active ? " active" : ""}" data-country-card="${escapeHTML(code)}">
+          <div class="country-card-top">
+            <span class="country-code">${escapeHTML(code)}</span>
+            <span class="country-count">${countryJobs.length} ${escapeHTML(copy.jobs)}</span>
+          </div>
+          <h3>${escapeHTML(i18n.countryName(code) || country)}</h3>
+          <p>${escapeHTML(countryNotes[country])}</p>
+          <div class="country-card-meta">
+            <span>${escapeHTML(copy.from)} <strong>${escapeHTML(minSalaryLabel(countryJobs))}</strong> ${escapeHTML(copy.gross)}</span>
+            <span>${escapeHTML(copy.housing)}</span>
+          </div>
+          <div class="country-card-tags">
+            ${roles.slice(0, 3).map((role) => `<span>${escapeHTML(role)}</span>`).join("")}
+          </div>
+          <button class="button button-secondary country-card-action" type="button" data-quick-filter="${escapeHTML(filter)}">
+            ${escapeHTML(copy.open)}
+          </button>
+        </article>
+      `;
+    }).join("");
+  }
+
   function instantChoiceButton(group, value, label) {
     const active = state.instantMatch[group] === value;
     return `<button class="instant-choice${active ? " active" : ""}" type="button" data-instant-choice="${escapeHTML(group)}:${escapeHTML(value)}" aria-pressed="${active}">${escapeHTML(label)}</button>`;
@@ -939,6 +1228,16 @@
       .sort((a, b) => b.score - a.score || new Date(b.job.updatedAt) - new Date(a.job.updatedAt))
       .slice(0, 3)
       .map((item) => item.job);
+  }
+
+  function instantJobBadge(job, index) {
+    const copy = instantMatchCopy();
+    if (state.instantMatch.area === "transport" || job.id.startsWith("driver-") || job.category === "Транспорт") return copy.badgeDriver;
+    if (state.instantMatch.experience === "none" || job.level === "Без опыта") return copy.badgeNoExperience;
+    if ((state.instantMatch.country === "poland" && job.format === "Польша") || (state.instantMatch.country === "other" && job.format !== "Польша")) return copy.badgeCountry;
+    if (index === 0) return copy.badgeBest;
+    if (job.featured) return copy.badgeStable;
+    return copy.badgeHours;
   }
 
   function instantChoiceLabel(group, value) {
@@ -1056,6 +1355,7 @@
           const view = localizedJob(job);
           return `
             <article class="instant-result-card">
+              <strong class="instant-result-badge">${escapeHTML(instantJobBadge(job, matches.indexOf(job)))}</strong>
               <span>${escapeHTML(view.format)} · ${escapeHTML(view.level)}</span>
               <h3>${escapeHTML(view.title)}</h3>
               <p>${formatSalary(view.salary)}</p>
@@ -1223,6 +1523,7 @@
     el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
     el("jobs-empty").hidden = result.length > 0;
     renderQuickStart();
+    renderCountryExplorer();
   }
 
   function resetFilters() {
@@ -1235,6 +1536,8 @@
     if (!state.quickFilter) return true;
     const [type, value] = state.quickFilter.split(":");
     if (type === "country" && value === "poland") return job.format === "Польша";
+    if (type === "country" && value === "hungary") return job.format === "Венгрия";
+    if (type === "country" && value === "belgium") return job.format === "Бельгия";
     if (type === "country" && value === "other") return job.format !== "Польша";
     if (type === "level" && value === "noExperience") return job.level === "Без опыта";
     if (type === "category" && value === "driver") return job.id.startsWith("driver-") || job.category === "Водители";
