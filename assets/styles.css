@@ -12405,3 +12405,157 @@ body.vacancy-first {
     border-radius: 24px;
   }
 }
+
+/* v69 · premium mobile polish for first impression and vacancy cards */
+.vacancy-first .hero-compact {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(189, 242, 75, 0.26), transparent 18rem),
+    radial-gradient(circle at 92% 8%, rgba(229, 29, 42, 0.13), transparent 16rem),
+    linear-gradient(145deg, #0b1411 0%, #13231d 48%, #07100d 100%);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.vacancy-first .hero-compact::before {
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.12), transparent 32%, transparent 68%, rgba(189, 242, 75, 0.12)),
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.08), transparent 26rem);
+  opacity: 0.96;
+}
+
+.vacancy-first .hero .eyebrow {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(14px);
+}
+
+.vacancy-first .hero h1 {
+  text-shadow: 0 16px 44px rgba(0, 0, 0, 0.30);
+}
+
+.vacancy-first .hero h1 em {
+  background: linear-gradient(90deg, #ffffff, #d9ff78 42%, #ffffff 76%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.vacancy-first .hero-lead {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.80);
+}
+
+.vacancy-first .hero-actions .button {
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.vacancy-first .hero-actions .button:hover {
+  transform: translateY(-2px);
+}
+
+.vacancy-first .hero-facts {
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.vacancy-first .hero-facts div {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.20), transparent 4.8rem),
+    rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+}
+
+.vacancy-first .hero-facts dt {
+  color: #d9ff78;
+  text-shadow: 0 0 24px rgba(189, 242, 75, 0.22);
+}
+
+.vacancy-first .hero-facts dd {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.vacancy-first .job-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.16), transparent 11rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(247, 250, 246, 0.97));
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  box-shadow: 0 18px 42px rgba(16, 24, 32, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.vacancy-first .job-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.44), transparent 24%, transparent 74%, rgba(189, 242, 75, 0.10));
+  opacity: 0.78;
+}
+
+.vacancy-first .job-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vacancy-first .job-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(189, 242, 75, 0.34);
+  box-shadow: 0 26px 58px rgba(16, 24, 32, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.94);
+}
+
+.vacancy-first .job-card-visual {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 16px 30px rgba(16, 24, 32, 0.10);
+}
+
+.vacancy-first .job-card-fact,
+.vacancy-first .job-card-status,
+.vacancy-first .job-card-highlights {
+  border-color: rgba(16, 24, 32, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.vacancy-first .job-card-actions-single .button,
+.vacancy-first .job-card-actions .button,
+.vacancy-first .job-card-chat {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.vacancy-first .job-card-actions-single .button:hover,
+.vacancy-first .job-card-actions .button:hover,
+.vacancy-first .job-card-chat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(16, 24, 32, 0.14);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .hero-grid-compact {
+    padding-top: 30px;
+  }
+
+  .vacancy-first .hero-facts {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .vacancy-first .hero-facts div {
+    border-radius: 16px;
+  }
+
+  .vacancy-first .job-card:hover {
+    transform: none;
+  }
+
+  .vacancy-first .job-card-actions-single .button:hover,
+  .vacancy-first .job-card-actions .button:hover,
+  .vacancy-first .job-card-chat:hover {
+    transform: none;
+  }
+}
