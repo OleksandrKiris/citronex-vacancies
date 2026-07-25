@@ -2991,8 +2991,27 @@
     return String(value || "").replace(/[?:؟¿]+$/u, "").trim();
   }
 
+  function personalWhatsAppOpening() {
+    const copy = {
+      ru: ["Здравствуйте", "Пишу вам через вашу платформу Kiris Jobs."],
+      uk: ["Вітаю", "Пишу вам через вашу платформу Kiris Jobs."],
+      pl: ["Dzień dobry", "Piszę przez Pana platformę Kiris Jobs."],
+      en: ["Hello", "I am contacting you through your Kiris Jobs platform."],
+      az: ["Salam", "Sizin Kiris Jobs platformanız vasitəsilə yazıram."],
+      ka: ["გამარჯობა", "თქვენი Kiris Jobs პლატფორმიდან გწერთ."],
+      id: ["Halo", "Saya menghubungi Anda melalui platform Kiris Jobs milik Anda."],
+      es: ["Hola", "Le escribo desde su plataforma Kiris Jobs."],
+      fil: ["Hello", "Nakikipag-ugnayan ako sa iyo sa pamamagitan ng iyong Kiris Jobs platform."],
+      ne: ["नमस्ते", "म तपाईंको Kiris Jobs प्लेटफर्ममार्फत सम्पर्क गर्दै छु।"],
+      hy: ["Բարև", "Գրում եմ ձեզ ձեր Kiris Jobs հարթակի միջոցով։"]
+    };
+    const [greeting, source] = copy[i18n.locale] || copy.en;
+    return { greeting: `${greeting}, ${profile.name}!`, source };
+  }
+
   function instantMatchMessage() {
     const copy = instantMatchCopy();
+    const personal = personalWhatsAppOpening();
     const matches = instantMatches();
     const currentUrl = new URL(window.location.href);
     currentUrl.hash = "";
@@ -3010,6 +3029,9 @@
       return `${index + 1}. ${view.title} (${job.id}) · ${view.format} · ${salary}`;
     });
     return [
+      personal.greeting,
+      personal.source,
+      "",
       copy.messageTitle,
       copy.messageIntro,
       "",
@@ -3936,6 +3958,7 @@
 
   function candidatePassportMessage() {
     const copy = candidatePassportCopy();
+    const personal = personalWhatsAppOpening();
     const labels = copy.labels;
     const { score, missing } = passportScore();
     const line = (key) => `${labels[key]}: ${passportValue(key) || "—"}`;
@@ -3946,6 +3969,9 @@
     const currentUrl = new URL(window.location.href);
     currentUrl.hash = "";
     return [
+      personal.greeting,
+      personal.source,
+      "",
       copy.messageTitle,
       `Candidate-ID: ${id}`,
       "",

@@ -43577,3 +43577,49 @@ body {
     font-size: 9px;
   }
 }
+
+/* v147 · personal application handoff */
+#application-dialog-content .application-reference {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  margin-top: 5px;
+  padding: 2px 6px;
+  overflow: hidden;
+  color: #d9ff78;
+  background: rgba(189, 242, 75, 0.08);
+  border: 1px solid rgba(189, 242, 75, 0.14);
+  border-radius: 6px;
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  font-size: 6px;
+  font-weight: 900;
+  font-style: normal;
+  letter-spacing: 0.055em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#application-dialog-content .application-recruiter-handoff {
+  min-height: 76px;
+}
+
+@media (max-width: 720px) {
+  #application-dialog-content .application-recruiter-handoff {
+    min-height: 58px;
+  }
+
+  #application-dialog-content .application-reference {
+    margin-top: 3px;
+    padding: 1px 4px;
+    border-radius: 5px;
+    font-size: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+  #application-dialog-content .application-reference {
+    max-width: 128px;
+  }
+}

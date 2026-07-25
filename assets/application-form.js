@@ -79,6 +79,78 @@
   };
   const today = () => new Date().toISOString().slice(0, 10);
 
+  function createApplicationId() {
+    const date = today().replaceAll("-", "");
+    const bytes = new Uint8Array(3);
+    if (window.crypto?.getRandomValues) window.crypto.getRandomValues(bytes);
+    else bytes.forEach((_, index) => {
+      bytes[index] = Math.floor(Math.random() * 256);
+    });
+    const suffix = Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("").toUpperCase();
+    return `KJ-${date}-${suffix}`;
+  }
+
+  function personalMessageCopy() {
+    const copy = {
+      ru: {
+        greeting: "Здравствуйте",
+        source: "Отправляю вам анкету через вашу платформу Kiris Jobs.",
+        reference: "Номер заявки"
+      },
+      uk: {
+        greeting: "Вітаю",
+        source: "Надсилаю вам анкету через вашу платформу Kiris Jobs.",
+        reference: "Номер заявки"
+      },
+      pl: {
+        greeting: "Dzień dobry",
+        source: "Wysyłam zgłoszenie przez Pana platformę Kiris Jobs.",
+        reference: "Numer zgłoszenia"
+      },
+      en: {
+        greeting: "Hello",
+        source: "I am sending my application through your Kiris Jobs platform.",
+        reference: "Application reference"
+      },
+      az: {
+        greeting: "Salam",
+        source: "Anketamı sizin Kiris Jobs platformanız vasitəsilə göndərirəm.",
+        reference: "Müraciət nömrəsi"
+      },
+      ka: {
+        greeting: "გამარჯობა",
+        source: "განაცხადს თქვენი Kiris Jobs პლატფორმიდან გიგზავნით.",
+        reference: "განაცხადის ნომერი"
+      },
+      id: {
+        greeting: "Halo",
+        source: "Saya mengirim lamaran melalui platform Kiris Jobs milik Anda.",
+        reference: "Nomor lamaran"
+      },
+      es: {
+        greeting: "Hola",
+        source: "Le envío mi solicitud desde su plataforma Kiris Jobs.",
+        reference: "Referencia de solicitud"
+      },
+      fil: {
+        greeting: "Hello",
+        source: "Ipinapadala ko ang aplikasyon sa pamamagitan ng iyong Kiris Jobs platform.",
+        reference: "Reference ng aplikasyon"
+      },
+      ne: {
+        greeting: "नमस्ते",
+        source: "म तपाईंको Kiris Jobs प्लेटफर्ममार्फत आवेदन पठाउँदै छु।",
+        reference: "आवेदन नम्बर"
+      },
+      hy: {
+        greeting: "Բարև",
+        source: "Իմ հայտը ուղարկում եմ ձեր Kiris Jobs հարթակի միջոցով։",
+        reference: "Հայտի համարը"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
   function renderStepTrack(labels, currentStep, completeAll = false) {
     return `
       <ol class="application-step-track${completeAll ? " is-complete" : ""}" aria-hidden="true" style="--application-step-count:${labels.length}">
@@ -111,6 +183,7 @@
           <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
           <strong>${escapeHTML(profile.name)}</strong>
           <em>${escapeHTML(profile.workHours || t("ui.workHours"))} · ${escapeHTML(profile.timezone)}</em>
+          <b class="application-reference">${escapeHTML(state.values.applicationId || "KJ")}</b>
         </span>
         <span class="application-recruiter-channel" aria-label="WhatsApp">
           <b aria-hidden="true">W</b><span>WhatsApp</span>
@@ -980,6 +1053,9 @@
   function buildMessage() {
     const job = effectiveJob();
     const localized = localizedJob();
+    const personal = personalMessageCopy();
+    const applicationId = state.values.applicationId || createApplicationId();
+    state.values.applicationId = applicationId;
     const qualification = [
       state.values.driverLicense && `C+E license: ${englishOption(state.values.driverLicense)}`,
       state.values.code95 && `Code 95: ${englishOption(state.values.code95)}`,
@@ -992,7 +1068,12 @@
       state.values.specialistEducation && `Professional education: ${englishOption(state.values.specialistEducation)}`
     ].filter(Boolean);
     return [
-      "CANDIDATE QUESTIONNAIRE · OLEKSANDR KIRIS",
+      `${personal.greeting}, ${profile.name}!`,
+      personal.source,
+      `${personal.reference}: ${applicationId}`,
+      "",
+      `KIRIS JOBS · CANDIDATE QUESTIONNAIRE · ${applicationId}`,
+      `Recruiter: ${profile.name}`,
       `Vacancy: ${localized?.title || job?.title || "Not selected"}`,
       `Vacancy ID: ${job?.id || "—"}`,
       `Destination: ${destination(job)}`,
@@ -1024,7 +1105,8 @@
       "CHECK BEFORE OFFER:",
       ...candidateCheckFlags(job).map((flag) => `- ${flag}`),
       "",
-      "Candidate confirmed the data and chose to contact the recruiter via WhatsApp."
+      "Candidate confirmed the data and chose to contact Oleksandr Kiris directly via WhatsApp.",
+      `Source: Kiris Jobs · ${content.site.baseUrl || window.location.href}`
     ].filter((line, index, lines) => line !== "" || lines[index - 1] !== "").join("\n");
   }
 
@@ -1098,6 +1180,7 @@
     state.error = "";
     state.values = {
       jobId: state.jobId,
+      applicationId: createApplicationId(),
       preferredLanguage: i18n.locale,
       adult: false,
       consent: false,
@@ -1114,7 +1197,11 @@
       window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: t("ui.whatsappNeedsInternet") } }));
       return;
     }
+    const personal = personalMessageCopy();
     const message = [
+      `${personal.greeting}, ${profile.name}!`,
+      personal.source,
+      "",
       t("ui.directQuestion"),
       t("form.matchNoResultsText"),
       `${t("ui.siteLanguage")}: ${i18n.languageName(i18n.locale)}`
@@ -1130,7 +1217,11 @@
       return;
     }
     const localized = i18n.job(job);
+    const personal = personalMessageCopy();
     const message = [
+      `${personal.greeting}, ${profile.name}!`,
+      personal.source,
+      "",
       `${t("ui.directQuestion")}:`,
       `${localized.title} (${job.id})`,
       `${t("ui.siteLanguage")}: ${i18n.languageName(i18n.locale)}`,
