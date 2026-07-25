@@ -992,7 +992,7 @@
       state.values.specialistEducation && `Professional education: ${englishOption(state.values.specialistEducation)}`
     ].filter(Boolean);
     return [
-      "CANDIDATE QUESTIONNAIRE · KIRIS JOBS",
+      "CANDIDATE QUESTIONNAIRE · OLEKSANDR KIRIS",
       `Vacancy: ${localized?.title || job?.title || "Not selected"}`,
       `Vacancy ID: ${job?.id || "—"}`,
       `Destination: ${destination(job)}`,

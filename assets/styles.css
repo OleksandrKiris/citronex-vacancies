@@ -42741,3 +42741,70 @@ body {
     font-size: 13.5px;
   }
 }
+
+/* v142 — personal voice and a stronger recruiter presence. */
+@media (min-width: 721px) {
+  .vacancy-first .hero-recruiter-signal {
+    top: 48px;
+    width: 382px;
+    min-height: 152px;
+    grid-template-columns: 88px minmax(0, 1fr) 44px;
+    gap: 9px 13px;
+    padding: 15px;
+    border-radius: 24px;
+  }
+
+  .vacancy-first .hero-recruiter-photo {
+    width: 88px;
+    height: 118px;
+    border-radius: 20px;
+  }
+
+  .vacancy-first .hero-recruiter-copy {
+    gap: 5px;
+  }
+
+  .vacancy-first .hero-recruiter-copy small {
+    font-size: 8px;
+  }
+
+  .vacancy-first .hero-recruiter-copy strong {
+    font-size: 18px;
+  }
+
+  .vacancy-first .hero-recruiter-copy em {
+    font-size: 8px;
+    line-height: 1.35;
+    white-space: normal;
+  }
+
+  .vacancy-first .hero-recruiter-countries b {
+    min-width: 31px;
+    height: 25px;
+    font-size: 8px;
+  }
+
+  .vacancy-first .hero-recruiter-whatsapp {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+}
+
+.vacancy-first .home-featured .section-heading h2,
+.vacancy-first .trust-recruiter .trust-intro h2 {
+  max-width: 22ch;
+  letter-spacing: -0.045em;
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .hero-recruiter-copy em {
+    max-width: 24ch;
+    white-space: normal;
+  }
+
+  .vacancy-first .home-featured .section-heading h2,
+  .vacancy-first .trust-recruiter .trust-intro h2 {
+    max-width: none;
+  }
+}
