@@ -41009,3 +41009,367 @@ body.vacancy-first {
     grid-column: auto;
   }
 }
+
+/* v136 · country direction passports */
+.vacancy-first .country-explorer {
+  background:
+    radial-gradient(circle at 92% 2%, rgba(189, 242, 75, 0.16), transparent 22rem),
+    radial-gradient(circle at 4% 100%, rgba(229, 29, 42, 0.12), transparent 18rem),
+    linear-gradient(145deg, #0a1711 0%, #173328 58%, #0a1812 100%);
+  box-shadow:
+    0 34px 82px rgba(16, 24, 32, 0.22),
+    0 0 0 1px rgba(189, 242, 75, 0.025),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+.vacancy-first .country-explorer::after {
+  right: -12rem;
+  bottom: -14rem;
+  width: 31rem;
+  background:
+    repeating-conic-gradient(
+      from 8deg,
+      rgba(189, 242, 75, 0.055) 0deg 1deg,
+      transparent 1deg 15deg
+    );
+  border: 1px solid rgba(189, 242, 75, 0.06);
+  opacity: 0.72;
+}
+
+.vacancy-first .country-explorer-head {
+  max-width: none;
+}
+
+.vacancy-first .country-explorer-head h2 {
+  max-width: 13ch;
+  font-size: clamp(34px, 4.4vw, 54px);
+  letter-spacing: -0.058em;
+  line-height: 0.96;
+}
+
+.vacancy-first .country-explorer-head > p:last-child {
+  color: rgba(255, 255, 255, 0.72);
+  border-left-color: rgba(189, 242, 75, 0.42);
+}
+
+.vacancy-first .country-explorer-grid {
+  gap: 11px;
+}
+
+.vacancy-first .country-card {
+  min-height: 344px;
+  gap: 10px;
+  padding: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.995), rgba(247, 250, 246, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 25px;
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(16, 32, 24, 0.025),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+}
+
+.vacancy-first .country-card::before {
+  content: attr(data-country-card);
+  top: 60px;
+  right: 10px;
+  width: auto;
+  height: auto;
+  color: var(--country-accent);
+  background: none;
+  font-size: clamp(74px, 7vw, 106px);
+  font-weight: 950;
+  letter-spacing: -0.10em;
+  line-height: 0.8;
+  opacity: 0.045;
+  transform: rotate(-7deg);
+}
+
+.vacancy-first .country-card::after {
+  width: 6px;
+  background: linear-gradient(
+    180deg,
+    var(--country-accent),
+    var(--country-accent-bright) 56%,
+    transparent
+  );
+}
+
+.vacancy-first .country-card-top {
+  position: relative;
+  min-height: 68px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(16, 32, 24, 0.08);
+}
+
+.vacancy-first .country-card-top::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--country-accent));
+  border-radius: 999px;
+}
+
+.vacancy-first .country-code {
+  width: 76px;
+  height: 58px;
+  padding-top: 30px;
+  border-radius: 17px;
+  box-shadow:
+    0 16px 30px var(--country-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  font-size: 10px;
+}
+
+.vacancy-first .country-code::before {
+  top: 5px;
+  font-size: 27px;
+}
+
+.vacancy-first .country-count {
+  position: relative;
+  min-height: 32px;
+  padding: 8px 11px;
+  font-size: 9px;
+  font-weight: 900;
+  border-radius: 999px;
+}
+
+.vacancy-first .country-card.active .country-count {
+  padding-right: 31px;
+  color: #ffffff;
+  background: var(--country-accent);
+  border-color: var(--country-accent);
+  box-shadow: 0 9px 19px var(--country-shadow);
+}
+
+.vacancy-first .country-card.active .country-count::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  color: var(--country-accent-dark);
+  background: #ffffff;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 950;
+  transform: translateY(-50%);
+}
+
+.vacancy-first .country-card h3 {
+  margin-top: 2px;
+  color: #102018;
+  font-size: clamp(27px, 2.8vw, 33px);
+  letter-spacing: -0.052em;
+  line-height: 1;
+}
+
+.vacancy-first .country-card p {
+  min-height: 43px;
+  color: #5f6e65;
+  font-size: 12.5px;
+  line-height: 1.48;
+}
+
+.vacancy-first .country-card-meta {
+  gap: 7px;
+}
+
+.vacancy-first .country-card-meta span {
+  min-height: 43px;
+  padding: 9px 11px 9px 39px;
+  color: #5e6b64;
+  background:
+    radial-gradient(circle at 0 0, var(--country-tint), transparent 7rem),
+    #f3f7f2;
+  border-color: rgba(16, 32, 24, 0.075);
+  border-radius: 12px;
+  font-size: 9.5px;
+  line-height: 1.35;
+}
+
+.vacancy-first .country-card-meta span::before {
+  left: 10px;
+  width: 21px;
+  height: 21px;
+  box-shadow: 0 7px 15px var(--country-shadow);
+}
+
+.vacancy-first .country-card-meta strong {
+  color: var(--country-accent-dark);
+  font-size: 17px;
+  letter-spacing: -0.03em;
+}
+
+.vacancy-first .country-card-tags {
+  gap: 5px;
+}
+
+.vacancy-first .country-card-tags span {
+  min-height: 25px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.vacancy-first .country-card-action {
+  min-height: 48px;
+  padding-inline: 15px;
+  border-radius: 14px;
+  font-size: 10px;
+  box-shadow:
+    0 14px 27px var(--country-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.21);
+}
+
+.vacancy-first .country-card.active {
+  border-color: var(--country-accent);
+  box-shadow:
+    0 29px 62px rgba(0, 0, 0, 0.22),
+    0 0 0 4px var(--country-border),
+    0 12px 28px var(--country-shadow);
+}
+
+.vacancy-first .country-card.active::after {
+  width: 8px;
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .country-explorer {
+    gap: 17px;
+    margin-top: 13px;
+    padding: 18px 0 17px 15px;
+  }
+
+  .vacancy-first .country-explorer-head {
+    gap: 7px;
+    padding-right: 16px;
+    padding-left: 14px;
+  }
+
+  .vacancy-first .country-explorer-head h2 {
+    max-width: 14ch;
+    font-size: 30px;
+    line-height: 0.98;
+  }
+
+  .vacancy-first .country-explorer-head > p:last-child {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .vacancy-first .country-explorer-grid {
+    gap: 11px;
+    padding-right: 28px;
+    scroll-padding-inline: 0 28px;
+  }
+
+  .vacancy-first .country-card {
+    width: min(86vw, 324px);
+    min-height: 352px;
+    flex-basis: min(86vw, 324px);
+    gap: 9px;
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .vacancy-first .country-card::before {
+    top: 59px;
+    right: 8px;
+    font-size: 92px;
+  }
+
+  .vacancy-first .country-card-top {
+    min-height: 64px;
+  }
+
+  .vacancy-first .country-code {
+    width: 72px;
+    height: 55px;
+    padding-top: 28px;
+    border-radius: 16px;
+  }
+
+  .vacancy-first .country-code::before {
+    font-size: 25px;
+  }
+
+  .vacancy-first .country-count {
+    font-size: 9px;
+  }
+
+  .vacancy-first .country-card h3 {
+    font-size: 28px;
+  }
+
+  .vacancy-first .country-card p {
+    min-height: 0;
+    font-size: 12px;
+  }
+
+  .vacancy-first .country-card-meta span {
+    min-height: 42px;
+    font-size: 9.5px;
+  }
+
+  .vacancy-first .country-card-meta strong {
+    font-size: 16px;
+  }
+
+  .vacancy-first .country-card-action {
+    min-height: 48px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .country-explorer {
+    padding-left: 12px;
+  }
+
+  .vacancy-first .country-explorer-grid {
+    padding-right: 24px;
+  }
+
+  .vacancy-first .country-card {
+    width: calc(100vw - 48px);
+    min-height: 348px;
+    flex-basis: calc(100vw - 48px);
+    padding: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vacancy-first .country-card.active .country-count::after {
+    animation: v136-country-check 240ms ease-out both;
+  }
+}
+
+@keyframes v136-country-check {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.72) rotate(-16deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1) rotate(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first .country-card.active .country-count::after {
+    animation: none;
+  }
+}
