@@ -439,7 +439,7 @@
         open: "Открыть",
         apply: "Анкета",
         whatsapp: "Написать по этим ответам",
-        messageTitle: "БЫСТРЫЙ ПОДБОР · CITRONEX",
+        messageTitle: "БЫСТРЫЙ ПОДБОР · KIRIS JOBS",
         messageIntro: "Здравствуйте! Хочу уточнить вакансии по моим быстрым ответам.",
         messageAnswers: "Мои ответы",
         messageJobs: "Подходящие вакансии",
@@ -483,7 +483,7 @@
         open: "Відкрити",
         apply: "Анкета",
         whatsapp: "Написати за цими відповідями",
-        messageTitle: "ШВИДКИЙ ПІДБІР · CITRONEX",
+        messageTitle: "ШВИДКИЙ ПІДБІР · KIRIS JOBS",
         messageIntro: "Вітаю! Хочу уточнити вакансії за моїми швидкими відповідями.",
         messageAnswers: "Мої відповіді",
         messageJobs: "Відповідні вакансії",
@@ -527,7 +527,7 @@
         open: "Otwórz",
         apply: "Ankieta",
         whatsapp: "Napisz z tymi odpowiedziami",
-        messageTitle: "SZYBKIE DOPASOWANIE · CITRONEX",
+        messageTitle: "SZYBKIE DOPASOWANIE · KIRIS JOBS",
         messageIntro: "Dzień dobry! Chcę dopytać o oferty według moich szybkich odpowiedzi.",
         messageAnswers: "Moje odpowiedzi",
         messageJobs: "Pasujące oferty",
@@ -571,7 +571,7 @@
         open: "Open",
         apply: "Form",
         whatsapp: "Message with these answers",
-        messageTitle: "QUICK MATCH · CITRONEX",
+        messageTitle: "QUICK MATCH · KIRIS JOBS",
         messageIntro: "Hello! I want to confirm jobs based on my quick answers.",
         messageAnswers: "My answers",
         messageJobs: "Suitable jobs",
@@ -615,7 +615,7 @@
         open: "Aç",
         apply: "Anket",
         whatsapp: "Bu cavablarla yazın",
-        messageTitle: "SÜRƏTLİ SEÇİM · CITRONEX",
+        messageTitle: "SÜRƏTLİ SEÇİM · KIRIS JOBS",
         messageIntro: "Salam! Sürətli cavablarıma əsasən vakansiyaları dəqiqləşdirmək istəyirəm.",
         messageAnswers: "Cavablarım",
         messageJobs: "Uyğun vakansiyalar",
@@ -642,7 +642,7 @@
         open: "Buka",
         apply: "Formulir",
         whatsapp: "Kirim jawaban ini",
-        messageTitle: "PENCOCOKAN CEPAT · CITRONEX",
+        messageTitle: "PENCOCOKAN CEPAT · KIRIS JOBS",
         messageIntro: "Halo! Saya ingin mengonfirmasi lowongan berdasarkan jawaban cepat saya.",
         messageAnswers: "Jawaban saya",
         messageJobs: "Lowongan yang cocok",
@@ -669,7 +669,7 @@
         open: "Abrir",
         apply: "Formulario",
         whatsapp: "Enviar estas respuestas",
-        messageTitle: "SELECCIÓN RÁPIDA · CITRONEX",
+        messageTitle: "SELECCIÓN RÁPIDA · KIRIS JOBS",
         messageIntro: "Hola. Quiero confirmar vacantes según mis respuestas rápidas.",
         messageAnswers: "Mis respuestas",
         messageJobs: "Vacantes adecuadas",
@@ -696,7 +696,7 @@
         open: "Buksan",
         apply: "Form",
         whatsapp: "Ipadala ang sagot",
-        messageTitle: "MABILIS NA MATCH · CITRONEX",
+        messageTitle: "MABILIS NA MATCH · KIRIS JOBS",
         messageIntro: "Hello! Gusto kong kumpirmahin ang mga trabaho batay sa mabilis kong sagot.",
         messageAnswers: "Mga sagot ko",
         messageJobs: "Bagay na trabaho",
@@ -723,7 +723,7 @@
         open: "Բացել",
         apply: "Անկետա",
         whatsapp: "Գրել այս պատասխաններով",
-        messageTitle: "ԱՐԱԳ ԸՆՏՐՈՒԹՅՈՒՆ · CITRONEX",
+        messageTitle: "ԱՐԱԳ ԸՆՏՐՈՒԹՅՈՒՆ · KIRIS JOBS",
         messageIntro: "Բարև։ Ուզում եմ ճշտել աշխատանքները իմ արագ պատասխանների հիման վրա։",
         messageAnswers: "Իմ պատասխանները",
         messageJobs: "Հարմար աշխատանքներ",
@@ -750,7 +750,7 @@
         open: "გახსნა",
         apply: "ანკეტა",
         whatsapp: "მოწერა ამ პასუხებით",
-        messageTitle: "სწრაფი შერჩევა · CITRONEX",
+        messageTitle: "სწრაფი შერჩევა · KIRIS JOBS",
         messageIntro: "გამარჯობა! მინდა ვაკანსიების დაზუსტება ჩემი სწრაფი პასუხების მიხედვით.",
         messageAnswers: "ჩემი პასუხები",
         messageJobs: "შესაფერისი ვაკანსიები",
@@ -777,7 +777,7 @@
         open: "खोल्नुहोस्",
         apply: "फारम",
         whatsapp: "यी उत्तरसहित लेख्नुहोस्",
-        messageTitle: "छिटो मिलान · CITRONEX",
+        messageTitle: "छिटो मिलान · KIRIS JOBS",
         messageIntro: "नमस्ते! मेरा छिटो उत्तरका आधारमा कामहरू पुष्टि गर्न चाहन्छु।",
         messageAnswers: "मेरा उत्तरहरू",
         messageJobs: "उपयुक्त कामहरू",
@@ -931,7 +931,7 @@
           <p class="overline">${escapeHTML(t("ui.privacy"))}</p>
           <h2 id="whatsapp-safety-title">${escapeHTML(t("ui.recruiterEyebrow"))}</h2>
           <p>${escapeHTML(profile.name)}</p>
-          <span class="whatsapp-verified-badge">${svgIcon("shield")}<b>Citronex</b> · ${escapeHTML(t("ui.recruiterProfile"))}</span>
+          <span class="whatsapp-verified-badge">${svgIcon("shield")}<b>Kiris Jobs</b> · ${escapeHTML(t("ui.recruiterProfile"))}</span>
         </header>
         <div class="whatsapp-contact-availability">
           <i aria-hidden="true"></i>
@@ -1003,16 +1003,16 @@
   window.PortalWhatsApp = { open: openWhatsAppSafety };
 
   function renderProfileContent() {
-    document.title = `${t("ui.navJobs")} Citronex · ${i18n.languageName(i18n.locale)}`;
+    document.title = `${t("ui.navJobs")} Kiris Jobs · ${i18n.languageName(i18n.locale)}`;
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("ui.heroIntro"));
-    const recruiterRole = `Citronex · ${t("ui.recruiterProfile")}`;
+    const recruiterRole = `${profile.name} · ${t("ui.recruiterProfile")}`;
     const recruiterLocations = `${t("ui.navJobs")}: ${i18n.countryName("PL")} · ${i18n.countryName("HU")} · ${i18n.countryName("BE")}`;
 
     [
-      ["brand-name", profile.name],
+      ["brand-name", "Kiris Jobs"],
       ["hero-name", profile.name],
       ["profile-name", profile.name],
-      ["footer-name", profile.name],
+      ["footer-name", "Kiris Jobs"],
       ["hero-role", recruiterRole],
       ["profile-role", recruiterRole],
       ["footer-role", recruiterRole],
@@ -1035,7 +1035,7 @@
       el("hero-whatsapp-direct").innerHTML = `${svgIcon("whatsapp")}<span class="sr-only">WhatsApp · ${escapeHTML(profile.phone)}</span>`;
     }
 
-    const mailSubject = encodeURIComponent(`${t("ui.navJobs")} · Citronex`);
+    const mailSubject = encodeURIComponent(`${t("ui.navJobs")} · Kiris Jobs`);
     const mailBody = encodeURIComponent(`${t("ui.directQuestion")}:\n\n`);
     const mailto = `mailto:${profile.email}?subject=${mailSubject}&body=${mailBody}`;
     el("profile-email-link").href = mailto;
@@ -1250,7 +1250,7 @@
       photoProof.className = "profile-photo-proof";
       avatar.append(photoProof);
     }
-    photoProof.innerHTML = `<i aria-hidden="true"></i><span>Citronex</span>`;
+    photoProof.innerHTML = `<i aria-hidden="true"></i><span>Kiris Jobs</span>`;
 
     let facts = el("profile-fact-strip");
     if (!facts) {
@@ -1429,9 +1429,9 @@
         photoStage.append(credential);
       }
       credential.innerHTML = `
-        <img src="assets/citronex-logo.jpg" width="447" height="447" alt="">
+        <img src="assets/icon-192.png" width="192" height="192" alt="">
         <span>
-          <small>Citronex Jobs</small>
+          <small>Kiris Jobs</small>
           <strong>${escapeHTML(profile.name)}</strong>
           <em><i aria-hidden="true"></i>${escapeHTML(t("ui.recruiterEyebrow"))}</em>
         </span>
@@ -2519,11 +2519,11 @@
     if (el("quick-share-heading")) el("quick-share-heading").textContent = copy.title;
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
-      <figure class="quick-share-preview" aria-label="Citronex Jobs">
+      <figure class="quick-share-preview" aria-label="Kiris Jobs Jobs">
         <img src="assets/share-card-v11.png?v=139" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
-          <strong>Citronex Jobs</strong>
+          <strong>Kiris Jobs Jobs</strong>
         </figcaption>
       </figure>
     `;
@@ -3140,7 +3140,7 @@
           experience: ["No experience", "Have experience", "Driver", "Warehouse", "Greenhouse"],
           workDocs: ["Ready", "Not ready", "Need to clarify"]
         },
-        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        messageTitle: "KIRIS JOBS CANDIDATE PASSPORT",
         nextQuestions: "Suggested next questions",
         safetyCards: [
           ["No document numbers", "The site asks only for a general paperwork status."],
@@ -3290,7 +3290,7 @@
           experience: ["Без опыта", "Есть опыт", "Водитель", "Склад", "Теплица"],
           workDocs: ["Готовы", "Не готовы", "Нужно уточнить"]
         },
-        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        messageTitle: "KIRIS JOBS CANDIDATE PASSPORT",
         nextQuestions: "Подсказка рекрутеру: следующий вопрос",
         safetyCards: [
           ["Без номеров документов", "Сайт спрашивает только общий статус оформления."],
@@ -3440,7 +3440,7 @@
           experience: ["Без досвіду", "Є досвід", "Водій", "Склад", "Теплиця"],
           workDocs: ["Готові", "Не готові", "Потрібно уточнити"]
         },
-        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        messageTitle: "KIRIS JOBS CANDIDATE PASSPORT",
         nextQuestions: "Підказка рекрутеру: наступне питання",
         safetyCards: [
           ["Без номерів документів", "Сайт питає тільки загальний статус оформлення."],
@@ -3590,7 +3590,7 @@
           experience: ["Bez doświadczenia", "Mam doświadczenie", "Kierowca", "Magazyn", "Szklarnia"],
           workDocs: ["Gotowe", "Nie gotowe", "Do wyjaśnienia"]
         },
-        messageTitle: "CITRONEX CANDIDATE PASSPORT",
+        messageTitle: "KIRIS JOBS CANDIDATE PASSPORT",
         nextQuestions: "Podpowiedź dla rekrutera: następne pytanie",
         safetyCards: [
           ["Bez numerów dokumentów", "Strona pyta tylko o ogólny status formalności."],
@@ -3651,7 +3651,7 @@
   }
 
   function passportTags() {
-    const tags = ["#citronex", "#candidate_passport"];
+    const tags = ["#kiris-jobs", "#candidate_passport"];
     const target = passportTargetCountry();
     if (target) tags.push(`#target_${target}`);
     const people = normalizePassportText(passportValue("people"));
@@ -4865,7 +4865,7 @@
     const favorite = state.favorites.has(job.id);
     const visualType = jobVisualType(job.id);
     const routeCode = countryCode(job.format) || "EU";
-    const routeLabel = view.category || job.category || "Citronex";
+    const routeLabel = view.category || job.category || "Kiris Jobs";
     const titleId = `${context}-job-${job.id}-title`;
     const startLabel = i18n.locale === "ru"
       ? "Уточнить старт"

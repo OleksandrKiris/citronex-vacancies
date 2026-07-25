@@ -53,34 +53,37 @@ function New-Brush([string]$Hex) {
 function New-BrandIcon {
   param(
     [int]$Size,
-    [string]$Path,
-    [string]$LogoPath
+    [string]$Path
   )
 
   $bitmap = [System.Drawing.Bitmap]::new($Size, $Size)
   $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
   $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
   $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-  $graphics.Clear([System.Drawing.Color]::White)
+  $graphics.Clear([System.Drawing.ColorTranslator]::FromHtml("#10231b"))
 
-  $officialLogo = $null
-  if (Test-Path -LiteralPath $LogoPath) {
-    $officialLogo = [System.Drawing.Image]::FromFile($LogoPath)
-    $inset = [int]($Size * 0.055)
-    $graphics.DrawImage($officialLogo, [System.Drawing.Rectangle]::new($inset, $inset, $Size - (2 * $inset), $Size - (2 * $inset)))
-  }
+  $accentBrush = New-Brush "#d7ff4f"
+  $creamBrush = New-Brush "#fffaf0"
+  $font = [System.Drawing.Font]::new("Arial", [float]($Size * 0.56), [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+  $format = [System.Drawing.StringFormat]::new()
+  $format.Alignment = [System.Drawing.StringAlignment]::Center
+  $format.LineAlignment = [System.Drawing.StringAlignment]::Center
+  $graphics.FillEllipse($accentBrush, [float]($Size * 0.72), [float]($Size * 0.13), [float]($Size * 0.14), [float]($Size * 0.14))
+  $graphics.DrawString("K", $font, $creamBrush, [System.Drawing.RectangleF]::new(0, 0, $Size, $Size), $format)
 
   $bitmap.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
 
-  if ($officialLogo) { $officialLogo.Dispose() }
+  $accentBrush.Dispose()
+  $creamBrush.Dispose()
+  $font.Dispose()
+  $format.Dispose()
   $graphics.Dispose()
   $bitmap.Dispose()
 }
 
 function New-ShareCard {
   param(
-    [string]$Path,
-    [string]$LogoPath
+    [string]$Path
   )
 
   $bitmap = [System.Drawing.Bitmap]::new(1200, 630)
@@ -103,12 +106,7 @@ function New-ShareCard {
   for ($y = 0; $y -le 630; $y += 44) { $graphics.DrawLine($gridPen, 0, $y, 1200, $y) }
   $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(44, 229, 29, 42)), 930, -160, 420, 420)
 
-  $officialLogo = $null
-  Fill-RoundedRectangle $graphics $white ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
-  if (Test-Path -LiteralPath $LogoPath) {
-    $officialLogo = [System.Drawing.Image]::FromFile($LogoPath)
-    $graphics.DrawImage($officialLogo, [System.Drawing.Rectangle]::new(75, 69, 52, 52))
-  }
+  Fill-RoundedRectangle $graphics $cream ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
 
   $fontBrand = [System.Drawing.Font]::new("Arial", 20, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontMeta = [System.Drawing.Font]::new("Arial", 13, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
@@ -118,8 +116,13 @@ function New-ShareCard {
   $fontNumber = [System.Drawing.Font]::new("Arial", 22, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontSmall = [System.Drawing.Font]::new("Arial", 12, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontPanel = [System.Drawing.Font]::new("Arial", 14, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+  $fontMonogram = [System.Drawing.Font]::new("Arial", 36, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+  $monogramFormat = [System.Drawing.StringFormat]::new()
+  $monogramFormat.Alignment = [System.Drawing.StringAlignment]::Center
+  $monogramFormat.LineAlignment = [System.Drawing.StringAlignment]::Center
 
-  $graphics.DrawString("CITRONEX JOBS", $fontBrand, $cream, 148, 70)
+  $graphics.DrawString("K", $fontMonogram, $graphite, [System.Drawing.RectangleF]::new(72, 66, 58, 58), $monogramFormat)
+  $graphics.DrawString("KIRIS JOBS", $fontBrand, $cream, 148, 70)
   $graphics.DrawString("OLEKSANDR / DIRECT RECRUITER CONTACT", $fontMeta, $muted, 148, 97)
   $graphics.DrawString("WORK ACROSS EUROPE", $fontOverline, $lime, 72, 218)
   $graphics.DrawString("Find work.", $fontHero, $cream, 66, 249)
@@ -170,16 +173,15 @@ function New-ShareCard {
 
   $bitmap.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
 
-  @($gridPen, $panelPen, $routePen, $fontBrand, $fontMeta, $fontOverline, $fontHero, $fontLead, $fontNumber, $fontSmall, $fontPanel, $graphite, $panel, $cream, $muted, $lime, $cobalt, $green, $white) |
+  @($gridPen, $panelPen, $routePen, $fontBrand, $fontMeta, $fontOverline, $fontHero, $fontLead, $fontNumber, $fontSmall, $fontPanel, $fontMonogram, $monogramFormat, $graphite, $panel, $cream, $muted, $lime, $cobalt, $green, $white) |
     ForEach-Object { $_.Dispose() }
-  if ($officialLogo) { $officialLogo.Dispose() }
   $graphics.Dispose()
   $bitmap.Dispose()
 }
 
 $assetPath = [System.IO.Path]::GetFullPath($OutputDirectory)
-New-BrandIcon -Size 192 -Path (Join-Path $assetPath "icon-192.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
-New-BrandIcon -Size 512 -Path (Join-Path $assetPath "icon-512.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
-New-ShareCard -Path (Join-Path $assetPath "share-card.png") -LogoPath (Join-Path $assetPath "citronex-logo.jpg")
+New-BrandIcon -Size 192 -Path (Join-Path $assetPath "icon-192.png")
+New-BrandIcon -Size 512 -Path (Join-Path $assetPath "icon-512.png")
+New-ShareCard -Path (Join-Path $assetPath "share-card.png")
 
 Write-Output "Generated icon-192.png, icon-512.png, and share-card.png"

@@ -15,7 +15,7 @@
     ne: "🇳🇵",
     hy: "🇦🇲"
   };
-  const STORAGE_KEY = "citronex:language:v1";
+  const STORAGE_KEY = "kiris-jobs:language:v1";
   const fallbackLocale = "ru";
   const translations = window.PORTAL_TRANSLATIONS || {};
   const listeners = new Set();

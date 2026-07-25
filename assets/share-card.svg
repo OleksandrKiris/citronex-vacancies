@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">Citronex Jobs — clear work opportunities across Europe</title>
+  <title id="title">Kiris Jobs Jobs — clear work opportunities across Europe</title>
   <desc id="desc">Fourteen vacancies in eleven languages with local job matching and direct WhatsApp contact.</desc>
   <defs>
     <linearGradient id="share-bg" x1="0" y1="0" x2="1" y2="1">
@@ -24,8 +24,8 @@
   <g font-family="Arial, 'Segoe UI', sans-serif">
     <g transform="translate(72 66)">
       <rect width="58" height="58" rx="17" fill="#fff"/>
-      <image href="citronex-logo.jpg" x="3" y="3" width="52" height="52" preserveAspectRatio="xMidYMid slice"/>
-      <text x="76" y="24" fill="#f7f5ef" font-size="20" font-weight="800" letter-spacing=".8">CITRONEX JOBS</text>
+      <image href="icon-192.png" x="3" y="3" width="52" height="52" preserveAspectRatio="xMidYMid slice"/>
+      <text x="76" y="24" fill="#f7f5ef" font-size="20" font-weight="800" letter-spacing=".8">KIRIS JOBS JOBS</text>
       <text x="76" y="48" fill="#aebbc7" font-size="14" font-weight="700" letter-spacing="1.8">OLEKSANDR · DIRECT RECRUITER CONTACT</text>
     </g>
 

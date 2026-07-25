@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Citronex Jobs — vacancies & recruiter",
-  "short_name": "Citronex Jobs",
+  "name": "Kiris Jobs — vacancies & recruiter",
+  "short_name": "Kiris Jobs",
   "description": "Vacancies, gross pay, a candidate questionnaire and direct recruiter contact in 11 languages.",
   "lang": "en",
   "dir": "ltr",
@@ -10,7 +10,7 @@
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f7f5ef",
-  "theme_color": "#e51d2a",
+  "theme_color": "#10231b",
   "categories": ["business", "productivity"],
   "icons": [
     {
@@ -23,12 +23,6 @@
       "src": "assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ],
