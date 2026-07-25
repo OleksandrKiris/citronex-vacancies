@@ -3388,10 +3388,11 @@
 
   function passportFieldHTML(key, type = "text") {
     const copy = candidatePassportCopy();
+    const value = passportValue(key);
     return `
-      <label class="candidate-passport-field">
+      <label class="candidate-passport-field${value ? " has-value" : ""}">
         <span>${escapeHTML(copy.labels[key])}</span>
-        <input type="${escapeHTML(type)}" data-passport-field="${escapeHTML(key)}" value="${escapeHTML(passportValue(key))}" placeholder="${escapeHTML(copy.placeholders[key] || "")}" autocomplete="off">
+        <input type="${escapeHTML(type)}" data-passport-field="${escapeHTML(key)}" value="${escapeHTML(value)}" placeholder="${escapeHTML(copy.placeholders[key] || "")}" autocomplete="off">
       </label>
     `;
   }
@@ -3414,7 +3415,7 @@
     const copy = candidatePassportCopy();
     const value = passportValue(key);
     return `
-      <label class="candidate-passport-field">
+      <label class="candidate-passport-field${value ? " has-value" : ""}">
         <span>${escapeHTML(copy.labels[key])}</span>
         <select data-passport-field="${escapeHTML(key)}">
           <option value="">—</option>
@@ -4151,6 +4152,23 @@
     container.hidden = false;
   }
 
+  function candidatePassportFieldGroupHTML(index, title, keys, content) {
+    const filled = keys.filter((key) => passportValue(key)).length;
+    const complete = filled === keys.length;
+    return `
+      <fieldset class="candidate-passport-field-group${complete ? " is-complete" : ""}" data-passport-group="${index}">
+        <legend>
+          <span>${String(index).padStart(2, "0")}</span>
+          <strong>${escapeHTML(title)}</strong>
+          <small>${filled}/${keys.length}</small>
+        </legend>
+        <div class="candidate-passport-field-group-grid">
+          ${content}
+        </div>
+      </fieldset>
+    `;
+  }
+
   function renderCandidatePassport() {
     const layout = el("candidate-passport-layout");
     if (!layout) return;
@@ -4173,26 +4191,47 @@
         </div>
         ${candidatePassportQuickStartHTML()}
         <div class="candidate-passport-fields">
-          ${passportFieldHTML("name")}
-          ${passportFieldHTML("birthDate", "date")}
-          ${passportAgeHelperHTML()}
-          ${passportFieldHTML("current")}
-          ${passportCurrentQuickHTML()}
-          ${passportFieldHTML("citizenship")}
-          ${passportCitizenshipQuickHTML()}
-          ${passportSelectHTML("language")}
-          ${passportLanguageQuickHTML()}
-          ${passportSelectHTML("destination")}
-          ${passportDestinationQuickHTML()}
-          ${passportSelectHTML("people")}
-          ${passportPeopleQuickHTML()}
-          ${passportSelectHTML("experience")}
-          ${passportExperienceQuickHTML()}
-          ${passportExperienceCoachHTML()}
-          ${passportSelectHTML("workDocs")}
-          ${passportFieldHTML("readyDate")}
-          ${passportStartQuickHTML()}
-          ${passportFieldHTML("job")}
+          ${candidatePassportFieldGroupHTML(
+            1,
+            `${copy.labels.name} · ${copy.labels.current}`,
+            ["name", "birthDate", "current", "citizenship", "language"],
+            `
+              ${passportFieldHTML("name")}
+              ${passportFieldHTML("birthDate", "date")}
+              ${passportAgeHelperHTML()}
+              ${passportFieldHTML("current")}
+              ${passportCurrentQuickHTML()}
+              ${passportFieldHTML("citizenship")}
+              ${passportCitizenshipQuickHTML()}
+              ${passportSelectHTML("language")}
+              ${passportLanguageQuickHTML()}
+            `
+          )}
+          ${candidatePassportFieldGroupHTML(
+            2,
+            `${copy.labels.experience} · ${copy.labels.workDocs}`,
+            ["experience", "workDocs"],
+            `
+              ${passportSelectHTML("experience")}
+              ${passportSelectHTML("workDocs")}
+              ${passportExperienceQuickHTML()}
+              ${passportExperienceCoachHTML()}
+            `
+          )}
+          ${candidatePassportFieldGroupHTML(
+            3,
+            `${copy.labels.destination} · ${copy.labels.readyDate}`,
+            ["destination", "people", "readyDate", "job"],
+            `
+              ${passportSelectHTML("destination")}
+              ${passportSelectHTML("people")}
+              ${passportDestinationQuickHTML()}
+              ${passportPeopleQuickHTML()}
+              ${passportFieldHTML("readyDate")}
+              ${passportFieldHTML("job")}
+              ${passportStartQuickHTML()}
+            `
+          )}
         </div>
         <p class="candidate-passport-privacy">${escapeHTML(copy.privacy)}</p>
         ${candidatePassportSaveStatusHTML()}
@@ -5562,7 +5601,9 @@
       if (event.target.matches("[data-passport-field]")) {
         state.passport[event.target.dataset.passportField] = event.target.value;
         persistPassport();
-        renderCandidatePassport();
+        event.target.closest(".candidate-passport-field")
+          ?.classList.toggle("has-value", Boolean(String(event.target.value).trim()));
+        renderPassportSticky();
       }
     });
 

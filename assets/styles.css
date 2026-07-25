@@ -29000,3 +29000,1005 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v108 · guided candidate card builder visual polish */
+.vacancy-first .candidate-passport {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 4%, rgba(49, 87, 255, 0.11), transparent 23rem),
+    radial-gradient(circle at 96% 6%, rgba(189, 242, 75, 0.16), transparent 25rem),
+    radial-gradient(circle at 78% 100%, rgba(229, 29, 42, 0.10), transparent 24rem),
+    linear-gradient(135deg, #07100d 0%, #132a20 58%, #08110e 100%);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 38px 94px rgba(8, 18, 14, 0.27),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.vacancy-first .candidate-passport::before {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  right: -8rem;
+  z-index: -1;
+  width: 29rem;
+  height: 29rem;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from 9deg,
+    rgba(189, 242, 75, 0.065) 0deg 1deg,
+    transparent 1deg 17deg
+  );
+  border: 1px solid rgba(189, 242, 75, 0.075);
+  border-radius: 50%;
+}
+
+.candidate-passport-head {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+}
+
+.candidate-passport-head .overline {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 5px 10px;
+  color: #e8ffb1;
+  background: rgba(189, 242, 75, 0.09);
+  border: 1px solid rgba(189, 242, 75, 0.16);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.candidate-passport-head h2 {
+  max-width: 15ch;
+  color: #ffffff;
+  font-size: clamp(39px, 5.2vw, 62px);
+  letter-spacing: -0.061em;
+  line-height: 0.95;
+}
+
+.candidate-passport-head p:last-child {
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.63);
+  line-height: 1.55;
+}
+
+.candidate-passport-layout {
+  position: relative;
+  z-index: 1;
+  grid-template-columns: minmax(0, 1.16fr) minmax(340px, 0.84fr);
+  align-items: start;
+  gap: 12px;
+}
+
+.candidate-passport-form,
+.candidate-passport-preview {
+  border-radius: 25px;
+}
+
+.candidate-passport-form {
+  gap: 12px;
+  padding: clamp(14px, 2vw, 20px);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.09), transparent 18rem),
+    rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 24px 58px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.085);
+}
+
+.candidate-passport-form > h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 22px;
+  letter-spacing: -0.042em;
+}
+
+.candidate-passport-form > h3::before {
+  content: "";
+  width: 34px;
+  height: 3px;
+  flex: 0 0 auto;
+  background: linear-gradient(90deg, #e51d2a, #ff765f);
+  border-radius: 999px;
+  box-shadow: 0 0 17px rgba(229, 29, 42, 0.33);
+}
+
+.candidate-passport-safe-grid {
+  gap: 6px;
+}
+
+.candidate-passport-safe-grid article {
+  position: relative;
+  min-height: 93px;
+  overflow: hidden;
+  padding: 10px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.09), transparent 6rem),
+    rgba(255, 255, 255, 0.065);
+  border-color: rgba(255, 255, 255, 0.10);
+  border-radius: 15px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.candidate-passport-safe-grid article::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #bdf24b, transparent);
+  opacity: 0.75;
+}
+
+.candidate-passport-safe-grid article:nth-child(2)::after {
+  background: linear-gradient(90deg, #72a1ff, transparent);
+}
+
+.candidate-passport-safe-grid article:nth-child(3)::after {
+  background: linear-gradient(90deg, #ff7c86, transparent);
+}
+
+.candidate-passport-safe-grid span {
+  width: 23px;
+  height: 23px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.48), transparent 45%),
+    linear-gradient(145deg, #e6ffa5, #bdf24b);
+  border-radius: 8px;
+  box-shadow:
+    0 8px 17px rgba(189, 242, 75, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.61);
+  font-size: 11px;
+}
+
+.candidate-passport-quick {
+  padding: 13px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(229, 29, 42, 0.18), transparent 10rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.045));
+  border-color: rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  box-shadow:
+    0 17px 38px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.candidate-passport-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+}
+
+.candidate-passport-field-group {
+  --passport-group-accent: #bdf24b;
+  --passport-group-tint: rgba(189, 242, 75, 0.11);
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 11px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, var(--passport-group-tint), transparent 13rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 20px;
+  box-shadow:
+    0 18px 41px rgba(0, 0, 0, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075);
+}
+
+.candidate-passport-field-group[data-passport-group="2"] {
+  --passport-group-accent: #ffb84d;
+  --passport-group-tint: rgba(255, 184, 77, 0.105);
+}
+
+.candidate-passport-field-group[data-passport-group="3"] {
+  --passport-group-accent: #72a1ff;
+  --passport-group-tint: rgba(49, 87, 255, 0.10);
+}
+
+.candidate-passport-field-group::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--passport-group-accent), transparent 77%);
+  opacity: 0.84;
+}
+
+.candidate-passport-field-group::after {
+  content: attr(data-passport-group);
+  position: absolute;
+  right: 13px;
+  bottom: 5px;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.025);
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  font-size: 78px;
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  line-height: 1;
+}
+
+.candidate-passport-field-group > legend {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 0 2px 10px;
+  color: #ffffff;
+}
+
+.candidate-passport-field-group > legend > span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  color: #102018;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.48), transparent 45%),
+    var(--passport-group-accent);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  box-shadow:
+    0 9px 20px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.03em;
+}
+
+.candidate-passport-field-group > legend > strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 930;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.candidate-passport-field-group > legend > small {
+  display: inline-flex;
+  min-width: 33px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 6px;
+  color: rgba(255, 255, 255, 0.59);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  font-size: 8px;
+  font-weight: 950;
+}
+
+.candidate-passport-field-group.is-complete {
+  border-color: rgba(189, 242, 75, 0.24);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.15),
+    0 0 0 2px rgba(189, 242, 75, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.085);
+}
+
+.candidate-passport-field-group.is-complete > legend > small {
+  color: #102018;
+  background: linear-gradient(145deg, #e6ffa5, #bdf24b);
+  border-color: rgba(255, 255, 255, 0.21);
+  box-shadow:
+    0 8px 17px rgba(189, 242, 75, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.59);
+}
+
+.candidate-passport-field-group.is-complete > legend > small::before {
+  content: "✓";
+  margin-right: 3px;
+}
+
+.candidate-passport-field-group-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.candidate-passport-field {
+  position: relative;
+  gap: 5px;
+  min-width: 0;
+  padding: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.candidate-passport-field:focus-within {
+  background: rgba(255, 255, 255, 0.085);
+  border-color: rgba(189, 242, 75, 0.24);
+  box-shadow:
+    0 12px 27px rgba(0, 0, 0, 0.12),
+    0 0 0 2px rgba(189, 242, 75, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.candidate-passport-field > span {
+  display: flex;
+  min-height: 18px;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.57);
+  font-size: 9px;
+  font-weight: 870;
+  letter-spacing: 0.02em;
+}
+
+.candidate-passport-field.has-value > span {
+  color: rgba(232, 255, 177, 0.79);
+}
+
+.candidate-passport-field.has-value > span::after {
+  content: "✓";
+  display: inline-grid;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+  margin-left: auto;
+  color: #102018;
+  background: var(--passport-group-accent);
+  border-radius: 6px;
+  box-shadow: 0 5px 11px rgba(0, 0, 0, 0.13);
+  font-size: 8px;
+  font-weight: 950;
+}
+
+.candidate-passport-field input,
+.candidate-passport-field select {
+  min-height: 46px;
+  padding: 9px 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(241, 247, 239, 0.97));
+  border-color: rgba(255, 255, 255, 0.27);
+  border-radius: 11px;
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.91);
+  font-size: 13px;
+}
+
+.candidate-passport-field.has-value input,
+.candidate-passport-field.has-value select {
+  background:
+    radial-gradient(circle at 100% 0%, var(--passport-group-tint), transparent 7rem),
+    linear-gradient(180deg, #ffffff, #f2f8ef);
+  border-color: rgba(189, 242, 75, 0.20);
+}
+
+.candidate-passport-field-group .candidate-passport-age-helper,
+.candidate-passport-field-group .candidate-passport-start-quick,
+.candidate-passport-field-group .candidate-passport-current-quick,
+.candidate-passport-field-group .candidate-passport-citizenship-quick,
+.candidate-passport-field-group .candidate-passport-language-quick,
+.candidate-passport-field-group .candidate-passport-destination-quick,
+.candidate-passport-field-group .candidate-passport-people-quick,
+.candidate-passport-field-group .candidate-passport-experience-quick,
+.candidate-passport-field-group .candidate-passport-experience-coach {
+  grid-column: 1 / -1;
+}
+
+.candidate-passport-field-group .candidate-passport-age-helper,
+.candidate-passport-field-group .candidate-passport-experience-coach {
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.candidate-passport-field-group .candidate-passport-start-quick,
+.candidate-passport-field-group .candidate-passport-current-quick,
+.candidate-passport-field-group .candidate-passport-citizenship-quick,
+.candidate-passport-field-group .candidate-passport-language-quick,
+.candidate-passport-field-group .candidate-passport-destination-quick,
+.candidate-passport-field-group .candidate-passport-people-quick,
+.candidate-passport-field-group .candidate-passport-experience-quick {
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.085);
+  border-radius: 13px;
+}
+
+.candidate-passport-field-group .candidate-passport-start-quick > span,
+.candidate-passport-field-group .candidate-passport-current-quick > span,
+.candidate-passport-field-group .candidate-passport-citizenship-quick > span,
+.candidate-passport-field-group .candidate-passport-language-quick > span,
+.candidate-passport-field-group .candidate-passport-destination-quick > span,
+.candidate-passport-field-group .candidate-passport-people-quick > span,
+.candidate-passport-field-group .candidate-passport-experience-quick > span {
+  font-size: 9px;
+}
+
+.candidate-passport-field-group .candidate-passport-start-quick button,
+.candidate-passport-field-group .candidate-passport-current-quick button,
+.candidate-passport-field-group .candidate-passport-citizenship-quick button,
+.candidate-passport-field-group .candidate-passport-language-quick button,
+.candidate-passport-field-group .candidate-passport-destination-quick button,
+.candidate-passport-field-group .candidate-passport-people-quick button,
+.candidate-passport-field-group .candidate-passport-experience-quick button {
+  min-height: 35px;
+  border-radius: 10px;
+  font-size: 9px;
+}
+
+.candidate-passport-field-group .candidate-passport-start-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-current-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-citizenship-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-language-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-destination-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-people-quick button.is-active,
+.candidate-passport-field-group .candidate-passport-experience-quick button.is-active {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.48), transparent 45%),
+    var(--passport-group-accent);
+  border-color: rgba(255, 255, 255, 0.23);
+  box-shadow:
+    0 9px 19px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.47);
+}
+
+.candidate-passport-privacy {
+  position: relative;
+  padding: 12px 12px 12px 42px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 8rem),
+    rgba(189, 242, 75, 0.055);
+  border-color: rgba(189, 242, 75, 0.13);
+  border-radius: 14px;
+  font-size: 10px;
+}
+
+.candidate-passport-privacy::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: #102018;
+  background: linear-gradient(145deg, #e6ffa5, #bdf24b);
+  border-radius: 8px;
+  box-shadow: 0 7px 15px rgba(189, 242, 75, 0.15);
+  font-size: 10px;
+  font-weight: 950;
+  transform: translateY(-50%);
+}
+
+.candidate-passport-preview {
+  position: sticky;
+  top: 92px;
+  max-height: calc(100vh - 110px);
+  gap: 9px;
+  padding: 12px;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.13), transparent 16rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(239, 246, 237, 0.98));
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 29px 70px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  scrollbar-color: rgba(15, 109, 76, 0.34) transparent;
+  scrollbar-width: thin;
+}
+
+.candidate-passport-preview > * {
+  border-radius: 16px;
+}
+
+.candidate-passport-coach {
+  position: relative;
+  overflow: hidden;
+  padding: 14px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.24), transparent 10rem),
+    radial-gradient(circle at 0 100%, rgba(229, 29, 42, 0.12), transparent 9rem),
+    linear-gradient(145deg, #173629, #08110e);
+  box-shadow:
+    0 17px 38px rgba(16, 32, 24, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.candidate-passport-coach::after {
+  content: "";
+  position: absolute;
+  right: -43px;
+  bottom: -57px;
+  width: 132px;
+  height: 132px;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from 9deg,
+    rgba(189, 242, 75, 0.07) 0deg 1deg,
+    transparent 1deg 18deg
+  );
+  border-radius: 50%;
+}
+
+.candidate-passport-coach > * {
+  position: relative;
+  z-index: 1;
+}
+
+.candidate-passport-coach-top strong {
+  font-size: 39px;
+}
+
+.candidate-passport-coach-meter {
+  height: 9px;
+  padding: 2px;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.18);
+}
+
+.candidate-passport-coach-meter span {
+  background: linear-gradient(90deg, #e51d2a, #ffb84d 43%, #bdf24b);
+  box-shadow: 0 0 15px rgba(189, 242, 75, 0.27);
+}
+
+.candidate-passport-reference,
+.candidate-passport-brief,
+.candidate-passport-matches,
+.candidate-passport-send-ready,
+.candidate-passport-after,
+.candidate-passport-smart {
+  border-color: rgba(16, 32, 24, 0.075);
+  box-shadow:
+    0 14px 31px rgba(16, 32, 24, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.91);
+}
+
+.candidate-passport-message {
+  position: relative;
+  gap: 9px;
+  padding: 12px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(37, 211, 102, 0.14), transparent 10rem),
+    linear-gradient(145deg, #f3faf0, #e8f4e8);
+  border: 1px solid rgba(18, 140, 74, 0.15);
+  border-radius: 17px;
+  box-shadow:
+    0 15px 34px rgba(16, 32, 24, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.91);
+}
+
+.candidate-passport-message::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #25d366, #128c4a, #bdf24b);
+}
+
+.candidate-passport-message > strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 2px;
+}
+
+.candidate-passport-message > strong::before {
+  content: "W";
+  display: inline-grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  color: #ffffff;
+  background: linear-gradient(145deg, #25d366, #08783c);
+  border-radius: 8px;
+  box-shadow:
+    0 8px 17px rgba(37, 211, 102, 0.19),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  font-size: 9px;
+  font-weight: 950;
+}
+
+.candidate-passport-message pre {
+  max-height: 240px;
+  padding: 13px;
+  color: #173126;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.89), rgba(255, 255, 255, 0.89)),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(18, 140, 74, 0.05) 0 8px,
+      transparent 8px 16px
+    );
+  border-color: rgba(18, 140, 74, 0.13);
+  border-radius: 13px 13px 4px 13px;
+  box-shadow:
+    0 10px 23px rgba(16, 32, 24, 0.065),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.candidate-passport-actions {
+  position: sticky;
+  z-index: 5;
+  bottom: -12px;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(245, 249, 242, 0.94);
+  border: 1px solid rgba(16, 32, 24, 0.075);
+  border-radius: 17px;
+  box-shadow:
+    0 -12px 31px rgba(16, 32, 24, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.93);
+  backdrop-filter: blur(12px);
+}
+
+.candidate-passport-actions .button {
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.candidate-passport-actions .button-whatsapp {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.22), transparent 5rem),
+    linear-gradient(145deg, #25d366, #08783c);
+  box-shadow:
+    0 13px 27px rgba(37, 211, 102, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.candidate-passport-actions .button-primary {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.15), transparent 5rem),
+    linear-gradient(145deg, #173629, #102018);
+  box-shadow:
+    0 13px 27px rgba(16, 32, 24, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+@media (max-width: 980px) {
+  .candidate-passport-preview {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .candidate-passport {
+    padding: 14px 11px;
+    border-radius: 23px;
+  }
+
+  .vacancy-first .candidate-passport::before {
+    top: -7rem;
+    right: -9rem;
+    width: 22rem;
+    height: 22rem;
+  }
+
+  .candidate-passport-head h2 {
+    max-width: 14ch;
+    font-size: clamp(28px, 8.8vw, 36px);
+    line-height: 0.97;
+  }
+
+  .candidate-passport-head p:last-child {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .candidate-passport-layout {
+    gap: 8px;
+  }
+
+  .candidate-passport-form,
+  .candidate-passport-preview {
+    gap: 8px;
+    padding: 9px;
+    border-radius: 17px;
+  }
+
+  .candidate-passport-form > h3 {
+    font-size: 18px;
+  }
+
+  .candidate-passport-safe-grid {
+    display: flex;
+    gap: 6px;
+    padding: 0 0 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .candidate-passport-safe-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .candidate-passport-safe-grid article {
+    width: 208px;
+    min-width: 208px;
+    min-height: 83px;
+    flex: 0 0 208px;
+    grid-template-columns: 23px 1fr;
+    align-items: start;
+    border-radius: 13px;
+    scroll-snap-align: start;
+  }
+
+  .candidate-passport-safe-grid article small {
+    grid-column: 2;
+  }
+
+  .candidate-passport-quick {
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .candidate-passport-quick-grid {
+    display: flex;
+    gap: 6px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .candidate-passport-quick-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .candidate-passport-quick-card {
+    width: 196px;
+    min-width: 196px;
+    min-height: 57px;
+    flex: 0 0 196px;
+    border-radius: 13px;
+    scroll-snap-align: start;
+  }
+
+  .candidate-passport-field-group {
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .candidate-passport-field-group::after {
+    right: 9px;
+    font-size: 59px;
+  }
+
+  .candidate-passport-field-group > legend {
+    grid-template-columns: 27px minmax(0, 1fr) auto;
+    gap: 7px;
+    padding-bottom: 8px;
+  }
+
+  .candidate-passport-field-group > legend > span {
+    width: 27px;
+    height: 27px;
+    border-radius: 8px;
+  }
+
+  .candidate-passport-field-group > legend > strong {
+    font-size: 10px;
+  }
+
+  .candidate-passport-field-group > legend > small {
+    min-width: 31px;
+    height: 23px;
+    border-radius: 7px;
+  }
+
+  .candidate-passport-field-group-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .candidate-passport-field {
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .candidate-passport-field:focus-within {
+    transform: none;
+  }
+
+  .candidate-passport-field input,
+  .candidate-passport-field select {
+    min-height: 44px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  .candidate-passport-field-group .candidate-passport-start-quick > div,
+  .candidate-passport-field-group .candidate-passport-current-quick > div,
+  .candidate-passport-field-group .candidate-passport-citizenship-quick > div,
+  .candidate-passport-field-group .candidate-passport-language-quick > div,
+  .candidate-passport-field-group .candidate-passport-destination-quick > div,
+  .candidate-passport-field-group .candidate-passport-people-quick > div,
+  .candidate-passport-field-group .candidate-passport-experience-quick > div {
+    display: flex;
+    gap: 5px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .candidate-passport-field-group .candidate-passport-start-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-current-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-citizenship-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-language-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-destination-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-people-quick > div::-webkit-scrollbar,
+  .candidate-passport-field-group .candidate-passport-experience-quick > div::-webkit-scrollbar {
+    display: none;
+  }
+
+  .candidate-passport-field-group .candidate-passport-start-quick button,
+  .candidate-passport-field-group .candidate-passport-current-quick button,
+  .candidate-passport-field-group .candidate-passport-citizenship-quick button,
+  .candidate-passport-field-group .candidate-passport-language-quick button,
+  .candidate-passport-field-group .candidate-passport-destination-quick button,
+  .candidate-passport-field-group .candidate-passport-people-quick button,
+  .candidate-passport-field-group .candidate-passport-experience-quick button {
+    min-width: max-content;
+    flex: 0 0 auto;
+    padding-inline: 10px;
+    scroll-snap-align: start;
+  }
+
+  .candidate-passport-preview {
+    padding: 8px;
+  }
+
+  .candidate-passport-coach {
+    padding: 12px;
+    border-radius: 15px;
+  }
+
+  .candidate-passport-coach-top strong {
+    font-size: 34px;
+  }
+
+  .candidate-passport-message {
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .candidate-passport-message pre {
+    max-height: 210px;
+    padding: 11px;
+    font-size: 9px;
+  }
+
+  .candidate-passport-actions {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 8px;
+    border-radius: 15px;
+  }
+
+  .candidate-passport-actions [data-passport-clear] {
+    grid-column: 1 / -1;
+  }
+
+  .candidate-passport-actions .button {
+    min-width: 0;
+    min-height: 46px;
+    padding-inline: 7px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 380px) {
+  .candidate-passport-head h2 {
+    font-size: 27px;
+  }
+
+  .candidate-passport-form,
+  .candidate-passport-preview {
+    padding: 7px;
+  }
+
+  .candidate-passport-field-group {
+    padding: 7px;
+  }
+
+  .candidate-passport-field-group > legend > strong {
+    font-size: 9px;
+  }
+
+  .candidate-passport-field input,
+  .candidate-passport-field select {
+    min-height: 43px;
+    font-size: 12px;
+  }
+
+  .candidate-passport-actions .button {
+    min-height: 44px;
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .candidate-passport-field-group.is-complete > legend > small,
+  .candidate-passport-field.has-value > span::after {
+    animation: v108-passport-complete 220ms ease-out both;
+  }
+
+  .candidate-passport-field-group {
+    animation: v108-passport-group 220ms ease-out both;
+  }
+
+  .candidate-passport-field-group:nth-child(2) {
+    animation-delay: 35ms;
+  }
+
+  .candidate-passport-field-group:nth-child(3) {
+    animation-delay: 70ms;
+  }
+}
+
+@keyframes v108-passport-complete {
+  from {
+    opacity: 0;
+    transform: scale(0.74) rotate(-7deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes v108-passport-group {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .candidate-passport-field-group,
+  .candidate-passport-field,
+  .candidate-passport-field-group > legend > small,
+  .candidate-passport-field.has-value > span::after {
+    animation: none;
+    transition: none;
+  }
+}
