@@ -1359,7 +1359,19 @@
       el("catalog-banner-title").textContent = t("ui.bannerTitle");
       el("catalog-banner-text").textContent = t("ui.bannerText");
     }
-    el("jobs-updated-label").textContent = `${t("ui.catalogDate")} ${formatDate(site.lastUpdated)}`;
+    const catalogPersonal = personalCatalogCopy();
+    const catalogCurator = el("jobs-updated-label");
+    catalogCurator.href = profile.whatsapp;
+    catalogCurator.setAttribute("aria-label", `${catalogPersonal.catalogOwner}: ${profile.name}, WhatsApp`);
+    catalogCurator.innerHTML = `
+      <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+      <span>
+        <small>${escapeHTML(catalogPersonal.catalogOwner)}</small>
+        <strong>${escapeHTML(profile.name)}</strong>
+        <em>${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(site.lastUpdated))} · WhatsApp</em>
+      </span>
+      ${svgIcon("whatsapp")}
+    `;
 
     const personSchema = {
       "@context": "https://schema.org",
@@ -5062,6 +5074,78 @@
     ];
   }
 
+  function personalCatalogCopy() {
+    const copy = {
+      ru: {
+        catalogOwner: "Каталог обновляю я",
+        confirmStart: "Я лично уточню наличие места и дату старта",
+        askStart: "Спросить меня о старте",
+        checkedBy: "Проверено мной"
+      },
+      uk: {
+        catalogOwner: "Каталог оновлюю я",
+        confirmStart: "Я особисто уточню наявність місця й дату початку",
+        askStart: "Запитати мене про старт",
+        checkedBy: "Перевірено мною"
+      },
+      pl: {
+        catalogOwner: "Aktualizuję ten katalog",
+        confirmStart: "Osobiście sprawdzę wolne miejsce i termin rozpoczęcia",
+        askStart: "Zapytaj mnie o start",
+        checkedBy: "Sprawdzone przeze mnie"
+      },
+      en: {
+        catalogOwner: "I update this catalogue",
+        confirmStart: "I will personally confirm the vacancy and start date",
+        askStart: "Ask me about the start",
+        checkedBy: "Checked by me"
+      },
+      az: {
+        catalogOwner: "Bu kataloqu mən yeniləyirəm",
+        confirmStart: "Boş yeri və başlama tarixini şəxsən dəqiqləşdirəcəyəm",
+        askStart: "Başlama tarixini məndən soruşun",
+        checkedBy: "Şəxsən yoxlamışam"
+      },
+      ka: {
+        catalogOwner: "ამ კატალოგს მე ვაახლებ",
+        confirmStart: "ადგილსა და დაწყების თარიღს პირადად დავაზუსტებ",
+        askStart: "დაწყების თარიღი მკითხეთ",
+        checkedBy: "ჩემ მიერ შემოწმებული"
+      },
+      id: {
+        catalogOwner: "Saya memperbarui katalog ini",
+        confirmStart: "Saya akan memastikan lowongan dan tanggal mulai secara langsung",
+        askStart: "Tanyakan tanggal mulai kepada saya",
+        checkedBy: "Saya periksa langsung"
+      },
+      es: {
+        catalogOwner: "Yo actualizo este catálogo",
+        confirmStart: "Confirmaré personalmente la plaza y la fecha de inicio",
+        askStart: "Pregúntame por el inicio",
+        checkedBy: "Revisado por mí"
+      },
+      fil: {
+        catalogOwner: "Ako ang nag-a-update ng katalogong ito",
+        confirmStart: "Personal kong kukumpirmahin ang puwesto at petsa ng simula",
+        askStart: "Tanungin ako tungkol sa simula",
+        checkedBy: "Personal kong sinuri"
+      },
+      ne: {
+        catalogOwner: "यो सूची म आफैं अद्यावधिक गर्छु",
+        confirmStart: "म उपलब्ध ठाउँ र सुरु मिति व्यक्तिगत रूपमा पुष्टि गर्छु",
+        askStart: "सुरु मितिबारे मलाई सोध्नुहोस्",
+        checkedBy: "मैले आफैं जाँच गरेको"
+      },
+      hy: {
+        catalogOwner: "Այս կատալոգը ես եմ թարմացնում",
+        confirmStart: "Անձամբ կճշտեմ տեղի առկայությունն ու մեկնարկի օրը",
+        askStart: "Հարցրեք ինձ մեկնարկի մասին",
+        checkedBy: "Անձամբ եմ ստուգել"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const favorite = state.favorites.has(job.id);
@@ -5069,13 +5153,7 @@
     const routeCode = countryCode(job.format) || "EU";
     const routeLabel = view.category || job.category || "Kiris Jobs";
     const titleId = `${context}-job-${job.id}-title`;
-    const startLabel = i18n.locale === "ru"
-      ? "Уточнить старт"
-      : i18n.locale === "uk"
-        ? "Уточнити старт"
-        : i18n.locale === "pl"
-          ? "Dopytaj o start"
-          : "Ask start date";
+    const personalCopy = personalCatalogCopy();
     return `
       <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
@@ -5121,15 +5199,18 @@
             </span>
           `).join("")}
         </div>
-        <p class="job-card-availability">
-          ${svgIcon("clock")}
-          <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
+        <p class="job-card-availability job-card-personal-availability">
+          <b aria-hidden="true">OK</b>
+          <span>
+            <strong>${escapeHTML(personalCopy.confirmStart)}</strong>
+            <small>${escapeHTML(profile.name)}</small>
+          </span>
         </p>
         ${context === "featured" ? `
           <div class="job-personal-stamp">
             <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
             <span>
-              <small>${escapeHTML(t("ui.updated"))} · ${escapeHTML(formatDate(job.updatedAt))}</small>
+              <small>${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
               <strong>${escapeHTML(profile.name)}</strong>
             </span>
             <b aria-hidden="true">OK</b>
@@ -5137,7 +5218,7 @@
         ` : ""}
         <div class="job-card-actions job-card-actions-single">
           <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
-          <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(startLabel)}</span></button>
+          <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(personalCopy.askStart)}</span></button>
           <button class="button button-secondary button-icon" type="button" data-job-share="${escapeHTML(job.id)}" aria-label="${escapeHTML(t("ui.share"))}">${svgIcon("share")}</button>
         </div>
       </article>
