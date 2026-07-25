@@ -922,32 +922,49 @@
       return;
     }
     container.innerHTML = `
-      <header class="whatsapp-safety-header">
-        <span class="candidate-safety-icon" aria-hidden="true">${svgIcon("shield")}</span>
-        <div>
+      <section class="whatsapp-contact-hero">
+        <figure class="whatsapp-contact-photo">
+          <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="${escapeHTML(profile.name)}">
+          <span aria-hidden="true">${svgIcon("check")}</span>
+        </figure>
+        <header class="whatsapp-safety-header">
           <p class="overline">${escapeHTML(t("ui.privacy"))}</p>
           <h2 id="whatsapp-safety-title">${escapeHTML(t("ui.recruiterEyebrow"))}</h2>
+          <p>${escapeHTML(profile.name)}</p>
+          <span class="whatsapp-verified-badge">${svgIcon("shield")}<b>Citronex</b> · ${escapeHTML(t("ui.recruiterProfile"))}</span>
+        </header>
+        <div class="whatsapp-contact-availability">
+          <i aria-hidden="true"></i>
+          <span>${escapeHTML(t("ui.responseTime"))}</span>
+          <strong>${escapeHTML(profile.workHours || t("ui.workHours"))}</strong>
         </div>
-      </header>
+      </section>
       <div class="whatsapp-recipient">
-        <span>${escapeHTML(profile.name)}</span>
-        <strong>${escapeHTML(profile.phone)}</strong>
-        <small>WhatsApp</small>
+        <span class="whatsapp-recipient-icon" aria-hidden="true">${svgIcon("whatsapp")}</span>
+        <div>
+          <small>WhatsApp</small>
+          <strong>${escapeHTML(profile.phone)}</strong>
+        </div>
+        <span class="whatsapp-recipient-check">${svgIcon("check")}<b>${escapeHTML(t("ui.contact"))}</b></span>
       </div>
       <div class="whatsapp-trust-check">
-        ${whatsappTrustCheckCopy().map(([title, text]) => `
+        ${whatsappTrustCheckCopy().map(([title, text], index) => `
           <article>
-            <span aria-hidden="true">✓</span>
-            <strong>${escapeHTML(title)}</strong>
-            <small>${escapeHTML(text)}</small>
+            <span aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <strong>${escapeHTML(title)}</strong>
+              <small>${escapeHTML(text)}</small>
+            </div>
           </article>
         `).join("")}
       </div>
-      <p class="whatsapp-safety-warning">${escapeHTML(t("ui.antiFraudWarning"))}</p>
+      <p class="whatsapp-safety-warning">${svgIcon("shield")}<span>${escapeHTML(t("ui.antiFraudWarning"))}</span></p>
       <div class="whatsapp-safety-actions">
         <button class="button button-secondary" type="button" data-close-dialog>${escapeHTML(t("ui.close"))}</button>
         <a class="button button-whatsapp" data-whatsapp-confirmed href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">
-          ${svgIcon("whatsapp")}<span>${escapeHTML(t("form.openWhatsapp"))}</span>
+          ${svgIcon("whatsapp")}
+          <span><strong>${escapeHTML(t("form.openWhatsapp"))}</strong><small>${escapeHTML(profile.phone)}</small></span>
+          ${svgIcon("arrow", "ui-icon whatsapp-action-arrow")}
         </a>
       </div>
     `;
@@ -2381,7 +2398,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=121" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=122" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
