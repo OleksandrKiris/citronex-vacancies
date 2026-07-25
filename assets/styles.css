@@ -23559,3 +23559,493 @@ body.vacancy-first {
     animation: none;
   }
 }
+
+/* v99 · visual chapters and long-page rhythm polish */
+.vacancy-first #view-home {
+  background:
+    linear-gradient(180deg, transparent 0 10%, rgba(226, 235, 228, 0.20) 28%, transparent 52%),
+    #fffdfa;
+}
+
+.vacancy-first .country-explorer,
+.vacancy-first .quick-share,
+.vacancy-first .country-compare,
+.vacancy-first .honest-fit,
+.vacancy-first .anti-scam,
+.vacancy-first .instant-match,
+.vacancy-first .priority-picker,
+.vacancy-first .decision-path,
+.vacancy-first .whatsapp-scripts,
+.vacancy-first .candidate-prep,
+.vacancy-first .candidate-passport,
+.vacancy-first .after-whatsapp,
+.vacancy-first .home-featured,
+.vacancy-first .candidate-situations,
+.vacancy-first .home-guidance,
+.vacancy-first .trust-recruiter,
+.vacancy-first .home-faq {
+  scroll-margin-top: 92px;
+}
+
+.vacancy-first .country-explorer-head,
+.vacancy-first .quick-share-head,
+.vacancy-first .country-compare-head,
+.vacancy-first .priority-picker-head,
+.vacancy-first .decision-path-head,
+.vacancy-first .whatsapp-scripts-head,
+.vacancy-first .candidate-passport-head,
+.vacancy-first .after-whatsapp-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+  gap: 7px clamp(24px, 5vw, 76px);
+  align-items: end;
+}
+
+.vacancy-first .country-explorer-head .overline,
+.vacancy-first .quick-share-head .overline,
+.vacancy-first .country-compare-head .overline,
+.vacancy-first .priority-picker-head .overline,
+.vacancy-first .decision-path-head .overline,
+.vacancy-first .whatsapp-scripts-head .overline,
+.vacancy-first .candidate-passport-head .overline,
+.vacancy-first .after-whatsapp-head .overline {
+  grid-column: 1 / -1;
+}
+
+.vacancy-first .country-explorer-head h2,
+.vacancy-first .quick-share-head h2,
+.vacancy-first .country-compare-head h2,
+.vacancy-first .priority-picker-head h2,
+.vacancy-first .decision-path-head h2,
+.vacancy-first .whatsapp-scripts-head h2,
+.vacancy-first .candidate-passport-head h2,
+.vacancy-first .after-whatsapp-head h2 {
+  grid-column: 1;
+  max-width: 18ch;
+  margin: 0;
+  font-size: clamp(28px, 3.6vw, 47px);
+  letter-spacing: -0.052em;
+  line-height: 0.99;
+  text-wrap: balance;
+}
+
+.vacancy-first .country-explorer-head > p:last-child,
+.vacancy-first .quick-share-head > p:last-child,
+.vacancy-first .country-compare-head > p:last-child,
+.vacancy-first .priority-picker-head > p:last-child,
+.vacancy-first .decision-path-head > p:last-child,
+.vacancy-first .whatsapp-scripts-head > p:last-child,
+.vacancy-first .candidate-passport-head > p:last-child,
+.vacancy-first .after-whatsapp-head > p:last-child {
+  grid-column: 2;
+  align-self: end;
+  max-width: 42ch;
+  margin: 0 0 3px;
+  padding-left: 15px;
+  border-left: 2px solid rgba(16, 32, 24, 0.12);
+  font-size: 13px;
+  line-height: 1.48;
+}
+
+.vacancy-first .country-explorer-head .overline,
+.vacancy-first .honest-fit-copy .overline,
+.vacancy-first .instant-match-copy .overline,
+.vacancy-first .whatsapp-scripts-head .overline {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 9px 4px 4px;
+  background: rgba(16, 32, 24, 0.05);
+  border: 1px solid rgba(16, 32, 24, 0.07);
+  border-radius: 999px;
+}
+
+.vacancy-first .country-explorer-head .overline::before,
+.vacancy-first .honest-fit-copy .overline::before,
+.vacancy-first .instant-match-copy .overline::before,
+.vacancy-first .whatsapp-scripts-head .overline::before {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: #ffffff;
+  background: #102018;
+  border-radius: 50%;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.vacancy-first .country-explorer-head .overline::before {
+  content: "01";
+}
+
+.vacancy-first .honest-fit-copy .overline::before {
+  content: "02";
+  color: #102018;
+  background: #bdf24b;
+}
+
+.vacancy-first .instant-match-copy .overline::before {
+  content: "03";
+  color: #102018;
+  background: #bdf24b;
+}
+
+.vacancy-first .whatsapp-scripts-head .overline::before {
+  content: "04";
+  background: #25d366;
+}
+
+.vacancy-first .country-explorer {
+  margin-top: 38px;
+  padding: clamp(22px, 3vw, 34px);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 17rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 245, 0.97));
+  border-color: rgba(16, 32, 24, 0.075);
+  border-radius: 30px;
+  box-shadow:
+    0 26px 64px rgba(16, 32, 24, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+}
+
+.vacancy-first .country-explorer-grid,
+.vacancy-first .quick-share-grid,
+.vacancy-first .country-compare-grid {
+  margin-top: 4px;
+}
+
+.vacancy-first .quick-share,
+.vacancy-first .country-compare {
+  margin-top: 16px;
+}
+
+.vacancy-first .quick-share {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(49, 87, 255, 0.08), transparent 16rem),
+    rgba(255, 255, 255, 0.90);
+  border-top-color: rgba(49, 87, 255, 0.18);
+}
+
+.vacancy-first .country-compare {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(15, 109, 76, 0.10), transparent 18rem),
+    rgba(250, 252, 248, 0.94);
+  border-top-color: rgba(15, 109, 76, 0.16);
+}
+
+.vacancy-first .quick-share-card,
+.vacancy-first .country-compare-card {
+  border-color: rgba(16, 32, 24, 0.07);
+  box-shadow:
+    0 14px 30px rgba(16, 32, 24, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.vacancy-first .honest-fit {
+  margin-top: clamp(42px, 6vw, 74px);
+  border-top: 3px solid rgba(189, 242, 75, 0.78);
+  box-shadow:
+    0 30px 76px rgba(16, 32, 24, 0.17),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.vacancy-first .honest-fit-copy .overline {
+  color: #d9ff78;
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.11);
+}
+
+.vacancy-first .anti-scam {
+  margin-top: 14px;
+  border-top: 3px solid rgba(255, 184, 77, 0.82);
+}
+
+.vacancy-first .honest-fit-card,
+.vacancy-first .anti-scam-card {
+  box-shadow:
+    0 15px 34px rgba(7, 16, 13, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.vacancy-first .instant-match {
+  margin-top: clamp(42px, 6vw, 74px);
+  border-top: 3px solid rgba(189, 242, 75, 0.82);
+}
+
+.vacancy-first .instant-match-copy .overline {
+  color: #d9ff78;
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.11);
+}
+
+.vacancy-first .priority-picker,
+.vacancy-first .decision-path {
+  margin-top: 14px;
+}
+
+.vacancy-first .priority-picker {
+  border-top: 3px solid rgba(229, 29, 42, 0.60);
+}
+
+.vacancy-first .decision-path {
+  border-top: 3px solid rgba(49, 87, 255, 0.48);
+}
+
+.vacancy-first .priority-picker-head .overline,
+.vacancy-first .decision-path-head .overline,
+.vacancy-first .candidate-passport-head .overline,
+.vacancy-first .after-whatsapp-head .overline {
+  margin-bottom: 4px;
+}
+
+.vacancy-first .whatsapp-scripts {
+  margin-top: clamp(42px, 6vw, 74px);
+  background:
+    radial-gradient(circle at 96% 12%, rgba(37, 211, 102, 0.22), transparent 18rem),
+    linear-gradient(145deg, #0c1d15, #123724);
+  border-top: 3px solid rgba(37, 211, 102, 0.82);
+  box-shadow:
+    0 30px 76px rgba(16, 32, 24, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.vacancy-first .whatsapp-scripts-head .overline {
+  color: #bdf8ce;
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.11);
+}
+
+.vacancy-first .whatsapp-scripts-head h2 {
+  color: #ffffff;
+}
+
+.vacancy-first .whatsapp-scripts-head > p:last-child {
+  color: rgba(255, 255, 255, 0.66);
+  border-left-color: rgba(37, 211, 102, 0.44);
+}
+
+.vacancy-first .whatsapp-script-card {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.055));
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 15px 34px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.vacancy-first .candidate-prep,
+.vacancy-first .candidate-passport,
+.vacancy-first .after-whatsapp {
+  margin-top: 14px;
+}
+
+.vacancy-first .candidate-prep {
+  border-top: 3px solid rgba(255, 184, 77, 0.72);
+}
+
+.vacancy-first .candidate-passport {
+  border-top: 3px solid rgba(189, 242, 75, 0.72);
+}
+
+.vacancy-first .after-whatsapp {
+  border-top: 3px solid rgba(37, 211, 102, 0.68);
+}
+
+.vacancy-first .home-featured {
+  position: relative;
+  margin-top: clamp(46px, 7vw, 82px);
+  padding-top: clamp(26px, 4vw, 48px);
+}
+
+.vacancy-first .home-featured::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 32, 24, 0.18) 12% 88%, transparent);
+}
+
+.vacancy-first .home-featured .section-heading,
+.vacancy-first .home-guidance .section-heading,
+.vacancy-first .home-faq .section-heading {
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(16, 32, 24, 0.09);
+}
+
+.vacancy-first .home-featured .section-heading h2,
+.vacancy-first .home-guidance .section-heading h2,
+.vacancy-first .home-faq .section-heading h2 {
+  font-size: clamp(28px, 3.7vw, 48px);
+  letter-spacing: -0.052em;
+  line-height: 0.98;
+}
+
+.vacancy-first .candidate-situations,
+.vacancy-first .home-guidance,
+.vacancy-first .trust-recruiter,
+.vacancy-first .home-faq {
+  margin-top: clamp(22px, 4vw, 44px);
+}
+
+@media (max-width: 900px) {
+  .vacancy-first .country-explorer-head,
+  .vacancy-first .quick-share-head,
+  .vacancy-first .country-compare-head,
+  .vacancy-first .priority-picker-head,
+  .vacancy-first .decision-path-head,
+  .vacancy-first .whatsapp-scripts-head,
+  .vacancy-first .candidate-passport-head,
+  .vacancy-first .after-whatsapp-head {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .vacancy-first .country-explorer-head .overline,
+  .vacancy-first .quick-share-head .overline,
+  .vacancy-first .country-compare-head .overline,
+  .vacancy-first .priority-picker-head .overline,
+  .vacancy-first .decision-path-head .overline,
+  .vacancy-first .whatsapp-scripts-head .overline,
+  .vacancy-first .candidate-passport-head .overline,
+  .vacancy-first .after-whatsapp-head .overline,
+  .vacancy-first .country-explorer-head h2,
+  .vacancy-first .quick-share-head h2,
+  .vacancy-first .country-compare-head h2,
+  .vacancy-first .priority-picker-head h2,
+  .vacancy-first .decision-path-head h2,
+  .vacancy-first .whatsapp-scripts-head h2,
+  .vacancy-first .candidate-passport-head h2,
+  .vacancy-first .after-whatsapp-head h2,
+  .vacancy-first .country-explorer-head > p:last-child,
+  .vacancy-first .quick-share-head > p:last-child,
+  .vacancy-first .country-compare-head > p:last-child,
+  .vacancy-first .priority-picker-head > p:last-child,
+  .vacancy-first .decision-path-head > p:last-child,
+  .vacancy-first .whatsapp-scripts-head > p:last-child,
+  .vacancy-first .candidate-passport-head > p:last-child,
+  .vacancy-first .after-whatsapp-head > p:last-child {
+    grid-column: 1;
+  }
+
+  .vacancy-first .country-explorer-head > p:last-child,
+  .vacancy-first .quick-share-head > p:last-child,
+  .vacancy-first .country-compare-head > p:last-child,
+  .vacancy-first .priority-picker-head > p:last-child,
+  .vacancy-first .decision-path-head > p:last-child,
+  .vacancy-first .whatsapp-scripts-head > p:last-child,
+  .vacancy-first .candidate-passport-head > p:last-child,
+  .vacancy-first .after-whatsapp-head > p:last-child {
+    max-width: 56ch;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .country-explorer,
+  .vacancy-first .honest-fit,
+  .vacancy-first .instant-match,
+  .vacancy-first .whatsapp-scripts {
+    margin-top: 31px;
+  }
+
+  .vacancy-first .quick-share,
+  .vacancy-first .country-compare,
+  .vacancy-first .anti-scam,
+  .vacancy-first .priority-picker,
+  .vacancy-first .decision-path,
+  .vacancy-first .candidate-prep,
+  .vacancy-first .candidate-passport,
+  .vacancy-first .after-whatsapp {
+    margin-top: 10px;
+  }
+
+  .vacancy-first .country-explorer {
+    padding: 15px 13px;
+    border-radius: 19px;
+  }
+
+  .vacancy-first .country-explorer-head h2,
+  .vacancy-first .quick-share-head h2,
+  .vacancy-first .country-compare-head h2,
+  .vacancy-first .priority-picker-head h2,
+  .vacancy-first .decision-path-head h2,
+  .vacancy-first .whatsapp-scripts-head h2,
+  .vacancy-first .candidate-passport-head h2,
+  .vacancy-first .after-whatsapp-head h2 {
+    max-width: 20ch;
+    font-size: 25px;
+  }
+
+  .vacancy-first .country-explorer-head > p:last-child,
+  .vacancy-first .quick-share-head > p:last-child,
+  .vacancy-first .country-compare-head > p:last-child,
+  .vacancy-first .priority-picker-head > p:last-child,
+  .vacancy-first .decision-path-head > p:last-child,
+  .vacancy-first .whatsapp-scripts-head > p:last-child,
+  .vacancy-first .candidate-passport-head > p:last-child,
+  .vacancy-first .after-whatsapp-head > p:last-child {
+    font-size: 11px;
+    line-height: 1.42;
+  }
+
+  .vacancy-first .country-explorer-head .overline,
+  .vacancy-first .honest-fit-copy .overline,
+  .vacancy-first .instant-match-copy .overline,
+  .vacancy-first .whatsapp-scripts-head .overline {
+    min-height: 27px;
+    padding: 3px 8px 3px 3px;
+    font-size: 8px;
+  }
+
+  .vacancy-first .country-explorer-head .overline::before,
+  .vacancy-first .honest-fit-copy .overline::before,
+  .vacancy-first .instant-match-copy .overline::before,
+  .vacancy-first .whatsapp-scripts-head .overline::before {
+    width: 21px;
+    height: 21px;
+    font-size: 7px;
+  }
+
+  .vacancy-first .honest-fit,
+  .vacancy-first .anti-scam,
+  .vacancy-first .instant-match,
+  .vacancy-first .priority-picker,
+  .vacancy-first .decision-path,
+  .vacancy-first .whatsapp-scripts,
+  .vacancy-first .candidate-prep,
+  .vacancy-first .candidate-passport,
+  .vacancy-first .after-whatsapp {
+    border-top-width: 2px;
+  }
+
+  .vacancy-first .home-featured {
+    margin-top: 36px;
+    padding-top: 24px;
+  }
+
+  .vacancy-first .home-featured .section-heading h2,
+  .vacancy-first .home-guidance .section-heading h2,
+  .vacancy-first .home-faq .section-heading h2 {
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .country-explorer-head h2,
+  .vacancy-first .quick-share-head h2,
+  .vacancy-first .country-compare-head h2,
+  .vacancy-first .priority-picker-head h2,
+  .vacancy-first .decision-path-head h2,
+  .vacancy-first .whatsapp-scripts-head h2,
+  .vacancy-first .candidate-passport-head h2,
+  .vacancy-first .after-whatsapp-head h2 {
+    font-size: 23px;
+  }
+}
