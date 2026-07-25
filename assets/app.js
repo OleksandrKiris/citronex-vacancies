@@ -2381,7 +2381,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=117" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=118" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5151,6 +5151,24 @@
             <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
             <p class="job-company">${escapeHTML(job.company)} · ${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</p>
           </div>
+        </div>
+        <div class="job-detail-decision-strip">
+          <div class="job-detail-salary-ticket">
+            <span>${svgIcon("jobs")}<small>${escapeHTML(t("ui.grossSalary"))}</small></span>
+            <strong>${formatSalary(view.salary)}</strong>
+            <em>${svgIcon(job.salary?.confirmed ? "check" : "clock")}<span>${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}</span></em>
+          </div>
+          <button class="job-detail-recruiter-chat" type="button" data-job-chat="${escapeHTML(job.id)}">
+            <span class="job-detail-recruiter-photo">
+              <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+              <i aria-hidden="true"></i>
+            </span>
+            <span>
+              <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
+              <strong>${escapeHTML(profile.name)}</strong>
+            </span>
+            ${svgIcon("whatsapp")}
+          </button>
         </div>
       </header>
       <dl class="job-detail-facts">
