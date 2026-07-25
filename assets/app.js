@@ -1102,6 +1102,7 @@
     }
 
     renderHeroRecruiterSignal();
+    renderProfileEditorial();
     renderRecruiterTrustVisuals();
     renderQuickStart();
     renderHeroRoleRail();
@@ -1166,6 +1167,65 @@
     schemaNode.id = "person-schema";
     schemaNode.textContent = JSON.stringify(personSchema);
     document.head.append(schemaNode);
+  }
+
+  function renderProfileEditorial() {
+    const hero = document.querySelector("#view-profile .profile-hero");
+    const avatar = el("profile-avatar");
+    const links = el("profile-links");
+    if (!hero || !avatar || !links) return;
+
+    const copy = hero.children[1];
+    copy?.classList.add("profile-hero-copy");
+
+    let photoProof = avatar.querySelector(".profile-photo-proof");
+    if (!photoProof) {
+      photoProof = document.createElement("span");
+      photoProof.className = "profile-photo-proof";
+      avatar.append(photoProof);
+    }
+    photoProof.innerHTML = `<i aria-hidden="true"></i><span>Citronex</span>`;
+
+    let facts = el("profile-fact-strip");
+    if (!facts) {
+      facts = document.createElement("div");
+      facts.id = "profile-fact-strip";
+      facts.className = "profile-fact-strip";
+      links.insertAdjacentElement("afterend", facts);
+    }
+    facts.innerHTML = `
+      <span class="profile-fact">
+        <i aria-hidden="true">${svgIcon("globe")}</i>
+        <span><strong>PL · HU · BE</strong><small>${escapeHTML(t("ui.navJobs"))}</small></span>
+      </span>
+      <span class="profile-fact">
+        <i aria-hidden="true">${svgIcon("greenhouse")}</i>
+        <span><strong>2019–2020</strong><small>${escapeHTML(t("ui.profileGreenhouseTitle"))}</small></span>
+      </span>
+      <span class="profile-fact">
+        <i aria-hidden="true">${svgIcon("people")}</i>
+        <span><strong>${escapeHTML(t("ui.profileRecruitingTitle"))}</strong><small>${escapeHTML(t("ui.profileLanguagesKicker"))}</small></span>
+      </span>
+    `;
+
+    let card = el("profile-direct-card");
+    if (!card) {
+      card = document.createElement("aside");
+      card.id = "profile-direct-card";
+      card.className = "profile-direct-card";
+      hero.append(card);
+    }
+    card.innerHTML = `
+      <span class="profile-direct-card-kicker"><i aria-hidden="true"></i>${escapeHTML(t("ui.recruiterProfile"))}</span>
+      <strong>${escapeHTML(t("ui.trustChatTitle"))}</strong>
+      <p>${escapeHTML(profile.workHours || t("ui.workHours"))}<br><small>${escapeHTML(profile.timezone)}</small></p>
+      <span class="profile-direct-countries" aria-label="${escapeHTML(t("ui.navJobs"))}">
+        <b>PL</b><b>HU</b><b>BE</b>
+      </span>
+      <a href="${escapeHTML(profile.whatsapp)}" target="_blank" rel="noopener noreferrer">
+        ${svgIcon("whatsapp")}<span>WhatsApp</span><b aria-hidden="true">↗</b>
+      </a>
+    `;
   }
 
   function renderHeroRecruiterSignal() {
@@ -2273,7 +2333,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=114" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=115" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
