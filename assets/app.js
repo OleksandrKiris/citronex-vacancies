@@ -1041,6 +1041,20 @@
     el("profile-email-link").href = mailto;
     const primaryContact = profile.whatsapp || mailto;
     el("header-contact").href = primaryContact;
+    el("header-contact").classList.add("has-recruiter");
+    el("header-contact").innerHTML = `
+      <span class="header-contact-photo" aria-hidden="true">
+        <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+        ${svgIcon("whatsapp")}
+        <i></i>
+      </span>
+      <span class="header-contact-copy">
+        <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
+        <strong>${escapeHTML(profile.name)}</strong>
+      </span>
+      ${svgIcon("arrow", "ui-icon header-contact-arrow")}
+      <span class="sr-only">${escapeHTML(t("ui.contact"))} · WhatsApp · ${escapeHTML(profile.phone)}</span>
+    `;
     document.querySelector(".mobile-nav-whatsapp")?.setAttribute("href", primaryContact);
     if (el("candidate-safety-contact")) el("candidate-safety-contact").href = primaryContact;
     if (el("candidate-safety-phone")) el("candidate-safety-phone").textContent = profile.phone;
@@ -2400,7 +2414,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=123" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=124" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
