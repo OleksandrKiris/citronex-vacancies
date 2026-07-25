@@ -79,6 +79,27 @@
   };
   const today = () => new Date().toISOString().slice(0, 10);
 
+  function renderStepTrack(labels, currentStep, completeAll = false) {
+    return `
+      <ol class="application-step-track${completeAll ? " is-complete" : ""}" aria-hidden="true" style="--application-step-count:${labels.length}">
+        ${labels.map((label, index) => {
+          const step = index + 1;
+          const status = completeAll || step < currentStep
+            ? "is-done"
+            : step === currentStep
+              ? "is-current"
+              : "is-upcoming";
+          return `
+            <li class="${status}">
+              <span>${String(step).padStart(2, "0")}</span>
+              <small>${escapeHTML(label)}</small>
+            </li>
+          `;
+        }).join("")}
+      </ol>
+    `;
+  }
+
   function field(name, label, input, hint = "") {
     return `
       <label class="application-field" for="application-${escapeHTML(name)}">
@@ -583,10 +604,11 @@
     const progress = (visibleStep / MATCH_STEP_COUNT) * 100;
     const title = isResults ? t("form.matchResultsTitle") : stepTitles[state.matchStep];
     container.innerHTML = `
-      <header class="application-header">
+      <header class="application-header" data-stage="${visibleStep}" data-stage-total="${MATCH_STEP_COUNT}"${isResults ? ' data-stage-complete="true"' : ""}>
         <p class="overline">${escapeHTML(t("form.matchKicker"))}</p>
         <h2 id="application-step-title" tabindex="-1">${escapeHTML(title)}</h2>
         <p>${escapeHTML(isResults ? t("form.matchResultsHint") : t("form.matchIntro"))}</p>
+        ${renderStepTrack(stepTitles, visibleStep, isResults)}
         <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${visibleStep} ${t("ui.of")} ${MATCH_STEP_COUNT}`)}" aria-valuemin="1" aria-valuemax="${MATCH_STEP_COUNT}" aria-valuenow="${visibleStep}">
           <span style="width:${progress}%"></span>
         </div>
@@ -633,11 +655,13 @@
     const container = document.getElementById("application-dialog-content");
     if (!dialog || !container) return;
     const percent = ((state.step + 1) / STEP_KEYS.length) * 100;
+    const stepLabels = STEP_KEYS.map((key) => t(`form.${key}`));
     container.innerHTML = `
-      <header class="application-header">
+      <header class="application-header" data-stage="${state.step + 1}" data-stage-total="${STEP_KEYS.length}">
         <p class="overline">${escapeHTML(t("form.title"))}</p>
         <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
         <p>${escapeHTML(t("form.intro"))}</p>
+        ${renderStepTrack(stepLabels, state.step + 1)}
         <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.step + 1} ${t("ui.of")} ${STEP_KEYS.length}`)}" aria-valuemin="1" aria-valuemax="${STEP_KEYS.length}" aria-valuenow="${state.step + 1}">
           <span style="width:${percent}%"></span>
         </div>
