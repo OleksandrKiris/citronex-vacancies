@@ -2381,7 +2381,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=118" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=119" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -4868,11 +4868,51 @@
     return result;
   }
 
+  function renderCatalogCountryDock() {
+    const proof = document.querySelector("#view-jobs .catalog-proof-grid");
+    if (!proof) return;
+    let dock = el("catalog-country-dock");
+    if (!dock) {
+      dock = document.createElement("nav");
+      dock.id = "catalog-country-dock";
+      dock.className = "catalog-country-dock";
+      proof.insertAdjacentElement("afterend", dock);
+    }
+
+    const countries = [
+      { code: "EU", filter: "country:all", label: t("ui.allCountries"), count: jobs.length },
+      { code: "PL", filter: "country:poland", label: i18n.countryName("PL") },
+      { code: "HU", filter: "country:hungary", label: i18n.countryName("HU") },
+      { code: "BE", filter: "country:belgium", label: i18n.countryName("BE") }
+    ].map((country) => ({
+      ...country,
+      count: country.count ?? jobs.filter((job) => countryCode(job.format) === country.code).length
+    }));
+
+    dock.setAttribute("aria-label", t("ui.allCountries"));
+    dock.innerHTML = countries.map((country) => {
+      const active = country.filter === "country:all"
+        ? !state.quickFilter || state.quickFilter === "country:all"
+        : state.quickFilter === country.filter;
+      return `
+        <button class="catalog-country-card${active ? " is-active" : ""}" type="button" data-quick-filter="${escapeHTML(country.filter)}" aria-pressed="${active}">
+          <span class="catalog-country-code">${escapeHTML(country.code)}</span>
+          <span class="catalog-country-copy">
+            <strong>${escapeHTML(country.label)}</strong>
+            <small>${escapeHTML(t("ui.navJobs"))}</small>
+          </span>
+          <b>${country.count}</b>
+        </button>
+      `;
+    }).join("");
+  }
+
   function renderAllJobs() {
     const result = filteredJobs();
     el("all-jobs").innerHTML = result.map((job) => renderJobCard(job, "catalog")).join("");
     el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
     el("jobs-empty").hidden = result.length > 0;
+    renderCatalogCountryDock();
     renderQuickStart();
     renderCountryExplorer();
   }
