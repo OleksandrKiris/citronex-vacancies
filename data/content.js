@@ -11,9 +11,9 @@
 window.PORTAL_CONTENT = {
   site: {
     isDemo: false,
-    title: "Kiris Jobs — актуальные вакансии в Европе",
+    title: "Oleksandr Kiris · Kiris Jobs",
     shortTitle: "Kiris Jobs",
-    description: "Личная платформа рекрутера Oleksandr Kiris: актуальные вакансии, понятные условия и прямой контакт в WhatsApp.",
+    description: "Личная платформа рекрутера Oleksandr Kiris: актуальные вакансии, понятные условия и прямой ответ в WhatsApp.",
     lastUpdated: "2026-07-23",
     baseUrl: "https://oleksandrkiris.github.io/kiris-jobs/",
     baseRate: "31,40 PLN",

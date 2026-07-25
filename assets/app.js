@@ -1003,16 +1003,16 @@
   window.PortalWhatsApp = { open: openWhatsAppSafety };
 
   function renderProfileContent() {
-    document.title = `${t("ui.navJobs")} Kiris Jobs · ${i18n.languageName(i18n.locale)}`;
+    document.title = `${profile.name} · Kiris Jobs · ${i18n.languageName(i18n.locale)}`;
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("ui.heroIntro"));
     const recruiterRole = `${profile.name} · ${t("ui.recruiterProfile")}`;
     const recruiterLocations = `${t("ui.navJobs")}: ${i18n.countryName("PL")} · ${i18n.countryName("HU")} · ${i18n.countryName("BE")}`;
 
     [
-      ["brand-name", "Kiris Jobs"],
+      ["brand-name", profile.name],
       ["hero-name", profile.name],
       ["profile-name", profile.name],
-      ["footer-name", "Kiris Jobs"],
+      ["footer-name", profile.name],
       ["hero-role", recruiterRole],
       ["profile-role", recruiterRole],
       ["footer-role", recruiterRole],
@@ -1168,9 +1168,7 @@
     renderProfileEditorial();
     renderProfileJourneyVisuals();
     renderRecruiterTrustVisuals();
-    renderFooterExperience();
     renderQuickStart();
-    renderHeroRoleRail();
     renderCountryExplorer();
     renderQuickShareLinks();
     renderCountryComparison();
@@ -1363,59 +1361,12 @@
       <span class="hero-recruiter-copy">
         <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
         <strong>${escapeHTML(profile.name)}</strong>
-        <em>WhatsApp · ${escapeHTML(profile.workHours || t("ui.workHours"))}</em>
+        <em>${escapeHTML(t("ui.profileGreenhouseTitle"))} · WhatsApp</em>
       </span>
       <span class="hero-recruiter-countries" aria-hidden="true">
         <b>PL</b><b>HU</b><b>BE</b>
       </span>
       <span class="hero-recruiter-whatsapp" aria-hidden="true">${svgIcon("whatsapp")}</span>
-    `;
-  }
-
-  function renderFooterExperience() {
-    const footer = document.querySelector(".site-footer");
-    if (!footer) return;
-    let panel = el("footer-conversion");
-    if (!panel) {
-      panel = document.createElement("section");
-      panel.id = "footer-conversion";
-      panel.className = "footer-conversion shell";
-      footer.insertAdjacentElement("afterbegin", panel);
-    }
-    panel.setAttribute("aria-label", t("ui.finalTitle"));
-    panel.innerHTML = `
-      <div class="footer-conversion-copy">
-        <p class="footer-conversion-kicker"><i aria-hidden="true"></i>${escapeHTML(t("ui.finalKicker"))}</p>
-        <h2>${escapeHTML(t("ui.finalTitle"))}</h2>
-        <p>${escapeHTML(t("ui.finalText"))}</p>
-        <div class="footer-country-row" aria-label="${escapeHTML(t("ui.countryLocation"))}">
-          <span><b>PL</b>${escapeHTML(i18n.countryName("PL"))}</span>
-          <span><b>HU</b>${escapeHTML(i18n.countryName("HU"))}</span>
-          <span><b>BE</b>${escapeHTML(i18n.countryName("BE"))}</span>
-        </div>
-      </div>
-      <div class="footer-conversion-actions">
-        <a class="footer-contact-card" href="${escapeHTML(profile.whatsapp)}" target="_blank" rel="noopener noreferrer">
-          <span class="footer-contact-photo" aria-hidden="true">
-            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
-            <i></i>
-          </span>
-          <span>
-            <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
-            <strong>${escapeHTML(profile.name)}</strong>
-            <em>WhatsApp · ${escapeHTML(profile.workHours || t("ui.workHours"))}</em>
-          </span>
-          <b aria-hidden="true">${svgIcon("whatsapp")}</b>
-        </a>
-        <div class="footer-route-actions">
-          <button class="button footer-survey-button" type="button" data-application-general>
-            ${svgIcon("match")}<span>${escapeHTML(t("ui.startSurvey"))}</span>
-          </button>
-          <button class="button footer-jobs-button" type="button" data-route="jobs">
-            <span>${escapeHTML(t("ui.allJobs"))}</span>${svgIcon("arrow")}
-          </button>
-        </div>
-      </div>
     `;
   }
 
@@ -1459,57 +1410,6 @@
       </div>
       ${index < steps.length - 1 ? '<i class="trust-data-arrow" aria-hidden="true">→</i>' : ""}
     `).join("");
-  }
-
-  function renderHeroRoleRail() {
-    const heroActions = document.querySelector(".hero-actions");
-    if (!heroActions) return;
-    let rail = el("hero-role-rail");
-    if (!rail) {
-      rail = document.createElement("section");
-      rail.id = "hero-role-rail";
-      rail.className = "hero-role-rail";
-      heroActions.insertAdjacentElement("afterend", rail);
-    }
-    const preferredIds = ["greenhouse-tomatoes", "banana-warehouse-poland", "driver-ce-poland", "truck-mechanic"];
-    const availableJobs = jobs.filter((job) => ["open", "verify"].includes(job.status));
-    const pool = availableJobs.length ? availableJobs : jobs;
-    const selected = preferredIds.map((id) => pool.find((job) => job.id === id)).filter(Boolean);
-    pool.forEach((job) => {
-      if (selected.length >= 4 || selected.some((item) => item.id === job.id)) return;
-      selected.push(job);
-    });
-    rail.setAttribute("aria-label", t("ui.jobsInCatalog"));
-    rail.innerHTML = `
-      <div class="hero-role-rail-head">
-        <span><i aria-hidden="true"></i>${availableJobs.length} ${escapeHTML(t("ui.jobsInCatalog"))}</span>
-        <small>PL · HU · BE</small>
-      </div>
-      <div class="hero-role-track">
-        ${selected.slice(0, 4).map((job) => {
-          const view = localizedJob(job);
-          const visualType = jobVisualType(job.id);
-          const code = countryCode(job.format) || "EU";
-          return `
-            <button
-              class="hero-role-card"
-              type="button"
-              data-visual="${escapeHTML(visualType)}"
-              data-job-open="${escapeHTML(job.id)}"
-              aria-label="${escapeHTML(t("ui.details"))}: ${escapeHTML(view.title)}"
-            >
-              <span class="hero-role-card-icon" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
-              <span class="hero-role-card-copy">
-                <small><b>${escapeHTML(code)}</b>${escapeHTML(view.format)}</small>
-                <strong>${escapeHTML(view.title)}</strong>
-                <em>${formatSalary(view.salary)}</em>
-              </span>
-              <span class="hero-role-card-arrow" aria-hidden="true">${svgIcon("arrow")}</span>
-            </button>
-          `;
-        }).join("")}
-      </div>
-    `;
   }
 
   function renderQuickStart() {

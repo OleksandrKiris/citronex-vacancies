@@ -42628,3 +42628,116 @@ body.vacancy-first {
     font-size: 11px;
   }
 }
+
+/* v141 — Oleksandr Kiris personal identity. */
+:root {
+  --brand-red: #3157ff;
+  --brand-red-dark: #2446d8;
+  --brand-red-soft: #eef1ff;
+  --brand-coral: #72a1ff;
+  --cobalt: #3157ff;
+  --cobalt-dark: #2446d8;
+  --focus: #3157ff;
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(49, 87, 255, 0.055), transparent 30rem),
+    var(--brand-ivory);
+}
+
+.vacancy-first .hero-compact {
+  background:
+    radial-gradient(circle at 84% 13%, rgba(189, 242, 75, 0.20), transparent 24rem),
+    radial-gradient(circle at 3% 0%, rgba(49, 87, 255, 0.25), transparent 22rem),
+    linear-gradient(128deg, #06100c 0%, #123326 54%, #07120d 100%);
+}
+
+.vacancy-first .hero h1 {
+  max-width: 13.5ch;
+  font-size: clamp(48px, 6.1vw, 78px);
+}
+
+.vacancy-first .hero h1 > em {
+  max-width: 13.5ch;
+}
+
+.vacancy-first .hero-recruiter-signal {
+  width: 320px;
+  border-color: rgba(189, 242, 75, 0.22);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.31),
+    0 0 0 1px rgba(189, 242, 75, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.vacancy-first .hero-recruiter-signal::before {
+  background: linear-gradient(90deg, #3157ff, #bdf24b 56%, #25d366);
+}
+
+.vacancy-first .hero-recruiter-copy small {
+  color: #dfff88;
+}
+
+.vacancy-first .hero-role-rail,
+.vacancy-first .footer-conversion {
+  display: none !important;
+}
+
+.vacancy-first .trust-recruiter {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.vacancy-first .trust-recruiter > .trust-recruiter-card {
+  display: none;
+}
+
+.vacancy-first .trust-recruiter-body {
+  width: 100%;
+  max-width: none;
+}
+
+.vacancy-first .button-primary {
+  color: #ffffff;
+  background: linear-gradient(145deg, #4165ff, #2446d8);
+  box-shadow:
+    0 16px 34px rgba(49, 87, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.vacancy-first .button-primary:hover {
+  background: linear-gradient(145deg, #2446d8, #1737bd);
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .hero-compact {
+    background:
+      radial-gradient(circle at 105% 8%, rgba(189, 242, 75, 0.18), transparent 16rem),
+      radial-gradient(circle at -8% -2%, rgba(49, 87, 255, 0.22), transparent 15rem),
+      linear-gradient(145deg, #07100d 0%, #123326 57%, #07110d 100%);
+  }
+
+  .vacancy-first .hero h1 {
+    max-width: 13.5ch;
+    font-size: clamp(37px, 10.8vw, 46px);
+  }
+
+  .vacancy-first .hero h1 > span {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+
+  .vacancy-first .hero-recruiter-signal {
+    width: min(100%, 380px);
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .hero h1 {
+    font-size: 38px;
+  }
+
+  .vacancy-first .hero-lead {
+    font-size: 13.5px;
+  }
+}

@@ -96,15 +96,15 @@ function New-ShareCard {
   $panel = New-Brush "#1b2936"
   $cream = New-Brush "#f7f5ef"
   $muted = New-Brush "#aebbc7"
-  $lime = New-Brush "#ff6570"
-  $cobalt = New-Brush "#e51d2a"
+  $lime = New-Brush "#bdf24b"
+  $cobalt = New-Brush "#3157ff"
   $green = New-Brush "#25d366"
   $white = New-Brush "#ffffff"
 
   $gridPen = [System.Drawing.Pen]::new([System.Drawing.Color]::FromArgb(12, 247, 245, 239), 1)
   for ($x = 0; $x -le 1200; $x += 44) { $graphics.DrawLine($gridPen, $x, 0, $x, 630) }
   for ($y = 0; $y -le 630; $y += 44) { $graphics.DrawLine($gridPen, 0, $y, 1200, $y) }
-  $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(44, 229, 29, 42)), 930, -160, 420, 420)
+  $graphics.FillEllipse([System.Drawing.SolidBrush]::new([System.Drawing.Color]::FromArgb(42, 49, 87, 255)), 930, -160, 420, 420)
 
   Fill-RoundedRectangle $graphics $cream ([System.Drawing.RectangleF]::new(72, 66, 58, 58)) 17
 
@@ -122,8 +122,8 @@ function New-ShareCard {
   $monogramFormat.LineAlignment = [System.Drawing.StringAlignment]::Center
 
   $graphics.DrawString("K", $fontMonogram, $graphite, [System.Drawing.RectangleF]::new(72, 66, 58, 58), $monogramFormat)
-  $graphics.DrawString("KIRIS JOBS", $fontBrand, $cream, 148, 70)
-  $graphics.DrawString("OLEKSANDR / DIRECT RECRUITER CONTACT", $fontMeta, $muted, 148, 97)
+  $graphics.DrawString("OLEKSANDR KIRIS", $fontBrand, $cream, 148, 70)
+  $graphics.DrawString("KIRIS JOBS / DIRECT RECRUITER CONTACT", $fontMeta, $muted, 148, 97)
   $graphics.DrawString("WORK ACROSS EUROPE", $fontOverline, $lime, 72, 218)
   $graphics.DrawString("Find work.", $fontHero, $cream, 66, 249)
   $graphics.DrawString("Know the terms.", $fontHero, $cream, 66, 323)
