@@ -1103,6 +1103,7 @@
 
     renderHeroRecruiterSignal();
     renderProfileEditorial();
+    renderProfileJourneyVisuals();
     renderRecruiterTrustVisuals();
     renderQuickStart();
     renderHeroRoleRail();
@@ -1225,6 +1226,53 @@
       <a href="${escapeHTML(profile.whatsapp)}" target="_blank" rel="noopener noreferrer">
         ${svgIcon("whatsapp")}<span>WhatsApp</span><b aria-hidden="true">↗</b>
       </a>
+    `;
+  }
+
+  function renderProfileJourneyVisuals() {
+    const experienceGrid = document.querySelector("#view-profile .profile-experience-grid");
+    const contactCard = document.querySelector("#view-profile .contact-card");
+    if (!experienceGrid || !contactCard) return;
+
+    let journey = el("profile-journey");
+    if (!journey) {
+      journey = document.createElement("div");
+      journey.id = "profile-journey";
+      journey.className = "profile-journey";
+      experienceGrid.insertAdjacentElement("beforebegin", journey);
+    }
+    journey.innerHTML = `
+      <span class="profile-journey-point">
+        <small>${escapeHTML(t("ui.profileGreenhouseTitle"))}</small>
+        <strong>2019</strong>
+      </span>
+      <span class="profile-journey-line" aria-hidden="true"><i></i><i></i><i></i><b>→</b></span>
+      <span class="profile-journey-point profile-journey-point-current">
+        <small>${escapeHTML(t("ui.profileRecruitingTitle"))}</small>
+        <strong>2026</strong>
+      </span>
+    `;
+
+    experienceGrid.querySelectorAll(".profile-experience-item").forEach((item, index) => {
+      item.dataset.step = String(index + 1).padStart(2, "0");
+    });
+
+    let person = el("profile-contact-person");
+    if (!person) {
+      person = document.createElement("div");
+      person.id = "profile-contact-person";
+      person.className = "profile-contact-person";
+      contactCard.querySelector(".overline")?.insertAdjacentElement("afterend", person);
+    }
+    person.innerHTML = `
+      <span class="profile-contact-person-photo">
+        <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+        <i aria-hidden="true"></i>
+      </span>
+      <span>
+        <strong>${escapeHTML(profile.name)}</strong>
+        <small>${escapeHTML(t("ui.recruiterProfile"))}</small>
+      </span>
     `;
   }
 
@@ -2333,7 +2381,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=115" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=116" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
