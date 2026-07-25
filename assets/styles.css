@@ -38092,3 +38092,446 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v128 · visual quick direction dock */
+.vacancy-first .quick-start {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.26fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin-top: -28px;
+  padding: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0 0, rgba(189, 242, 75, 0.19), transparent 12rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.985), rgba(242, 248, 240, 0.97));
+  border: 1px solid rgba(16, 32, 24, 0.09);
+  border-radius: 24px;
+  box-shadow:
+    0 25px 58px rgba(16, 32, 24, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.70),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px) saturate(1.12);
+}
+
+.vacancy-first .quick-start::before {
+  top: 11px;
+  bottom: 11px;
+  left: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #e51d2a, #ffb84d 54%, #bdf24b);
+}
+
+.vacancy-first .quick-start::after {
+  content: "START";
+  position: absolute;
+  top: -10px;
+  left: 31px;
+  display: block;
+  color: rgba(16, 32, 24, 0.035);
+  font-size: 61px;
+  font-weight: 950;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.vacancy-first .quick-start > div:first-child {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 3px;
+  align-content: center;
+  padding: 8px 8px 8px 12px;
+}
+
+.vacancy-first .quick-start .overline {
+  margin: 0;
+  color: #d51b28;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+}
+
+.vacancy-first .quick-start h2 {
+  margin: 0;
+  color: #102018;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.vacancy-first .quick-start-actions {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+
+.vacancy-first .quick-chip {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 72px;
+  grid-template-columns: 38px minmax(0, 1fr) 18px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  overflow: hidden;
+  color: #102018;
+  text-align: left;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.11), transparent 6rem),
+    rgba(255, 255, 255, 0.77);
+  border: 1px solid rgba(16, 32, 24, 0.075);
+  border-radius: 16px;
+  box-shadow:
+    0 9px 21px rgba(16, 32, 24, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  transition: color 170ms ease, background 170ms ease, border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+}
+
+.vacancy-first .quick-chip::before {
+  display: none;
+  content: none;
+}
+
+.vacancy-first .quick-chip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 10px;
+  left: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, #bdf24b, transparent);
+  border-radius: 999px;
+  opacity: 0.65;
+}
+
+.quick-chip-visual {
+  position: relative;
+  display: grid;
+  width: 38px;
+  height: 43px;
+  place-items: center;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.18), transparent 45%),
+    linear-gradient(145deg, #173629, #0c1b14);
+  border: 1px solid rgba(16, 32, 24, 0.11);
+  border-radius: 12px;
+  box-shadow:
+    0 9px 19px rgba(16, 32, 24, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.quick-chip-visual svg {
+  width: 17px;
+  height: 17px;
+  transform: translateY(-4px);
+}
+
+.quick-chip-visual b {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  left: 3px;
+  overflow: hidden;
+  color: #dfff88;
+  font-size: 6px;
+  font-weight: 950;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-chip-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.quick-chip-copy strong,
+.quick-chip-copy small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quick-chip-copy strong {
+  color: inherit;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.quick-chip-copy small {
+  color: #718078;
+  font-size: 6.5px;
+  font-weight: 850;
+  letter-spacing: 0.015em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.quick-chip-arrow {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  color: #6a786f;
+  background: #edf3eb;
+  border-radius: 6px;
+}
+
+.quick-chip-arrow svg {
+  width: 10px;
+  height: 10px;
+}
+
+.vacancy-first .quick-chip:hover,
+.vacancy-first .quick-chip.active {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.17), transparent 7rem),
+    linear-gradient(145deg, #173629, #0d1d16);
+  border-color: rgba(16, 32, 24, 0.23);
+  box-shadow:
+    0 14px 29px rgba(16, 32, 24, 0.17),
+    0 0 0 3px rgba(189, 242, 75, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  transform: translateY(-2px);
+}
+
+.vacancy-first .quick-chip:hover .quick-chip-copy small,
+.vacancy-first .quick-chip.active .quick-chip-copy small {
+  color: rgba(255, 255, 255, 0.60);
+}
+
+.vacancy-first .quick-chip:hover .quick-chip-arrow,
+.vacancy-first .quick-chip.active .quick-chip-arrow {
+  color: #102018;
+  background: #bdf24b;
+}
+
+.vacancy-first .quick-chip-primary {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.20), transparent 6rem),
+    linear-gradient(145deg, #ef3542, #c91523);
+  border-color: rgba(190, 17, 30, 0.29);
+  box-shadow:
+    0 13px 28px rgba(229, 29, 42, 0.21),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.vacancy-first .quick-chip-primary::after {
+  background: linear-gradient(90deg, #ffffff, transparent);
+}
+
+.vacancy-first .quick-chip-primary .quick-chip-visual {
+  color: #102018;
+  background: linear-gradient(145deg, #e4ffa0, #bdf24b);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.vacancy-first .quick-chip-primary .quick-chip-visual b {
+  color: #102018;
+}
+
+.vacancy-first .quick-chip-primary .quick-chip-copy small {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.vacancy-first .quick-chip-primary .quick-chip-arrow {
+  color: #102018;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.vacancy-first .quick-chip-primary:hover {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.27), transparent 7rem),
+    linear-gradient(145deg, #f3424e, #d01624);
+  border-color: rgba(190, 17, 30, 0.35);
+  box-shadow:
+    0 17px 34px rgba(229, 29, 42, 0.28),
+    0 0 0 3px rgba(229, 29, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.27);
+}
+
+@media (max-width: 1100px) {
+  .vacancy-first .quick-start {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .vacancy-first .quick-start > div:first-child {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 9px;
+    padding: 4px 8px;
+  }
+
+  .vacancy-first .quick-start h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .quick-start {
+    gap: 6px;
+    margin-top: -20px;
+    padding: 9px;
+    border-radius: 20px;
+  }
+
+  .vacancy-first .quick-start::after {
+    top: -4px;
+    left: 22px;
+    font-size: 48px;
+  }
+
+  .vacancy-first .quick-start > div:first-child {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    padding: 2px 4px 4px;
+  }
+
+  .vacancy-first .quick-start .overline {
+    display: inline-block;
+    font-size: 6px;
+  }
+
+  .vacancy-first .quick-start h2 {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vacancy-first .quick-start-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .vacancy-first .quick-chip {
+    min-height: 61px;
+    grid-template-columns: 34px minmax(0, 1fr) 16px;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .quick-chip-visual {
+    width: 34px;
+    height: 39px;
+    border-radius: 10px;
+  }
+
+  .quick-chip-visual svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .quick-chip-copy strong {
+    font-size: 9px;
+  }
+
+  .quick-chip-copy small {
+    font-size: 6px;
+  }
+
+  .quick-chip-arrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  .vacancy-first .quick-chip-primary {
+    grid-column: 1 / -1;
+    min-height: 58px;
+  }
+
+  .vacancy-first .quick-chip:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .quick-start {
+    padding-inline: 7px;
+  }
+
+  .vacancy-first .quick-chip {
+    min-height: 58px;
+    grid-template-columns: 31px minmax(0, 1fr) 15px;
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .quick-chip-visual {
+    width: 31px;
+    height: 36px;
+  }
+
+  .quick-chip-copy strong {
+    font-size: 8px;
+  }
+
+  .quick-chip-copy small {
+    font-size: 5.5px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vacancy-first .quick-chip {
+    animation: v128-quick-chip-in 260ms ease-out backwards;
+  }
+
+  .vacancy-first .quick-chip:nth-child(2) {
+    animation-delay: 40ms;
+  }
+
+  .vacancy-first .quick-chip:nth-child(3) {
+    animation-delay: 80ms;
+  }
+
+  .vacancy-first .quick-chip:nth-child(4) {
+    animation-delay: 120ms;
+  }
+
+  .vacancy-first .quick-chip:nth-child(5) {
+    animation-delay: 160ms;
+  }
+}
+
+@keyframes v128-quick-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first .quick-chip,
+  .quick-chip-arrow {
+    animation: none;
+    transition: none;
+  }
+}

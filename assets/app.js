@@ -1516,19 +1516,46 @@
     const copy = quickStartCopy();
     if (el("quick-start-kicker")) el("quick-start-kicker").textContent = copy.kicker;
     if (el("quick-start-heading")) el("quick-start-heading").textContent = copy.title;
-    const labels = {
-      "country:poland": copy.poland,
-      "country:other": copy.other,
-      "level:noExperience": copy.noExperience,
-      "category:driver": copy.driver
+    const availableJobs = jobs.filter((job) => ["open", "verify"].includes(job.status));
+    const options = {
+      "country:poland": { label: copy.poland, code: "PL", icon: "location" },
+      "country:other": { label: copy.other, code: "HU·BE", icon: "globe" },
+      "level:noExperience": { label: copy.noExperience, code: "0 EXP", icon: "check" },
+      "category:driver": { label: copy.driver, code: "C+E", icon: "truck" }
     };
-    els("[data-quick-filter]").forEach((button) => {
-      button.textContent = labels[button.dataset.quickFilter] || button.textContent;
-      button.classList.toggle("active", state.quickFilter === button.dataset.quickFilter);
-      button.setAttribute("aria-pressed", String(state.quickFilter === button.dataset.quickFilter));
+    els("[data-quick-filter]", el("quick-start-actions")).forEach((button) => {
+      const filter = button.dataset.quickFilter;
+      const option = options[filter];
+      if (!option) return;
+      const count = availableJobs.filter((job) => matchesQuickFilter(job, filter)).length;
+      button.innerHTML = `
+        <span class="quick-chip-visual" aria-hidden="true">
+          ${svgIcon(option.icon)}
+          <b>${escapeHTML(option.code)}</b>
+        </span>
+        <span class="quick-chip-copy">
+          <strong>${escapeHTML(option.label)}</strong>
+          <small>${count} · ${escapeHTML(t("ui.jobsInCatalog"))}</small>
+        </span>
+        <span class="quick-chip-arrow" aria-hidden="true">${svgIcon("arrow")}</span>
+      `;
+      button.classList.toggle("active", state.quickFilter === filter);
+      button.setAttribute("aria-pressed", String(state.quickFilter === filter));
     });
     const surveyButton = document.querySelector(".quick-start [data-application-general]");
-    if (surveyButton) surveyButton.textContent = copy.survey;
+    if (surveyButton) {
+      surveyButton.innerHTML = `
+        <span class="quick-chip-visual" aria-hidden="true">
+          ${svgIcon("match")}
+          <b>2–3</b>
+        </span>
+        <span class="quick-chip-copy">
+          <strong>${escapeHTML(copy.survey)}</strong>
+          <small>${escapeHTML(t("ui.startSurvey"))}</small>
+        </span>
+        <span class="quick-chip-arrow" aria-hidden="true">${svgIcon("arrow")}</span>
+      `;
+    }
   }
 
   function priorityPickerCopy() {
@@ -2493,7 +2520,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=127" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=128" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5035,9 +5062,9 @@
     renderAllJobs();
   }
 
-  function matchesQuickFilter(job) {
-    if (!state.quickFilter) return true;
-    const [type, value] = state.quickFilter.split(":");
+  function matchesQuickFilter(job, filter = state.quickFilter) {
+    if (!filter) return true;
+    const [type, value] = filter.split(":");
     if (type === "country" && value === "poland") return job.format === "Польша";
     if (type === "country" && value === "hungary") return job.format === "Венгрия";
     if (type === "country" && value === "belgium") return job.format === "Бельгия";
