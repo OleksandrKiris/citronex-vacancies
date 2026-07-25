@@ -1,16 +1,16 @@
 const CACHE_PREFIX = "citronex-jobs-";
-const CACHE_VERSION = "citronex-jobs-v99-visual-chapters-2026-07-25";
+const CACHE_VERSION = "citronex-jobs-v100-guided-application-2026-07-25";
 const CORE_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./data/content.js?v=99",
-  "./data/locales/ru.js?v=99",
-  "./data/locales/en.js?v=99",
-  "./assets/styles.css?v=99",
+  "./data/content.js?v=100",
+  "./data/locales/ru.js?v=100",
+  "./data/locales/en.js?v=100",
+  "./assets/styles.css?v=100",
   "./assets/i18n.js",
-  "./assets/application-form.js?v=99",
-  "./assets/app.js?v=99",
+  "./assets/application-form.js?v=100",
+  "./assets/app.js?v=100",
   "./assets/icons.svg",
   "./assets/mobility-map.svg?v=10",
   "./assets/citronex-logo.jpg",
@@ -31,15 +31,15 @@ const CORE_SHELL = [
   "./assets/share-card.png?v=10"
 ];
 const OPTIONAL_LOCALES = [
-  "./data/locales/uk.js?v=99",
-  "./data/locales/pl.js?v=99",
-  "./data/locales/az.js?v=99",
-  "./data/locales/ka.js?v=99",
-  "./data/locales/id.js?v=99",
-  "./data/locales/es.js?v=99",
-  "./data/locales/fil.js?v=99",
-  "./data/locales/ne.js?v=99",
-  "./data/locales/hy.js?v=99"
+  "./data/locales/uk.js?v=100",
+  "./data/locales/pl.js?v=100",
+  "./data/locales/az.js?v=100",
+  "./data/locales/ka.js?v=100",
+  "./data/locales/id.js?v=100",
+  "./data/locales/es.js?v=100",
+  "./data/locales/fil.js?v=100",
+  "./data/locales/ne.js?v=100",
+  "./data/locales/hy.js?v=100"
 ];
 
 self.addEventListener("install", (event) => {
