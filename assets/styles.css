@@ -14241,3 +14241,327 @@ body.vacancy-first {
     transform: none;
   }
 }
+
+/* v82 · compact mobile density polish */
+@media (max-width: 420px) {
+  body.vacancy-first {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .vacancy-first .shell {
+    width: min(100% - 20px, var(--shell));
+  }
+
+  .vacancy-first .topbar {
+    min-height: 52px;
+  }
+
+  .vacancy-first .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .vacancy-first .brand-title {
+    font-size: 13px;
+  }
+
+  .vacancy-first .header-actions {
+    gap: 6px;
+  }
+
+  .vacancy-first .header-actions .icon-button,
+  .vacancy-first .language-button {
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .vacancy-first .hero-grid-compact {
+    padding-top: 20px;
+    padding-bottom: 18px;
+  }
+
+  .vacancy-first .hero h1 {
+    max-width: 13ch;
+    font-size: clamp(31px, 10.2vw, 39px);
+    line-height: 0.98;
+    letter-spacing: -0.048em;
+  }
+
+  .vacancy-first .hero-lead {
+    max-width: 35ch;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  .vacancy-first .hero-actions {
+    gap: 7px;
+    margin-top: 13px;
+  }
+
+  .vacancy-first .hero-actions .button {
+    min-height: 44px;
+    border-radius: 14px;
+    font-size: 13px;
+  }
+
+  .vacancy-first .quick-start,
+  .vacancy-first .country-explorer,
+  .vacancy-first .quick-share,
+  .vacancy-first .country-compare,
+  .vacancy-first .honest-fit,
+  .vacancy-first .anti-scam,
+  .vacancy-first .instant-match,
+  .vacancy-first .priority-picker,
+  .vacancy-first .decision-path,
+  .vacancy-first .whatsapp-scripts,
+  .vacancy-first .candidate-prep,
+  .vacancy-first .candidate-passport,
+  .vacancy-first .after-whatsapp,
+  .vacancy-first .candidate-situations {
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 22px;
+  }
+
+  .vacancy-first .section-heading,
+  .vacancy-first .country-explorer-head,
+  .vacancy-first .country-compare-head,
+  .vacancy-first .honest-fit-copy,
+  .vacancy-first .anti-scam-copy,
+  .vacancy-first .instant-match-copy,
+  .vacancy-first .candidate-passport-head {
+    margin-bottom: 11px;
+  }
+
+  .vacancy-first .section-heading h2,
+  .vacancy-first .country-explorer-head h2,
+  .vacancy-first .country-compare-head h2,
+  .vacancy-first .honest-fit-copy h2,
+  .vacancy-first .anti-scam-copy h2,
+  .vacancy-first .instant-match-copy h2,
+  .vacancy-first .candidate-passport-head h2,
+  .quick-start h2 {
+    font-size: 22px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .vacancy-first .section-heading p,
+  .vacancy-first .country-explorer-head p:last-child,
+  .vacancy-first .country-compare-head p:last-child,
+  .vacancy-first .honest-fit-copy p:last-child,
+  .vacancy-first .anti-scam-copy p:last-child,
+  .vacancy-first .instant-match-copy p:last-child,
+  .vacancy-first .candidate-passport-head p:last-child,
+  .quick-start p {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.42;
+  }
+
+  .vacancy-first .home-featured {
+    padding-top: 16px;
+  }
+
+  .vacancy-first .section-heading,
+  .vacancy-first .page-heading {
+    margin-bottom: 10px;
+  }
+
+  .vacancy-first .section-heading h2,
+  .vacancy-first .page-heading h1 {
+    font-size: 24px;
+  }
+
+  .vacancy-first .home-featured .job-grid,
+  .vacancy-first #all-jobs.job-grid {
+    gap: 10px;
+  }
+
+  .vacancy-first .job-card {
+    padding: 14px;
+    border-radius: 20px;
+    box-shadow: 0 12px 28px rgba(16, 24, 32, 0.09);
+  }
+
+  .vacancy-first .job-card::before {
+    height: 4px;
+  }
+
+  .vacancy-first .job-card-identity {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .vacancy-first .job-card-visual {
+    width: 38px;
+    height: 38px;
+    border-radius: 13px;
+  }
+
+  .vacancy-first .job-card h3 {
+    font-size: 17px;
+    line-height: 1.1;
+  }
+
+  .vacancy-first .job-card-facts {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .vacancy-first .job-card-fact {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .vacancy-first .job-card-actions-single {
+    gap: 7px;
+    margin-top: 10px;
+  }
+
+  .vacancy-first .job-card-actions-single .button,
+  .vacancy-first .job-card-chat {
+    min-height: 42px;
+    border-radius: 13px;
+  }
+
+  .candidate-passport-layout {
+    gap: 9px;
+  }
+
+  .candidate-passport-form,
+  .candidate-passport-preview {
+    padding: 13px;
+    border-radius: 19px;
+  }
+
+  .candidate-passport-fields {
+    gap: 8px;
+  }
+
+  .candidate-passport-field {
+    gap: 5px;
+  }
+
+  .candidate-passport-field input,
+  .candidate-passport-field select,
+  .candidate-passport-field textarea {
+    min-height: 44px;
+    padding-inline: 11px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .candidate-passport-start-quick button,
+  .candidate-passport-current-quick button,
+  .candidate-passport-citizenship-quick button,
+  .candidate-passport-language-quick button,
+  .candidate-passport-destination-quick button,
+  .candidate-passport-people-quick button,
+  .candidate-passport-experience-quick button {
+    min-height: 36px;
+    padding: 7px 8px;
+    border-radius: 11px;
+    font-size: 11px;
+  }
+
+  .candidate-passport-safe-grid article,
+  .honest-fit-card,
+  .anti-scam-card,
+  .candidate-situation-card {
+    padding: 11px;
+    border-radius: 16px;
+  }
+
+  .vacancy-first .home-match-cta {
+    gap: 11px;
+    margin-top: 14px;
+    padding: 17px 15px;
+    border-radius: 22px;
+  }
+
+  .vacancy-first .home-match-cta h2 {
+    font-size: 22px;
+  }
+
+  .vacancy-first .home-match-cta p:not(.overline) {
+    font-size: 12px;
+  }
+
+  .vacancy-first .mobile-nav-three {
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom, 8px));
+    left: 8px;
+    height: 62px;
+    padding: 6px;
+    border-radius: 19px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 16px 38px rgba(16, 24, 32, 0.18);
+    backdrop-filter: blur(18px) saturate(1.25);
+  }
+
+  .vacancy-first .mobile-nav button,
+  .vacancy-first .mobile-nav a {
+    min-height: 50px;
+    border-radius: 14px;
+  }
+
+  .vacancy-first .mobile-nav small {
+    font-size: 9px;
+  }
+
+  .toast {
+    right: 10px;
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+    left: 10px;
+    width: auto;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .vacancy-first .shell {
+    width: min(100% - 16px, var(--shell));
+  }
+
+  .vacancy-first .hero h1 {
+    font-size: 29px;
+  }
+
+  .vacancy-first .hero-lead {
+    font-size: 12px;
+  }
+
+  .vacancy-first .quick-start,
+  .vacancy-first .country-explorer,
+  .vacancy-first .quick-share,
+  .vacancy-first .country-compare,
+  .vacancy-first .honest-fit,
+  .vacancy-first .anti-scam,
+  .vacancy-first .instant-match,
+  .vacancy-first .priority-picker,
+  .vacancy-first .decision-path,
+  .vacancy-first .whatsapp-scripts,
+  .vacancy-first .candidate-prep,
+  .vacancy-first .candidate-passport,
+  .vacancy-first .after-whatsapp,
+  .vacancy-first .candidate-situations {
+    padding: 13px;
+  }
+
+  .candidate-passport-form,
+  .candidate-passport-preview {
+    padding: 11px;
+  }
+
+  .candidate-passport-start-quick > div,
+  .candidate-passport-current-quick > div,
+  .candidate-passport-citizenship-quick > div,
+  .candidate-passport-language-quick > div,
+  .candidate-passport-destination-quick > div,
+  .candidate-passport-people-quick > div,
+  .candidate-passport-experience-quick > div {
+    grid-template-columns: 1fr;
+  }
+}
