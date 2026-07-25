@@ -2381,7 +2381,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=120" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=121" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5032,6 +5032,40 @@
     const comparison = jobs.filter((job) => state.compare.has(job.id));
     el("compare-count").textContent = String(comparison.length);
     el("compare-button").disabled = comparison.length < 2;
+    let board = el("saved-shortlist-board");
+    if (!board) {
+      board = document.createElement("section");
+      board.id = "saved-shortlist-board";
+      board.className = "saved-shortlist-board";
+      document.querySelector("#view-saved > .page-heading")?.insertAdjacentElement("afterend", board);
+    }
+    board.style.setProperty("--compare-progress", `${Math.round((comparison.length / 3) * 100)}%`);
+    board.innerHTML = `
+      <div class="saved-shortlist-identity">
+        <span aria-hidden="true">${svgIcon("check")}</span>
+        <span>
+          <small>${escapeHTML(t("ui.noteHelp"))}</small>
+          <strong>${escapeHTML(t("ui.navSaved"))}</strong>
+        </span>
+        <b>${saved.length}</b>
+      </div>
+      <div class="saved-compare-track">
+        <span><small>${escapeHTML(t("ui.compare"))}</small><strong>${comparison.length}/3</strong></span>
+        <div aria-hidden="true">
+          <i class="${comparison.length > 0 ? "is-filled" : ""}"></i>
+          <i class="${comparison.length > 1 ? "is-filled" : ""}"></i>
+          <i class="${comparison.length > 2 ? "is-filled" : ""}"></i>
+        </div>
+      </div>
+      <div class="saved-shortlist-meta">
+        <span><small>${escapeHTML(t("ui.navSaved"))}</small><strong>${saved.length}</strong></span>
+        <span><small>${escapeHTML(t("ui.compare"))}</small><strong>${comparison.length}</strong></span>
+        <span><small>${escapeHTML(t("ui.noteHelp"))}</small><strong>${svgIcon("check")}</strong></span>
+      </div>
+      <button class="saved-shortlist-action" type="button" data-route="jobs">
+        <span>${escapeHTML(t("ui.heroJobs"))}</span>${svgIcon("arrow")}
+      </button>
+    `;
   }
 
   function updateSavedBadge() {
