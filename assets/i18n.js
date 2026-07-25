@@ -2,6 +2,19 @@
   "use strict";
 
   const SUPPORTED = ["ru", "uk", "pl", "en", "az", "ka", "id", "es", "fil", "ne", "hy"];
+  const LANGUAGE_FLAGS = {
+    ru: "🇷🇺",
+    uk: "🇺🇦",
+    pl: "🇵🇱",
+    en: "🇬🇧",
+    az: "🇦🇿",
+    ka: "🇬🇪",
+    id: "🇮🇩",
+    es: "🇪🇸",
+    fil: "🇵🇭",
+    ne: "🇳🇵",
+    hy: "🇦🇲"
+  };
   const STORAGE_KEY = "citronex:language:v1";
   const fallbackLocale = "ru";
   const translations = window.PORTAL_TRANSLATIONS || {};
@@ -72,6 +85,10 @@
     return translations[locale]?.meta?.name || locale.toUpperCase();
   }
 
+  function languageFlag(locale) {
+    return LANGUAGE_FLAGS[locale] || "🌐";
+  }
+
   function countryName(code, locale = currentLocale) {
     if (code === "OTHER") return translations[locale]?.options?.other || translations.ru.options.other;
     try {
@@ -132,6 +149,7 @@
   function renderLanguageSwitcher() {
     if (!languageSwitcher) return;
     const currentName = languageName(currentLocale);
+    languageSwitcher.button.querySelector("[data-language-flag]").textContent = languageFlag(currentLocale);
     languageSwitcher.button.querySelector("[data-language-code]").textContent = currentLocale.toUpperCase();
     languageSwitcher.button.querySelector("[data-language-name]").textContent = currentName;
     languageSwitcher.button.setAttribute("aria-label", `${t("ui.language")}: ${currentName}`);
@@ -140,7 +158,7 @@
       const selected = option.dataset.languageOption === currentLocale;
       option.classList.toggle("is-active", selected);
       option.setAttribute("aria-selected", String(selected));
-      option.querySelector("[data-language-status]").textContent = selected ? "✓" : "";
+      option.querySelector("[data-language-status]").textContent = selected ? "\u2713" : "";
     });
   }
 
@@ -154,7 +172,7 @@
     root.className = "language-switcher";
     root.innerHTML = `
       <button class="language-switcher-button" type="button" aria-haspopup="listbox" aria-expanded="false">
-        <svg aria-hidden="true"><use href="assets/icons.svg#icon-globe"></use></svg>
+        <span class="language-switcher-flag" data-language-flag aria-hidden="true"></span>
         <span class="language-switcher-current">
           <small data-language-code></small>
           <strong data-language-name></strong>
@@ -163,7 +181,7 @@
       </button>
       <div class="language-switcher-menu" role="listbox" hidden>
         <div class="language-switcher-grid">
-          ${SUPPORTED.filter((locale) => translations[locale]).map((locale, index) => `
+          ${SUPPORTED.filter((locale) => translations[locale]).map((locale) => `
             <button
               class="language-switcher-option"
               type="button"
@@ -171,7 +189,7 @@
               data-language-option="${locale}"
               aria-selected="false"
             >
-              <span class="language-switcher-index">${String(index + 1).padStart(2, "0")}</span>
+              <span class="language-switcher-index language-switcher-option-flag" aria-hidden="true">${languageFlag(locale)}</span>
               <span class="language-switcher-option-copy">
                 <strong>${languageName(locale)}</strong>
                 <small>${locale.toUpperCase()}</small>
