@@ -2198,7 +2198,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=111" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=112" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -4938,6 +4938,7 @@
       t("form.openWhatsapp")
     ];
     const visualType = jobVisualType(job.id);
+    const routeCode = countryCode(job.format) || "EU";
     const fit = jobFitItems(job, view);
     const copy = conversionCopy();
     const conditionCards = (view.benefits || []).map((item) => `
@@ -4946,14 +4947,22 @@
         <p>${escapeHTML(item)}</p>
       </article>
     `).join("");
-    el("job-dialog-content").innerHTML = `
+    const dialogContent = el("job-dialog-content");
+    dialogContent.dataset.visual = visualType;
+    dialogContent.innerHTML = `
       <header class="job-detail-header" data-visual="${visualType}">
+        <span class="job-detail-watermark" aria-hidden="true">${escapeHTML(routeCode)}</span>
         <div class="job-detail-identity">
           <span class="job-detail-visual" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
           <div>
+            <div class="job-detail-route">
+              <strong>${escapeHTML(routeCode)}</strong>
+              <span>${escapeHTML(view.format)}</span>
+              <i aria-hidden="true"></i>
+              <span>${escapeHTML(view.category)}</span>
+            </div>
             <div class="job-card-tags">
               <button class="availability-chat" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.clarify"))}</span></button>
-              <span class="tag">${escapeHTML(view.category)}</span>
               <span class="tag">${escapeHTML(view.level)}</span>
             </div>
             <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
