@@ -41776,3 +41776,386 @@ body.vacancy-first {
     font-size: 20px;
   }
 }
+
+/* v138 · first-screen visual clarity */
+.vacancy-first .hero-compact {
+  background:
+    radial-gradient(circle at 82% 16%, rgba(189, 242, 75, 0.18), transparent 25rem),
+    radial-gradient(circle at 4% 2%, rgba(229, 29, 42, 0.18), transparent 20rem),
+    linear-gradient(128deg, #06100c 0%, #123023 52%, #07120d 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    inset 0 -70px 110px rgba(0, 0, 0, 0.18);
+}
+
+.vacancy-first .hero-compact::before {
+  opacity: 0.48;
+}
+
+.vacancy-first .hero-compact::after {
+  opacity: 0.66;
+}
+
+.vacancy-first .hero-grid-compact {
+  padding-top: clamp(48px, 6vw, 72px);
+  padding-bottom: clamp(54px, 7vw, 84px);
+}
+
+.vacancy-first .hero-copy {
+  display: flex;
+  max-width: 1120px;
+  flex-direction: column;
+}
+
+.vacancy-first .hero .eyebrow {
+  width: fit-content;
+  min-height: 37px;
+  margin-bottom: 20px;
+  padding: 9px 14px 9px 10px;
+  color: rgba(255, 255, 255, 0.89);
+  background: rgba(255, 255, 255, 0.085);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(15px);
+}
+
+.vacancy-first .hero h1 {
+  max-width: 12ch;
+  font-size: clamp(50px, 6.6vw, 84px);
+  line-height: 0.93;
+}
+
+.vacancy-first .hero h1 > span {
+  margin-bottom: 17px;
+  color: rgba(255, 255, 255, 0.69);
+}
+
+.vacancy-first .hero h1 > em {
+  max-width: 11.5ch;
+  background: linear-gradient(103deg, #ffffff 0%, #efffc8 45%, #bdf24b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.vacancy-first .hero-lead {
+  max-width: 650px;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.80);
+  font-size: clamp(16px, 1.65vw, 19px);
+}
+
+.vacancy-first .hero-actions {
+  order: 4;
+  margin-top: 25px;
+}
+
+.vacancy-first .hero-actions .button {
+  min-height: 54px;
+  padding-inline: 20px;
+  border-radius: 16px;
+  font-size: 13px;
+}
+
+.vacancy-first .hero-actions .button-primary {
+  box-shadow:
+    0 19px 40px rgba(229, 29, 42, 0.32),
+    0 0 0 4px rgba(229, 29, 42, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.29);
+}
+
+.vacancy-first .hero-facts {
+  order: 5;
+  max-width: 790px;
+  margin-top: 20px;
+  padding: 7px;
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.vacancy-first .hero-facts div {
+  min-height: 78px;
+  padding: 12px 14px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.07), transparent 6rem),
+    rgba(255, 255, 255, 0.055);
+}
+
+.vacancy-first .hero-facts dt {
+  font-size: clamp(19px, 2vw, 24px);
+}
+
+.vacancy-first .hero-facts dd {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.vacancy-first .hero-role-rail {
+  order: 6;
+  max-width: 1040px;
+  margin-top: 12px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.085), transparent 15rem),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.17),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075);
+}
+
+.vacancy-first .hero-role-rail-head {
+  min-height: 29px;
+  font-size: 8.5px;
+}
+
+.vacancy-first .hero-role-card {
+  min-height: 108px;
+}
+
+.vacancy-first .hero-role-card-copy strong {
+  font-size: 11.5px;
+}
+
+.vacancy-first .hero-role-card-copy em {
+  font-size: 9.5px;
+}
+
+.vacancy-first .hero-recruiter-signal {
+  order: 7;
+  top: 48px;
+  min-height: 116px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(37, 211, 102, 0.16), transparent 9rem),
+    rgba(5, 15, 10, 0.84);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+@media (max-width: 1000px) and (min-width: 721px) {
+  .vacancy-first .hero h1 {
+    max-width: 10.5ch;
+    font-size: clamp(46px, 7vw, 66px);
+  }
+
+  .vacancy-first .hero-lead {
+    max-width: 54%;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .hero-compact {
+    background:
+      radial-gradient(circle at 104% 10%, rgba(189, 242, 75, 0.17), transparent 16rem),
+      radial-gradient(circle at -8% -2%, rgba(229, 29, 42, 0.16), transparent 13rem),
+      linear-gradient(145deg, #07100d 0%, #123023 56%, #07110d 100%);
+  }
+
+  .vacancy-first .hero-compact::before {
+    opacity: 0.34;
+  }
+
+  .vacancy-first .hero-compact::after {
+    opacity: 0.46;
+  }
+
+  .vacancy-first .hero-grid-compact {
+    padding-top: 25px;
+    padding-bottom: 50px;
+  }
+
+  .vacancy-first .hero .eyebrow {
+    min-height: 32px;
+    margin-bottom: 15px;
+    padding: 7px 11px 7px 8px;
+    overflow: visible;
+    font-size: 10px;
+    line-height: 1.25;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .vacancy-first .hero h1 {
+    max-width: 12.5ch;
+    font-size: clamp(38px, 11.2vw, 48px);
+    line-height: 0.95;
+  }
+
+  .vacancy-first .hero h1 > span {
+    margin-bottom: 11px;
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+
+  .vacancy-first .hero h1 > em {
+    max-width: 12ch;
+  }
+
+  .vacancy-first .hero-lead {
+    max-width: 40ch;
+    margin-top: 16px;
+    padding-left: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .vacancy-first .hero-actions {
+    grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
+    gap: 8px;
+    margin-top: 19px;
+  }
+
+  .vacancy-first .hero-actions .button,
+  .vacancy-first .hero-actions .button-secondary {
+    min-height: 49px;
+    padding: 10px 11px;
+    font-size: 11.5px;
+    line-height: 1.22;
+  }
+
+  .vacancy-first .hero-facts {
+    display: grid;
+    max-width: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin: 12px 0 0;
+    padding: 6px;
+    overflow: visible;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 16px;
+    box-shadow:
+      0 16px 35px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .vacancy-first .hero-facts div {
+    width: auto;
+    min-width: 0;
+    min-height: 73px;
+    flex: initial;
+    padding: 10px 8px;
+    border-radius: 11px;
+  }
+
+  .vacancy-first .hero-facts dt {
+    overflow-wrap: anywhere;
+    font-size: clamp(15px, 4.5vw, 18px);
+    line-height: 1.05;
+  }
+
+  .vacancy-first .hero-facts dd {
+    max-width: none;
+    margin-top: 6px;
+    font-size: 7.5px;
+    letter-spacing: 0.025em;
+    line-height: 1.25;
+  }
+
+  .vacancy-first .hero-role-rail {
+    margin: 9px -10px 0 0;
+    padding: 8px 0 8px 8px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.08), transparent 12rem),
+      rgba(255, 255, 255, 0.045);
+  }
+
+  .vacancy-first .hero-role-rail-head {
+    min-height: 24px;
+    padding-bottom: 7px;
+    font-size: 7.5px;
+  }
+
+  .vacancy-first .hero-role-card {
+    width: 232px;
+    min-width: 232px;
+    min-height: 96px;
+    flex-basis: 232px;
+    grid-template-columns: 38px minmax(0, 1fr) 20px;
+    gap: 8px;
+    padding: 10px 8px 10px 10px;
+  }
+
+  .vacancy-first .hero-role-card-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .vacancy-first .hero-role-card-copy small {
+    font-size: 7px;
+  }
+
+  .vacancy-first .hero-role-card-copy strong {
+    font-size: 11px;
+  }
+
+  .vacancy-first .hero-role-card-copy em {
+    font-size: 9px;
+  }
+
+  .vacancy-first .hero-recruiter-signal {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(100%, 390px);
+    min-height: 84px;
+    margin-top: 9px;
+    padding: 9px;
+    border-radius: 16px;
+  }
+
+  .vacancy-first .hero-recruiter-copy small {
+    font-size: 7px;
+  }
+
+  .vacancy-first .hero-recruiter-copy strong {
+    font-size: 13px;
+  }
+
+  .vacancy-first .hero-recruiter-copy em {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 420px) {
+  .vacancy-first .hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-first .hero-actions .button,
+  .vacancy-first .hero-actions .button-secondary {
+    width: 100%;
+    min-height: 50px;
+  }
+
+  .vacancy-first .hero-actions .button-primary .button-arrow {
+    display: block;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .hero-grid-compact {
+    padding-top: 21px;
+  }
+
+  .vacancy-first .hero h1 {
+    font-size: 38px;
+  }
+
+  .vacancy-first .hero-facts div {
+    min-height: 70px;
+    padding-inline: 7px;
+  }
+
+  .vacancy-first .hero-facts dt {
+    font-size: 15px;
+  }
+
+  .vacancy-first .hero-facts dd {
+    font-size: 7px;
+  }
+
+  .vacancy-first .hero-role-card {
+    width: 218px;
+    min-width: 218px;
+    flex-basis: 218px;
+  }
+}
