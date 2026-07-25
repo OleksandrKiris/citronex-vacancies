@@ -4775,7 +4775,7 @@
           ? "Dopytaj o start"
           : "Ask start date";
     return `
-      <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
+      <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
           <div class="job-card-tags">
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
@@ -4823,6 +4823,16 @@
           ${svgIcon("clock")}
           <span>${escapeHTML(t("ui.startNeedsConfirmation"))}</span>
         </p>
+        ${context === "featured" ? `
+          <div class="job-personal-stamp">
+            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+            <span>
+              <small>${escapeHTML(t("ui.updated"))} · ${escapeHTML(formatDate(job.updatedAt))}</small>
+              <strong>${escapeHTML(profile.name)}</strong>
+            </span>
+            <b aria-hidden="true">OK</b>
+          </div>
+        ` : ""}
         <div class="job-card-actions job-card-actions-single">
           <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
           <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(startLabel)}</span></button>

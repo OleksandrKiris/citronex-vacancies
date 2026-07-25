@@ -42808,3 +42808,97 @@ body {
     max-width: none;
   }
 }
+
+/* v143 — OK signature and personal vacancy ownership. */
+.vacancy-first .brand-mark-personal {
+  font-size: 17px;
+  letter-spacing: -0.08em;
+}
+
+.vacancy-first .job-personal-stamp {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.16), transparent 7rem),
+    linear-gradient(135deg, #0d2018, #173b2c);
+  border: 1px solid rgba(23, 59, 44, 0.12);
+  border-radius: 15px;
+  box-shadow: 0 12px 25px rgba(16, 35, 27, 0.12);
+}
+
+.vacancy-first .job-personal-stamp img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  object-position: center 18%;
+  border: 2px solid rgba(255, 255, 255, 0.74);
+  border-radius: 12px;
+}
+
+.vacancy-first .job-personal-stamp span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.vacancy-first .job-personal-stamp small,
+.vacancy-first .job-personal-stamp strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vacancy-first .job-personal-stamp small {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.vacancy-first .job-personal-stamp strong {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.vacancy-first .job-personal-stamp > b {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #10231b;
+  background: #bdf24b;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: -0.06em;
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .brand-mark-personal {
+    font-size: 15px;
+  }
+
+  .vacancy-first .job-personal-stamp {
+    grid-template-columns: 36px minmax(0, 1fr) 30px;
+    gap: 8px;
+    padding: 7px 8px;
+  }
+
+  .vacancy-first .job-personal-stamp img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .vacancy-first .job-personal-stamp > b {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    font-size: 9px;
+  }
+}

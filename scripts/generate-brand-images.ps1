@@ -64,12 +64,12 @@ function New-BrandIcon {
 
   $accentBrush = New-Brush "#d7ff4f"
   $creamBrush = New-Brush "#fffaf0"
-  $font = [System.Drawing.Font]::new("Arial", [float]($Size * 0.56), [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+  $font = [System.Drawing.Font]::new("Arial", [float]($Size * 0.38), [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $format = [System.Drawing.StringFormat]::new()
   $format.Alignment = [System.Drawing.StringAlignment]::Center
   $format.LineAlignment = [System.Drawing.StringAlignment]::Center
   $graphics.FillEllipse($accentBrush, [float]($Size * 0.72), [float]($Size * 0.13), [float]($Size * 0.14), [float]($Size * 0.14))
-  $graphics.DrawString("K", $font, $creamBrush, [System.Drawing.RectangleF]::new(0, 0, $Size, $Size), $format)
+  $graphics.DrawString("OK", $font, $creamBrush, [System.Drawing.RectangleF]::new(0, 0, $Size, $Size), $format)
 
   $bitmap.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
 
@@ -116,12 +116,12 @@ function New-ShareCard {
   $fontNumber = [System.Drawing.Font]::new("Arial", 22, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontSmall = [System.Drawing.Font]::new("Arial", 12, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $fontPanel = [System.Drawing.Font]::new("Arial", 14, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
-  $fontMonogram = [System.Drawing.Font]::new("Arial", 36, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+  $fontMonogram = [System.Drawing.Font]::new("Arial", 25, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
   $monogramFormat = [System.Drawing.StringFormat]::new()
   $monogramFormat.Alignment = [System.Drawing.StringAlignment]::Center
   $monogramFormat.LineAlignment = [System.Drawing.StringAlignment]::Center
 
-  $graphics.DrawString("K", $fontMonogram, $graphite, [System.Drawing.RectangleF]::new(72, 66, 58, 58), $monogramFormat)
+  $graphics.DrawString("OK", $fontMonogram, $graphite, [System.Drawing.RectangleF]::new(72, 66, 58, 58), $monogramFormat)
   $graphics.DrawString("OLEKSANDR KIRIS", $fontBrand, $cream, 148, 70)
   $graphics.DrawString("KIRIS JOBS / DIRECT RECRUITER CONTACT", $fontMeta, $muted, 148, 97)
   $graphics.DrawString("WORK ACROSS EUROPE", $fontOverline, $lime, 72, 218)
