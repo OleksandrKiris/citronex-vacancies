@@ -2520,7 +2520,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=129" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=130" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -4862,6 +4862,7 @@
 
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
+    const favorite = state.favorites.has(job.id);
     const visualType = jobVisualType(job.id);
     const routeCode = countryCode(job.format) || "EU";
     const routeLabel = view.category || job.category || "Citronex";
@@ -4880,6 +4881,10 @@
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
             <span class="tag">${escapeHTML(view.level)}</span>
           </div>
+          <button class="job-card-save${favorite ? " is-saved" : ""}" type="button" data-favorite="${escapeHTML(job.id)}" aria-label="${escapeHTML(favorite ? t("ui.saved") : t("ui.save"))}" aria-pressed="${favorite}">
+            <span class="job-card-save-symbol" aria-hidden="true">${favorite ? "&#9829;" : "&#9825;"}</span>
+            <span>${escapeHTML(favorite ? t("ui.saved") : t("ui.save"))}</span>
+          </button>
         </div>
         <div class="job-card-poster" aria-hidden="true">
           <span class="job-card-poster-code">${escapeHTML(routeCode)}</span>
