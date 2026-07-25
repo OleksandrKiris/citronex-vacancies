@@ -10,19 +10,19 @@
   <meta property="og:title" content="Oleksandr Kiris · Kiris Jobs">
   <meta property="og:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
   <meta property="og:url" content="https://oleksandrkiris.github.io/kiris-jobs/">
-  <meta property="og:image" content="https://oleksandrkiris.github.io/kiris-jobs/assets/share-card.png?v=147">
+  <meta property="og:image" content="https://oleksandrkiris.github.io/kiris-jobs/assets/share-card.png?v=148">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Kiris Jobs — вакансии и прямой контакт рекрутера">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Oleksandr Kiris · Kiris Jobs">
   <meta name="twitter:description" content="14 vacancies · gross pay · offline questionnaire · direct WhatsApp contact.">
-  <meta name="twitter:image" content="https://oleksandrkiris.github.io/kiris-jobs/assets/share-card.png?v=147">
+  <meta name="twitter:image" content="https://oleksandrkiris.github.io/kiris-jobs/assets/share-card.png?v=148">
   <link rel="canonical" href="https://oleksandrkiris.github.io/kiris-jobs/">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
-  <link rel="stylesheet" href="assets/styles.css?v=147">
+  <link rel="stylesheet" href="assets/styles.css?v=148">
   <title>Oleksandr Kiris · Kiris Jobs</title>
 </head>
 <body class="vacancy-first">
@@ -113,6 +113,21 @@
         </div>
       </div>
 
+      <section class="section shell home-featured" aria-labelledby="featured-heading">
+        <div class="section-heading">
+          <div>
+            <p class="overline" data-i18n="ui.featuredKicker">С чего я советую начать</p>
+            <h2 id="featured-heading" data-i18n="ui.featuredTitle">Посмотрите реальные варианты</h2>
+          </div>
+          <button class="text-link" type="button" data-route="jobs"><span data-i18n="ui.allJobs">Все вакансии</span> <span aria-hidden="true">></span></button>
+        </div>
+        <div class="job-grid" id="featured-jobs"></div>
+        <button class="button button-secondary featured-all-button" type="button" data-route="jobs">
+          <span data-i18n="ui.allJobs">Все вакансии</span>
+          <svg aria-hidden="true"><use href="assets/icons.svg#icon-arrow"></use></svg>
+        </button>
+      </section>
+
       <section class="shell quick-start" aria-labelledby="quick-start-heading" hidden>
         <div>
           <p class="overline" id="quick-start-kicker">Быстрый вход</p>
@@ -127,7 +142,7 @@
         </div>
       </section>
 
-      <section class="shell country-explorer" aria-labelledby="country-explorer-heading">
+      <section class="shell country-explorer" aria-labelledby="country-explorer-heading" hidden>
         <div class="country-explorer-head">
           <p class="overline" id="country-explorer-kicker">Вакансии по странам</p>
           <h2 id="country-explorer-heading">Сначала выберите страну</h2>
@@ -237,21 +252,6 @@
           <button class="button button-whatsapp" type="button" data-passport-whatsapp id="after-whatsapp-send">Отправить заявку</button>
           <button class="button button-secondary" type="button" data-route="jobs" id="after-whatsapp-jobs">Смотреть вакансии</button>
         </div>
-      </section>
-
-      <section class="section shell home-featured" aria-labelledby="featured-heading">
-        <div class="section-heading">
-          <div>
-            <p class="overline" data-i18n="ui.featuredKicker">С чего я советую начать</p>
-            <h2 id="featured-heading" data-i18n="ui.featuredTitle">Посмотрите реальные варианты</h2>
-          </div>
-          <button class="text-link" type="button" data-route="jobs"><span data-i18n="ui.allJobs">Все вакансии</span> <span aria-hidden="true">></span></button>
-        </div>
-        <div class="job-grid" id="featured-jobs"></div>
-        <button class="button button-secondary featured-all-button" type="button" data-route="jobs">
-          <span data-i18n="ui.allJobs">Все вакансии</span>
-          <svg aria-hidden="true"><use href="assets/icons.svg#icon-arrow"></use></svg>
-        </button>
       </section>
 
       <section class="shell candidate-situations" aria-labelledby="candidate-situations-heading" hidden>
@@ -372,14 +372,6 @@
         <article>
           <strong id="catalog-base-rate">31,40 PLN</strong>
           <span data-i18n="ui.grossRate">базовая ставка брутто/час</span>
-        </article>
-        <article>
-          <strong>WhatsApp</strong>
-          <span data-i18n="ui.recruiterEyebrow">Ваш прямой контакт</span>
-        </article>
-        <article>
-          <strong data-i18n="ui.offlineChip">Офлайн</strong>
-          <span data-i18n="ui.trustOfflineTitle">Работает офлайн</span>
         </article>
       </div>
 
@@ -697,20 +689,20 @@
     <button id="toast-action" type="button" hidden></button>
   </div>
 
-  <script src="data/locales/ru.js?v=147"></script>
-  <script src="data/locales/uk.js?v=147"></script>
-  <script src="data/locales/pl.js?v=147"></script>
-  <script src="data/locales/en.js?v=147"></script>
-  <script src="data/locales/az.js?v=147"></script>
-  <script src="data/locales/ka.js?v=147"></script>
-  <script src="data/locales/id.js?v=147"></script>
-  <script src="data/locales/es.js?v=147"></script>
-  <script src="data/locales/fil.js?v=147"></script>
-  <script src="data/locales/ne.js?v=147"></script>
-  <script src="data/locales/hy.js?v=147"></script>
-  <script src="data/content.js?v=147"></script>
-  <script src="assets/i18n.js?v=147"></script>
-  <script src="assets/application-form.js?v=147"></script>
-  <script src="assets/app.js?v=147"></script>
+  <script src="data/locales/ru.js?v=148"></script>
+  <script src="data/locales/uk.js?v=148"></script>
+  <script src="data/locales/pl.js?v=148"></script>
+  <script src="data/locales/en.js?v=148"></script>
+  <script src="data/locales/az.js?v=148"></script>
+  <script src="data/locales/ka.js?v=148"></script>
+  <script src="data/locales/id.js?v=148"></script>
+  <script src="data/locales/es.js?v=148"></script>
+  <script src="data/locales/fil.js?v=148"></script>
+  <script src="data/locales/ne.js?v=148"></script>
+  <script src="data/locales/hy.js?v=148"></script>
+  <script src="data/content.js?v=148"></script>
+  <script src="assets/i18n.js?v=148"></script>
+  <script src="assets/application-form.js?v=148"></script>
+  <script src="assets/app.js?v=148"></script>
 </body>
 </html>

@@ -4991,185 +4991,103 @@
     `).join("");
   }
 
-  function jobScoreCopy() {
-    const copy = {
-      ru: {
-        start: "Старт",
-        experience: "Опыт",
-        load: "Нагрузка",
-        docs: "Оформление",
-        couples: "Пары",
-        startCheck: "проверка",
-        startEasy: "проще",
-        expNone: "не нужен",
-        expUseful: "желателен",
-        expRequired: "обязателен",
-        loadMedium: "средняя",
-        loadHigh: "высокая",
-        loadResponsible: "ответственная",
-        docsStandard: "стандартно",
-        docsCheck: "проверить",
-        couplesYes: "возможно",
-        couplesClarify: "уточнить"
-      },
-      uk: {
-        start: "Старт",
-        experience: "Досвід",
-        load: "Навантаження",
-        docs: "Оформлення",
-        couples: "Пари",
-        startCheck: "перевірка",
-        startEasy: "простіше",
-        expNone: "не потрібен",
-        expUseful: "бажаний",
-        expRequired: "обов’язковий",
-        loadMedium: "середнє",
-        loadHigh: "високе",
-        loadResponsible: "відповідальна",
-        docsStandard: "стандартно",
-        docsCheck: "перевірити",
-        couplesYes: "можливо",
-        couplesClarify: "уточнити"
-      },
-      pl: {
-        start: "Start",
-        experience: "Doświadczenie",
-        load: "Obciążenie",
-        docs: "Formalności",
-        couples: "Pary",
-        startCheck: "sprawdzenie",
-        startEasy: "łatwiej",
-        expNone: "nie trzeba",
-        expUseful: "mile widziane",
-        expRequired: "wymagane",
-        loadMedium: "średnie",
-        loadHigh: "wysokie",
-        loadResponsible: "odpowiedzialna",
-        docsStandard: "standardowo",
-        docsCheck: "sprawdzić",
-        couplesYes: "możliwe",
-        couplesClarify: "dopytać"
-      },
-      en: {
-        start: "Start",
-        experience: "Experience",
-        load: "Workload",
-        docs: "Paperwork",
-        couples: "Couples",
-        startCheck: "check",
-        startEasy: "easier",
-        expNone: "not needed",
-        expUseful: "useful",
-        expRequired: "required",
-        loadMedium: "medium",
-        loadHigh: "high",
-        loadResponsible: "responsible",
-        docsStandard: "standard",
-        docsCheck: "check",
-        couplesYes: "possible",
-        couplesClarify: "clarify"
-      }
-    };
-    return { ...copy.en, ...(copy[i18n.locale] || {}) };
-  }
-
-  function jobScoreItems(job, view) {
-    const copy = jobScoreCopy();
-    const searchable = [job.id, job.category, job.level, view.title, view.level, ...(view.required || [])].join(" ").toLowerCase();
-    const isDriver = job.id.startsWith("driver-") || job.category === "Транспорт";
-    const isWarehouse = job.category === "Склад";
-    const isGreenhouse = job.category === "Теплицы";
-    const needsDocsCheck = isDriver || searchable.includes("udt") || searchable.includes("c+e") || searchable.includes("code 95") || job.level !== "Без опыта";
-    const couplesPossible = (view.candidates || []).some((candidate) => candidate.toLowerCase().includes("пар"));
-    const experienceValue = job.level === "Без опыта"
-      ? copy.expNone
-      : job.level.includes("желател")
-        ? copy.expUseful
-        : copy.expRequired;
-    const loadValue = isDriver
-      ? copy.loadResponsible
-      : (isWarehouse || isGreenhouse || job.category === "Производство")
-        ? copy.loadHigh
-        : copy.loadMedium;
-    return [
-      { label: copy.start, value: job.status === "open" ? copy.startEasy : copy.startCheck, tone: job.status === "open" ? "good" : "check" },
-      { label: copy.experience, value: experienceValue, tone: job.level === "Без опыта" ? "good" : "check" },
-      { label: copy.load, value: loadValue, tone: loadValue === copy.loadHigh ? "warm" : "check" },
-      { label: copy.docs, value: needsDocsCheck ? copy.docsCheck : copy.docsStandard, tone: needsDocsCheck ? "check" : "good" },
-      { label: copy.couples, value: couplesPossible ? copy.couplesYes : copy.couplesClarify, tone: couplesPossible ? "good" : "check" }
-    ];
-  }
-
   function personalCatalogCopy() {
     const copy = {
       ru: {
         catalogOwner: "Каталог обновляю я",
         confirmStart: "Я лично уточню наличие места и дату старта",
         askStart: "Спросить меня о старте",
-        checkedBy: "Проверено мной"
+        checkedBy: "Проверено мной",
+        employer: "Работодатель",
+        housing: "Жильё"
       },
       uk: {
         catalogOwner: "Каталог оновлюю я",
         confirmStart: "Я особисто уточню наявність місця й дату початку",
         askStart: "Запитати мене про старт",
-        checkedBy: "Перевірено мною"
+        checkedBy: "Перевірено мною",
+        employer: "Роботодавець",
+        housing: "Житло"
       },
       pl: {
         catalogOwner: "Aktualizuję ten katalog",
         confirmStart: "Osobiście sprawdzę wolne miejsce i termin rozpoczęcia",
         askStart: "Zapytaj mnie o start",
-        checkedBy: "Sprawdzone przeze mnie"
+        checkedBy: "Sprawdzone przeze mnie",
+        employer: "Pracodawca",
+        housing: "Zakwaterowanie"
       },
       en: {
         catalogOwner: "I update this catalogue",
         confirmStart: "I will personally confirm the vacancy and start date",
         askStart: "Ask me about the start",
-        checkedBy: "Checked by me"
+        checkedBy: "Checked by me",
+        employer: "Employer",
+        housing: "Housing"
       },
       az: {
         catalogOwner: "Bu kataloqu mən yeniləyirəm",
         confirmStart: "Boş yeri və başlama tarixini şəxsən dəqiqləşdirəcəyəm",
         askStart: "Başlama tarixini məndən soruşun",
-        checkedBy: "Şəxsən yoxlamışam"
+        checkedBy: "Şəxsən yoxlamışam",
+        employer: "İşəgötürən",
+        housing: "Yaşayış yeri"
       },
       ka: {
         catalogOwner: "ამ კატალოგს მე ვაახლებ",
         confirmStart: "ადგილსა და დაწყების თარიღს პირადად დავაზუსტებ",
         askStart: "დაწყების თარიღი მკითხეთ",
-        checkedBy: "ჩემ მიერ შემოწმებული"
+        checkedBy: "ჩემ მიერ შემოწმებული",
+        employer: "დამსაქმებელი",
+        housing: "საცხოვრებელი"
       },
       id: {
         catalogOwner: "Saya memperbarui katalog ini",
         confirmStart: "Saya akan memastikan lowongan dan tanggal mulai secara langsung",
         askStart: "Tanyakan tanggal mulai kepada saya",
-        checkedBy: "Saya periksa langsung"
+        checkedBy: "Saya periksa langsung",
+        employer: "Pemberi kerja",
+        housing: "Tempat tinggal"
       },
       es: {
         catalogOwner: "Yo actualizo este catálogo",
         confirmStart: "Confirmaré personalmente la plaza y la fecha de inicio",
         askStart: "Pregúntame por el inicio",
-        checkedBy: "Revisado por mí"
+        checkedBy: "Revisado por mí",
+        employer: "Empleador",
+        housing: "Alojamiento"
       },
       fil: {
         catalogOwner: "Ako ang nag-a-update ng katalogong ito",
         confirmStart: "Personal kong kukumpirmahin ang puwesto at petsa ng simula",
         askStart: "Tanungin ako tungkol sa simula",
-        checkedBy: "Personal kong sinuri"
+        checkedBy: "Personal kong sinuri",
+        employer: "Employer",
+        housing: "Tirahan"
       },
       ne: {
         catalogOwner: "यो सूची म आफैं अद्यावधिक गर्छु",
         confirmStart: "म उपलब्ध ठाउँ र सुरु मिति व्यक्तिगत रूपमा पुष्टि गर्छु",
         askStart: "सुरु मितिबारे मलाई सोध्नुहोस्",
-        checkedBy: "मैले आफैं जाँच गरेको"
+        checkedBy: "मैले आफैं जाँच गरेको",
+        employer: "रोजगारदाता",
+        housing: "आवास"
       },
       hy: {
         catalogOwner: "Այս կատալոգը ես եմ թարմացնում",
         confirmStart: "Անձամբ կճշտեմ տեղի առկայությունն ու մեկնարկի օրը",
         askStart: "Հարցրեք ինձ մեկնարկի մասին",
-        checkedBy: "Անձամբ եմ ստուգել"
+        checkedBy: "Անձամբ եմ ստուգել",
+        employer: "Գործատու",
+        housing: "Կացարան"
       }
     };
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function jobHousingSummary(job, view) {
+    const housingIndex = (job.benefits || []).findIndex((item) => /жиль|прожив/i.test(item));
+    return view.benefits?.[housingIndex] || t("ui.clarify");
   }
 
   function renderJobCard(job, context = "catalog") {
@@ -5200,7 +5118,10 @@
         <div class="job-card-identity">
           <div>
             <h3 id="${escapeHTML(titleId)}">${escapeHTML(view.title)}</h3>
-            <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
+            <p class="job-company job-card-employer">
+              <b>${escapeHTML(personalCopy.employer)}: ${escapeHTML(job.company)}</b>
+              <span>${escapeHTML(view.subtitle || "")}</span>
+            </p>
           </div>
         </div>
         <dl class="job-card-facts">
@@ -5213,39 +5134,20 @@
             <dd>${escapeHTML(view.location)}</dd>
           </div>
           <div class="job-card-fact">
-            <dt>${svgIcon("clock")}<span>${escapeHTML(t("ui.contract"))}</span></dt>
-            <dd>${escapeHTML(view.contract)}</dd>
+            <dt>${svgIcon("home")}<span>${escapeHTML(personalCopy.housing)}</span></dt>
+            <dd>${escapeHTML(jobHousingSummary(job, view))}</dd>
           </div>
         </dl>
-        <div class="job-score" aria-label="Job score">
-          ${jobScoreItems(job, view).map((item) => `
-            <span class="job-score-pill is-${escapeHTML(item.tone)}">
-              <small>${escapeHTML(item.label)}</small>
-              <strong>${escapeHTML(item.value)}</strong>
-            </span>
-          `).join("")}
-        </div>
         <p class="job-card-availability job-card-personal-availability">
           <b aria-hidden="true">OK</b>
           <span>
             <strong>${escapeHTML(personalCopy.confirmStart)}</strong>
-            <small>${escapeHTML(profile.name)}</small>
+            <small>${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(profile.name)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
           </span>
         </p>
-        ${context === "featured" ? `
-          <div class="job-personal-stamp">
-            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
-            <span>
-              <small>${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
-              <strong>${escapeHTML(profile.name)}</strong>
-            </span>
-            <b aria-hidden="true">OK</b>
-          </div>
-        ` : ""}
         <div class="job-card-actions job-card-actions-single">
           <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
           <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(personalCopy.askStart)}</span></button>
-          <button class="button button-secondary button-icon" type="button" data-job-share="${escapeHTML(job.id)}" aria-label="${escapeHTML(t("ui.share"))}">${svgIcon("share")}</button>
         </div>
       </article>
     `;

@@ -43623,3 +43623,112 @@ body {
     max-width: 128px;
   }
 }
+
+/* v148 · vacancy-first simplification */
+#view-home .country-explorer[hidden] {
+  display: none !important;
+}
+
+.vacancy-first #view-home > .home-featured {
+  margin-top: clamp(20px, 3vw, 34px);
+  margin-bottom: clamp(38px, 5vw, 64px);
+}
+
+.vacancy-first .job-card-employer {
+  display: grid;
+  gap: 4px;
+}
+
+.vacancy-first .job-card-employer b,
+.vacancy-first .job-card-employer span {
+  display: block;
+}
+
+.vacancy-first .job-card-employer b {
+  color: #34463c;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.015em;
+}
+
+.vacancy-first .job-card-employer span {
+  color: #68776e;
+  font-size: 10.5px;
+  line-height: 1.35;
+}
+
+.vacancy-first .job-card-facts,
+#view-jobs #all-jobs .job-card-facts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vacancy-first .job-card-fact-salary,
+#view-jobs #all-jobs .job-card-fact-salary {
+  grid-column: 1 / -1;
+}
+
+.vacancy-first .job-card-fact:not(.job-card-fact-salary),
+#view-jobs #all-jobs .job-card-fact:not(.job-card-fact-salary) {
+  min-height: 82px;
+}
+
+.vacancy-first .job-card-fact:not(.job-card-fact-salary) dd,
+#view-jobs #all-jobs .job-card-fact:not(.job-card-fact-salary) dd {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.vacancy-first .job-card-actions-single,
+#view-jobs #all-jobs .job-card-actions-single {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vacancy-first .job-card-actions-single .button-primary,
+#view-jobs #all-jobs .job-card-actions-single .button-primary,
+.vacancy-first .job-card-start,
+#view-jobs #all-jobs .job-card-start {
+  width: 100%;
+  min-width: 0;
+  grid-column: auto;
+  grid-row: auto;
+}
+
+#view-jobs .catalog-proof-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 720px) {
+  .vacancy-first #view-home > .home-featured {
+    margin-top: 12px;
+    margin-bottom: 32px;
+  }
+
+  .vacancy-first .job-card-employer b {
+    font-size: 8.5px;
+  }
+
+  .vacancy-first .job-card-employer span {
+    font-size: 10px;
+  }
+
+  .vacancy-first .job-card-fact:not(.job-card-fact-salary),
+  #view-jobs #all-jobs .job-card-fact:not(.job-card-fact-salary) {
+    min-height: 80px;
+  }
+
+  .vacancy-first .job-card-actions-single,
+  #view-jobs #all-jobs .job-card-actions-single {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-first .job-card-actions-single .button-primary,
+  #view-jobs #all-jobs .job-card-actions-single .button-primary,
+  .vacancy-first .job-card-start,
+  #view-jobs #all-jobs .job-card-start {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
