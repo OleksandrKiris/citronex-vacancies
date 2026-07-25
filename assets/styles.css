@@ -30403,3 +30403,312 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v110 · visual vacancy posters */
+.vacancy-first .job-card {
+  overflow: hidden;
+}
+
+.vacancy-first .job-card-poster {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 102px;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  align-items: end;
+  gap: 12px;
+  margin: 0 0 15px;
+  padding: 15px;
+  overflow: hidden;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 82% 18%, var(--card-accent-soft), transparent 8rem),
+    linear-gradient(135deg, var(--card-accent-dark), #102018 74%);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 19px;
+  box-shadow:
+    0 17px 36px var(--card-accent-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.vacancy-first .job-card-poster::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -46px;
+  right: 34px;
+  width: 164px;
+  height: 164px;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from 12deg,
+    rgba(255, 255, 255, 0.075) 0deg 1deg,
+    transparent 1deg 15deg
+  );
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 50%;
+}
+
+.vacancy-first .job-card-poster::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 87px;
+  bottom: 30px;
+  width: 36%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32));
+}
+
+.vacancy-first .job-card-poster-code {
+  position: absolute;
+  z-index: -1;
+  top: -22px;
+  left: 8px;
+  color: rgba(255, 255, 255, 0.07);
+  font-size: 96px;
+  font-weight: 950;
+  letter-spacing: -0.085em;
+  line-height: 1;
+}
+
+.vacancy-first .job-card-poster-route {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 27px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.085);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.045em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vacancy-first .job-card-poster-route::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  background: var(--card-accent-bright);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px var(--card-accent-soft),
+    0 0 14px var(--card-accent-bright);
+}
+
+.vacancy-first .job-card-poster-icon {
+  position: relative;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  justify-self: end;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 27% 18%, rgba(255, 255, 255, 0.34), transparent 38%),
+    linear-gradient(145deg, var(--card-accent), var(--card-accent-bright));
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 20px;
+  box-shadow:
+    0 17px 35px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  transform: rotate(2deg);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.vacancy-first .job-card-poster-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 8px);
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border: 3px solid rgba(255, 255, 255, 0.21);
+  border-radius: 50%;
+  background-clip: padding-box;
+  transform: translateY(-50%);
+}
+
+.vacancy-first .job-card-poster-icon svg {
+  width: 29px;
+  height: 29px;
+  filter: drop-shadow(0 8px 13px rgba(0, 0, 0, 0.20));
+}
+
+.vacancy-first .job-card[data-visual="greenhouse"] .job-card-poster,
+.vacancy-first .job-card[data-visual="agronomy"] .job-card-poster {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(139, 212, 80, 0.22), transparent 8rem),
+    radial-gradient(circle at 0 100%, rgba(189, 242, 75, 0.10), transparent 9rem),
+    linear-gradient(135deg, #0b523a, #102018 76%);
+}
+
+.vacancy-first .job-card[data-visual="warehouse"] .job-card-poster {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(92, 126, 255, 0.25), transparent 8rem),
+    linear-gradient(135deg, #172342, #101722 76%);
+}
+
+.vacancy-first .job-card[data-visual="transport"] .job-card-poster {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(255, 184, 77, 0.22), transparent 8rem),
+    linear-gradient(135deg, #172342, #111a25 76%);
+}
+
+.vacancy-first .job-card[data-visual="technical"] .job-card-poster {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(255, 155, 74, 0.24), transparent 8rem),
+    linear-gradient(135deg, #774112, #21150d 76%);
+}
+
+.vacancy-first .job-card[data-visual="management"] .job-card-poster {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(169, 129, 255, 0.24), transparent 8rem),
+    linear-gradient(135deg, #3f277d, #171125 76%);
+}
+
+.vacancy-first .job-card-identity {
+  display: block;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.vacancy-first .job-card-identity > div {
+  min-width: 0;
+}
+
+.vacancy-first .job-card h3 {
+  max-width: 24ch;
+}
+
+.vacancy-first .job-company {
+  max-width: 46ch;
+}
+
+#view-jobs #all-jobs .job-card-identity,
+#view-saved #saved-jobs .job-card-identity {
+  margin-top: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vacancy-first .job-card:hover .job-card-poster-icon {
+    box-shadow:
+      0 20px 42px rgba(0, 0, 0, 0.28),
+      0 0 0 4px var(--card-accent-soft),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    transform: translateY(-3px) rotate(-2deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .job-card-poster {
+    min-height: 78px;
+    grid-template-columns: minmax(0, 1fr) 52px;
+    gap: 8px;
+    margin-bottom: 11px;
+    padding: 11px;
+    border-radius: 15px;
+  }
+
+  .vacancy-first .job-card-poster::before {
+    top: -55px;
+    right: 17px;
+    width: 145px;
+    height: 145px;
+  }
+
+  .vacancy-first .job-card-poster::after {
+    right: 67px;
+    bottom: 25px;
+  }
+
+  .vacancy-first .job-card-poster-code {
+    top: -16px;
+    left: 5px;
+    font-size: 73px;
+  }
+
+  .vacancy-first .job-card-poster-route {
+    min-height: 24px;
+    padding: 5px 7px;
+    border-radius: 8px;
+    font-size: 7px;
+  }
+
+  .vacancy-first .job-card-poster-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+  }
+
+  .vacancy-first .job-card-poster-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .vacancy-first .job-card-poster-icon::after {
+    right: calc(100% + 5px);
+    width: 6px;
+    height: 6px;
+    border-width: 2px;
+  }
+
+  .vacancy-first .job-card h3 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .job-card-poster {
+    min-height: 72px;
+    margin-right: -2px;
+    margin-left: -2px;
+    padding: 9px;
+  }
+
+  .vacancy-first .job-card-poster-code {
+    font-size: 67px;
+  }
+
+  .vacancy-first .job-card-poster-route {
+    max-width: calc(100% - 3px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vacancy-first .job-card-poster-icon {
+    animation: v110-poster-icon-in 260ms ease-out both;
+  }
+}
+
+@keyframes v110-poster-icon-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) rotate(7deg) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(2deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first .job-card-poster-icon {
+    animation: none;
+    transition: none;
+  }
+}

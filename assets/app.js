@@ -2146,7 +2146,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=109" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=110" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -4489,6 +4489,8 @@
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const visualType = jobVisualType(job.id);
+    const routeCode = countryCode(job.format) || "EU";
+    const routeLabel = view.category || job.category || "Citronex";
     const titleId = `${context}-job-${job.id}-title`;
     const startLabel = i18n.locale === "ru"
       ? "Уточнить старт"
@@ -4498,15 +4500,19 @@
           ? "Dopytaj o start"
           : "Ask start date";
     return `
-      <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
+      <article class="job-card" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
           <div class="job-card-tags">
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
             <span class="tag">${escapeHTML(view.level)}</span>
           </div>
         </div>
+        <div class="job-card-poster" aria-hidden="true">
+          <span class="job-card-poster-code">${escapeHTML(routeCode)}</span>
+          <span class="job-card-poster-route">${escapeHTML(view.format)} · ${escapeHTML(routeLabel)}</span>
+          <span class="job-card-poster-icon">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
+        </div>
         <div class="job-card-identity">
-          <span class="job-card-visual" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
           <div>
             <h3 id="${escapeHTML(titleId)}">${escapeHTML(view.title)}</h3>
             <p class="job-company">${escapeHTML(view.subtitle || job.company)}</p>
