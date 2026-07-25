@@ -1025,7 +1025,8 @@
       ["hero-response-time", profile.workHours || t("ui.workHours")],
       ["hero-work-hours", `${profile.workHours || t("ui.workHours")} · ${profile.timezone}`],
       ["contact-response", profile.workHours || t("ui.workHours")],
-      ["contact-timezone", profile.timezone]
+      ["contact-timezone", profile.timezone],
+      ["mobile-nav-work-hours", profile.workHours || t("ui.workHours")]
     ].forEach(([id, value]) => {
       if (el(id)) el(id).textContent = value;
     });
@@ -1143,6 +1144,7 @@
     const availableCount = jobs.filter((job) => ["open", "verify"].includes(job.status)).length;
     el("hero-open-count").textContent = String(availableCount);
     el("nav-job-count").textContent = String(availableCount);
+    if (el("mobile-nav-job-count")) el("mobile-nav-job-count").textContent = String(availableCount);
     if (el("catalog-job-count")) el("catalog-job-count").textContent = String(availableCount);
     if (el("hero-rate")) el("hero-rate").textContent = site.baseRate || "31,40 PLN";
     if (el("catalog-base-rate")) el("catalog-base-rate").textContent = site.baseRate || "31,40 PLN";
@@ -2398,7 +2400,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=122" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=123" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5751,6 +5753,7 @@
     const online = navigator.onLine;
     el("status-strip").classList.toggle("offline", !online);
     el("connection-label").textContent = online ? t("ui.online") : t("ui.offline");
+    document.querySelector(".mobile-nav")?.classList.toggle("is-offline", !online);
     if (online && window.__portalRegistration) window.__portalRegistration.update().catch(() => {});
   }
 
