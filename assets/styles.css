@@ -26297,3 +26297,580 @@ body.vacancy-first {
     animation: none;
   }
 }
+
+/* v104 · saved vacancies and comparison board visual polish */
+#view-saved {
+  position: relative;
+}
+
+#view-saved::before {
+  content: "";
+  position: absolute;
+  top: 220px;
+  right: -12vw;
+  left: -12vw;
+  z-index: -1;
+  height: 480px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(189, 242, 75, 0.09), transparent 18rem),
+    radial-gradient(circle at 84% 76%, rgba(49, 87, 255, 0.055), transparent 21rem);
+}
+
+#view-saved > .page-heading {
+  padding: clamp(25px, 4.2vw, 42px);
+  background:
+    radial-gradient(circle at 88% 13%, rgba(189, 242, 75, 0.21), transparent 21rem),
+    radial-gradient(circle at 0 100%, rgba(229, 29, 42, 0.16), transparent 17rem),
+    linear-gradient(132deg, #08120e 0%, #173528 58%, #09140f 100%);
+  border-radius: 32px;
+  box-shadow:
+    0 31px 74px rgba(16, 24, 32, 0.21),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+#view-saved > .page-heading::after {
+  top: -9rem;
+  right: -8rem;
+  width: 25rem;
+  background:
+    repeating-conic-gradient(
+      from 10deg,
+      rgba(189, 242, 75, 0.075) 0deg 1deg,
+      transparent 1deg 17deg
+    );
+  border-color: rgba(189, 242, 75, 0.08);
+  box-shadow: none;
+}
+
+#view-saved > .page-heading h1 {
+  max-width: 14ch;
+  font-size: clamp(39px, 5.6vw, 66px);
+  letter-spacing: -0.061em;
+  line-height: 0.95;
+}
+
+#view-saved > .page-heading h1 + p {
+  color: rgba(255, 255, 255, 0.63);
+}
+
+#view-saved #compare-button {
+  min-height: 52px;
+  padding: 11px 14px;
+  color: #102018;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.46), transparent 5rem),
+    linear-gradient(180deg, #e5ff9f, #bdf24b);
+  border-color: rgba(255, 255, 255, 0.23);
+  border-radius: 15px;
+  box-shadow:
+    0 15px 31px rgba(189, 242, 75, 0.21),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  font-weight: 930;
+}
+
+#view-saved #compare-button #compare-count {
+  color: #ffffff;
+  background: linear-gradient(145deg, #173629, #102018);
+  box-shadow:
+    0 8px 18px rgba(16, 32, 24, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+#view-saved #compare-button:disabled {
+  color: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.11);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+#view-saved #compare-button:disabled #compare-count {
+  color: rgba(255, 255, 255, 0.52);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: none;
+}
+
+#view-saved #saved-jobs {
+  counter-reset: saved-vacancy;
+  gap: 13px;
+  margin-top: 16px;
+}
+
+#view-saved #saved-jobs .job-card {
+  counter-increment: saved-vacancy;
+  border-color: rgba(16, 32, 24, 0.075);
+  box-shadow:
+    0 19px 46px rgba(16, 32, 24, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.93);
+}
+
+#view-saved #saved-jobs .job-card-top {
+  display: grid;
+  min-height: 27px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+#view-saved #saved-jobs .job-card-top::after {
+  content: counter(saved-vacancy, decimal-leading-zero);
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--card-accent-dark);
+  background: var(--card-accent-tint);
+  border: 1px solid var(--card-accent-border);
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+#view-saved #saved-jobs .job-card:focus-within {
+  border-color: var(--card-accent-border);
+  box-shadow:
+    0 25px 58px rgba(16, 32, 24, 0.14),
+    0 0 0 3px var(--card-accent-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+#view-saved .empty-state {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(189, 242, 75, 0.22), transparent 14rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(241, 248, 239, 0.97));
+  border: 1px solid rgba(16, 32, 24, 0.075);
+  box-shadow:
+    0 24px 58px rgba(16, 32, 24, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+#view-saved .empty-state::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #e51d2a, #ff765f 45%, #bdf24b);
+}
+
+#view-saved .empty-state > span {
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.22), transparent 38%),
+    linear-gradient(145deg, #173629, #102018);
+  box-shadow:
+    0 17px 35px rgba(16, 32, 24, 0.20),
+    0 0 0 6px rgba(189, 242, 75, 0.10);
+}
+
+.compare-modal {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 23rem),
+    linear-gradient(145deg, #f7faf5, #eaf1e9);
+  border-color: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    0 52px 130px rgba(5, 12, 18, 0.47),
+    0 0 0 1px rgba(255, 255, 255, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.70);
+}
+
+.compare-modal::backdrop {
+  background:
+    radial-gradient(circle at 20% 16%, rgba(189, 242, 75, 0.11), transparent 24rem),
+    radial-gradient(circle at 84% 82%, rgba(49, 87, 255, 0.10), transparent 25rem),
+    rgba(4, 11, 8, 0.86);
+  backdrop-filter: blur(9px) saturate(0.80);
+}
+
+.compare-modal .modal-close {
+  z-index: 14;
+  width: 42px;
+  height: 42px;
+  color: #102018;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(16, 32, 24, 0.08);
+  border-radius: 14px;
+  box-shadow:
+    0 13px 30px rgba(5, 12, 18, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.compare-modal .modal-close:hover {
+  color: #ffffff;
+  background: #e51d2a;
+  border-color: rgba(229, 29, 42, 0.34);
+  box-shadow: 0 15px 31px rgba(229, 29, 42, 0.24);
+}
+
+.compare-modal .modal-heading {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.20), transparent 15rem),
+    radial-gradient(circle at 0 100%, rgba(229, 29, 42, 0.16), transparent 16rem),
+    linear-gradient(145deg, #142d21 0%, #07100d 100%);
+  border-color: rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 25px 60px rgba(8, 18, 14, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+.compare-modal .modal-heading::before {
+  width: 45px;
+  height: 3px;
+  background: linear-gradient(90deg, #e51d2a, #ff765f);
+  box-shadow: 0 0 18px rgba(229, 29, 42, 0.33);
+}
+
+.compare-modal .modal-heading::after {
+  top: auto;
+  right: -7rem;
+  bottom: -7rem;
+  width: 19rem;
+  background:
+    repeating-conic-gradient(
+      from 10deg,
+      rgba(189, 242, 75, 0.075) 0deg 1deg,
+      transparent 1deg 18deg
+    );
+  border-color: rgba(189, 242, 75, 0.09);
+  box-shadow: none;
+}
+
+.compare-modal .modal-heading h2 {
+  max-width: 14ch;
+  font-size: clamp(32px, 4.8vw, 50px);
+  letter-spacing: -0.061em;
+  line-height: 0.95;
+}
+
+.compare-wrap {
+  overflow: auto;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 13rem),
+    rgba(255, 255, 255, 0.93);
+  border-color: rgba(16, 32, 24, 0.075);
+  box-shadow:
+    0 18px 42px rgba(16, 32, 24, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  scrollbar-gutter: stable;
+}
+
+.compare-wrap::after {
+  content: "↔";
+  color: #102018;
+  background: rgba(217, 255, 120, 0.94);
+  box-shadow:
+    0 11px 24px rgba(16, 32, 24, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.56);
+}
+
+.compare-table {
+  border-spacing: 0;
+}
+
+.compare-table th,
+.compare-table td {
+  border-right-color: rgba(16, 32, 24, 0.075);
+  border-bottom-color: rgba(16, 32, 24, 0.075);
+}
+
+.compare-table thead th {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.13), transparent 9rem),
+    linear-gradient(145deg, #173126, #0a1611);
+}
+
+.compare-table thead th:not(:first-child)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0f8a55, #bdf24b);
+}
+
+.compare-table thead th:nth-child(3)::after {
+  background: linear-gradient(90deg, #3157ff, #72a1ff);
+}
+
+.compare-table thead th:nth-child(4)::after {
+  background: linear-gradient(90deg, #e51d2a, #ff876d);
+}
+
+.compare-table thead th:nth-child(2)::before {
+  background: linear-gradient(180deg, #e4ff9d, #bdf24b);
+}
+
+.compare-table thead th:nth-child(3)::before {
+  color: #ffffff;
+  background: linear-gradient(145deg, #5378ff, #3157ff);
+  box-shadow: 0 8px 18px rgba(49, 87, 255, 0.22);
+}
+
+.compare-table thead th:nth-child(4)::before {
+  color: #ffffff;
+  background: linear-gradient(145deg, #f34a55, #d51b28);
+  box-shadow: 0 8px 18px rgba(229, 29, 42, 0.22);
+}
+
+.compare-table thead th:first-child {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.42), transparent 7rem),
+    linear-gradient(145deg, #e5ff9f, #bdf24b);
+}
+
+.compare-table tbody td {
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 3px 0 0 rgba(15, 138, 85, 0.10);
+}
+
+.compare-table tbody td:nth-child(3) {
+  box-shadow: inset 3px 0 0 rgba(49, 87, 255, 0.10);
+}
+
+.compare-table tbody td:nth-child(4) {
+  box-shadow: inset 3px 0 0 rgba(229, 29, 42, 0.10);
+}
+
+.compare-table tbody tr:nth-child(even) td {
+  background: rgba(245, 249, 243, 0.82);
+}
+
+.compare-table tbody tr:first-child td:nth-child(2) {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.43), transparent 8rem),
+    linear-gradient(145deg, #efffca, #e1f8aa);
+}
+
+.compare-table tbody tr:first-child td:nth-child(3) {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.48), transparent 8rem),
+    linear-gradient(145deg, #eff3ff, #dfe7ff);
+}
+
+.compare-table tbody tr:first-child td:nth-child(4) {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.46), transparent 8rem),
+    linear-gradient(145deg, #fff1f2, #ffe1e4);
+}
+
+.compare-table tbody th {
+  background:
+    linear-gradient(145deg, rgba(249, 252, 248, 0.99), rgba(237, 245, 235, 0.99));
+  box-shadow:
+    9px 0 20px rgba(16, 32, 24, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+}
+
+.compare-table tbody tr:hover td {
+  filter: brightness(0.985);
+}
+
+@media (min-width: 861px) {
+  .compare-modal {
+    width: min(1120px, calc(100% - 32px));
+    max-height: min(92vh, 940px);
+    border-radius: 32px;
+  }
+
+  .compare-modal .modal-shell {
+    max-height: min(92vh, 940px);
+    padding: 14px;
+  }
+
+  .compare-modal .modal-heading {
+    padding: 28px 70px 25px 25px;
+    border-radius: 23px;
+  }
+
+  .compare-modal .compare-wrap {
+    max-height: min(610px, calc(92vh - 190px));
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 720px) {
+  #view-saved {
+    padding-top: 10px;
+  }
+
+  #view-saved > .page-heading {
+    padding: 19px 16px 20px;
+    border-radius: 22px;
+  }
+
+  #view-saved > .page-heading::after {
+    top: -6rem;
+    right: -8rem;
+    width: 19rem;
+  }
+
+  #view-saved > .page-heading h1 {
+    max-width: 13ch;
+    font-size: clamp(30px, 9vw, 37px);
+    line-height: 0.97;
+  }
+
+  #view-saved #compare-button {
+    width: 100%;
+    min-height: 46px;
+    justify-content: center;
+    margin-top: 5px;
+    border-radius: 13px;
+  }
+
+  #view-saved #saved-jobs {
+    gap: 9px;
+    margin-top: 10px;
+  }
+
+  #view-saved #saved-jobs .job-card {
+    border-radius: 18px;
+  }
+
+  #view-saved #saved-jobs .job-card-top::after {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    font-size: 7px;
+  }
+
+  #view-saved .empty-state {
+    margin-top: 10px;
+    padding: 28px 18px;
+    border-radius: 20px;
+  }
+
+  .compare-modal {
+    width: 100%;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px));
+    background: linear-gradient(180deg, #f4f8f2, #eaf1e9);
+    border-radius: 22px 22px 0 0;
+  }
+
+  .compare-modal .modal-shell {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px));
+    padding: 8px 7px calc(7px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .compare-modal .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .compare-modal .modal-heading {
+    padding: 15px 48px 14px 12px;
+    border-radius: 17px;
+  }
+
+  .compare-modal .modal-heading::before {
+    width: 34px;
+    height: 3px;
+  }
+
+  .compare-modal .modal-heading h2 {
+    font-size: 26px;
+  }
+
+  .compare-wrap {
+    max-height: calc(100dvh - 161px);
+    margin-top: 7px;
+    border-radius: 15px;
+    overscroll-behavior: contain;
+  }
+
+  .compare-table {
+    min-width: 675px;
+  }
+
+  .compare-table thead th {
+    min-width: 174px;
+    padding: 38px 11px 12px;
+  }
+
+  .compare-table thead th:first-child,
+  .compare-table tbody th {
+    width: 96px;
+    min-width: 96px;
+  }
+
+  .compare-table tbody th {
+    padding: 11px 9px;
+    font-size: 7px;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 11px;
+  }
+
+  .compare-table tbody tr:hover td {
+    filter: none;
+  }
+}
+
+@media (max-width: 380px) {
+  #view-saved > .page-heading h1 {
+    font-size: 29px;
+  }
+
+  .compare-modal .modal-heading h2 {
+    font-size: 23px;
+  }
+
+  .compare-table {
+    min-width: 640px;
+  }
+
+  .compare-table thead th {
+    min-width: 164px;
+  }
+
+  .compare-table thead th:first-child,
+  .compare-table tbody th {
+    width: 91px;
+    min-width: 91px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .compare-modal .modal-heading,
+  .compare-modal .compare-wrap {
+    animation: v104-compare-arrival 240ms ease-out both;
+  }
+
+  .compare-modal .compare-wrap {
+    animation-delay: 55ms;
+  }
+}
+
+@keyframes v104-compare-arrival {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-modal .modal-heading,
+  .compare-modal .compare-wrap,
+  #view-saved #saved-jobs .job-card {
+    animation: none;
+    transition: none;
+  }
+}
