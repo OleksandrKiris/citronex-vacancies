@@ -1137,6 +1137,7 @@
     renderProfileEditorial();
     renderProfileJourneyVisuals();
     renderRecruiterTrustVisuals();
+    renderFooterExperience();
     renderQuickStart();
     renderHeroRoleRail();
     renderCountryExplorer();
@@ -1337,6 +1338,53 @@
         <b>PL</b><b>HU</b><b>BE</b>
       </span>
       <span class="hero-recruiter-whatsapp" aria-hidden="true">${svgIcon("whatsapp")}</span>
+    `;
+  }
+
+  function renderFooterExperience() {
+    const footer = document.querySelector(".site-footer");
+    if (!footer) return;
+    let panel = el("footer-conversion");
+    if (!panel) {
+      panel = document.createElement("section");
+      panel.id = "footer-conversion";
+      panel.className = "footer-conversion shell";
+      footer.insertAdjacentElement("afterbegin", panel);
+    }
+    panel.setAttribute("aria-label", t("ui.finalTitle"));
+    panel.innerHTML = `
+      <div class="footer-conversion-copy">
+        <p class="footer-conversion-kicker"><i aria-hidden="true"></i>${escapeHTML(t("ui.finalKicker"))}</p>
+        <h2>${escapeHTML(t("ui.finalTitle"))}</h2>
+        <p>${escapeHTML(t("ui.finalText"))}</p>
+        <div class="footer-country-row" aria-label="${escapeHTML(t("ui.countryLocation"))}">
+          <span><b>PL</b>${escapeHTML(i18n.countryName("PL"))}</span>
+          <span><b>HU</b>${escapeHTML(i18n.countryName("HU"))}</span>
+          <span><b>BE</b>${escapeHTML(i18n.countryName("BE"))}</span>
+        </div>
+      </div>
+      <div class="footer-conversion-actions">
+        <a class="footer-contact-card" href="${escapeHTML(profile.whatsapp)}" target="_blank" rel="noopener noreferrer">
+          <span class="footer-contact-photo" aria-hidden="true">
+            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+            <i></i>
+          </span>
+          <span>
+            <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
+            <strong>${escapeHTML(profile.name)}</strong>
+            <em>WhatsApp · ${escapeHTML(profile.workHours || t("ui.workHours"))}</em>
+          </span>
+          <b aria-hidden="true">${svgIcon("whatsapp")}</b>
+        </a>
+        <div class="footer-route-actions">
+          <button class="button footer-survey-button" type="button" data-application-general>
+            ${svgIcon("match")}<span>${escapeHTML(t("ui.startSurvey"))}</span>
+          </button>
+          <button class="button footer-jobs-button" type="button" data-route="jobs">
+            <span>${escapeHTML(t("ui.allJobs"))}</span>${svgIcon("arrow")}
+          </button>
+        </div>
+      </div>
     `;
   }
 
@@ -2414,7 +2462,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=124" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=125" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
