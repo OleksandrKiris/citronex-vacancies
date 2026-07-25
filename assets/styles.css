@@ -39531,3 +39531,340 @@ body.vacancy-first {
     animation: none;
   }
 }
+
+/* v132 · focused mobile application workspace */
+#application-dialog-content {
+  --application-current-accent: #bdf24b;
+  --application-current-soft: rgba(189, 242, 75, 0.15);
+}
+
+#application-dialog-content:has(.application-header[data-stage="2"]) {
+  --application-current-accent: #72a1ff;
+  --application-current-soft: rgba(114, 161, 255, 0.15);
+}
+
+#application-dialog-content:has(.application-header[data-stage="3"]) {
+  --application-current-accent: #ffb84d;
+  --application-current-soft: rgba(255, 184, 77, 0.16);
+}
+
+#application-dialog-content:has(.application-header[data-stage="4"]) {
+  --application-current-accent: #80d99f;
+  --application-current-soft: rgba(128, 217, 159, 0.15);
+}
+
+#application-dialog-content:has(.application-header[data-stage="5"]) {
+  --application-current-accent: #dca8ff;
+  --application-current-soft: rgba(220, 168, 255, 0.16);
+}
+
+#application-dialog-content:has(.application-header[data-stage="6"]),
+#application-dialog-content:has(.application-header[data-stage-complete="true"]) {
+  --application-current-accent: #25d366;
+  --application-current-soft: rgba(37, 211, 102, 0.15);
+}
+
+#application-dialog-content .application-step {
+  border-color: rgba(16, 32, 24, 0.08);
+  box-shadow:
+    0 18px 42px rgba(16, 32, 24, 0.085),
+    0 0 0 1px rgba(255, 255, 255, 0.64) inset;
+}
+
+#application-dialog-content .application-step::before {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--application-current-accent),
+    #e51d2a 68%,
+    transparent
+  );
+  box-shadow: 0 5px 18px var(--application-current-soft);
+  opacity: 1;
+}
+
+#application-dialog-content .application-field {
+  border-left: 3px solid transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+#application-dialog-content .application-field:focus-within {
+  border-left-color: var(--application-current-accent);
+  box-shadow:
+    0 14px 30px rgba(16, 32, 24, 0.09),
+    0 0 0 3px var(--application-current-soft);
+}
+
+#application-dialog-content .application-field:focus-within > span::before {
+  color: #102018;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.55), transparent 42%),
+    var(--application-current-accent);
+  box-shadow:
+    0 8px 18px var(--application-current-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+}
+
+#application-dialog-content .application-field:has(input:required:valid),
+#application-dialog-content .application-field:has(select:required:valid),
+#application-dialog-content .application-field:has(textarea:required:valid) {
+  border-left-color: #25a864;
+}
+
+#application-dialog-content .application-actions {
+  position: sticky;
+  bottom: 0;
+  margin: 12px 0 0;
+  padding: 8px;
+  background:
+    radial-gradient(circle at 100% 100%, var(--application-current-soft), transparent 12rem),
+    rgba(250, 252, 249, 0.95);
+  border: 1px solid rgba(16, 32, 24, 0.09);
+  border-radius: 18px;
+  box-shadow:
+    0 -7px 30px rgba(16, 32, 24, 0.07),
+    0 16px 38px rgba(16, 32, 24, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+}
+
+#application-dialog-content .application-actions::before {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  left: 18px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--application-current-accent), transparent);
+  border-radius: 999px;
+  content: "";
+}
+
+#application-dialog-content .application-actions .button {
+  min-height: 52px;
+  border-radius: 13px;
+}
+
+#application-dialog-content .application-actions .button-primary {
+  box-shadow:
+    0 14px 30px rgba(229, 29, 42, 0.21),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+@media (min-width: 861px) {
+  .application-modal .application-header {
+    min-height: min(650px, calc(92vh - 28px));
+  }
+
+  .application-modal .application-step {
+    min-height: min(556px, calc(92vh - 122px));
+  }
+}
+
+@media (max-width: 720px) {
+  .application-modal::before {
+    position: fixed;
+    top: 7px;
+    left: 50%;
+    z-index: 18;
+    width: 38px;
+    height: 4px;
+    background: rgba(16, 32, 24, 0.28);
+    border-radius: 999px;
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .application-modal .modal-shell-application {
+    padding-top: 15px;
+  }
+
+  #application-dialog-content .application-header {
+    padding: 12px 49px 10px 11px;
+    border-radius: 16px;
+  }
+
+  #application-dialog-content .application-header::before {
+    width: 32px;
+    height: 2px;
+    margin-bottom: 6px;
+  }
+
+  #application-dialog-content .application-header .overline {
+    min-height: 21px;
+    padding: 3px 6px;
+    font-size: 7px;
+  }
+
+  #application-dialog-content .application-header h2 {
+    max-width: 17ch;
+    margin-top: 5px;
+    font-size: clamp(21px, 6.8vw, 27px);
+    line-height: 1;
+  }
+
+  #application-dialog-content .application-header > p:last-of-type {
+    display: none;
+  }
+
+  #application-dialog-content .application-recruiter-handoff {
+    min-height: 43px;
+    grid-template-columns: 32px minmax(0, 1fr) 27px;
+    gap: 6px;
+    margin-top: 7px;
+    padding: 4px;
+    border-radius: 11px;
+  }
+
+  #application-dialog-content .application-recruiter-photo {
+    width: 32px;
+    height: 34px;
+    border-radius: 8px;
+  }
+
+  #application-dialog-content .application-recruiter-copy strong {
+    font-size: 9px;
+  }
+
+  #application-dialog-content .application-recruiter-copy em {
+    display: none;
+  }
+
+  #application-dialog-content .application-recruiter-channel {
+    min-height: 27px;
+    padding: 3px;
+    border-radius: 8px;
+  }
+
+  #application-dialog-content .application-recruiter-channel b {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+  }
+
+  #application-dialog-content .application-step-track {
+    margin-top: 8px;
+  }
+
+  #application-dialog-content .application-step-track li {
+    min-height: 25px;
+  }
+
+  #application-dialog-content .application-step-track li::before {
+    top: 12px;
+  }
+
+  #application-dialog-content .application-step-track li::after {
+    top: 11px;
+  }
+
+  #application-dialog-content .application-step-track li > span {
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    font-size: 6px;
+  }
+
+  #application-dialog-content .application-progress {
+    display: none;
+  }
+
+  #application-dialog-content .application-header > small {
+    min-height: 21px;
+    margin-top: 5px;
+    padding: 3px 7px;
+    font-size: 7px;
+  }
+
+  #application-dialog-content .application-step {
+    margin-top: 6px;
+    padding: 9px 8px;
+    border-radius: 15px;
+  }
+
+  #application-dialog-content .application-field {
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  #application-dialog-content .application-field input,
+  #application-dialog-content .application-field select,
+  #application-dialog-content .application-field textarea {
+    min-height: 46px;
+    border-radius: 10px;
+  }
+
+  #application-dialog-content .application-actions {
+    gap: 6px;
+    margin: 7px -2px -2px;
+    padding: 6px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+    border-radius: 15px 15px 11px 11px;
+  }
+
+  #application-dialog-content .application-actions .button {
+    min-height: 49px;
+    padding-inline: 10px;
+  }
+
+  #application-dialog-content .application-actions .button-secondary:disabled {
+    display: none;
+  }
+
+  #application-dialog-content .application-actions .button-secondary:disabled + .button-primary {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  #application-dialog-content .application-header {
+    padding-right: 45px;
+    padding-left: 9px;
+  }
+
+  #application-dialog-content .application-header h2 {
+    font-size: 20px;
+  }
+
+  #application-dialog-content .application-step-track li > span {
+    width: 23px;
+    height: 23px;
+  }
+
+  #application-dialog-content .application-field > span {
+    font-size: 8.5px;
+  }
+
+  #application-dialog-content .application-actions .button {
+    min-height: 47px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #application-dialog-content .application-step::before {
+    animation: v132-step-accent-in 260ms ease-out backwards;
+  }
+}
+
+@keyframes v132-step-accent-in {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #application-dialog-content .application-step::before,
+  #application-dialog-content .application-field,
+  #application-dialog-content .application-actions {
+    animation: none;
+    transition: none;
+  }
+}
