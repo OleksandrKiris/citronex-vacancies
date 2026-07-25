@@ -1101,6 +1101,7 @@
       `).join("");
     }
 
+    renderRecruiterTrustVisuals();
     renderQuickStart();
     renderHeroRoleRail();
     renderCountryExplorer();
@@ -1164,6 +1165,48 @@
     schemaNode.id = "person-schema";
     schemaNode.textContent = JSON.stringify(personSchema);
     document.head.append(schemaNode);
+  }
+
+  function renderRecruiterTrustVisuals() {
+    const photoStage = document.querySelector(".trust-recruiter .recruiter-photo-stage");
+    if (photoStage) {
+      let credential = photoStage.querySelector(".recruiter-photo-credential");
+      if (!credential) {
+        credential = document.createElement("div");
+        credential.className = "recruiter-photo-credential";
+        photoStage.append(credential);
+      }
+      credential.innerHTML = `
+        <img src="assets/citronex-logo.jpg" width="447" height="447" alt="">
+        <span>
+          <small>Citronex Jobs</small>
+          <strong>${escapeHTML(profile.name)}</strong>
+          <em><i aria-hidden="true"></i>${escapeHTML(t("ui.recruiterEyebrow"))}</em>
+        </span>
+      `;
+    }
+
+    const trustCards = document.querySelector(".trust-recruiter .trust-cards");
+    if (!trustCards) return;
+    let flow = document.querySelector(".trust-recruiter .trust-data-flow");
+    if (!flow) {
+      flow = document.createElement("div");
+      flow.className = "trust-data-flow";
+      trustCards.insertAdjacentElement("beforebegin", flow);
+    }
+    flow.setAttribute("aria-label", t("ui.trustIntro"));
+    const steps = [
+      ["01", t("ui.privacy"), "browser"],
+      ["02", t("ui.startSurvey"), "action"],
+      ["03", "WhatsApp", "whatsapp"]
+    ];
+    flow.innerHTML = steps.map(([number, label, tone], index) => `
+      <div class="trust-data-node is-${tone}">
+        <strong>${number}</strong>
+        <span>${escapeHTML(label)}</span>
+      </div>
+      ${index < steps.length - 1 ? '<i class="trust-data-arrow" aria-hidden="true">→</i>' : ""}
+    `).join("");
   }
 
   function renderHeroRoleRail() {
@@ -2198,7 +2241,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=112" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=113" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
