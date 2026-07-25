@@ -17406,3 +17406,387 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v88 · vacancy comparison visual polish */
+.compare-modal {
+  width: min(1060px, calc(100% - 24px));
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 18rem),
+    linear-gradient(145deg, #f7faf5 0%, #eef4ed 100%);
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: 30px;
+}
+
+.compare-modal .modal-shell {
+  padding: clamp(20px, 4vw, 36px);
+  background: transparent;
+}
+
+.compare-modal .modal-close {
+  top: 2px;
+  margin: 0;
+  color: #102018;
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.compare-modal .modal-heading {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 22px 68px 20px 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(189, 242, 75, 0.22), transparent 13rem),
+    radial-gradient(circle at 0% 100%, rgba(229, 29, 42, 0.15), transparent 14rem),
+    linear-gradient(145deg, #172820 0%, #0a1410 100%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 23px;
+  box-shadow:
+    0 22px 52px rgba(16, 24, 32, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.compare-modal .modal-heading::before {
+  width: 50px;
+  margin-bottom: 11px;
+}
+
+.compare-modal .modal-heading::after {
+  content: "";
+  position: absolute;
+  top: -6rem;
+  right: -5rem;
+  z-index: -1;
+  width: 15rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2.5rem rgba(255, 255, 255, 0.018),
+    0 0 0 5rem rgba(255, 255, 255, 0.012);
+}
+
+.compare-modal .modal-heading .overline {
+  color: #d9ff78;
+  background: rgba(189, 242, 75, 0.10);
+  border-color: rgba(189, 242, 75, 0.18);
+}
+
+.compare-modal .modal-heading h2 {
+  max-width: 16ch;
+  color: #fff;
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  font-size: clamp(30px, 4.5vw, 46px);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.compare-wrap {
+  position: relative;
+  margin-top: 12px;
+  overflow: auto;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 12rem),
+    rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 21px;
+  box-shadow:
+    0 16px 38px rgba(16, 32, 24, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  scrollbar-color: rgba(15, 109, 76, 0.48) transparent;
+}
+
+.compare-wrap::after {
+  content: "↔";
+  position: sticky;
+  right: 12px;
+  bottom: 10px;
+  z-index: 6;
+  display: none;
+  width: 32px;
+  height: 32px;
+  margin: -42px 10px 10px auto;
+  place-items: center;
+  color: #102018;
+  background: rgba(217, 255, 120, 0.92);
+  border: 1px solid rgba(16, 32, 24, 0.10);
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(16, 32, 24, 0.15);
+  font-size: 16px;
+  font-weight: 950;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+.compare-table {
+  width: 100%;
+  min-width: 760px;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  counter-reset: compare-column;
+  font-size: 12px;
+}
+
+.compare-table th,
+.compare-table td {
+  position: relative;
+  padding: 15px;
+  color: #394a40;
+  background: rgba(255, 255, 255, 0.72);
+  border: 0;
+  border-right: 1px solid rgba(16, 32, 24, 0.08);
+  border-bottom: 1px solid rgba(16, 32, 24, 0.08);
+  line-height: 1.48;
+  vertical-align: top;
+}
+
+.compare-table th:last-child,
+.compare-table td:last-child {
+  border-right: 0;
+}
+
+.compare-table tbody tr:last-child th,
+.compare-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.compare-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  min-width: 205px;
+  padding: 42px 15px 16px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 8rem),
+    linear-gradient(145deg, #172820, #0d1b15);
+  border-color: rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: -0.025em;
+  line-height: 1.24;
+  text-transform: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.compare-table thead th:not(:first-child) {
+  counter-increment: compare-column;
+}
+
+.compare-table thead th:not(:first-child)::before {
+  content: "0" counter(compare-column);
+  position: absolute;
+  top: 13px;
+  left: 15px;
+  display: grid;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 6px;
+  place-items: center;
+  color: #102018;
+  background: linear-gradient(180deg, #d9ff78, #bdf24b);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(189, 242, 75, 0.18);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.compare-table thead th:first-child {
+  left: 0;
+  z-index: 7;
+  min-width: 132px;
+  width: 132px;
+  color: #102018;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.44), transparent 7rem),
+    linear-gradient(145deg, #d9ff78, #bdf24b);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.compare-table tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  width: 132px;
+  min-width: 132px;
+  padding: 15px 13px;
+  color: #526158;
+  background:
+    linear-gradient(145deg, rgba(248, 251, 247, 0.98), rgba(239, 246, 237, 0.98));
+  border-right-color: rgba(16, 32, 24, 0.12);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.055em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  box-shadow: 8px 0 18px rgba(16, 32, 24, 0.045);
+}
+
+.compare-table tbody th::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #e51d2a, #ffb84d);
+  border-radius: 0 999px 999px 0;
+}
+
+.compare-table tbody tr:nth-child(even) td {
+  background: rgba(246, 250, 244, 0.78);
+}
+
+.compare-table tbody tr:hover td {
+  background: #f5fbe9;
+}
+
+.compare-table tbody tr:first-child td {
+  color: #102018;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.44), transparent 7rem),
+    linear-gradient(145deg, #efffca, #e2f8af);
+  font-size: 15px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.compare-table tbody tr:first-child th {
+  color: #25432f;
+  background: linear-gradient(145deg, #efffcf, #e6f6c3);
+}
+
+.compare-table tbody tr:first-child th::before {
+  background: #0f6d4c;
+}
+
+.compare-table tbody tr:last-child td {
+  color: #68766d;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.compare-table tbody td::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 0;
+  background: #bdf24b;
+  transition: height 140ms ease;
+}
+
+.compare-table tbody td:hover::after {
+  height: 3px;
+}
+
+@media (max-width: 720px) {
+  .compare-modal {
+    width: 100%;
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px));
+    border-radius: 24px 24px 0 0;
+  }
+
+  .compare-modal .modal-shell {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px));
+    padding: 12px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .compare-modal .modal-close {
+    top: 11px;
+    right: 11px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .compare-modal .modal-heading {
+    padding: 18px 54px 16px 15px;
+    border-radius: 20px;
+  }
+
+  .compare-modal .modal-heading::before {
+    width: 42px;
+    margin-bottom: 8px;
+  }
+
+  .compare-modal .modal-heading h2 {
+    font-size: 28px;
+  }
+
+  .compare-wrap {
+    max-height: calc(100dvh - 190px);
+    margin-top: 9px;
+    border-radius: 17px;
+    overscroll-behavior: contain;
+  }
+
+  .compare-wrap::after {
+    display: grid;
+  }
+
+  .compare-table {
+    min-width: 720px;
+    font-size: 11px;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 12px;
+  }
+
+  .compare-table thead th {
+    min-width: 184px;
+    padding: 38px 12px 13px;
+    font-size: 12px;
+  }
+
+  .compare-table thead th:not(:first-child)::before {
+    top: 11px;
+    left: 12px;
+  }
+
+  .compare-table thead th:first-child,
+  .compare-table tbody th {
+    width: 106px;
+    min-width: 106px;
+  }
+
+  .compare-table tbody th {
+    padding: 12px 10px;
+    font-size: 8px;
+  }
+
+  .compare-table tbody tr:first-child td {
+    font-size: 13px;
+  }
+
+  .compare-table tbody tr:hover td {
+    background: inherit;
+  }
+
+  .compare-table tbody tr:first-child td {
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.44), transparent 7rem),
+      linear-gradient(145deg, #efffca, #e2f8af);
+  }
+
+  .compare-table tbody td:hover::after {
+    height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-table tbody td::after {
+    transition: none;
+  }
+}
