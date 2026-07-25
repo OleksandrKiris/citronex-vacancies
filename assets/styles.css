@@ -43130,3 +43130,242 @@ body {
     border-radius: 8px;
   }
 }
+
+/* v145 · Oleksandr's three-step story and personal mission */
+#view-profile .profile-journey {
+  grid-template-columns: minmax(0, 1fr) 46px minmax(0, 1fr) 46px minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px;
+  background:
+    radial-gradient(circle at 92% 4%, rgba(189, 242, 75, 0.20), transparent 13rem),
+    linear-gradient(142deg, #172c21 0%, #09140f 72%);
+}
+
+#view-profile .profile-journey-point {
+  min-height: 86px;
+  justify-content: center;
+  padding: 12px 13px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+}
+
+#view-profile .profile-journey-point small {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+
+#view-profile .profile-journey-point strong {
+  margin-top: 3px;
+  color: #ffffff;
+  font-size: clamp(13px, 1.45vw, 17px);
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+}
+
+#view-profile .profile-journey-point-current {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.25), transparent 8rem),
+    rgba(189, 242, 75, 0.07);
+  border-color: rgba(189, 242, 75, 0.23);
+  text-align: left;
+}
+
+#view-profile .profile-journey-point-current small {
+  color: #d9ff78;
+}
+
+#view-profile .profile-journey-point-current strong {
+  color: #ffffff;
+}
+
+#view-profile .profile-journey-line {
+  min-width: 0;
+}
+
+#view-profile .profile-journey-line::before {
+  right: 7px;
+}
+
+#view-profile .profile-journey-line i {
+  width: 8px;
+  height: 8px;
+}
+
+#view-profile .profile-mission {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 13px;
+  padding: 18px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(229, 29, 42, 0.06), transparent 42%),
+    #ffffff;
+  border: 1px solid rgba(16, 32, 24, 0.09);
+  border-radius: 17px;
+  box-shadow: 0 12px 28px rgba(16, 32, 24, 0.06);
+}
+
+#view-profile .profile-mission-mark {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  color: #ffffff;
+  background: #e51d2a;
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(229, 29, 42, 0.22);
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: -0.07em;
+}
+
+#view-profile .profile-mission-copy {
+  display: block;
+  min-width: 0;
+}
+
+#view-profile .profile-mission-copy small,
+#view-profile .profile-mission-copy strong,
+#view-profile .profile-mission-copy em {
+  display: block;
+}
+
+#view-profile .profile-mission-copy small {
+  color: #8b1520;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+#view-profile .profile-mission-copy strong {
+  margin-top: 5px;
+  color: #102018;
+  font-family: "Manrope", "Noto Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+#view-profile .profile-mission-copy em {
+  max-width: 66ch;
+  margin-top: 6px;
+  color: #637268;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+#view-profile .profile-mission .button {
+  min-width: 154px;
+  min-height: 46px;
+  justify-content: space-between;
+  gap: 12px;
+  padding-inline: 16px;
+  white-space: nowrap;
+}
+
+@media (max-width: 840px) {
+  #view-profile .profile-journey {
+    grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  #view-profile .profile-journey-point {
+    min-height: 92px;
+    padding: 10px;
+  }
+
+  #view-profile .profile-mission {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  #view-profile .profile-mission-mark {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+  }
+
+  #view-profile .profile-mission .button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  #view-profile .profile-journey {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 12px;
+  }
+
+  #view-profile .profile-journey-point {
+    min-height: 0;
+    padding: 13px 14px;
+  }
+
+  #view-profile .profile-journey-point strong {
+    font-size: 14px;
+  }
+
+  #view-profile .profile-journey-line {
+    width: 18px;
+    height: 24px;
+    margin-left: 18px;
+    justify-content: center;
+  }
+
+  #view-profile .profile-journey-line::before {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 8px;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), #bdf24b);
+  }
+
+  #view-profile .profile-journey-line i {
+    display: none;
+  }
+
+  #view-profile .profile-journey-line b {
+    right: auto;
+    bottom: -2px;
+    left: 3px;
+    transform: rotate(90deg);
+  }
+
+  #view-profile .profile-mission {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 11px;
+    padding: 14px;
+    border-radius: 15px;
+  }
+
+  #view-profile .profile-mission-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    font-size: 14px;
+  }
+
+  #view-profile .profile-mission-copy strong {
+    font-size: 13px;
+  }
+
+  #view-profile .profile-mission-copy em {
+    font-size: 9px;
+  }
+
+  #view-profile .profile-mission .button {
+    min-width: 0;
+    min-height: 44px;
+  }
+}

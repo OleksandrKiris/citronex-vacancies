@@ -1457,6 +1457,120 @@
     const contactCard = document.querySelector("#view-profile .contact-card");
     if (!experienceGrid || !contactCard) return;
 
+    const journeyCopy = {
+      ru: {
+        label: "Мой путь к Kiris Jobs",
+        worked: "Работал сам",
+        coordinated: "Координировал команды",
+        now: "Сейчас",
+        helps: "Помогаю кандидатам",
+        missionKicker: "Что я строю",
+        missionTitle: "Собственную понятную платформу трудоустройства",
+        missionText: "Моя цель — чтобы человек ещё до поездки видел реальные условия, понимал следующий шаг и мог написать мне напрямую."
+      },
+      uk: {
+        label: "Мій шлях до Kiris Jobs",
+        worked: "Працював сам",
+        coordinated: "Координував команди",
+        now: "Зараз",
+        helps: "Допомагаю кандидатам",
+        missionKicker: "Що я створюю",
+        missionTitle: "Власну зрозумілу платформу працевлаштування",
+        missionText: "Моя мета — щоб людина ще до поїздки бачила реальні умови, розуміла наступний крок і могла написати мені напряму."
+      },
+      pl: {
+        label: "Moja droga do Kiris Jobs",
+        worked: "Pracowałem osobiście",
+        coordinated: "Koordynowałem zespoły",
+        now: "Teraz",
+        helps: "Pomagam kandydatom",
+        missionKicker: "Co buduję",
+        missionTitle: "Własną, przejrzystą platformę pracy",
+        missionText: "Chcę, aby przed wyjazdem każdy znał realne warunki, rozumiał kolejny krok i mógł napisać bezpośrednio do mnie."
+      },
+      en: {
+        label: "My path to Kiris Jobs",
+        worked: "I did the work myself",
+        coordinated: "I coordinated teams",
+        now: "Now",
+        helps: "I help candidates",
+        missionKicker: "What I am building",
+        missionTitle: "My own clear employment platform",
+        missionText: "My goal is for people to see the real conditions before travelling, understand the next step and message me directly."
+      },
+      az: {
+        label: "Kiris Jobs-a gedən yolum",
+        worked: "İşi özüm görmüşəm",
+        coordinated: "Komandaları koordinasiya etmişəm",
+        now: "İndi",
+        helps: "Namizədlərə kömək edirəm",
+        missionKicker: "Nə yaradıram",
+        missionTitle: "Öz aydın iş platformamı",
+        missionText: "Məqsədim odur ki, insan səfərdən əvvəl real şərtləri görsün, növbəti addımı bilsin və mənə birbaşa yaza bilsin."
+      },
+      ka: {
+        label: "ჩემი გზა Kiris Jobs-მდე",
+        worked: "თავად ვმუშაობდი",
+        coordinated: "გუნდებს ვმართავდი",
+        now: "ახლა",
+        helps: "კანდიდატებს ვეხმარები",
+        missionKicker: "რას ვქმნი",
+        missionTitle: "საკუთარ და გასაგებ დასაქმების პლატფორმას",
+        missionText: "ჩემი მიზანია, ადამიანმა გამგზავრებამდე ნახოს რეალური პირობები, იცოდეს შემდეგი ნაბიჯი და პირდაპირ მომწეროს."
+      },
+      id: {
+        label: "Perjalanan saya menuju Kiris Jobs",
+        worked: "Saya pernah bekerja langsung",
+        coordinated: "Saya mengoordinasikan tim",
+        now: "Sekarang",
+        helps: "Saya membantu kandidat",
+        missionKicker: "Yang saya bangun",
+        missionTitle: "Platform kerja milik saya yang jelas",
+        missionText: "Tujuan saya: setiap orang mengetahui kondisi nyata sebelum berangkat, memahami langkah berikutnya, dan dapat menghubungi saya langsung."
+      },
+      es: {
+        label: "Mi camino hasta Kiris Jobs",
+        worked: "Hice el trabajo personalmente",
+        coordinated: "Coordiné equipos",
+        now: "Ahora",
+        helps: "Ayudo a candidatos",
+        missionKicker: "Lo que estoy creando",
+        missionTitle: "Mi propia plataforma de empleo clara",
+        missionText: "Mi objetivo es que cada persona conozca las condiciones reales antes de viajar, entienda el siguiente paso y pueda escribirme directamente."
+      },
+      fil: {
+        label: "Ang landas ko patungo sa Kiris Jobs",
+        worked: "Ako mismo ang nagtrabaho",
+        coordinated: "Nag-coordinate ako ng mga team",
+        now: "Ngayon",
+        helps: "Tumutulong ako sa mga aplikante",
+        missionKicker: "Ang ginagawa ko",
+        missionTitle: "Sarili kong malinaw na platform para sa trabaho",
+        missionText: "Layunin kong makita ng tao ang tunay na kondisyon bago bumiyahe, malaman ang susunod na hakbang, at makapag-message sa akin nang direkta."
+      },
+      ne: {
+        label: "Kiris Jobs सम्मको मेरो यात्रा",
+        worked: "मैले आफैं काम गरेको छु",
+        coordinated: "मैले टोली समन्वय गरेको छु",
+        now: "अहिले",
+        helps: "म उम्मेदवारलाई सहयोग गर्छु",
+        missionKicker: "मैले के बनाउँदै छु",
+        missionTitle: "मेरो आफ्नै स्पष्ट रोजगारी प्लेटफर्म",
+        missionText: "मेरो लक्ष्य भनेको यात्राअघि नै वास्तविक सर्तहरू देखाउने, अर्को कदम बुझाउने र मसँग सिधै सम्पर्क गर्न सजिलो बनाउने हो।"
+      },
+      hy: {
+        label: "Իմ ճանապարհը դեպի Kiris Jobs",
+        worked: "Ինքս եմ կատարել աշխատանքը",
+        coordinated: "Համակարգել եմ թիմեր",
+        now: "Հիմա",
+        helps: "Օգնում եմ թեկնածուներին",
+        missionKicker: "Ինչ եմ ստեղծում",
+        missionTitle: "Իմ պարզ ու հասկանալի աշխատանքի հարթակը",
+        missionText: "Իմ նպատակն է, որ մարդը մեկնելուց առաջ տեսնի իրական պայմանները, հասկանա հաջորդ քայլը և կարողանա անմիջապես գրել ինձ։"
+      }
+    };
+    const copy = journeyCopy[state.locale] || journeyCopy.en;
+
     let journey = el("profile-journey");
     if (!journey) {
       journey = document.createElement("div");
@@ -1464,21 +1578,49 @@
       journey.className = "profile-journey";
       experienceGrid.insertAdjacentElement("beforebegin", journey);
     }
+    journey.setAttribute("aria-label", copy.label);
     journey.innerHTML = `
       <span class="profile-journey-point">
-        <small>${escapeHTML(t("ui.profileGreenhouseTitle"))}</small>
-        <strong>2019</strong>
+        <small>2019–2020</small>
+        <strong>${escapeHTML(copy.worked)}</strong>
       </span>
-      <span class="profile-journey-line" aria-hidden="true"><i></i><i></i><i></i><b>→</b></span>
+      <span class="profile-journey-line" aria-hidden="true"><i></i><b>→</b></span>
+      <span class="profile-journey-point">
+        <small>2021–2023</small>
+        <strong>${escapeHTML(copy.coordinated)}</strong>
+      </span>
+      <span class="profile-journey-line" aria-hidden="true"><i></i><b>→</b></span>
       <span class="profile-journey-point profile-journey-point-current">
-        <small>${escapeHTML(t("ui.profileRecruitingTitle"))}</small>
-        <strong>2026</strong>
+        <small>${escapeHTML(copy.now)}</small>
+        <strong>${escapeHTML(copy.helps)}</strong>
       </span>
     `;
 
     experienceGrid.querySelectorAll(".profile-experience-item").forEach((item, index) => {
       item.dataset.step = String(index + 1).padStart(2, "0");
     });
+
+    const languageBand = document.querySelector("#view-profile .profile-language-band");
+    let mission = el("profile-mission");
+    if (!mission && languageBand) {
+      mission = document.createElement("div");
+      mission.id = "profile-mission";
+      mission.className = "profile-mission";
+      languageBand.insertAdjacentElement("afterend", mission);
+    }
+    if (mission) {
+      mission.innerHTML = `
+        <span class="profile-mission-mark" aria-hidden="true">OK</span>
+        <span class="profile-mission-copy">
+          <small>${escapeHTML(copy.missionKicker)}</small>
+          <strong>${escapeHTML(copy.missionTitle)}</strong>
+          <em>${escapeHTML(copy.missionText)}</em>
+        </span>
+        <button class="button button-primary" type="button" data-route="jobs">
+          ${escapeHTML(t("ui.heroJobs"))}<span aria-hidden="true">→</span>
+        </button>
+      `;
+    }
 
     let person = el("profile-contact-person");
     if (!person) {
