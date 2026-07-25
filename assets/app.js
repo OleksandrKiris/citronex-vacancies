@@ -2520,7 +2520,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=128" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=129" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5046,10 +5046,76 @@
     }).join("");
   }
 
+  function renderCatalogSearchSummary(resultCount) {
+    const row = document.querySelector("#view-jobs .results-row");
+    const count = el("results-count");
+    if (!row || !count) return;
+
+    count.innerHTML = `
+      <span>${escapeHTML(t("ui.found"))}</span>
+      <strong>${resultCount}</strong>
+    `;
+
+    let activeFilters = el("catalog-active-filters");
+    if (!activeFilters) {
+      activeFilters = document.createElement("div");
+      activeFilters.id = "catalog-active-filters";
+      activeFilters.className = "catalog-active-filters";
+      row.insertBefore(activeFilters, row.querySelector(".catalog-saved-link"));
+    }
+
+    const labels = [];
+    const query = el("job-search").value.trim();
+    if (query) labels.push(`“${query}”`);
+
+    ["filter-format", "filter-category", "filter-level"].forEach((id) => {
+      const control = el(id);
+      if (control.value) labels.push(control.selectedOptions[0]?.textContent || control.value);
+    });
+
+    const sort = el("job-sort");
+    if (sort.value !== "updated") labels.push(sort.selectedOptions[0]?.textContent || sort.value);
+
+    if (state.quickFilter && state.quickFilter !== "country:all") {
+      const quick = quickStartCopy();
+      const quickLabels = {
+        "country:poland": i18n.countryName("PL"),
+        "country:hungary": i18n.countryName("HU"),
+        "country:belgium": i18n.countryName("BE"),
+        "country:other": quick.other,
+        "level:noExperience": quick.noExperience,
+        "category:driver": quick.driver
+      };
+      let quickLabel = quickLabels[state.quickFilter];
+      if (!quickLabel) {
+        const example = jobs.find((job) => matchesQuickFilter(job, state.quickFilter));
+        quickLabel = example ? localizedJob(example).category : "";
+      }
+      if (quickLabel) labels.push(quickLabel);
+    }
+
+    const uniqueLabels = [...new Set(labels)];
+    activeFilters.classList.toggle("is-empty", uniqueLabels.length === 0);
+    activeFilters.innerHTML = uniqueLabels.map((label) => `
+      <span class="catalog-filter-chip">
+        ${svgIcon("check")}
+        <span>${escapeHTML(label)}</span>
+      </span>
+    `).join("") + (uniqueLabels.length ? `
+      <button class="catalog-clear-filters" id="catalog-clear-active" type="button">
+        <span>${escapeHTML(t("ui.reset"))}</span>
+        <span aria-hidden="true">×</span>
+      </button>
+    ` : "");
+
+    const clear = el("catalog-clear-active");
+    if (clear) clear.addEventListener("click", resetFilters);
+  }
+
   function renderAllJobs() {
     const result = filteredJobs();
     el("all-jobs").innerHTML = result.map((job) => renderJobCard(job, "catalog")).join("");
-    el("results-count").textContent = `${t("ui.found")}: ${result.length}`;
+    renderCatalogSearchSummary(result.length);
     el("jobs-empty").hidden = result.length > 0;
     renderCatalogCountryDock();
     renderQuickStart();
