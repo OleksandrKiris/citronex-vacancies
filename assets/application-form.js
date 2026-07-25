@@ -100,6 +100,25 @@
     `;
   }
 
+  function recruiterHandoff() {
+    return `
+      <aside class="application-recruiter-handoff">
+        <span class="application-recruiter-photo">
+          <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+          <i aria-hidden="true"></i>
+        </span>
+        <span class="application-recruiter-copy">
+          <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
+          <strong>${escapeHTML(profile.name)}</strong>
+          <em>${escapeHTML(profile.workHours || t("ui.workHours"))} · ${escapeHTML(profile.timezone)}</em>
+        </span>
+        <span class="application-recruiter-channel" aria-label="WhatsApp">
+          <b aria-hidden="true">W</b><span>WhatsApp</span>
+        </span>
+      </aside>
+    `;
+  }
+
   function field(name, label, input, hint = "") {
     return `
       <label class="application-field" for="application-${escapeHTML(name)}">
@@ -608,6 +627,7 @@
         <p class="overline">${escapeHTML(t("form.matchKicker"))}</p>
         <h2 id="application-step-title" tabindex="-1">${escapeHTML(title)}</h2>
         <p>${escapeHTML(isResults ? t("form.matchResultsHint") : t("form.matchIntro"))}</p>
+        ${recruiterHandoff()}
         ${renderStepTrack(stepTitles, visibleStep, isResults)}
         <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${visibleStep} ${t("ui.of")} ${MATCH_STEP_COUNT}`)}" aria-valuemin="1" aria-valuemax="${MATCH_STEP_COUNT}" aria-valuenow="${visibleStep}">
           <span style="width:${progress}%"></span>
@@ -661,6 +681,7 @@
         <p class="overline">${escapeHTML(t("form.title"))}</p>
         <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
         <p>${escapeHTML(t("form.intro"))}</p>
+        ${recruiterHandoff()}
         ${renderStepTrack(stepLabels, state.step + 1)}
         <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.step + 1} ${t("ui.of")} ${STEP_KEYS.length}`)}" aria-valuemin="1" aria-valuemax="${STEP_KEYS.length}" aria-valuenow="${state.step + 1}">
           <span style="width:${percent}%"></span>

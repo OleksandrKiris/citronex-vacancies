@@ -33451,3 +33451,338 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v117 · human handoff inside the application */
+.application-header {
+  --application-stage-accent: #bdf24b;
+}
+
+.application-header[data-stage="2"] {
+  --application-stage-accent: #72a1ff;
+}
+
+.application-header[data-stage="3"] {
+  --application-stage-accent: #ffb84d;
+}
+
+.application-header[data-stage="4"] {
+  --application-stage-accent: #80d99f;
+}
+
+.application-header[data-stage="5"] {
+  --application-stage-accent: #dca8ff;
+}
+
+.application-header[data-stage="6"],
+.application-header[data-stage-complete="true"] {
+  --application-stage-accent: #25d366;
+}
+
+.application-header::before {
+  background: linear-gradient(90deg, #e51d2a 0 30%, var(--application-stage-accent) 30% 100%);
+  box-shadow: 0 0 19px rgba(189, 242, 75, 0.22);
+}
+
+.application-recruiter-handoff {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 68px;
+  grid-template-columns: 50px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  margin-top: 19px;
+  padding: 8px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.13), transparent 8rem),
+    rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 16px;
+  box-shadow:
+    0 15px 28px rgba(0, 0, 0, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.application-recruiter-handoff::after {
+  position: absolute;
+  right: -22px;
+  bottom: -40px;
+  width: 78px;
+  aspect-ratio: 1;
+  background: rgba(189, 242, 75, 0.055);
+  border: 1px solid rgba(189, 242, 75, 0.07);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.application-recruiter-photo {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 52px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.74);
+  border-radius: 13px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+.application-recruiter-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 29%;
+  transform: scale(1.03);
+}
+
+.application-recruiter-photo i {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 9px;
+  height: 9px;
+  background: #25d366;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.13);
+}
+
+.application-recruiter-copy {
+  min-width: 0;
+}
+
+.application-recruiter-copy small,
+.application-recruiter-copy strong,
+.application-recruiter-copy em {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.application-recruiter-copy small {
+  color: var(--application-stage-accent);
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.application-recruiter-copy strong {
+  margin-top: 3px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.application-recruiter-copy em {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 750;
+}
+
+.application-recruiter-channel {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px 5px 5px;
+  color: #eaffef;
+  background: rgba(37, 211, 102, 0.10);
+  border: 1px solid rgba(37, 211, 102, 0.17);
+  border-radius: 10px;
+  font-size: 7px;
+  font-weight: 900;
+}
+
+.application-recruiter-channel b {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(145deg, #25d366, #08783c);
+  border-radius: 7px;
+  box-shadow:
+    0 7px 15px rgba(37, 211, 102, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  font-size: 7px;
+}
+
+.application-header .application-step-track li.is-current > span {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.54), transparent 45%),
+    var(--application-stage-accent);
+}
+
+.application-header .application-progress span {
+  background: linear-gradient(90deg, #e51d2a 0%, #ff765f 26%, var(--application-stage-accent) 100%);
+}
+
+.application-step {
+  outline: 1px solid rgba(255, 255, 255, 0.56);
+  outline-offset: -2px;
+}
+
+.application-actions .button-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.application-actions .button-primary::after {
+  position: absolute;
+  top: -60%;
+  left: -38%;
+  width: 25%;
+  height: 220%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(16deg);
+}
+
+.application-actions .button-primary:hover::after,
+.application-actions .button-primary:focus-visible::after {
+  opacity: 1;
+  transform: translateX(520%) rotate(16deg);
+  transition: transform 650ms ease, opacity 130ms ease;
+}
+
+@media (min-width: 861px) {
+  .application-modal .application-recruiter-handoff {
+    max-width: 100%;
+  }
+
+  .application-modal .application-header .application-step-track {
+    margin-top: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .application-recruiter-handoff {
+    min-height: 58px;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    margin-top: 11px;
+    padding: 7px;
+    border-radius: 14px;
+  }
+
+  .application-recruiter-photo {
+    width: 42px;
+    height: 44px;
+    border-radius: 11px;
+  }
+
+  .application-recruiter-copy strong {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  .application-header {
+    padding-bottom: 10px;
+  }
+
+  .application-recruiter-handoff {
+    min-height: 48px;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 7px;
+    margin-top: 8px;
+    padding: 5px;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.11),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .application-recruiter-photo {
+    width: 36px;
+    height: 38px;
+    border-width: 1px;
+    border-radius: 9px;
+  }
+
+  .application-recruiter-photo i {
+    right: 3px;
+    bottom: 3px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .application-recruiter-copy small {
+    font-size: 5px;
+  }
+
+  .application-recruiter-copy strong {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  .application-recruiter-copy em {
+    margin-top: 2px;
+    font-size: 6px;
+  }
+
+  .application-recruiter-channel {
+    min-height: 30px;
+    padding: 4px;
+  }
+
+  .application-recruiter-channel span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .application-recruiter-channel b {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  .application-recruiter-handoff {
+    margin-top: 7px;
+  }
+
+  .application-recruiter-copy em {
+    max-width: 150px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .application-recruiter-photo i {
+    animation: v117-application-recruiter-online 3s ease-out infinite;
+  }
+}
+
+@keyframes v117-application-recruiter-online {
+  0%,
+  64%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.13);
+  }
+
+  80% {
+    box-shadow: 0 0 0 9px rgba(37, 211, 102, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-recruiter-photo i,
+  .application-actions .button-primary::after {
+    animation: none;
+    transition: none;
+  }
+}
