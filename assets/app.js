@@ -2520,7 +2520,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=130" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=131" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5456,10 +5456,10 @@
         </div>
       </header>
       <dl class="job-detail-facts">
-        <div><dt>${svgIcon("jobs")}<span>${escapeHTML(t("ui.grossSalary"))}</span></dt><dd>${formatSalary(view.salary)}<br><small>${escapeHTML(view.salary?.note || "")}</small></dd></div>
-        <div><dt>${svgIcon("location")}<span>${escapeHTML(t("ui.countryLocation"))}</span></dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
-        <div><dt>${svgIcon("clock")}<span>${escapeHTML(t("ui.contract"))}</span></dt><dd>${escapeHTML(view.contract)}</dd></div>
-        <div><dt>${svgIcon("people")}<span>${escapeHTML(t("ui.suitableFor"))}</span></dt><dd>${escapeHTML((view.candidates || []).join(", "))}</dd></div>
+        <div class="job-detail-fact-salary"><dt>${svgIcon("jobs")}<span>${escapeHTML(t("ui.grossSalary"))}</span></dt><dd>${formatSalary(view.salary)}<br><small>${escapeHTML(view.salary?.note || "")}</small></dd></div>
+        <div class="job-detail-fact-location"><dt>${svgIcon("location")}<span>${escapeHTML(t("ui.countryLocation"))}</span></dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
+        <div class="job-detail-fact-contract"><dt>${svgIcon("clock")}<span>${escapeHTML(t("ui.contract"))}</span></dt><dd>${escapeHTML(view.contract)}</dd></div>
+        <div class="job-detail-fact-candidates"><dt>${svgIcon("people")}<span>${escapeHTML(t("ui.suitableFor"))}</span></dt><dd>${escapeHTML((view.candidates || []).join(", "))}</dd></div>
       </dl>
       <div class="job-detail-summary">
         <p class="detail-intro">${escapeHTML(view.summary)}</p>

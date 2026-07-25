@@ -39220,3 +39220,314 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v131 · vacancy detail reading flow */
+.modal-close {
+  font-size: 0;
+}
+
+.modal-close::before {
+  content: "\00D7";
+  display: block;
+  font-size: 24px;
+  font-weight: 550;
+  line-height: 1;
+}
+
+#job-dialog-content .job-detail-fact-salary {
+  display: none;
+}
+
+#job-dialog-content .job-detail-facts {
+  counter-reset: detail-essential;
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
+  counter-increment: detail-essential;
+  background:
+    radial-gradient(circle at 0 0, var(--detail-accent-soft), transparent 10rem),
+    linear-gradient(145deg, #ffffff, #f3f8f2);
+  border-color: rgba(16, 32, 24, 0.075);
+  box-shadow:
+    0 14px 32px rgba(16, 32, 24, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary)::before {
+  content: counter(detail-essential, decimal-leading-zero);
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary)::after {
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  height: auto;
+  background: linear-gradient(180deg, var(--detail-accent), var(--detail-accent-bright));
+  opacity: 0.92;
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dt svg {
+  color: #102018;
+  background: linear-gradient(145deg, var(--detail-accent-bright), var(--detail-accent));
+  border-radius: 10px;
+  box-shadow:
+    0 9px 19px var(--detail-accent-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  box-sizing: border-box;
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dt span {
+  color: #738077;
+}
+
+#job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dd {
+  color: #203128;
+  font-weight: 850;
+}
+
+#job-dialog-content .job-detail-summary {
+  border-radius: 19px;
+}
+
+#job-dialog-content .job-detail-summary .detail-intro {
+  color: #263a30;
+  font-size: 15px;
+  font-weight: 620;
+}
+
+#job-dialog-content .job-detail-actions {
+  position: sticky;
+  bottom: 0;
+  margin: 17px 0 0;
+  padding: 9px;
+  background:
+    radial-gradient(circle at 0 100%, var(--detail-accent-soft), transparent 13rem),
+    rgba(250, 252, 249, 0.95);
+  border: 1px solid rgba(16, 32, 24, 0.09);
+  border-radius: 20px;
+  box-shadow:
+    0 -8px 34px rgba(16, 32, 24, 0.08),
+    0 18px 42px rgba(16, 32, 24, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+}
+
+#job-dialog-content .job-detail-primary-actions {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: 7px;
+}
+
+#job-dialog-content .job-detail-primary-actions .button {
+  min-height: 56px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+#job-dialog-content .job-detail-primary-actions .button svg {
+  width: 18px;
+  height: 18px;
+}
+
+#job-dialog-content .job-detail-tools {
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 1px 1px 2px;
+  scrollbar-width: none;
+}
+
+#job-dialog-content .job-detail-tools::-webkit-scrollbar {
+  display: none;
+}
+
+#job-dialog-content .job-detail-tools .button {
+  min-height: 40px;
+  flex: 0 0 auto;
+  border-radius: 11px;
+  white-space: nowrap;
+}
+
+@media (min-width: 861px) {
+  .job-modal #job-dialog-content > .job-detail-facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .job-modal #job-dialog-content > .job-detail-facts > div:not(.job-detail-fact-salary) {
+    display: grid;
+    min-height: 0;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    column-gap: 13px;
+    padding: 15px 38px 15px 14px;
+    border-radius: 16px;
+  }
+
+  .job-modal #job-dialog-content > .job-detail-facts > div:not(.job-detail-fact-salary) dt {
+    display: contents;
+  }
+
+  .job-modal #job-dialog-content > .job-detail-facts > div:not(.job-detail-fact-salary) dt svg {
+    width: 42px;
+    height: 42px;
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-self: center;
+    padding: 11px;
+  }
+
+  .job-modal #job-dialog-content > .job-detail-facts > div:not(.job-detail-fact-salary) dt span {
+    grid-column: 2;
+    align-self: end;
+    font-size: 8px;
+  }
+
+  .job-modal #job-dialog-content > .job-detail-facts > div:not(.job-detail-fact-salary) dd {
+    grid-column: 2;
+    align-self: start;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.32;
+  }
+}
+
+@media (max-width: 720px) {
+  .job-modal::before {
+    position: fixed;
+    top: 7px;
+    left: 50%;
+    z-index: 18;
+    width: 38px;
+    height: 4px;
+    background: rgba(16, 32, 24, 0.28);
+    border-radius: 999px;
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .job-modal .modal-shell {
+    padding-top: 15px;
+  }
+
+  #job-dialog-content .job-detail-facts {
+    gap: 6px;
+    margin-top: 7px;
+  }
+
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) {
+    width: 164px;
+    min-width: 164px;
+    min-height: 104px;
+    flex-basis: 164px;
+    padding: 12px 11px 11px 12px;
+    border-radius: 14px;
+  }
+
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dt {
+    padding-right: 18px;
+  }
+
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dt svg {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 9px;
+    padding: 7px;
+  }
+
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) dd {
+    margin-top: 6px;
+    font-size: 11px;
+    line-height: 1.28;
+  }
+
+  #job-dialog-content .job-detail-summary {
+    margin-top: 7px;
+    padding: 13px;
+    border-radius: 15px;
+  }
+
+  #job-dialog-content .job-detail-summary .detail-intro {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  #job-dialog-content .job-detail-actions {
+    margin: 10px -3px -3px;
+    padding: 7px 7px calc(5px + env(safe-area-inset-bottom, 0px));
+    border-radius: 17px 17px 12px 12px;
+  }
+
+  #job-dialog-content .job-detail-primary-actions {
+    gap: 5px;
+  }
+
+  #job-dialog-content .job-detail-primary-actions .button {
+    min-height: 51px;
+    padding-inline: 7px;
+    border-radius: 12px;
+    font-size: 10px;
+  }
+
+  #job-dialog-content .job-detail-tools .button {
+    min-height: 42px;
+    padding-inline: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) {
+    width: 154px;
+    min-width: 154px;
+    flex-basis: 154px;
+  }
+
+  #job-dialog-content .job-detail-primary-actions .button {
+    font-size: 9px;
+  }
+
+  #job-dialog-content .job-detail-primary-actions .button svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) {
+    animation: v131-essential-in 220ms ease-out backwards;
+  }
+
+  #job-dialog-content .job-detail-facts > div:nth-child(3) {
+    animation-delay: 45ms;
+  }
+
+  #job-dialog-content .job-detail-facts > div:nth-child(4) {
+    animation-delay: 90ms;
+  }
+}
+
+@keyframes v131-essential-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #job-dialog-content .job-detail-facts > div:not(.job-detail-fact-salary) {
+    animation: none;
+  }
+}
