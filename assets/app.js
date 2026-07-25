@@ -1145,10 +1145,21 @@
       </details>
     `).join("");
     if (el("home-faq-list")) {
-      el("home-faq-list").innerHTML = localizedFaq.slice(0, 4).map((item) => `
-        <details>
-          <summary>${escapeHTML(item.question)}</summary>
-          <p>${escapeHTML(item.answer)}</p>
+      const faqIcons = ["check", "clock", "home", "people"];
+      const homeFaqItems = localizedFaq.slice(0, 4);
+      document.querySelector(".home-faq .section-heading")?.setAttribute("data-faq-count", String(homeFaqItems.length).padStart(2, "0"));
+      el("home-faq-list").innerHTML = homeFaqItems.map((item, index) => `
+        <details data-faq-index="${index + 1}">
+          <summary>
+            <span class="home-faq-index">${String(index + 1).padStart(2, "0")}</span>
+            <span class="home-faq-icon" aria-hidden="true">${svgIcon(faqIcons[index] || "check")}</span>
+            <strong>${escapeHTML(item.question)}</strong>
+            <span class="home-faq-toggle" aria-hidden="true"><i></i></span>
+          </summary>
+          <div class="home-faq-answer">
+            <span aria-hidden="true">${svgIcon("shield")}</span>
+            <p>${escapeHTML(item.answer)}</p>
+          </div>
         </details>
       `).join("");
     }
@@ -2482,7 +2493,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=126" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=127" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
