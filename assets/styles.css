@@ -19105,3 +19105,574 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v92 · catalog search and filter visual polish */
+#view-jobs > .page-heading {
+  position: relative;
+  isolation: isolate;
+  align-items: end;
+  gap: 22px;
+  padding: clamp(22px, 4vw, 38px);
+  overflow: hidden;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.20), transparent 20rem),
+    radial-gradient(circle at 0 100%, rgba(229, 29, 42, 0.15), transparent 15rem),
+    linear-gradient(145deg, #0b1712 0%, #142a20 62%, #0c1c15 100%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 30px;
+  box-shadow:
+    0 28px 68px rgba(16, 24, 32, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+#view-jobs > .page-heading::before {
+  width: 58px;
+  height: 5px;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #e51d2a, #ff784e, #bdf24b);
+}
+
+#view-jobs > .page-heading::after {
+  content: "";
+  position: absolute;
+  top: -8rem;
+  right: -7rem;
+  z-index: -1;
+  width: 23rem;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, transparent 0 26%, rgba(255, 255, 255, 0.10) 27% 28%, transparent 29% 42%, rgba(189, 242, 75, 0.11) 43% 44%, transparent 45%),
+    repeating-conic-gradient(from 9deg, rgba(255, 255, 255, 0.07) 0deg 8deg, transparent 8deg 20deg);
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+#view-jobs > .page-heading .overline {
+  color: #d9ff78;
+}
+
+#view-jobs > .page-heading h1 {
+  max-width: 770px;
+  color: #ffffff;
+  font-size: clamp(38px, 5.5vw, 66px);
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  text-shadow: 0 14px 36px rgba(0, 0, 0, 0.25);
+}
+
+#view-jobs > .page-heading h1 + p {
+  max-width: 650px;
+  color: rgba(255, 255, 255, 0.69);
+  font-size: 15px;
+  line-height: 1.48;
+}
+
+#view-jobs .updated-label {
+  position: relative;
+  z-index: 1;
+  min-height: 34px;
+  padding: 8px 11px 8px 31px;
+  color: #efffe7;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+#view-jobs .updated-label::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 8px;
+  height: 8px;
+  background: #bdf24b;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(189, 242, 75, 0.14);
+  transform: translateY(-50%);
+}
+
+#view-jobs .catalog-proof-grid {
+  position: relative;
+  z-index: 2;
+  gap: 10px;
+  margin-top: -14px;
+  padding-inline: 15px;
+}
+
+#view-jobs .catalog-proof-grid article {
+  position: relative;
+  isolation: isolate;
+  min-height: 94px;
+  padding: 17px 15px 14px 52px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.11), transparent 7rem),
+    linear-gradient(180deg, #ffffff, #f7faf7);
+  border: 1px solid rgba(16, 24, 32, 0.075);
+  border-radius: 18px;
+  box-shadow:
+    0 17px 38px rgba(16, 24, 32, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+#view-jobs .catalog-proof-grid article::before {
+  position: absolute;
+  top: 17px;
+  left: 14px;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  color: #ffffff;
+  background: linear-gradient(145deg, #102018, #0f6d4c);
+  border-radius: 10px;
+  box-shadow: 0 9px 20px rgba(15, 109, 76, 0.16);
+  font-size: 9px;
+  font-weight: 950;
+}
+
+#view-jobs .catalog-proof-grid article:nth-child(1)::before {
+  content: "01";
+}
+
+#view-jobs .catalog-proof-grid article:nth-child(2)::before {
+  content: "02";
+  background: linear-gradient(145deg, #e51d2a, #ff6b35);
+  box-shadow: 0 9px 20px rgba(229, 29, 42, 0.16);
+}
+
+#view-jobs .catalog-proof-grid article:nth-child(3)::before {
+  content: "03";
+  background: linear-gradient(145deg, #0b8f51, #1bbb6b);
+  box-shadow: 0 9px 20px rgba(11, 143, 81, 0.16);
+}
+
+#view-jobs .catalog-proof-grid article:nth-child(4)::before {
+  content: "04";
+  color: #102018;
+  background: linear-gradient(145deg, #d9ff78, #bdf24b);
+  box-shadow: 0 9px 20px rgba(189, 242, 75, 0.18);
+}
+
+#view-jobs .catalog-proof-grid strong {
+  color: #102018;
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 950;
+  letter-spacing: -0.025em;
+}
+
+#view-jobs .catalog-proof-grid span {
+  color: #66736c;
+  font-size: 11px;
+}
+
+#view-jobs .filters-compact {
+  position: relative;
+  isolation: isolate;
+  gap: 9px;
+  margin-top: 15px;
+  padding: 11px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 9rem),
+    linear-gradient(145deg, #ffffff, #f5f8f5);
+  border: 1px solid rgba(16, 24, 32, 0.08);
+  border-radius: 20px;
+  box-shadow:
+    0 18px 44px rgba(16, 24, 32, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+#view-jobs .search-field {
+  position: relative;
+}
+
+#view-jobs .search-field > svg {
+  left: 10px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  padding: 7px;
+  color: #ffffff;
+  background: linear-gradient(145deg, #102018, #0f6d4c);
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(15, 109, 76, 0.15);
+  box-sizing: border-box;
+}
+
+#view-jobs .filters-compact input,
+#view-jobs .filters-compact select,
+#view-jobs .advanced-filters-summary {
+  height: 50px;
+  min-height: 50px;
+  color: #26342d;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(16, 24, 32, 0.09);
+  border-radius: 14px;
+  box-shadow:
+    0 7px 16px rgba(16, 24, 32, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+}
+
+#view-jobs .search-field input {
+  padding-left: 50px;
+  font-size: 13px;
+  font-weight: 720;
+}
+
+#view-jobs .filters-compact input::placeholder {
+  color: #7a8780;
+  opacity: 1;
+}
+
+#view-jobs .filters-compact input:hover,
+#view-jobs .filters-compact select:hover,
+#view-jobs .advanced-filters-summary:hover {
+  border-color: rgba(15, 109, 76, 0.22);
+}
+
+#view-jobs .filters-compact input:focus,
+#view-jobs .filters-compact select:focus,
+#view-jobs .advanced-filters-summary:focus-visible {
+  outline: 3px solid rgba(189, 242, 75, 0.30);
+  border-color: rgba(15, 109, 76, 0.36);
+  box-shadow:
+    0 0 0 1px rgba(15, 109, 76, 0.08),
+    0 12px 26px rgba(16, 24, 32, 0.09);
+}
+
+#view-jobs .advanced-filters-summary {
+  min-width: 170px;
+  justify-content: flex-start;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.14), transparent 4rem),
+    linear-gradient(145deg, #173628, #102018);
+  border-color: rgba(16, 32, 24, 0.28);
+  box-shadow:
+    0 10px 22px rgba(16, 32, 24, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+#view-jobs .advanced-filters-summary::after {
+  content: "+";
+  display: grid;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  place-items: center;
+  color: #102018;
+  background: #d9ff78;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 950;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+#view-jobs .advanced-filters[open] .advanced-filters-summary {
+  background: linear-gradient(145deg, #0f6d4c, #102018);
+}
+
+#view-jobs .advanced-filters[open] .advanced-filters-summary::after {
+  content: "−";
+  transform: rotate(180deg);
+}
+
+#view-jobs .advanced-filter-fields {
+  gap: 8px;
+  padding: 10px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 8rem),
+    rgba(255, 255, 255, 0.98);
+  border-color: rgba(16, 24, 32, 0.09);
+  border-radius: 16px;
+  box-shadow:
+    0 26px 58px rgba(16, 24, 32, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
+}
+
+#view-jobs #reset-filters {
+  min-height: 50px;
+  padding-inline: 14px;
+  color: #9c202a;
+  background: #fff1f2;
+  border: 1px solid rgba(229, 29, 42, 0.12);
+  border-radius: 13px;
+  font-weight: 850;
+}
+
+#view-jobs .results-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 16px;
+  padding: 9px 10px 9px 14px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.12), transparent 7rem),
+    linear-gradient(145deg, #ffffff, #f5f8f5);
+  border-color: rgba(16, 24, 32, 0.075);
+  border-radius: 16px;
+}
+
+#view-jobs .results-row::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  align-self: center;
+  grid-column: 1;
+  grid-row: 1;
+  background: #e51d2a;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(229, 29, 42, 0.10);
+}
+
+#view-jobs .results-row p {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding-left: 19px;
+  color: #26342d;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+#view-jobs .catalog-saved-link {
+  min-height: 40px;
+  padding: 6px 10px;
+  background: #ffffff;
+  border-color: rgba(16, 24, 32, 0.08);
+}
+
+#view-jobs .empty-state {
+  max-width: 680px;
+  margin-inline: auto;
+  padding: clamp(25px, 5vw, 48px);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(189, 242, 75, 0.20), transparent 12rem),
+    linear-gradient(145deg, #ffffff, #f5f9f3);
+}
+
+#view-jobs .empty-state > span {
+  width: 68px;
+  height: 68px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.66), transparent 36%),
+    linear-gradient(145deg, #102018, #0f6d4c);
+  box-shadow: 0 16px 32px rgba(15, 109, 76, 0.18);
+}
+
+#view-jobs .empty-state > span svg {
+  color: #ffffff;
+}
+
+@media (max-width: 720px) {
+  #view-jobs {
+    padding-top: 12px;
+  }
+
+  #view-jobs > .page-heading {
+    margin-bottom: 9px;
+    padding: 19px 17px;
+    border-radius: 23px;
+  }
+
+  #view-jobs > .page-heading::before {
+    width: 42px;
+    height: 4px;
+    margin-bottom: 10px;
+  }
+
+  #view-jobs > .page-heading::after {
+    top: -6rem;
+    right: -7rem;
+    width: 18rem;
+  }
+
+  #view-jobs > .page-heading h1 {
+    max-width: 12ch;
+    font-size: clamp(29px, 8.8vw, 36px);
+    line-height: 1;
+  }
+
+  #view-jobs > .page-heading h1 + p {
+    margin-top: 9px;
+    font-size: 12px;
+    line-height: 1.42;
+  }
+
+  #view-jobs .updated-label {
+    display: none;
+  }
+
+  #view-jobs .catalog-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    margin-top: 0;
+    padding-inline: 0;
+  }
+
+  #view-jobs .catalog-proof-grid article {
+    min-height: 72px;
+    padding: 11px 9px 10px 38px;
+    border-radius: 15px;
+    box-shadow: 0 10px 24px rgba(16, 24, 32, 0.075);
+  }
+
+  #view-jobs .catalog-proof-grid article:nth-child(n+3) {
+    display: none;
+  }
+
+  #view-jobs .catalog-proof-grid article::before {
+    top: 11px;
+    left: 9px;
+    width: 23px;
+    height: 23px;
+    border-radius: 8px;
+    font-size: 7px;
+  }
+
+  #view-jobs .catalog-proof-grid strong {
+    font-size: 16px;
+  }
+
+  #view-jobs .catalog-proof-grid span {
+    font-size: 9px;
+    line-height: 1.25;
+  }
+
+  #view-jobs .filters-compact {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 9px;
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  #view-jobs .filters-compact .search-field {
+    grid-column: 1 / -1;
+  }
+
+  #view-jobs .filters-compact input,
+  #view-jobs .filters-compact select,
+  #view-jobs .advanced-filters-summary {
+    height: 46px;
+    min-height: 46px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  #view-jobs .search-field > svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  #view-jobs .search-field input {
+    padding-left: 47px;
+    font-size: 12px;
+  }
+
+  #view-jobs .advanced-filters-summary {
+    min-width: 0;
+    padding: 0 8px 0 10px;
+    gap: 6px;
+  }
+
+  #view-jobs .advanced-filters-summary svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  #view-jobs .advanced-filters-summary::after {
+    width: 20px;
+    height: 20px;
+  }
+
+  #view-jobs .advanced-filters[open] {
+    grid-column: 1 / -1;
+  }
+
+  #view-jobs .advanced-filter-fields {
+    margin-top: 7px;
+    padding: 8px;
+    border-radius: 13px;
+  }
+
+  #view-jobs #reset-filters {
+    min-height: 44px;
+  }
+
+  #view-jobs .results-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px;
+    margin: 9px 0 11px;
+    padding: 7px 7px 7px 11px;
+    border-radius: 14px;
+  }
+
+  #view-jobs .results-row p {
+    padding-left: 17px;
+    font-size: 11px;
+  }
+
+  #view-jobs .results-row::before {
+    width: 7px;
+    height: 7px;
+  }
+
+  #view-jobs .catalog-saved-link {
+    width: auto;
+    min-height: 36px;
+    padding: 5px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  #view-jobs .catalog-saved-link svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  #view-jobs > .page-heading {
+    padding: 17px 15px;
+  }
+
+  #view-jobs > .page-heading h1 {
+    font-size: 28px;
+  }
+
+  #view-jobs .catalog-proof-grid article {
+    padding-left: 35px;
+  }
+
+  #view-jobs .catalog-proof-grid article::before {
+    left: 7px;
+  }
+
+  #view-jobs .advanced-filters-summary span {
+    max-width: 84px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #view-jobs .catalog-saved-link {
+    gap: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #view-jobs .advanced-filters-summary::after {
+    transition: none;
+  }
+}
