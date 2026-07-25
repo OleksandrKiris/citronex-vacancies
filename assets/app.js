@@ -1101,6 +1101,7 @@
       `).join("");
     }
 
+    renderHeroRecruiterSignal();
     renderRecruiterTrustVisuals();
     renderQuickStart();
     renderHeroRoleRail();
@@ -1165,6 +1166,37 @@
     schemaNode.id = "person-schema";
     schemaNode.textContent = JSON.stringify(personSchema);
     document.head.append(schemaNode);
+  }
+
+  function renderHeroRecruiterSignal() {
+    const heroLead = el("hero-intro");
+    if (!heroLead) return;
+    let signal = el("hero-recruiter-signal");
+    if (!signal) {
+      signal = document.createElement("a");
+      signal.id = "hero-recruiter-signal";
+      signal.className = "hero-recruiter-signal";
+      heroLead.insertAdjacentElement("afterend", signal);
+    }
+    signal.href = profile.whatsapp;
+    signal.target = "_blank";
+    signal.rel = "noopener noreferrer";
+    signal.setAttribute("aria-label", `${t("ui.recruiterEyebrow")}: ${profile.name}, WhatsApp`);
+    signal.innerHTML = `
+      <span class="hero-recruiter-photo">
+        <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
+        <i aria-hidden="true"></i>
+      </span>
+      <span class="hero-recruiter-copy">
+        <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
+        <strong>${escapeHTML(profile.name)}</strong>
+        <em>WhatsApp · ${escapeHTML(profile.workHours || t("ui.workHours"))}</em>
+      </span>
+      <span class="hero-recruiter-countries" aria-hidden="true">
+        <b>PL</b><b>HU</b><b>BE</b>
+      </span>
+      <span class="hero-recruiter-whatsapp" aria-hidden="true">${svgIcon("whatsapp")}</span>
+    `;
   }
 
   function renderRecruiterTrustVisuals() {
@@ -2241,7 +2273,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=113" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=114" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
