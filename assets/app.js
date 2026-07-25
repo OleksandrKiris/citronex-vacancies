@@ -1103,7 +1103,27 @@
         <p>${escapeHTML(item.text)}</p>
       </li>
     `).join("");
-    if (el("home-process")) el("home-process").innerHTML = processMarkup;
+    const processIcons = ["match", "check", "shield", "location"];
+    const homeProcessMarkup = localizedProcess.map((item, index) => `
+      <li data-process-step="${index + 1}">
+        <div class="process-step-head">
+          <span aria-hidden="true">${svgIcon(processIcons[index] || "check")}</span>
+          <b>${String(index + 1).padStart(2, "0")}</b>
+        </div>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p>${escapeHTML(item.text)}</p>
+        <div class="process-step-foot">
+          <span>${svgIcon("clock")}<small>${escapeHTML(item.time)}</small></span>
+          ${index === localizedProcess.length - 1 ? `
+            <span class="process-step-countries" aria-hidden="true"><i>PL</i><i>HU</i><i>BE</i></span>
+          ` : ""}
+        </div>
+        ${index < localizedProcess.length - 1 ? `
+          <span class="process-route-arrow" aria-hidden="true">${svgIcon("arrow")}</span>
+        ` : ""}
+      </li>
+    `).join("");
+    if (el("home-process")) el("home-process").innerHTML = homeProcessMarkup;
     el("profile-process").innerHTML = processMarkup;
 
     const localizedPrivacy = i18n.locale === "ru"
@@ -2462,7 +2482,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=125" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=126" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
