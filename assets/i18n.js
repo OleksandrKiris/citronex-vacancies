@@ -6,6 +6,7 @@
   const fallbackLocale = "ru";
   const translations = window.PORTAL_TRANSLATIONS || {};
   const listeners = new Set();
+  let languageSwitcher = null;
 
   function normalizeLocale(value) {
     const normalized = String(value || "").toLowerCase().split("-")[0];
@@ -117,6 +118,127 @@
       `<option value="${locale}">${languageName(locale)}</option>`
     )).join("");
     select.value = currentLocale;
+    renderLanguageSwitcher();
+  }
+
+  function closeLanguageSwitcher(restoreFocus = false) {
+    if (!languageSwitcher) return;
+    languageSwitcher.menu.hidden = true;
+    languageSwitcher.root.classList.remove("is-open");
+    languageSwitcher.button.setAttribute("aria-expanded", "false");
+    if (restoreFocus) languageSwitcher.button.focus({ preventScroll: true });
+  }
+
+  function renderLanguageSwitcher() {
+    if (!languageSwitcher) return;
+    const currentName = languageName(currentLocale);
+    languageSwitcher.button.querySelector("[data-language-code]").textContent = currentLocale.toUpperCase();
+    languageSwitcher.button.querySelector("[data-language-name]").textContent = currentName;
+    languageSwitcher.button.setAttribute("aria-label", `${t("ui.language")}: ${currentName}`);
+    languageSwitcher.menu.setAttribute("aria-label", t("ui.language"));
+    languageSwitcher.menu.querySelectorAll("[data-language-option]").forEach((option) => {
+      const selected = option.dataset.languageOption === currentLocale;
+      option.classList.toggle("is-active", selected);
+      option.setAttribute("aria-selected", String(selected));
+      option.querySelector("[data-language-status]").textContent = selected ? "✓" : "";
+    });
+  }
+
+  function enhanceLanguageSelect() {
+    if (languageSwitcher) return;
+    const select = document.getElementById("language-select");
+    const fallback = select?.closest(".language-control");
+    if (!select || !fallback) return;
+
+    const root = document.createElement("div");
+    root.className = "language-switcher";
+    root.innerHTML = `
+      <button class="language-switcher-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <svg aria-hidden="true"><use href="assets/icons.svg#icon-globe"></use></svg>
+        <span class="language-switcher-current">
+          <small data-language-code></small>
+          <strong data-language-name></strong>
+        </span>
+        <span class="language-switcher-chevron" aria-hidden="true"></span>
+      </button>
+      <div class="language-switcher-menu" role="listbox" hidden>
+        <div class="language-switcher-grid">
+          ${SUPPORTED.filter((locale) => translations[locale]).map((locale, index) => `
+            <button
+              class="language-switcher-option"
+              type="button"
+              role="option"
+              data-language-option="${locale}"
+              aria-selected="false"
+            >
+              <span class="language-switcher-index">${String(index + 1).padStart(2, "0")}</span>
+              <span class="language-switcher-option-copy">
+                <strong>${languageName(locale)}</strong>
+                <small>${locale.toUpperCase()}</small>
+              </span>
+              <span class="language-switcher-status" data-language-status aria-hidden="true"></span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+    fallback.insertAdjacentElement("afterend", root);
+    fallback.classList.add("is-enhanced-fallback");
+
+    languageSwitcher = {
+      root,
+      button: root.querySelector(".language-switcher-button"),
+      menu: root.querySelector(".language-switcher-menu")
+    };
+
+    languageSwitcher.button.addEventListener("click", () => {
+      const opening = languageSwitcher.menu.hidden;
+      if (!opening) {
+        closeLanguageSwitcher();
+        return;
+      }
+      languageSwitcher.menu.hidden = false;
+      languageSwitcher.root.classList.add("is-open");
+      languageSwitcher.button.setAttribute("aria-expanded", "true");
+      requestAnimationFrame(() => {
+        languageSwitcher.menu.querySelector(".is-active")?.focus({ preventScroll: true });
+      });
+    });
+
+    languageSwitcher.menu.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-language-option]");
+      if (!option) return;
+      setLocale(option.dataset.languageOption);
+      closeLanguageSwitcher(true);
+    });
+
+    languageSwitcher.menu.addEventListener("keydown", (event) => {
+      const options = [...languageSwitcher.menu.querySelectorAll("[data-language-option]")];
+      const currentIndex = options.indexOf(document.activeElement);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeLanguageSwitcher(true);
+        return;
+      }
+      if (!["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      let nextIndex = currentIndex;
+      if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = options.length - 1;
+      else if (["ArrowDown", "ArrowRight"].includes(event.key)) nextIndex = (currentIndex + 1 + options.length) % options.length;
+      else nextIndex = (currentIndex - 1 + options.length) % options.length;
+      options[nextIndex]?.focus({ preventScroll: true });
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (!languageSwitcher.menu.hidden && !languageSwitcher.root.contains(event.target)) {
+        closeLanguageSwitcher();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !languageSwitcher.menu.hidden) closeLanguageSwitcher(true);
+    });
+    renderLanguageSwitcher();
   }
 
   function setLocale(locale, options = {}) {
@@ -147,6 +269,7 @@
 
   function init() {
     populateLanguageSelect();
+    enhanceLanguageSelect();
     applyStaticTranslations();
     document.getElementById("language-select")?.addEventListener("change", (event) => {
       setLocale(event.target.value);
