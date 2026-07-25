@@ -2381,7 +2381,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=119" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=120" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
@@ -5506,6 +5506,41 @@
       readyChip.dataset.progress = `${readCount}/${visibleResources.length}`;
       readyChip.classList.toggle("has-reading-progress", readCount > 0);
     }
+    let progressPanel = el("resource-progress-panel");
+    if (!progressPanel) {
+      progressPanel = document.createElement("section");
+      progressPanel.id = "resource-progress-panel";
+      progressPanel.className = "resource-progress-panel";
+      document.querySelector("#view-resources > .page-heading")?.insertAdjacentElement("afterend", progressPanel);
+    }
+    const progressPercent = visibleResources.length
+      ? Math.round((readCount / visibleResources.length) * 100)
+      : 0;
+    progressPanel.classList.toggle("is-complete", readCount === visibleResources.length && visibleResources.length > 0);
+    progressPanel.style.setProperty("--resource-progress", `${progressPercent}%`);
+    progressPanel.innerHTML = `
+      <div class="resource-progress-identity">
+        <span class="resource-progress-ring" aria-label="${readCount}/${visibleResources.length}">
+          <span><strong>${readCount}</strong><small>/${visibleResources.length}</small></span>
+        </span>
+        <span class="resource-progress-copy">
+          <small>${escapeHTML(t("ui.offlineChip"))}</small>
+          <strong>${escapeHTML(t("ui.trustOfflineTitle"))}</strong>
+          <em>${escapeHTML(t("ui.trustOfflineText"))}</em>
+        </span>
+      </div>
+      <div class="resource-reading-track" aria-hidden="true">
+        <span></span>
+        ${visibleResources.map((resource, index) => `
+          <i class="${state.resourcesRead.has(resource.id) ? "is-read" : ""}" style="--resource-step:${index}"></i>
+        `).join("")}
+      </div>
+      <div class="resource-progress-meta">
+        <span><small>${escapeHTML(t("ui.allResources"))}</small><strong>${visibleResources.length}</strong></span>
+        <span><small>${escapeHTML(t("ui.updated"))}</small><strong>${escapeHTML(formatDate(site.lastUpdated))}</strong></span>
+        <span><small>${escapeHTML(t("ui.offlineChip"))}</small><strong>✓</strong></span>
+      </div>
+    `;
     if (el("featured-resources")) {
       el("featured-resources").innerHTML = visibleResources.slice(0, 3).map(renderResourceCard).join("");
     }
