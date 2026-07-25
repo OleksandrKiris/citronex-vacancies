@@ -418,6 +418,166 @@
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
+  function okCheckCopy() {
+    const copy = {
+      en: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "What I check before you travel",
+        rate: "Gross rate",
+        rateShown: "Shown in the vacancy",
+        rateCheck: "Needs confirmation",
+        start: "Start date",
+        startValue: "I confirm it before travel",
+        housing: "Housing",
+        housingValue: "I compare it with the vacancy terms",
+        documents: "Documents",
+        documentsValue: "I do not collect them through this website",
+        note: "The signed contract and official documents remain decisive."
+      },
+      ru: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Что я проверяю перед вашей поездкой",
+        rate: "Ставка брутто",
+        rateShown: "Указана в вакансии",
+        rateCheck: "Нужно подтвердить",
+        start: "Дата начала",
+        startValue: "Уточняю перед поездкой",
+        housing: "Жильё",
+        housingValue: "Сверяю с условиями вакансии",
+        documents: "Документы",
+        documentsValue: "Не принимаю через этот сайт",
+        note: "Окончательные условия определяют договор и официальные документы."
+      },
+      uk: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Що я перевіряю перед вашою поїздкою",
+        rate: "Ставка брутто",
+        rateShown: "Вказана у вакансії",
+        rateCheck: "Потрібно підтвердити",
+        start: "Дата початку",
+        startValue: "Уточнюю перед поїздкою",
+        housing: "Житло",
+        housingValue: "Звіряю з умовами вакансії",
+        documents: "Документи",
+        documentsValue: "Не приймаю через цей сайт",
+        note: "Остаточні умови визначають договір та офіційні документи."
+      },
+      pl: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Co sprawdzam przed Twoim wyjazdem",
+        rate: "Stawka brutto",
+        rateShown: "Podana w ofercie",
+        rateCheck: "Wymaga potwierdzenia",
+        start: "Data rozpoczęcia",
+        startValue: "Potwierdzam przed wyjazdem",
+        housing: "Zakwaterowanie",
+        housingValue: "Porównuję z warunkami oferty",
+        documents: "Dokumenty",
+        documentsValue: "Nie przyjmuję ich przez tę stronę",
+        note: "Decydujące pozostają podpisana umowa i oficjalne dokumenty."
+      },
+      az: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Səfərdən əvvəl nəyi yoxlayıram",
+        rate: "Brüt maaş",
+        rateShown: "Vakansiyada göstərilib",
+        rateCheck: "Təsdiq tələb edir",
+        start: "Başlama tarixi",
+        startValue: "Səfərdən əvvəl təsdiqləyirəm",
+        housing: "Yaşayış",
+        housingValue: "Vakansiyanın şərtləri ilə müqayisə edirəm",
+        documents: "Sənədlər",
+        documentsValue: "Bu sayt vasitəsilə qəbul etmirəm",
+        note: "Son şərtləri imzalanmış müqavilə və rəsmi sənədlər müəyyən edir."
+      },
+      ka: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "რას ვამოწმებ თქვენს გამგზავრებამდე",
+        rate: "ბრუტო ანაზღაურება",
+        rateShown: "მითითებულია ვაკანსიაში",
+        rateCheck: "საჭიროებს დადასტურებას",
+        start: "დაწყების თარიღი",
+        startValue: "ვამოწმებ გამგზავრებამდე",
+        housing: "საცხოვრებელი",
+        housingValue: "ვადარებ ვაკანსიის პირობებს",
+        documents: "დოკუმენტები",
+        documentsValue: "ამ საიტით არ ვიღებ",
+        note: "საბოლოო პირობებს ხელმოწერილი ხელშეკრულება და ოფიციალური დოკუმენტები განსაზღვრავს."
+      },
+      id: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Yang saya periksa sebelum Anda berangkat",
+        rate: "Upah bruto",
+        rateShown: "Tercantum di lowongan",
+        rateCheck: "Perlu dikonfirmasi",
+        start: "Tanggal mulai",
+        startValue: "Saya konfirmasi sebelum keberangkatan",
+        housing: "Tempat tinggal",
+        housingValue: "Saya cocokkan dengan ketentuan lowongan",
+        documents: "Dokumen",
+        documentsValue: "Tidak saya terima melalui situs ini",
+        note: "Kontrak yang ditandatangani dan dokumen resmi tetap menjadi acuan."
+      },
+      es: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Lo que compruebo antes de tu viaje",
+        rate: "Salario bruto",
+        rateShown: "Indicado en la vacante",
+        rateCheck: "Necesita confirmación",
+        start: "Fecha de inicio",
+        startValue: "La confirmo antes del viaje",
+        housing: "Alojamiento",
+        housingValue: "Lo comparo con las condiciones de la vacante",
+        documents: "Documentos",
+        documentsValue: "No los recibo a través de esta web",
+        note: "El contrato firmado y los documentos oficiales son siempre decisivos."
+      },
+      fil: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Ang sinusuri ko bago ka bumiyahe",
+        rate: "Gross na sahod",
+        rateShown: "Nakalagay sa trabaho",
+        rateCheck: "Kailangang kumpirmahin",
+        start: "Petsa ng simula",
+        startValue: "Kinukumpirma ko bago bumiyahe",
+        housing: "Tirahan",
+        housingValue: "Inihahambing ko sa kondisyon ng trabaho",
+        documents: "Mga dokumento",
+        documentsValue: "Hindi ko tinatanggap sa website na ito",
+        note: "Ang pinirmahang kontrata at opisyal na dokumento ang masusunod."
+      },
+      ne: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "तपाईंको यात्राअघि म के जाँच गर्छु",
+        rate: "ग्रस तलब",
+        rateShown: "रोजगारीमा उल्लेख छ",
+        rateCheck: "पुष्टि आवश्यक",
+        start: "सुरु मिति",
+        startValue: "यात्राअघि पुष्टि गर्छु",
+        housing: "बसाइ",
+        housingValue: "रोजगारीका सर्तसँग मिलाउँछु",
+        documents: "कागजात",
+        documentsValue: "यो साइटबाट लिँदिनँ",
+        note: "हस्ताक्षर गरिएको सम्झौता र आधिकारिक कागजात नै निर्णायक हुन्छन्।"
+      },
+      hy: {
+        eyebrow: "OK Check · Oleksandr Kiris",
+        title: "Ինչ եմ ստուգում ձեր մեկնելուց առաջ",
+        rate: "Բրուտո վճար",
+        rateShown: "Նշված է աշխատատեղում",
+        rateCheck: "Պետք է հաստատել",
+        start: "Մեկնարկի ամսաթիվ",
+        startValue: "Հաստատում եմ մեկնելուց առաջ",
+        housing: "Կացարան",
+        housingValue: "Համեմատում եմ աշխատատեղի պայմանների հետ",
+        documents: "Փաստաթղթեր",
+        documentsValue: "Այս կայքով չեմ ընդունում",
+        note: "Վերջնական են ստորագրված պայմանագիրն ու պաշտոնական փաստաթղթերը։"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
   function instantMatchCopy() {
     const copy = {
       ru: {
@@ -5318,6 +5478,7 @@
     const routeCode = countryCode(job.format) || "EU";
     const fit = jobFitItems(job, view);
     const copy = conversionCopy();
+    const okCheck = okCheckCopy();
     const conditionCards = (view.benefits || []).map((item) => `
       <article>
         <span aria-hidden="true">${svgIcon("check")}</span>
@@ -5380,6 +5541,38 @@
           ${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
       </div>
+      <section class="ok-check" aria-label="${escapeHTML(okCheck.title)}">
+        <header class="ok-check-head">
+          <span class="ok-check-mark" aria-hidden="true">OK</span>
+          <div>
+            <p>${escapeHTML(okCheck.eyebrow)}</p>
+            <h3>${escapeHTML(okCheck.title)}</h3>
+          </div>
+          <span class="ok-check-person">
+            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+            <strong>${escapeHTML(profile.name)}</strong>
+          </span>
+        </header>
+        <div class="ok-check-grid">
+          <article data-tone="${job.salary?.confirmed ? "confirmed" : "check"}">
+            <span aria-hidden="true">${svgIcon("jobs")}</span>
+            <div><small>${escapeHTML(okCheck.rate)}</small><strong>${escapeHTML(job.salary?.confirmed ? okCheck.rateShown : okCheck.rateCheck)}</strong></div>
+          </article>
+          <article data-tone="check">
+            <span aria-hidden="true">${svgIcon("clock")}</span>
+            <div><small>${escapeHTML(okCheck.start)}</small><strong>${escapeHTML(okCheck.startValue)}</strong></div>
+          </article>
+          <article data-tone="check">
+            <span aria-hidden="true">${svgIcon("home")}</span>
+            <div><small>${escapeHTML(okCheck.housing)}</small><strong>${escapeHTML(okCheck.housingValue)}</strong></div>
+          </article>
+          <article data-tone="safe">
+            <span aria-hidden="true">${svgIcon("shield")}</span>
+            <div><small>${escapeHTML(okCheck.documents)}</small><strong>${escapeHTML(okCheck.documentsValue)}</strong></div>
+          </article>
+        </div>
+        <p class="ok-check-note">${svgIcon("shield")}<span>${escapeHTML(okCheck.note)}</span></p>
+      </section>
       <section class="job-fit-grid" aria-label="${escapeHTML(copy.fitTitle)}">
         <article class="job-fit-card job-fit-positive">
           <h3>${escapeHTML(copy.fitTitle)}</h3>
