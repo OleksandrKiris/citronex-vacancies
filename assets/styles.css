@@ -40090,3 +40090,575 @@ body.vacancy-first {
     transition: none;
   }
 }
+
+/* v134 · recruiter trust pass */
+.vacancy-first .trust-recruiter {
+  isolation: isolate;
+  gap: clamp(14px, 2.4vw, 28px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 52px 52px,
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 52px 52px,
+    radial-gradient(circle at 5% 4%, rgba(189, 242, 75, 0.18), transparent 22rem),
+    radial-gradient(circle at 100% 100%, rgba(229, 29, 42, 0.15), transparent 24rem),
+    linear-gradient(135deg, #07110d 0%, #153225 56%, #08130e 100%);
+}
+
+.vacancy-first .trust-recruiter-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 0 0, rgba(189, 242, 75, 0.18), transparent 15rem),
+    linear-gradient(155deg, rgba(28, 61, 45, 0.98), rgba(5, 13, 9, 0.99));
+  box-shadow:
+    0 32px 76px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(189, 242, 75, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.vacancy-first .trust-recruiter-card .mobility-panel-head {
+  position: relative;
+  z-index: 7;
+}
+
+.vacancy-first .trust-recruiter-card .mobility-label,
+.vacancy-first .trust-recruiter-card .mobility-status {
+  min-height: 34px;
+  padding-inline: 11px;
+  backdrop-filter: blur(12px);
+}
+
+.vacancy-first .trust-recruiter-card .mobility-status {
+  border-color: rgba(189, 242, 75, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage {
+  overflow: hidden;
+  min-height: 430px;
+  border-radius: 21px;
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage::before {
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(4, 12, 8, 0.05) 24%, rgba(4, 12, 8, 0.10) 53%, rgba(4, 12, 8, 0.82) 100%),
+    linear-gradient(90deg, rgba(6, 20, 12, 0.15), transparent 32%, transparent 72%, rgba(6, 20, 12, 0.12));
+}
+
+.vacancy-first .trust-recruiter .recruiter-photo-stage img {
+  height: 430px;
+  object-position: center 32%;
+  filter: saturate(1.10) contrast(1.055) brightness(1.025);
+}
+
+.vacancy-first .recruiter-photo-credential {
+  top: 14px;
+  right: 14px;
+  left: auto;
+  width: min(176px, calc(100% - 28px));
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 9px;
+  padding: 8px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.18), transparent 7rem),
+    rgba(5, 15, 10, 0.84);
+  border-color: rgba(220, 255, 132, 0.22);
+  border-radius: 15px;
+  box-shadow:
+    0 20px 44px rgba(0, 0, 0, 0.33),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.vacancy-first .recruiter-photo-credential::after {
+  content: "✓";
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #102018;
+  background: linear-gradient(180deg, #e9ffad, #bdf24b);
+  border: 3px solid #102018;
+  border-radius: 50%;
+  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.28);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.vacancy-first .recruiter-photo-credential > img {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+
+.vacancy-first .recruiter-photo-credential small {
+  font-size: 7px;
+}
+
+.vacancy-first .recruiter-photo-credential strong {
+  font-size: 11px;
+}
+
+.vacancy-first .recruiter-photo-credential em {
+  font-size: 7px;
+}
+
+.vacancy-first .trust-recruiter-card .recruiter-strip {
+  z-index: 6;
+  margin: -78px 12px 12px;
+  padding: 15px 14px 15px 18px;
+  border-radius: 20px;
+  box-shadow:
+    0 25px 58px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+}
+
+.vacancy-first .trust-recruiter-card .recruiter-strip-copy h2 {
+  font-size: 24px;
+}
+
+.vacancy-first .trust-recruiter-card .recruiter-strip-copy p:last-child {
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.vacancy-first .trust-recruiter-card .recruiter-whatsapp {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  box-shadow:
+    0 18px 35px rgba(37, 211, 102, 0.36),
+    0 0 0 4px rgba(37, 211, 102, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.vacancy-first .trust-recruiter-card .recruiter-whatsapp:hover {
+  transform: translateY(-2px) rotate(-2deg);
+  box-shadow:
+    0 23px 42px rgba(37, 211, 102, 0.42),
+    0 0 0 5px rgba(37, 211, 102, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.vacancy-first .trust-recruiter-card .mobility-meta {
+  gap: 8px;
+  padding: 0 5px;
+}
+
+.vacancy-first .trust-recruiter-card .mobility-meta span {
+  min-height: 68px;
+  padding: 34px 10px 9px;
+  color: rgba(255, 255, 255, 0.78);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(189, 242, 75, 0.11), transparent 4rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045));
+  border-color: rgba(255, 255, 255, 0.11);
+  border-radius: 14px;
+  font-size: 9px;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.vacancy-first .trust-recruiter-card .mobility-meta span::before {
+  top: 8px;
+  left: 10px;
+  width: 19px;
+  height: 19px;
+  border-radius: 6px;
+  box-shadow: 0 7px 15px rgba(189, 242, 75, 0.15);
+}
+
+.vacancy-first .trust-recruiter-card blockquote {
+  margin: 10px 5px 3px;
+  padding: 13px 12px 12px 42px;
+  color: rgba(255, 255, 255, 0.84);
+  background:
+    linear-gradient(90deg, rgba(189, 242, 75, 0.075), transparent 58%),
+    rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.09);
+  border-left-color: #bdf24b;
+  font-size: 10px;
+}
+
+.vacancy-first .trust-recruiter-body {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.14), transparent 17rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+}
+
+.vacancy-first .trust-recruiter-body::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -80px;
+  width: 210px;
+  height: 210px;
+  pointer-events: none;
+  border: 1px solid rgba(189, 242, 75, 0.09);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 24px rgba(189, 242, 75, 0.025),
+    0 0 0 50px rgba(189, 242, 75, 0.018);
+}
+
+.vacancy-first .trust-intro,
+.vacancy-first .trust-data-flow,
+.vacancy-first .trust-cards,
+.vacancy-first .trust-actions {
+  position: relative;
+  z-index: 1;
+}
+
+.vacancy-first .trust-data-flow {
+  padding: 10px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.11), transparent 10rem),
+    rgba(4, 14, 9, 0.25);
+  border-color: rgba(255, 255, 255, 0.11);
+  border-radius: 19px;
+}
+
+.vacancy-first .trust-data-node {
+  min-height: 76px;
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.vacancy-first .trust-data-node span {
+  color: rgba(255, 255, 255, 0.80);
+  font-size: 9px;
+}
+
+.vacancy-first .trust-cards article {
+  min-height: 154px;
+}
+
+.vacancy-first .trust-actions .button-whatsapp {
+  position: relative;
+  overflow: hidden;
+}
+
+.vacancy-first .trust-actions .button-whatsapp::after {
+  content: "↗";
+  display: grid;
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+  place-items: center;
+  color: #08783c;
+  background: rgba(255, 255, 255, 0.91);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+@media (max-width: 900px) {
+  .vacancy-first .trust-recruiter .recruiter-photo-stage,
+  .vacancy-first .trust-recruiter .recruiter-photo-stage img {
+    height: 380px;
+    min-height: 380px;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta span {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first .trust-recruiter {
+    gap: 9px;
+    padding: 9px;
+    border-radius: 24px;
+  }
+
+  .vacancy-first .trust-recruiter-card {
+    padding: 7px;
+    border-radius: 19px;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-panel-head {
+    min-height: 40px;
+    padding: 3px 3px 7px;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-label,
+  .vacancy-first .trust-recruiter-card .mobility-status {
+    min-height: 30px;
+    padding-inline: 9px;
+    font-size: 8px;
+  }
+
+  .vacancy-first .trust-recruiter .recruiter-photo-stage,
+  .vacancy-first .trust-recruiter .recruiter-photo-stage img {
+    height: 285px;
+    min-height: 285px;
+  }
+
+  .vacancy-first .trust-recruiter .recruiter-photo-stage {
+    border-radius: 15px;
+  }
+
+  .vacancy-first .trust-recruiter .recruiter-photo-stage::after {
+    inset: 5px;
+    border-radius: 11px;
+  }
+
+  .vacancy-first .recruiter-photo-credential {
+    top: 9px;
+    right: 9px;
+    left: auto;
+    width: min(158px, calc(100% - 18px));
+    grid-template-columns: 32px minmax(0, 1fr);
+    padding: 7px;
+    border-radius: 12px;
+  }
+
+  .vacancy-first .recruiter-photo-credential > img {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
+  .vacancy-first .recruiter-photo-credential small,
+  .vacancy-first .recruiter-photo-credential em {
+    font-size: 6px;
+  }
+
+  .vacancy-first .recruiter-photo-credential strong {
+    font-size: 10px;
+  }
+
+  .vacancy-first .recruiter-photo-credential::after {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .vacancy-first .trust-recruiter-card .recruiter-strip {
+    margin: -62px 7px 9px;
+    padding: 12px 10px 12px 14px;
+    border-radius: 16px;
+  }
+
+  .vacancy-first .trust-recruiter-card .recruiter-strip-copy h2 {
+    font-size: 21px;
+  }
+
+  .vacancy-first .trust-recruiter-card .recruiter-strip-copy p:last-child {
+    font-size: 9px;
+  }
+
+  .vacancy-first .trust-recruiter-card .recruiter-whatsapp {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 0 2px;
+    overflow: visible;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta span {
+    width: auto;
+    min-width: 0;
+    min-height: 56px;
+    padding: 29px 9px 8px;
+    font-size: 9px;
+    line-height: 1.32;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta span:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta span::before {
+    top: 7px;
+    left: 9px;
+    width: 17px;
+    height: 17px;
+  }
+
+  .vacancy-first .trust-recruiter-card blockquote {
+    margin: 7px 2px 2px;
+    padding: 11px 9px 10px 37px;
+    font-size: 9px;
+  }
+
+  .vacancy-first .trust-recruiter-body {
+    padding: 18px 15px 15px;
+    border-radius: 18px;
+  }
+
+  .vacancy-first .trust-intro {
+    padding-left: 14px;
+  }
+
+  .vacancy-first .trust-intro h2 {
+    max-width: 12ch;
+    font-size: clamp(29px, 9vw, 36px);
+    line-height: 0.98;
+  }
+
+  .vacancy-first .trust-intro > p:last-child {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .vacancy-first .trust-data-flow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin-top: 14px;
+    padding: 7px;
+    border-radius: 15px;
+  }
+
+  .vacancy-first .trust-data-flow::before {
+    top: 12%;
+    right: auto;
+    bottom: 12%;
+    left: 27px;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(
+      180deg,
+      rgba(111, 167, 255, 0.28),
+      rgba(189, 242, 75, 0.36),
+      rgba(37, 211, 102, 0.30)
+    );
+  }
+
+  .vacancy-first .trust-data-node {
+    min-height: 48px;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 9px;
+    padding: 8px 10px;
+    border-radius: 11px;
+  }
+
+  .vacancy-first .trust-data-node strong {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    font-size: 8px;
+  }
+
+  .vacancy-first .trust-data-node span {
+    font-size: 9px;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+  }
+
+  .vacancy-first .trust-data-arrow {
+    width: 18px;
+    height: 18px;
+    margin: -7px 0 -7px 18px;
+    transform: rotate(90deg);
+    font-size: 8px;
+  }
+
+  .vacancy-first .trust-cards {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .vacancy-first .trust-cards article {
+    display: grid;
+    min-height: 0;
+    grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 2px 10px;
+    padding: 11px;
+    border-radius: 13px;
+  }
+
+  .vacancy-first .trust-cards .feature-icon {
+    width: 38px;
+    height: 38px;
+    grid-row: 1 / 3;
+    border-radius: 11px;
+  }
+
+  .vacancy-first .trust-cards h3 {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .vacancy-first .trust-cards p {
+    margin: 0;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .vacancy-first .trust-actions {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 6px;
+    margin-top: 9px;
+  }
+
+  .vacancy-first .trust-actions .button {
+    min-height: 46px;
+    padding-inline: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .vacancy-first .trust-recruiter .recruiter-photo-stage,
+  .vacancy-first .trust-recruiter .recruiter-photo-stage img {
+    height: 260px;
+    min-height: 260px;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta {
+    display: grid;
+    overflow: visible;
+  }
+
+  .vacancy-first .trust-recruiter-card .mobility-meta span {
+    width: auto;
+    min-width: 0;
+    flex: initial;
+  }
+
+  .vacancy-first .trust-actions {
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vacancy-first .recruiter-photo-credential::after {
+    animation: v134-verified-breathe 3.4s ease-in-out infinite;
+  }
+}
+
+@keyframes v134-verified-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 7px 15px rgba(0, 0, 0, 0.28),
+      0 0 0 0 rgba(189, 242, 75, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 7px 15px rgba(0, 0, 0, 0.28),
+      0 0 0 5px rgba(189, 242, 75, 0.10);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first .recruiter-photo-credential::after {
+    animation: none;
+  }
+}
