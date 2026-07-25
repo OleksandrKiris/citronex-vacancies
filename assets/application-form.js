@@ -151,6 +151,112 @@
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
   }
 
+  function candidateEngineCopy() {
+    const copy = {
+      ru: {
+        birthDate: "Дата рождения",
+        birthHint: "Возраст рассчитывается на вашем устройстве и попадёт только в подготовленное сообщение WhatsApp.",
+        age: "Возраст",
+        underage: "Анкету можно отправить только после достижения 18 лет.",
+        source: "Источник ссылки"
+      },
+      uk: {
+        birthDate: "Дата народження",
+        birthHint: "Вік обчислюється на вашому пристрої та потрапить лише до підготовленого повідомлення WhatsApp.",
+        age: "Вік",
+        underage: "Анкету можна надіслати лише після досягнення 18 років.",
+        source: "Джерело посилання"
+      },
+      pl: {
+        birthDate: "Data urodzenia",
+        birthHint: "Wiek jest obliczany na urządzeniu i trafia wyłącznie do przygotowanej wiadomości WhatsApp.",
+        age: "Wiek",
+        underage: "Zgłoszenie można wysłać dopiero po ukończeniu 18 lat.",
+        source: "Źródło linku"
+      },
+      en: {
+        birthDate: "Date of birth",
+        birthHint: "Age is calculated on your device and appears only in the prepared WhatsApp message.",
+        age: "Age",
+        underage: "You must be at least 18 to send the application.",
+        source: "Link source"
+      },
+      az: {
+        birthDate: "Doğum tarixi",
+        birthHint: "Yaş cihazınızda hesablanır və yalnız hazırlanmış WhatsApp mesajına əlavə olunur.",
+        age: "Yaş",
+        underage: "Müraciət yalnız 18 yaşdan sonra göndərilə bilər.",
+        source: "Link mənbəyi"
+      },
+      ka: {
+        birthDate: "დაბადების თარიღი",
+        birthHint: "ასაკი ითვლება თქვენს მოწყობილობაზე და მხოლოდ მომზადებულ WhatsApp შეტყობინებაში ხვდება.",
+        age: "ასაკი",
+        underage: "განაცხადის გაგზავნა შესაძლებელია მხოლოდ 18 წლის შემდეგ.",
+        source: "ბმულის წყარო"
+      },
+      id: {
+        birthDate: "Tanggal lahir",
+        birthHint: "Usia dihitung di perangkat Anda dan hanya masuk ke pesan WhatsApp yang disiapkan.",
+        age: "Usia",
+        underage: "Lamaran hanya dapat dikirim setelah berusia 18 tahun.",
+        source: "Sumber tautan"
+      },
+      es: {
+        birthDate: "Fecha de nacimiento",
+        birthHint: "La edad se calcula en su dispositivo y solo aparece en el mensaje preparado para WhatsApp.",
+        age: "Edad",
+        underage: "La solicitud solo puede enviarse a partir de los 18 años.",
+        source: "Origen del enlace"
+      },
+      fil: {
+        birthDate: "Petsa ng kapanganakan",
+        birthHint: "Kinakalkula ang edad sa iyong device at isinasama lamang sa inihandang WhatsApp message.",
+        age: "Edad",
+        underage: "Maipapadala lamang ang aplikasyon kapag 18 taong gulang o higit pa.",
+        source: "Pinagmulan ng link"
+      },
+      ne: {
+        birthDate: "जन्म मिति",
+        birthHint: "उमेर तपाईंको उपकरणमै गणना हुन्छ र तयार गरिएको WhatsApp सन्देशमा मात्र समावेश हुन्छ।",
+        age: "उमेर",
+        underage: "१८ वर्ष पूरा भएपछि मात्र आवेदन पठाउन सकिन्छ।",
+        source: "लिङ्क स्रोत"
+      },
+      hy: {
+        birthDate: "Ծննդյան ամսաթիվ",
+        birthHint: "Տարիքը հաշվարկվում է ձեր սարքում և ավելացվում է միայն պատրաստված WhatsApp հաղորդագրությանը։",
+        age: "Տարիք",
+        underage: "Հայտը կարելի է ուղարկել միայն 18 տարին լրանալուց հետո։",
+        source: "Հղման աղբյուր"
+      }
+    };
+    return { ...copy.en, ...(copy[i18n.locale] || {}) };
+  }
+
+  function calculateAge(value) {
+    if (!value) return null;
+    const birthDate = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(birthDate.getTime())) return null;
+    const current = new Date();
+    let age = current.getFullYear() - birthDate.getFullYear();
+    const month = current.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && current.getDate() < birthDate.getDate())) age -= 1;
+    return age >= 0 && age <= 100 ? age : null;
+  }
+
+  function yearsAgo(years) {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - years);
+    return date.toISOString().slice(0, 10);
+  }
+
+  function campaignSource() {
+    const params = new URL(window.location.href).searchParams;
+    const raw = params.get("src") || params.get("source") || params.get("ref") || "direct";
+    return raw.replace(/[^\p{L}\p{N}_.:@+-]/gu, "_").slice(0, 60) || "direct";
+  }
+
   function renderStepTrack(labels, currentStep, completeAll = false) {
     return `
       <ol class="application-step-track${completeAll ? " is-complete" : ""}" aria-hidden="true" style="--application-step-count:${labels.length}">
@@ -475,6 +581,9 @@
   }
 
   function renderContactStep() {
+    const engine = candidateEngineCopy();
+    const age = calculateAge(state.values.birthDate);
+    const ageHint = age == null ? engine.birthHint : `${engine.age}: ${age}. ${engine.birthHint}`;
     return `
       <div class="application-grid">
         ${field("jobId", t("form.selectedVacancy"), select("jobId", jobOptions(), "required"))}
@@ -485,13 +594,10 @@
         ))}
         ${field("firstName", t("form.firstName"), input("firstName", "text", 'autocomplete="given-name" inputmode="text" autocapitalize="characters" required'), t("form.latinHint"))}
         ${field("lastName", t("form.lastName"), input("lastName", "text", 'autocomplete="family-name" inputmode="text" autocapitalize="characters" required'), t("form.latinHint"))}
+        ${field("birthDate", engine.birthDate, input("birthDate", "date", `min="${yearsAgo(100)}" max="${yearsAgo(18)}" required`), ageHint)}
         ${field("phone", t("form.whatsapp"), input("phone", "tel", 'autocomplete="tel" inputmode="tel" placeholder="+48500100200" required'), t("form.whatsappHint"))}
         ${field("email", t("form.email"), input("email", "email", 'autocomplete="email" inputmode="email"'))}
       </div>
-      <label class="application-check">
-        <input name="adult" type="checkbox" ${state.values.adult ? "checked" : ""}>
-        <span>${escapeHTML(t("form.adult"))}</span>
-      </label>
     `;
   }
 
@@ -608,6 +714,8 @@
 
   function renderReviewStep() {
     const job = localizedJob();
+    const engine = candidateEngineCopy();
+    const age = calculateAge(state.values.birthDate);
     const shiftValues = (state.values.shiftReadiness || []).map((key) => t(`options.${key}`)).join(", ");
     const qualificationValues = [
       state.values.driverLicense && `${t("form.driverLicense")}: ${t(`options.${state.values.driverLicense}`)}`,
@@ -627,6 +735,8 @@
         <dl>
           ${reviewValue(t("form.selectedVacancy"), job?.title)}
           ${reviewValue(`${t("form.firstName")} / ${t("form.lastName")}`, `${state.values.firstName || ""} ${state.values.lastName || ""}`.trim())}
+          ${reviewValue(engine.birthDate, state.values.birthDate)}
+          ${reviewValue(engine.age, age == null ? "" : String(age))}
           ${reviewValue(t("form.whatsapp"), state.values.phone)}
           ${reviewValue(t("form.citizenship"), localizedCountry(state.values.citizenship, state.values.otherCitizenship))}
           ${reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry))}
@@ -782,6 +892,7 @@
     container.querySelector("[name='legalStatus']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='documentCountry']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='travellingWith']")?.addEventListener("change", collectAndRender);
+    container.querySelector("[name='birthDate']")?.addEventListener("change", collectAndRender);
     container.querySelector("[data-application-back]")?.addEventListener("click", () => {
       collectValues();
       state.error = "";
@@ -911,7 +1022,7 @@
     for (const [key, value] of data.entries()) {
       if (key !== "shiftReadiness") state.values[key] = String(value).trim();
     }
-    if (state.step === 0) state.values.adult = data.has("adult");
+    if (state.step === 0) state.values.adult = (calculateAge(state.values.birthDate) ?? -1) >= 18;
     if (state.step === 3) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
     if (state.step === 5) state.values.consent = data.has("consent");
     if (state.values.jobId) state.jobId = state.values.jobId;
@@ -930,7 +1041,8 @@
   function validateStep() {
     state.error = "";
     if (state.step === 0) {
-      if (!state.jobId || !state.values.preferredLanguage || !state.values.firstName || !state.values.lastName || !state.values.phone) {
+      const age = calculateAge(state.values.birthDate);
+      if (!state.jobId || !state.values.preferredLanguage || !state.values.firstName || !state.values.lastName || !state.values.birthDate || !state.values.phone) {
         state.error = t("form.missingRequired");
       } else if (!LATIN_NAME.test(state.values.firstName) || !LATIN_NAME.test(state.values.lastName)) {
         state.error = t("form.latinError");
@@ -938,8 +1050,8 @@
         state.error = t("form.phoneError");
       } else if (state.values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.values.email)) {
         state.error = t("form.missingRequired");
-      } else if (!state.values.adult) {
-        state.error = t("form.adultError");
+      } else if (age == null || age < 18) {
+        state.error = candidateEngineCopy().underage;
       }
     } else if (state.step === 1) {
       if (!state.values.citizenship || !state.values.currentCountry || !state.values.currentCity) {
@@ -1054,8 +1166,17 @@
     const job = effectiveJob();
     const localized = localizedJob();
     const personal = personalMessageCopy();
+    const engine = candidateEngineCopy();
     const applicationId = state.values.applicationId || createApplicationId();
     state.values.applicationId = applicationId;
+    const age = calculateAge(state.values.birthDate);
+    const source = state.values.source || campaignSource();
+    const conversationQueue = state.values.workRight !== "yes" || state.values.legalStatus !== "statusReady"
+      ? "DOCUMENT / WORK-RIGHT CHECK"
+      : state.values.readyDate
+        ? "READY DATE SET — CHECK VACANCY"
+        : "STANDARD MANUAL REVIEW";
+    const checkFlags = candidateCheckFlags(job);
     const qualification = [
       state.values.driverLicense && `C+E license: ${englishOption(state.values.driverLicense)}`,
       state.values.code95 && `Code 95: ${englishOption(state.values.code95)}`,
@@ -1071,9 +1192,20 @@
       `${personal.greeting}, ${profile.name}!`,
       personal.source,
       `${personal.reference}: ${applicationId}`,
+      `${engine.source}: ${source}`,
       "",
       `KIRIS JOBS · CANDIDATE QUESTIONNAIRE · ${applicationId}`,
       `Recruiter: ${profile.name}`,
+      "",
+      "RECRUITER SNAPSHOT · ADMINISTRATIVE ONLY",
+      `Conversation queue: ${conversationQueue}`,
+      `Calculated age: ${age ?? "—"}`,
+      `Ready from: ${state.values.readyDate || "—"}`,
+      `Housing: ${englishOption(state.values.housing)}`,
+      `Paperwork: ${englishOption(state.values.legalStatus)} / work right: ${englishOption(state.values.workRight)}`,
+      `Source: ${source}`,
+      "This summary supports manual follow-up only. It is not a hiring decision.",
+      "",
       `Vacancy: ${localized?.title || job?.title || "Not selected"}`,
       `Vacancy ID: ${job?.id || "—"}`,
       `Destination: ${destination(job)}`,
@@ -1083,6 +1215,8 @@
       state.values.matchedJobId ? "Vacancy selected by the on-site matching questionnaire: Yes" : "",
       "",
       `Name (passport Latin): ${state.values.firstName} ${state.values.lastName}`,
+      `Date of birth: ${state.values.birthDate}`,
+      `Calculated age: ${age ?? "—"}`,
       `WhatsApp: ${state.values.phone.replace(/[\s()-]/g, "")}`,
       `Email: ${state.values.email || "—"}`,
       `Age 18+: Yes`,
@@ -1103,10 +1237,10 @@
       `Question / notes: ${state.values.extraNotes || "—"}`,
       "",
       "CHECK BEFORE OFFER:",
-      ...candidateCheckFlags(job).map((flag) => `- ${flag}`),
+      ...checkFlags.map((flag) => `- ${flag}`),
       "",
       "Candidate confirmed the data and chose to contact Oleksandr Kiris directly via WhatsApp.",
-      `Source: Kiris Jobs · ${content.site.baseUrl || window.location.href}`
+      `Source: Kiris Jobs · ${source} · ${content.site.baseUrl || window.location.href}`
     ].filter((line, index, lines) => line !== "" || lines[index - 1] !== "").join("\n");
   }
 
@@ -1181,6 +1315,7 @@
     state.values = {
       jobId: state.jobId,
       applicationId: createApplicationId(),
+      source: campaignSource(),
       preferredLanguage: i18n.locale,
       adult: false,
       consent: false,
@@ -1198,9 +1333,11 @@
       return;
     }
     const personal = personalMessageCopy();
+    const engine = candidateEngineCopy();
     const message = [
       `${personal.greeting}, ${profile.name}!`,
       personal.source,
+      `${engine.source}: ${campaignSource()}`,
       "",
       t("ui.directQuestion"),
       t("form.matchNoResultsText"),
@@ -1218,9 +1355,11 @@
     }
     const localized = i18n.job(job);
     const personal = personalMessageCopy();
+    const engine = candidateEngineCopy();
     const message = [
       `${personal.greeting}, ${profile.name}!`,
       personal.source,
+      `${engine.source}: ${campaignSource()}`,
       "",
       `${t("ui.directQuestion")}:`,
       `${localized.title} (${job.id})`,

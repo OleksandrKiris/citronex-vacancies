@@ -3009,6 +3009,12 @@
     return { greeting: `${greeting}, ${profile.name}!`, source };
   }
 
+  function campaignSource() {
+    const params = new URL(window.location.href).searchParams;
+    const raw = params.get("src") || params.get("source") || params.get("ref") || "direct";
+    return raw.replace(/[^\p{L}\p{N}_.:@+-]/gu, "_").slice(0, 60) || "direct";
+  }
+
   function instantMatchMessage() {
     const copy = instantMatchCopy();
     const personal = personalWhatsAppOpening();
@@ -3031,6 +3037,7 @@
     return [
       personal.greeting,
       personal.source,
+      `Source: ${campaignSource()}`,
       "",
       copy.messageTitle,
       copy.messageIntro,
@@ -3146,7 +3153,8 @@
     const fallbackPhone = String(profile.phone || "").replace(/\D/g, "");
     const whatsappUrl = profile.whatsapp || `https://wa.me/${fallbackPhone}`;
     const separator = whatsappUrl.includes("?") ? "&" : "?";
-    openWhatsAppSafety(`${whatsappUrl}${separator}text=${encodeURIComponent(message)}`);
+    const trackedMessage = `${message}\n\nKiris Jobs · Source: ${campaignSource()}`;
+    openWhatsAppSafety(`${whatsappUrl}${separator}text=${encodeURIComponent(trackedMessage)}`);
   }
 
   function renderWhatsAppScripts() {
@@ -3971,6 +3979,7 @@
     return [
       personal.greeting,
       personal.source,
+      `Source: ${campaignSource()}`,
       "",
       copy.messageTitle,
       `Candidate-ID: ${id}`,
@@ -4999,7 +5008,9 @@
         askStart: "Спросить меня о старте",
         checkedBy: "Проверено мной",
         employer: "Работодатель",
-        housing: "Жильё"
+        housing: "Жильё",
+        fresh: "Проверка актуальна",
+        stale: "Нужно перепроверить сегодня"
       },
       uk: {
         catalogOwner: "Каталог оновлюю я",
@@ -5007,7 +5018,9 @@
         askStart: "Запитати мене про старт",
         checkedBy: "Перевірено мною",
         employer: "Роботодавець",
-        housing: "Житло"
+        housing: "Житло",
+        fresh: "Перевірка актуальна",
+        stale: "Потрібно перевірити сьогодні"
       },
       pl: {
         catalogOwner: "Aktualizuję ten katalog",
@@ -5015,7 +5028,9 @@
         askStart: "Zapytaj mnie o start",
         checkedBy: "Sprawdzone przeze mnie",
         employer: "Pracodawca",
-        housing: "Zakwaterowanie"
+        housing: "Zakwaterowanie",
+        fresh: "Sprawdzenie jest aktualne",
+        stale: "Trzeba sprawdzić ponownie dziś"
       },
       en: {
         catalogOwner: "I update this catalogue",
@@ -5023,7 +5038,9 @@
         askStart: "Ask me about the start",
         checkedBy: "Checked by me",
         employer: "Employer",
-        housing: "Housing"
+        housing: "Housing",
+        fresh: "Check is current",
+        stale: "Needs rechecking today"
       },
       az: {
         catalogOwner: "Bu kataloqu mən yeniləyirəm",
@@ -5031,7 +5048,9 @@
         askStart: "Başlama tarixini məndən soruşun",
         checkedBy: "Şəxsən yoxlamışam",
         employer: "İşəgötürən",
-        housing: "Yaşayış yeri"
+        housing: "Yaşayış yeri",
+        fresh: "Yoxlama aktualdır",
+        stale: "Bu gün yenidən yoxlanmalıdır"
       },
       ka: {
         catalogOwner: "ამ კატალოგს მე ვაახლებ",
@@ -5039,7 +5058,9 @@
         askStart: "დაწყების თარიღი მკითხეთ",
         checkedBy: "ჩემ მიერ შემოწმებული",
         employer: "დამსაქმებელი",
-        housing: "საცხოვრებელი"
+        housing: "საცხოვრებელი",
+        fresh: "შემოწმება აქტუალურია",
+        stale: "დღეს ხელახლა შესამოწმებელია"
       },
       id: {
         catalogOwner: "Saya memperbarui katalog ini",
@@ -5047,7 +5068,9 @@
         askStart: "Tanyakan tanggal mulai kepada saya",
         checkedBy: "Saya periksa langsung",
         employer: "Pemberi kerja",
-        housing: "Tempat tinggal"
+        housing: "Tempat tinggal",
+        fresh: "Pemeriksaan masih berlaku",
+        stale: "Perlu diperiksa ulang hari ini"
       },
       es: {
         catalogOwner: "Yo actualizo este catálogo",
@@ -5055,7 +5078,9 @@
         askStart: "Pregúntame por el inicio",
         checkedBy: "Revisado por mí",
         employer: "Empleador",
-        housing: "Alojamiento"
+        housing: "Alojamiento",
+        fresh: "La revisión está vigente",
+        stale: "Debe revisarse hoy"
       },
       fil: {
         catalogOwner: "Ako ang nag-a-update ng katalogong ito",
@@ -5063,7 +5088,9 @@
         askStart: "Tanungin ako tungkol sa simula",
         checkedBy: "Personal kong sinuri",
         employer: "Employer",
-        housing: "Tirahan"
+        housing: "Tirahan",
+        fresh: "Kasalukuyan ang pagsusuri",
+        stale: "Kailangang suriin muli ngayon"
       },
       ne: {
         catalogOwner: "यो सूची म आफैं अद्यावधिक गर्छु",
@@ -5071,7 +5098,9 @@
         askStart: "सुरु मितिबारे मलाई सोध्नुहोस्",
         checkedBy: "मैले आफैं जाँच गरेको",
         employer: "रोजगारदाता",
-        housing: "आवास"
+        housing: "आवास",
+        fresh: "जाँच अद्यावधिक छ",
+        stale: "आज फेरि जाँच गर्नुपर्छ"
       },
       hy: {
         catalogOwner: "Այս կատալոգը ես եմ թարմացնում",
@@ -5079,7 +5108,9 @@
         askStart: "Հարցրեք ինձ մեկնարկի մասին",
         checkedBy: "Անձամբ եմ ստուգել",
         employer: "Գործատու",
-        housing: "Կացարան"
+        housing: "Կացարան",
+        fresh: "Ստուգումն արդիական է",
+        stale: "Այսօր պետք է կրկին ստուգել"
       }
     };
     return { ...copy.en, ...(copy[i18n.locale] || {}) };
@@ -5090,6 +5121,13 @@
     return view.benefits?.[housingIndex] || t("ui.clarify");
   }
 
+  function vacancyFreshness(job) {
+    const updated = new Date(`${job.updatedAt || job.publishedAt || ""}T00:00:00`);
+    if (Number.isNaN(updated.getTime())) return { stale: true, days: null };
+    const days = Math.max(0, Math.floor((Date.now() - updated.getTime()) / 86400000));
+    return { stale: days > 7, days };
+  }
+
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
     const favorite = state.favorites.has(job.id);
@@ -5098,8 +5136,9 @@
     const routeLabel = view.category || job.category || "Kiris Jobs";
     const titleId = `${context}-job-${job.id}-title`;
     const personalCopy = personalCatalogCopy();
+    const freshness = vacancyFreshness(job);
     return `
-      <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
+      <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-freshness="${freshness.stale ? "stale" : "fresh"}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
           <div class="job-card-tags">
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
@@ -5141,8 +5180,8 @@
         <p class="job-card-availability job-card-personal-availability">
           <b aria-hidden="true">OK</b>
           <span>
-            <strong>${escapeHTML(personalCopy.confirmStart)}</strong>
-            <small>${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(profile.name)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
+            <strong>${escapeHTML(freshness.stale ? personalCopy.stale : personalCopy.confirmStart)}</strong>
+            <small>${escapeHTML(freshness.stale ? personalCopy.stale : personalCopy.fresh)} · ${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(profile.name)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
           </span>
         </p>
         <div class="job-card-actions job-card-actions-single">
@@ -5630,6 +5669,8 @@
     const fit = jobFitItems(job, view);
     const copy = conversionCopy();
     const okCheck = okCheckCopy();
+    const personalCopy = personalCatalogCopy();
+    const freshness = vacancyFreshness(job);
     const conditionCards = (view.benefits || []).map((item) => `
       <article>
         <span aria-hidden="true">${svgIcon("check")}</span>
@@ -5656,6 +5697,10 @@
             </div>
             <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
             <p class="job-company">${escapeHTML(job.company)} · ${escapeHTML(t("ui.catalogDate"))} ${escapeHTML(formatDate(job.updatedAt))}</p>
+            <span class="job-detail-freshness is-${freshness.stale ? "stale" : "fresh"}">
+              ${svgIcon(freshness.stale ? "clock" : "check")}
+              <span>${escapeHTML(freshness.stale ? personalCopy.stale : personalCopy.fresh)}</span>
+            </span>
           </div>
         </div>
         <div class="job-detail-decision-strip">

@@ -5374,6 +5374,64 @@ h3 {
   }
 }
 
+/* v149 · recruiter workflow and vacancy freshness */
+.vacancy-first .job-card[data-freshness="stale"] .job-card-personal-availability,
+#view-jobs #all-jobs .job-card[data-freshness="stale"] .job-card-personal-availability {
+  background: linear-gradient(135deg, #fff8e8, #fff1d1);
+  border-color: rgba(181, 105, 10, 0.28);
+}
+
+.vacancy-first .job-card[data-freshness="stale"] .job-card-personal-availability > b,
+#view-jobs #all-jobs .job-card[data-freshness="stale"] .job-card-personal-availability > b {
+  background: #ad650d;
+  box-shadow: 0 8px 18px rgba(173, 101, 13, 0.2);
+}
+
+.vacancy-first .job-card[data-freshness="stale"] .job-card-personal-availability strong,
+#view-jobs #all-jobs .job-card[data-freshness="stale"] .job-card-personal-availability strong {
+  color: #754000;
+}
+
+.job-detail-freshness {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  margin-top: 9px;
+  padding: 7px 10px;
+  border: 1px solid rgba(20, 126, 78, 0.2);
+  border-radius: 999px;
+  background: rgba(224, 246, 235, 0.9);
+  color: #11693f;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.job-detail-freshness.is-stale {
+  border-color: rgba(181, 105, 10, 0.25);
+  background: #fff3d8;
+  color: #754000;
+}
+
+.job-detail-freshness svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+#application-birthDate {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 380px) {
+  .job-detail-freshness {
+    align-items: flex-start;
+    border-radius: 12px;
+    font-size: 10px;
+  }
+}
+
 @media (max-width: 430px) {
   .hero h1 {
     font-size: clamp(37px, 11.7vw, 47px);
