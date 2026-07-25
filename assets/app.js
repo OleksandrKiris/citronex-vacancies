@@ -1102,6 +1102,7 @@
     }
 
     renderQuickStart();
+    renderHeroRoleRail();
     renderCountryExplorer();
     renderQuickShareLinks();
     renderCountryComparison();
@@ -1163,6 +1164,57 @@
     schemaNode.id = "person-schema";
     schemaNode.textContent = JSON.stringify(personSchema);
     document.head.append(schemaNode);
+  }
+
+  function renderHeroRoleRail() {
+    const heroActions = document.querySelector(".hero-actions");
+    if (!heroActions) return;
+    let rail = el("hero-role-rail");
+    if (!rail) {
+      rail = document.createElement("section");
+      rail.id = "hero-role-rail";
+      rail.className = "hero-role-rail";
+      heroActions.insertAdjacentElement("afterend", rail);
+    }
+    const preferredIds = ["greenhouse-tomatoes", "banana-warehouse-poland", "driver-ce-poland", "truck-mechanic"];
+    const availableJobs = jobs.filter((job) => ["open", "verify"].includes(job.status));
+    const pool = availableJobs.length ? availableJobs : jobs;
+    const selected = preferredIds.map((id) => pool.find((job) => job.id === id)).filter(Boolean);
+    pool.forEach((job) => {
+      if (selected.length >= 4 || selected.some((item) => item.id === job.id)) return;
+      selected.push(job);
+    });
+    rail.setAttribute("aria-label", t("ui.jobsInCatalog"));
+    rail.innerHTML = `
+      <div class="hero-role-rail-head">
+        <span><i aria-hidden="true"></i>${availableJobs.length} ${escapeHTML(t("ui.jobsInCatalog"))}</span>
+        <small>PL · HU · BE</small>
+      </div>
+      <div class="hero-role-track">
+        ${selected.slice(0, 4).map((job) => {
+          const view = localizedJob(job);
+          const visualType = jobVisualType(job.id);
+          const code = countryCode(job.format) || "EU";
+          return `
+            <button
+              class="hero-role-card"
+              type="button"
+              data-visual="${escapeHTML(visualType)}"
+              data-job-open="${escapeHTML(job.id)}"
+              aria-label="${escapeHTML(t("ui.details"))}: ${escapeHTML(view.title)}"
+            >
+              <span class="hero-role-card-icon" aria-hidden="true">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
+              <span class="hero-role-card-copy">
+                <small><b>${escapeHTML(code)}</b>${escapeHTML(view.format)}</small>
+                <strong>${escapeHTML(view.title)}</strong>
+                <em>${formatSalary(view.salary)}</em>
+              </span>
+              <span class="hero-role-card-arrow" aria-hidden="true">${svgIcon("arrow")}</span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+    `;
   }
 
   function renderQuickStart() {
@@ -2146,7 +2198,7 @@
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
     const preview = `
       <figure class="quick-share-preview" aria-label="Citronex Jobs">
-        <img src="assets/share-card-v11.png?v=110" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <img src="assets/share-card-v11.png?v=111" width="1731" height="909" loading="lazy" decoding="async" alt="">
         <figcaption>
           <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
           <strong>Citronex Jobs</strong>
