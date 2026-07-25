@@ -2144,7 +2144,16 @@
     if (el("quick-share-kicker")) el("quick-share-kicker").textContent = copy.kicker;
     if (el("quick-share-heading")) el("quick-share-heading").textContent = copy.title;
     if (el("quick-share-intro")) el("quick-share-intro").textContent = copy.intro;
-    container.innerHTML = copy.links.map(([title, text, params]) => {
+    const preview = `
+      <figure class="quick-share-preview" aria-label="Citronex Jobs">
+        <img src="assets/share-card-v11.png?v=109" width="1731" height="909" loading="lazy" decoding="async" alt="">
+        <figcaption>
+          <span><i aria-hidden="true"></i> WhatsApp · Telegram</span>
+          <strong>Citronex Jobs</strong>
+        </figcaption>
+      </figure>
+    `;
+    container.innerHTML = preview + copy.links.map(([title, text, params]) => {
       const url = shareUrl(params);
       const shortUrl = url.replace(/^https?:\/\//, "");
       return `
