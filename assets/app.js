@@ -15,7 +15,8 @@
     favorites: "career-hub:favorites:v1",
     compare: "career-hub:compare:v1",
     notes: "career-hub:notes:v1",
-    passport: "career-hub:passport:v1"
+    passport: "career-hub:passport:v1",
+    resourcesRead: "career-hub:resources-read:v1"
   };
   const validRoutes = ["home", "jobs", "resources", "saved", "profile"];
   const state = {
@@ -23,6 +24,7 @@
     compare: readStringSet(STORAGE.compare),
     notes: readObject(STORAGE.notes),
     passport: readObject(STORAGE.passport),
+    resourcesRead: readStringSet(STORAGE.resourcesRead),
     resourceCategory: "__all__",
     installPrompt: null,
     toastTimer: null,
@@ -5122,11 +5124,13 @@
 
   function renderResourceCard(resource) {
     const iconName = resourceIconName(resource.id);
+    const isRead = state.resourcesRead.has(resource.id);
     return `
-      <article class="resource-card" data-resource-visual="${iconName}">
+      <article class="resource-card${isRead ? " is-read" : ""}" data-resource-visual="${iconName}">
         <div class="resource-card-header">
           <span class="resource-card-icon" aria-hidden="true">${svgIcon(iconName, "resource-visual-icon")}</span>
           <span class="offline-chip">${svgIcon("check")}<span>${escapeHTML(t("ui.offlineChip"))}</span></span>
+          <span class="resource-read-state" aria-hidden="true">${isRead ? "✓" : ""}</span>
         </div>
         <h3>${escapeHTML(resource.title)}</h3>
         <p>${escapeHTML(resource.description)}</p>
@@ -5140,6 +5144,12 @@
 
   function renderResources() {
     const visibleResources = localizedResources();
+    const readCount = visibleResources.filter((resource) => state.resourcesRead.has(resource.id)).length;
+    const readyChip = document.querySelector("#view-resources .offline-ready");
+    if (readyChip) {
+      readyChip.dataset.progress = `${readCount}/${visibleResources.length}`;
+      readyChip.classList.toggle("has-reading-progress", readCount > 0);
+    }
     if (el("featured-resources")) {
       el("featured-resources").innerHTML = visibleResources.slice(0, 3).map(renderResourceCard).join("");
     }
@@ -5160,14 +5170,26 @@
   function openResource(id) {
     const resource = localizedResources().find((item) => item.id === id);
     if (!resource) return;
+    state.resourcesRead.add(id);
+    persistSet(STORAGE.resourcesRead, state.resourcesRead);
+    renderResources();
+    const resourceIndex = localizedResources().findIndex((item) => item.id === id) + 1;
+    const iconName = resourceIconName(resource.id);
     el("resource-dialog-content").innerHTML = `
       <header class="modal-heading resource-detail-header">
-        <p class="overline">${escapeHTML(resource.category)}</p>
+        <div class="resource-detail-identity">
+          <span class="resource-detail-icon" aria-hidden="true">${svgIcon(iconName, "resource-visual-icon")}</span>
+          <div>
+            <p class="overline">${escapeHTML(resource.category)}</p>
+            <span class="resource-detail-number" aria-hidden="true">${String(resourceIndex).padStart(2, "0")}</span>
+          </div>
+        </div>
         <h2 id="resource-dialog-title">${escapeHTML(resource.title)}</h2>
         <div class="resource-detail-meta">
           <span>${escapeHTML(resource.readTime)}</span>
           <span>${escapeHTML(t("ui.updated"))} ${escapeHTML(formatDate(resource.updatedAt))}</span>
           <span>${svgIcon("check")}<span>${escapeHTML(t("ui.offlineChip"))}</span></span>
+          <span class="resource-detail-count" aria-hidden="true">${String(resource.sections.length).padStart(2, "0")}</span>
         </div>
         <p class="resource-detail-lead">${escapeHTML(resource.description)}</p>
       </header>
@@ -5241,7 +5263,10 @@
     Object.values(STORAGE).forEach((key) => localStorage.removeItem(key));
     state.favorites.clear();
     state.compare.clear();
+    state.resourcesRead.clear();
     state.notes = {};
+    state.passport = {};
+    renderResources();
     refreshJobLists();
     showToast(t("ui.reset"));
   }
