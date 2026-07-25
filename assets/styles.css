@@ -42159,3 +42159,333 @@ body.vacancy-first {
     flex-basis: 218px;
   }
 }
+
+/* v139 · application form visual confidence */
+#application-dialog-content .application-step {
+  background:
+    radial-gradient(circle at 100% 0%, var(--application-current-soft), transparent 14rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.99), rgba(244, 249, 243, 0.97));
+}
+
+#application-dialog-content .application-progress {
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+#application-dialog-content .application-header > small {
+  color: #102018;
+  background: linear-gradient(180deg, #efffc8, var(--application-current-accent));
+}
+
+#application-dialog-content .application-field {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(242, 247, 241, 0.90));
+  border-color: rgba(16, 32, 24, 0.085);
+}
+
+#application-dialog-content .application-field > span {
+  color: #384a40;
+  font-weight: 850;
+}
+
+#application-dialog-content .application-field input,
+#application-dialog-content .application-field select,
+#application-dialog-content .application-field textarea {
+  color: #102018;
+  background: #ffffff;
+  border-color: rgba(16, 32, 24, 0.14);
+}
+
+#application-dialog-content .application-field small {
+  color: #637169;
+}
+
+#application-dialog-content .application-actions .whatsapp-submit {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.24), transparent 7rem),
+    linear-gradient(145deg, #25d366, #08783c);
+  border-color: rgba(8, 120, 60, 0.30);
+  box-shadow:
+    0 17px 36px rgba(37, 211, 102, 0.30),
+    0 0 0 4px rgba(37, 211, 102, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.29);
+}
+
+@media (max-width: 720px) {
+  .application-modal {
+    background:
+      radial-gradient(circle at 100% 0%, rgba(189, 242, 75, 0.10), transparent 15rem),
+      linear-gradient(180deg, #f7faf5, #eaf1e8);
+  }
+
+  .application-modal .modal-shell-application {
+    padding: 11px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #application-dialog-content .application-header {
+    padding: 14px 50px 13px 12px;
+    background:
+      radial-gradient(circle at 104% 0%, var(--application-current-soft), transparent 12rem),
+      linear-gradient(145deg, #17362a, #07110d);
+    border-radius: 18px;
+    box-shadow:
+      0 20px 44px rgba(8, 18, 14, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  #application-dialog-content .application-header::before {
+    width: 38px;
+    height: 3px;
+    margin-bottom: 8px;
+  }
+
+  #application-dialog-content .application-header .overline {
+    min-height: 24px;
+    padding: 4px 8px;
+    font-size: 8px;
+    letter-spacing: 0.09em;
+  }
+
+  #application-dialog-content .application-header h2 {
+    max-width: 18ch;
+    margin-top: 7px;
+    font-size: clamp(23px, 7.3vw, 29px);
+    line-height: 1.02;
+  }
+
+  #application-dialog-content .application-recruiter-handoff {
+    min-height: 55px;
+    grid-template-columns: 38px minmax(0, 1fr) 31px;
+    gap: 8px;
+    margin-top: 9px;
+    padding: 6px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(37, 211, 102, 0.09), transparent 6rem),
+      rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.11);
+    border-radius: 13px;
+  }
+
+  #application-dialog-content .application-recruiter-photo {
+    width: 38px;
+    height: 42px;
+    border-radius: 10px;
+  }
+
+  #application-dialog-content .application-recruiter-copy small {
+    font-size: 7px;
+  }
+
+  #application-dialog-content .application-recruiter-copy strong {
+    font-size: 10.5px;
+  }
+
+  #application-dialog-content .application-recruiter-copy em {
+    display: block;
+    font-size: 6.5px;
+  }
+
+  #application-dialog-content .application-recruiter-channel {
+    min-height: 31px;
+    padding: 4px;
+    border-radius: 9px;
+  }
+
+  #application-dialog-content .application-recruiter-channel b {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    font-size: 8px;
+  }
+
+  #application-dialog-content .application-step-track {
+    margin-top: 10px;
+  }
+
+  #application-dialog-content .application-step-track li {
+    min-height: 30px;
+  }
+
+  #application-dialog-content .application-step-track li::before {
+    top: 14px;
+  }
+
+  #application-dialog-content .application-step-track li::after {
+    top: 13px;
+  }
+
+  #application-dialog-content .application-step-track li > span {
+    width: 29px;
+    height: 29px;
+    border-radius: 9px;
+    font-size: 7px;
+  }
+
+  #application-dialog-content .application-step-track li.is-current > span {
+    transform: scale(1.08);
+  }
+
+  #application-dialog-content .application-progress {
+    display: block;
+    height: 8px;
+    margin-top: 9px;
+    padding: 1px;
+  }
+
+  #application-dialog-content .application-header > small {
+    min-height: 24px;
+    margin-top: 6px;
+    padding: 4px 8px;
+    font-size: 8px;
+  }
+
+  #application-dialog-content .application-step {
+    margin-top: 8px;
+    padding: 12px 10px;
+    border-radius: 17px;
+    box-shadow:
+      0 18px 40px rgba(16, 32, 24, 0.09),
+      inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  }
+
+  #application-dialog-content .application-grid {
+    gap: 9px;
+  }
+
+  #application-dialog-content .application-field {
+    gap: 7px;
+    padding: 9px;
+    border-left-width: 3px;
+    border-radius: 14px;
+  }
+
+  #application-dialog-content .application-field > span {
+    min-height: 25px;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  #application-dialog-content .application-field > span::before {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    font-size: 8px;
+  }
+
+  #application-dialog-content .application-field input,
+  #application-dialog-content .application-field select,
+  #application-dialog-content .application-field textarea {
+    min-height: 50px;
+    padding: 11px 12px;
+    border-radius: 11px;
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  #application-dialog-content .application-field textarea {
+    min-height: 96px;
+  }
+
+  #application-dialog-content .application-field small {
+    padding-inline: 2px;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  #application-dialog-content .application-field:has(input:required:valid)::after,
+  #application-dialog-content .application-field:has(select:required:valid)::after,
+  #application-dialog-content .application-field:has(textarea:required:valid)::after {
+    right: 18px;
+    bottom: 25px;
+    width: 21px;
+    height: 21px;
+  }
+
+  #application-dialog-content .application-field:has(small):has(input:required:valid)::after,
+  #application-dialog-content .application-field:has(small):has(select:required:valid)::after,
+  #application-dialog-content .application-field:has(small):has(textarea:required:valid)::after {
+    bottom: 48px;
+  }
+
+  #application-dialog-content .matcher-choice-grid {
+    gap: 8px;
+  }
+
+  #application-dialog-content .matcher-choice {
+    min-height: 64px;
+    padding: 12px 45px 12px 48px;
+    border-radius: 14px;
+  }
+
+  #application-dialog-content .matcher-choice::before {
+    left: 13px;
+    width: 25px;
+    height: 25px;
+  }
+
+  #application-dialog-content .matcher-choice-label {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  #application-dialog-content .application-review,
+  #application-dialog-content .application-message-preview,
+  #application-dialog-content .application-safety-note {
+    border-radius: 16px;
+  }
+
+  #application-dialog-content .application-message-preview textarea {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  #application-dialog-content .application-actions {
+    gap: 7px;
+    margin: 9px -2px -2px;
+    padding: 7px 7px calc(5px + env(safe-area-inset-bottom, 0px));
+    border-radius: 16px 16px 12px 12px;
+  }
+
+  #application-dialog-content .application-actions .button {
+    min-height: 52px;
+    padding-inline: 12px;
+    border-radius: 13px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  #application-dialog-content .application-header {
+    padding: 12px 46px 12px 10px;
+  }
+
+  #application-dialog-content .application-header h2 {
+    font-size: 22px;
+  }
+
+  #application-dialog-content .application-recruiter-copy em {
+    display: none;
+  }
+
+  #application-dialog-content .application-step-track li > span {
+    width: 27px;
+    height: 27px;
+  }
+
+  #application-dialog-content .application-step-track li::before {
+    top: 13px;
+  }
+
+  #application-dialog-content .application-step-track li::after {
+    top: 12px;
+  }
+
+  #application-dialog-content .application-field > span {
+    font-size: 10.5px;
+  }
+
+  #application-dialog-content .application-actions .button {
+    min-height: 50px;
+    font-size: 11px;
+  }
+}
