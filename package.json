@@ -5,11 +5,12 @@
   "description": "Личная офлайн-платформа вакансий Oleksandr Kiris с подбором и прямым контактом в WhatsApp",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "check:js": "node --check assets/app.js && node --check assets/i18n.js && node --check assets/application-form.js && node --check sw.js && node --check data/content.js",
+    "check:js": "node --check assets/candidate.js && node --check assets/i18n.js && node --check assets/application-form.js && node --check sw.js && node --check data/content.js",
     "check:content": "node scripts/validate-content.mjs",
     "check:locales": "node scripts/validate-locales.mjs",
     "check:ui": "node scripts/validate-ui.mjs",
-    "test": "npm run check:js && npm run check:content && npm run check:locales && npm run check:ui"
+    "generate:vacancies": "node scripts/generate-vacancy-pages.mjs",
+    "test": "npm run generate:vacancies && npm run check:js && npm run check:content && npm run check:locales && npm run check:ui"
   },
   "engines": {
     "node": ">=20"
