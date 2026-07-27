@@ -130,7 +130,7 @@
     },
     form: {
       title: "Cuestionario del candidato",
-      intro: "Responde a preguntas concretas. Antes de enviarlo, verás el mensaje preparado para WhatsApp.",
+      intro: "El borrador se guarda en este dispositivo durante 7 días. Nada se envía hasta que lo confirmes en WhatsApp.",
       matchKicker: "Selección sin registro",
       matchTitle: "Encontremos una vacante adecuada",
       matchIntro: "Primero, solo tus preferencias y cualificaciones, sin nombre, teléfono ni documentos.",

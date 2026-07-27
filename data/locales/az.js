@@ -130,7 +130,7 @@
     },
     form: {
       title: "Namizəd anketi",
-      intro: "Konkret sualları cavablandırın. Göndərməzdən əvvəl WhatsApp üçün hazır mesajı görəcəksiniz.",
+      intro: "Qaralama bu cihazda 7 gün saxlanılır. WhatsApp-da təsdiq etmədən heç nə göndərilmir.",
       matchKicker: "Qeydiyyatsız vakansiya seçimi",
       matchTitle: "Sizə uyğun vakansiyanı tapaq",
       matchIntro: "Əvvəlcə yalnız üstünlükləriniz və ixtisasınız — ad, telefon nömrəsi və sənədlər olmadan.",

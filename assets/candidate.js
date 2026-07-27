@@ -107,7 +107,7 @@
             <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
             <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
           </dl>
-          <a class="primary-button job-open" href="${escapeHTML(publicJobUrl(job))}" data-open-job="${escapeHTML(job.id)}">
+          <a class="primary-button job-open" href="${escapeHTML(publicJobUrl(job))}" data-open-job="${escapeHTML(job.id)}" aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}">
             ${escapeHTML(i18n.t("ui.details"))}<span aria-hidden="true">→</span>
           </a>
         </div>

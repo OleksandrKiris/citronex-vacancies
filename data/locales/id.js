@@ -130,7 +130,7 @@
     },
     form: {
       title: "Formulir kandidat",
-      intro: "Jawab pertanyaan dengan lengkap. Sebelum mengirim, Anda akan melihat pesan WhatsApp yang sudah disiapkan.",
+      intro: "Draf disimpan di perangkat ini selama 7 hari. Tidak ada yang dikirim sebelum Anda mengonfirmasinya di WhatsApp.",
       matchKicker: "Pencocokan tanpa pendaftaran",
       matchTitle: "Temukan lowongan yang sesuai",
       matchIntro: "Mulai dengan preferensi dan kualifikasi saja — tanpa nama, nomor telepon, atau dokumen.",

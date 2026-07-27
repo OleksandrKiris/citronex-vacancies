@@ -4,9 +4,12 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath) => readFile(path.join(root, relativePath), "utf8");
-const [html, css, serviceWorker] = await Promise.all([
+const [html, css, cleanCss, candidateScript, applicationScript, serviceWorker] = await Promise.all([
   read("index.html"),
   read("assets/styles.css"),
+  read("assets/clean.css"),
+  read("assets/candidate.js"),
+  read("assets/application-form.js"),
   read("sw.js")
 ]);
 
@@ -19,12 +22,21 @@ const versionOf = (source, asset) => (
   source.match(new RegExp(`${asset.replaceAll(".", "\\.")}\\?v=(\\d+)`))?.[1]
 );
 const styleVersion = versionOf(html, "assets/styles.css");
+const cleanStyleVersion = versionOf(html, "assets/clean.css");
 const appVersion = versionOf(html, "assets/candidate.js");
+const applicationVersion = versionOf(html, "assets/application-form.js");
 assert(styleVersion, "index.html: styles.css must have a numeric cache-busting version.");
+assert(cleanStyleVersion, "index.html: clean.css must have a numeric cache-busting version.");
 assert(appVersion, "index.html: candidate.js must have a numeric cache-busting version.");
-assert(styleVersion === appVersion, "index.html: styles.css and candidate.js versions must match.");
+assert(applicationVersion, "index.html: application-form.js must have a numeric cache-busting version.");
+assert(
+  [cleanStyleVersion, appVersion, applicationVersion].every((version) => version === styleVersion),
+  "index.html: all candidate CSS and JS versions must match."
+);
 assert(
   serviceWorker.includes(`assets/styles.css?v=${styleVersion}`)
+    && serviceWorker.includes(`assets/clean.css?v=${cleanStyleVersion}`)
+    && serviceWorker.includes(`assets/application-form.js?v=${applicationVersion}`)
     && serviceWorker.includes(`assets/candidate.js?v=${appVersion}`),
   "sw.js: cached CSS/JS versions must match index.html."
 );
@@ -72,6 +84,28 @@ assert(
 assert(
   serviceWorker.includes("cache.addAll([...CORE_SHELL, ...OPTIONAL_LOCALES])"),
   "sw.js: every locale must be guaranteed in the offline app shell."
+);
+assert(
+  cleanCss.includes(".direct-vacancy-page:not(.standalone-application-page) .vacancy-layout")
+    && cleanCss.includes("flex-direction: column")
+    && cleanCss.includes(".vacancy-facts")
+    && cleanCss.includes("width: 100% !important"),
+  "assets/clean.css: mobile vacancy facts must stay full-width and precede the long description."
+);
+assert(
+  applicationScript.includes("localStorage.setItem(draftKey(state.jobId)")
+    && applicationScript.includes("readDraft(state.jobId)")
+    && applicationScript.includes("DRAFT_MAX_AGE"),
+  "assets/application-form.js: candidate drafts must be saved and restored with an expiry."
+);
+assert(
+  applicationScript.includes('class="application-optional"')
+    && applicationScript.includes("isPhysicalJob()"),
+  "assets/application-form.js: optional answers and vacancy-specific physical questions are required."
+);
+assert(
+  candidateScript.includes('aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}"'),
+  "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
 );
 
 const requiredOfflineFonts = [

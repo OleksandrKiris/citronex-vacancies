@@ -130,7 +130,7 @@
     },
     form: {
       title: "Form ng aplikante",
-      intro: "Sagutin ang mga tiyak na tanong. Makikita mo muna ang nakahandang mensahe bago buksan ang WhatsApp.",
+      intro: "Mananatili sa device na ito ang draft nang 7 araw. Walang ipapadala hangga't hindi mo kinukumpirma sa WhatsApp.",
       matchKicker: "Pagtutugma nang walang pagpaparehistro",
       matchTitle: "Hanapin natin ang trabahong babagay sa iyo",
       matchIntro: "Mga kagustuhan at kwalipikasyon muna — walang pangalan, numero ng telepono, o dokumento.",

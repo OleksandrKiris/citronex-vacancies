@@ -52,6 +52,20 @@
     exp1to2: 3,
     exp2plus: 4
   };
+  const DRAFT_VERSION = 1;
+  const DRAFT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+  const DRAFT_PREFIX = "kiris-jobs-application:";
+  const PHYSICAL_JOB_IDS = new Set([
+    "greenhouse-tomatoes",
+    "greenhouse-renewal",
+    "tomato-sorting",
+    "banana-warehouse-poland",
+    "banana-warehouse-hungary",
+    "banana-warehouse-belgium",
+    "plant-protection",
+    "site-cleaning",
+    "forklift-udt"
+  ]);
   const state = {
     mode: "application",
     matchStep: 0,
@@ -77,6 +91,51 @@
     return job ? i18n.job(job) : null;
   };
   const today = () => new Date().toISOString().slice(0, 10);
+  const draftKey = (jobId) => `${DRAFT_PREFIX}${jobId}`;
+
+  function readDraft(jobId) {
+    if (!jobId) return null;
+    try {
+      const draft = JSON.parse(localStorage.getItem(draftKey(jobId)) || "null");
+      const isExpired = !draft?.updatedAt || Date.now() - Number(draft.updatedAt) > DRAFT_MAX_AGE;
+      if (
+        !draft
+        || draft.version !== DRAFT_VERSION
+        || draft.jobId !== jobId
+        || !draft.values
+        || typeof draft.values !== "object"
+        || isExpired
+      ) {
+        localStorage.removeItem(draftKey(jobId));
+        return null;
+      }
+      return {
+        step: Math.max(0, Math.min(STEP_KEYS.length - 1, Number(draft.step) || 0)),
+        values: draft.values
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  function saveDraft() {
+    if (state.mode !== "application" || !state.jobId) return;
+    try {
+      localStorage.setItem(draftKey(state.jobId), JSON.stringify({
+        version: DRAFT_VERSION,
+        jobId: state.jobId,
+        step: state.step,
+        values: state.values,
+        updatedAt: Date.now()
+      }));
+    } catch {
+      // The form still works when private browsing or storage restrictions block drafts.
+    }
+  }
+
+  function isPhysicalJob(jobId = state.jobId) {
+    return PHYSICAL_JOB_IDS.has(jobId);
+  }
 
   function createApplicationId() {
     const date = today().replaceAll("-", "");
@@ -696,8 +755,12 @@
           ? field("noticePeriod", t("form.noticePeriod"), select("noticePeriod", noticeItems, "required"))
           : ""}
         ${field("overtimeReady", t("form.overtimeReady"), yesNo("overtimeReady"))}
-        ${field("standingReady", t("form.standingReady"), yesNo("standingReady"))}
-        ${field("liftCapacity", t("form.liftCapacity"), select("liftCapacity", liftItems, "required"))}
+        ${isPhysicalJob()
+          ? field("standingReady", t("form.standingReady"), yesNo("standingReady"))
+          : ""}
+        ${isPhysicalJob()
+          ? field("liftCapacity", t("form.liftCapacity"), select("liftCapacity", liftItems, "required"))
+          : ""}
         ${field("polishLevel", t("form.polishLevel"), select("polishLevel", polishItems, "required"))}
         ${field("workedInPoland", t("form.workedInPoland"), yesNo("workedInPoland"))}
       </div>
@@ -728,14 +791,24 @@
   function renderQualificationStep() {
     const experienceItems = ["expNone", "expUnder6", "exp6to12", "exp1to2", "exp2plus"]
       .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    const hasOptionalDetails = [
+      state.values.experienceDetails,
+      state.values.workLimitations,
+      state.values.extraNotes
+    ].some(Boolean);
     return `
       <div class="application-grid">
         ${field("experience", t("form.experience"), select("experience", experienceItems, "required"))}
         ${qualificationFields(effectiveJob())}
       </div>
-      ${field("experienceDetails", t("form.experienceDetails"), `<textarea id="application-experienceDetails" name="experienceDetails" rows="3">${escapeHTML(state.values.experienceDetails || "")}</textarea>`)}
-      ${field("workLimitations", t("form.workLimitations"), `<textarea id="application-workLimitations" name="workLimitations" rows="3">${escapeHTML(state.values.workLimitations || "")}</textarea>`, t("form.workLimitationsHint"))}
-      ${field("extraNotes", t("form.extraNotes"), `<textarea id="application-extraNotes" name="extraNotes" rows="3">${escapeHTML(state.values.extraNotes || "")}</textarea>`)}
+      <details class="application-optional"${hasOptionalDetails ? " open" : ""}>
+        <summary>${escapeHTML(t("form.experienceDetails"))}</summary>
+        <div class="application-optional-fields">
+          ${field("experienceDetails", t("form.experienceDetails"), `<textarea id="application-experienceDetails" name="experienceDetails" rows="3">${escapeHTML(state.values.experienceDetails || "")}</textarea>`)}
+          ${field("workLimitations", t("form.workLimitations"), `<textarea id="application-workLimitations" name="workLimitations" rows="3">${escapeHTML(state.values.workLimitations || "")}</textarea>`, t("form.workLimitationsHint"))}
+          ${field("extraNotes", t("form.extraNotes"), `<textarea id="application-extraNotes" name="extraNotes" rows="3">${escapeHTML(state.values.extraNotes || "")}</textarea>`)}
+        </div>
+      </details>
     `;
   }
 
@@ -1011,10 +1084,18 @@
       collectValues();
       state.error = "";
       state.step = Math.max(0, state.step - 1);
+      saveDraft();
       render(true);
     });
     container.querySelector("[data-copy-application-message]")?.addEventListener("click", copyApplicationMessage);
-    container.querySelector("#application-form")?.addEventListener("submit", handleSubmit);
+    const form = container.querySelector("#application-form");
+    form?.addEventListener("input", () => {
+      collectValues();
+    });
+    form?.addEventListener("change", () => {
+      collectValues();
+    });
+    form?.addEventListener("submit", handleSubmit);
     if (focusStart) focusDialogStart();
   }
 
@@ -1140,6 +1221,7 @@
     if (state.step === 3) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
     if (state.step === 4) state.values.consent = data.has("consent");
     if (state.values.jobId) state.jobId = state.values.jobId;
+    saveDraft();
   }
 
   function collectAndRender() {
@@ -1202,8 +1284,8 @@
         || !state.values.currentlyEmployed
         || (state.values.currentlyEmployed === "yes" && !state.values.noticePeriod)
         || !state.values.overtimeReady
-        || !state.values.standingReady
-        || !state.values.liftCapacity
+        || (isPhysicalJob() && !state.values.standingReady)
+        || (isPhysicalJob() && !state.values.liftCapacity)
         || !state.values.polishLevel
         || !state.values.workedInPoland
         || !(state.values.shiftReadiness || []).length
@@ -1531,6 +1613,7 @@
     }
     if (state.step < STEP_KEYS.length - 1) {
       state.step += 1;
+      saveDraft();
       render(true);
       return;
     }
@@ -1553,9 +1636,8 @@
     state.matchStep = 0;
     state.recommendations = [];
     state.jobId = hasSelectedJob ? jobId : "";
-    state.step = 0;
     state.error = "";
-    state.values = {
+    const initialValues = {
       jobId: state.jobId,
       applicationId: createApplicationId(),
       source: campaignSource(),
@@ -1564,6 +1646,16 @@
       consent: false,
       shiftReadiness: []
     };
+    const draft = hasSelectedJob ? readDraft(state.jobId) : null;
+    state.step = draft?.step || 0;
+    state.values = draft
+      ? {
+          ...initialValues,
+          ...draft.values,
+          jobId: state.jobId,
+          shiftReadiness: Array.isArray(draft.values.shiftReadiness) ? draft.values.shiftReadiness : []
+        }
+      : initialValues;
     render();
     const dialog = document.getElementById("application-dialog");
     if (dialog && !dialog.open) {
@@ -1619,7 +1711,9 @@
 
   i18n.subscribe(() => {
     if (document.getElementById("application-dialog")?.open) {
+      collectValues();
       state.values.preferredLanguage = i18n.locale;
+      saveDraft();
       render();
     }
   });

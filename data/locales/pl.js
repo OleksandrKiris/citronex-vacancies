@@ -130,7 +130,7 @@
     },
     form: {
       title: "Ankieta kandydata",
-      intro: "Odpowiedz na konkretne pytania. Przed wysłaniem zobaczysz gotową wiadomość do WhatsApp.",
+      intro: "Szkic pozostaje na tym urządzeniu przez 7 dni. Nic nie zostanie wysłane bez potwierdzenia w WhatsApp.",
       matchKicker: "Dopasowanie bez rejestracji",
       matchTitle: "Znajdźmy ofertę odpowiednią dla Ciebie",
       matchIntro: "Najpierw tylko Twoje preferencje i kwalifikacje — bez imienia, numeru telefonu i dokumentów.",

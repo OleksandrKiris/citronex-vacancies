@@ -130,7 +130,7 @@
     },
     form: {
       title: "Candidate questionnaire",
-      intro: "Answer the specific questions below. Before sending, you will see the complete message prepared for WhatsApp.",
+      intro: "Your draft stays on this device for 7 days. Nothing is sent until you confirm it in WhatsApp.",
       matchKicker: "Job matching without registration",
       matchTitle: "Find a job that suits you",
       matchIntro: "Start with your preferences and qualifications only — no name, phone number or documents.",
