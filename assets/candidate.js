@@ -84,31 +84,10 @@
     return `assets/housing/${key}/${key}-${String(index + 1).padStart(2, "0")}.webp`;
   }
 
-  function coverIndex(job, photoCount) {
-    const checksum = [...String(job.id)].reduce((total, letter) => total + letter.charCodeAt(0), 0);
-    return photoCount ? checksum % photoCount : 0;
-  }
-
-  function coverMarkup(job) {
-    const entry = housingEntries(job)[0];
-    if (!entry) {
-      return `<div class="job-cover job-cover-fallback" data-country="${escapeHTML(countryCode(job))}" aria-hidden="true"><span>${escapeHTML(countryCode(job))}</span></div>`;
-    }
-    const [key, location] = entry;
-    const index = coverIndex(job, location.photoCount);
-    return `
-      <figure class="job-cover">
-        <img src="${escapeHTML(photoUrl(key, index))}" alt="" width="900" height="600" loading="lazy" decoding="async">
-        <figcaption>${escapeHTML(location.name)} · ${location.photoCount} ${escapeHTML(i18n.t("ui.photos"))}</figcaption>
-      </figure>
-    `;
-  }
-
   function card(job) {
     const view = localized(job);
     return `
       <article class="job-card" data-job-id="${escapeHTML(job.id)}">
-        ${coverMarkup(job)}
         <div class="job-card-body">
           <div class="job-tags">
             <span>${escapeHTML(view.format)}</span>
@@ -200,7 +179,6 @@
 
   function detail(job, options = {}) {
     const view = localized(job);
-    const image = housingEntries(job)[0];
     const headingId = options.page ? "job-page-title" : "job-dialog-title";
     return `
       <article class="vacancy-detail">
@@ -211,12 +189,6 @@
             <p>${escapeHTML(job.company)} · ${escapeHTML(view.subtitle || "")}</p>
             <button class="primary-button vacancy-hero-apply" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
           </div>
-          ${image ? `
-            <figure class="vacancy-hero-media">
-              <img src="${escapeHTML(photoUrl(image[0], coverIndex(job, image[1].photoCount)))}" alt="${escapeHTML(image[1].name)}" width="900" height="600">
-              <figcaption>${escapeHTML(i18n.t("ui.housingPhotos"))} · ${escapeHTML(image[1].name)} · ${image[1].photoCount} ${escapeHTML(i18n.t("ui.photos"))}</figcaption>
-            </figure>
-          ` : `<div class="vacancy-hero-fallback" data-country="${escapeHTML(countryCode(job))}">${escapeHTML(countryCode(job))}</div>`}
         </header>
 
         <dl class="vacancy-facts">
