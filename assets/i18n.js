@@ -3,7 +3,7 @@
 
   const SUPPORTED = ["ru", "uk", "pl", "en", "az", "ka", "id", "es", "fil", "ne", "hy"];
   const LANGUAGE_FLAGS = {
-    ru: "🇷🇺",
+    ru: "🌐",
     uk: "🇺🇦",
     pl: "🇵🇱",
     en: "🇬🇧",
@@ -16,14 +16,26 @@
     hy: "🇦🇲"
   };
   const STORAGE_KEY = "kiris-jobs:language:v1";
-  const fallbackLocale = "ru";
+  const fallbackLocale = "pl";
   const translations = window.PORTAL_TRANSLATIONS || {};
   const listeners = new Set();
   let languageSwitcher = null;
 
   function normalizeLocale(value) {
-    const normalized = String(value || "").toLowerCase().split("-")[0];
+    const language = String(value || "").toLowerCase().split("-")[0];
+    const normalized = language === "tl" ? "fil" : language;
     return SUPPORTED.includes(normalized) && translations[normalized] ? normalized : "";
+  }
+
+  function browserLocale() {
+    const browserLanguages = Array.isArray(navigator.languages)
+      ? navigator.languages
+      : [navigator.language];
+    for (const language of browserLanguages) {
+      const locale = normalizeLocale(language);
+      if (locale) return locale;
+    }
+    return "";
   }
 
   function initialLocale() {
@@ -35,7 +47,7 @@
     } catch {
       // Local storage is optional.
     }
-    return normalizeLocale(navigator.language) || fallbackLocale;
+    return browserLocale() || fallbackLocale;
   }
 
   let currentLocale = initialLocale();
@@ -90,7 +102,9 @@
   }
 
   function countryName(code, locale = currentLocale) {
-    if (code === "OTHER") return translations[locale]?.options?.other || translations.ru.options.other;
+    if (code === "OTHER") {
+      return translations[locale]?.options?.other || translations[fallbackLocale]?.options?.other || "Other";
+    }
     try {
       const requestedLocale = localeTag(locale);
       const displayNames = new Intl.DisplayNames([requestedLocale], { type: "region" });
