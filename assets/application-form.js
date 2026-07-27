@@ -19,10 +19,8 @@
   const CITIZENSHIP_CODES = COUNTRY_CODES;
   const STEP_KEYS = [
     "stepContact",
-    "stepLocation",
     "stepDocuments",
     "stepWork",
-    "stepQualification",
     "stepReview"
   ];
   const MATCH_STEP_COUNT = 4;
@@ -133,9 +131,9 @@
         reference: "Referencia de solicitud"
       },
       fil: {
-        greeting: "Hello",
-        source: "Ipinapadala ko ang aplikasyon sa pamamagitan ng iyong Kiris Jobs platform.",
-        reference: "Reference ng aplikasyon"
+        greeting: "Magandang araw",
+        source: "Ipinapadala ko ang aking aplikasyon sa pamamagitan ng inyong Kiris Jobs platform.",
+        reference: "Numero ng aplikasyon"
       },
       ne: {
         greeting: "नमस्ते",
@@ -582,11 +580,20 @@
 
   function renderContactStep() {
     const engine = candidateEngineCopy();
+    const selectedJob = localizedJob();
     const age = calculateAge(state.values.birthDate);
     const ageHint = age == null ? engine.birthHint : `${engine.age}: ${age}. ${engine.birthHint}`;
     return `
+      ${selectedJob ? `
+        <div class="application-selected-vacancy">
+          <span>${escapeHTML(t("form.selectedVacancy"))}</span>
+          <strong>${escapeHTML(selectedJob.title)}</strong>
+          <small>${escapeHTML(selectedJob.format)} · ${escapeHTML(selectedJob.location)}</small>
+          <input type="hidden" name="jobId" value="${escapeHTML(state.jobId)}">
+        </div>
+      ` : ""}
       <div class="application-grid">
-        ${field("jobId", t("form.selectedVacancy"), select("jobId", jobOptions(), "required"))}
+        ${selectedJob ? "" : field("jobId", t("form.selectedVacancy"), select("jobId", jobOptions(), "required"))}
         ${field("preferredLanguage", t("form.preferredLanguage"), select(
           "preferredLanguage",
           i18n.supported.map((locale) => ({ value: locale, label: i18n.languageName(locale) })),
@@ -776,10 +783,26 @@
 
   function stepContent() {
     if (state.step === 0) return renderContactStep();
-    if (state.step === 1) return renderLocationStep();
-    if (state.step === 2) return renderDocumentsStep();
-    if (state.step === 3) return renderWorkStep();
-    if (state.step === 4) return renderQualificationStep();
+    if (state.step === 1) return `
+      <section class="application-form-group">
+        <h3>${escapeHTML(t("form.stepLocation"))}</h3>
+        ${renderLocationStep()}
+      </section>
+      <section class="application-form-group">
+        <h3>${escapeHTML(t("form.stepDocuments"))}</h3>
+        ${renderDocumentsStep()}
+      </section>
+    `;
+    if (state.step === 2) return `
+      <section class="application-form-group">
+        <h3>${escapeHTML(t("form.stepWork"))}</h3>
+        ${renderWorkStep()}
+      </section>
+      <section class="application-form-group">
+        <h3>${escapeHTML(t("form.stepQualification"))}</h3>
+        ${renderQualificationStep()}
+      </section>
+    `;
     return renderReviewStep();
   }
 
@@ -878,7 +901,7 @@
           <button class="button button-secondary" type="button" data-application-back ${state.step === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
           ${state.step < STEP_KEYS.length - 1
             ? `<button class="button button-primary" type="submit">${escapeHTML(t("form.next"))} →</button>`
-            : `<button class="button button-primary whatsapp-submit" type="submit">${escapeHTML(t("form.openWhatsapp"))} ↗</button>`}
+            : `<button class="button button-primary whatsapp-submit" type="submit">${escapeHTML(t("form.copyMessage"))} · ${escapeHTML(t("form.openWhatsapp"))} ↗</button>`}
         </footer>
       </form>
     `;
@@ -1023,8 +1046,8 @@
       if (key !== "shiftReadiness") state.values[key] = String(value).trim();
     }
     if (state.step === 0) state.values.adult = (calculateAge(state.values.birthDate) ?? -1) >= 18;
-    if (state.step === 3) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
-    if (state.step === 5) state.values.consent = data.has("consent");
+    if (state.step === 2) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
+    if (state.step === 3) state.values.consent = data.has("consent");
     if (state.values.jobId) state.jobId = state.values.jobId;
   }
 
@@ -1062,15 +1085,10 @@
         || (state.values.currentCountry === "OTHER" && !validateLatin(state.values.otherCountry, true))
       ) {
         state.error = t("form.latinError");
-      }
-    } else if (state.step === 2) {
-      if (
-        !state.values.legalStatus
-        || !state.values.workRight
-      ) {
+      } else if (!state.values.legalStatus || !state.values.workRight) {
         state.error = t("form.missingRequired");
       }
-    } else if (state.step === 3) {
+    } else if (state.step === 2) {
       if (
         !state.values.readyDate
         || !state.values.housing
@@ -1081,24 +1099,24 @@
         state.error = t("form.missingRequired");
       } else if (state.values.readyDate < today()) {
         state.error = t("form.dateError");
-      }
-    } else if (state.step === 4) {
-      const id = state.jobId;
-      const qualificationRequired = id.startsWith("driver-ce")
-        ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
-        : id === "forklift-udt"
-          ? ["udtLicense"]
-          : id === "team-leader"
-            ? ["leadershipExperience"]
-            : id === "truck-mechanic"
-              ? ["mechanicExperience"]
-              : ["greenhouse-agronomist", "plant-protection"].includes(id)
-                ? ["specialistEducation"]
-                : [];
-      if (!state.values.experience || qualificationRequired.some((name) => !state.values[name])) {
-        state.error = t("form.missingRequired");
-      } else if (!validateLatin(state.values.udtCategory)) {
-        state.error = t("form.latinError");
+      } else {
+        const id = state.jobId;
+        const qualificationRequired = id.startsWith("driver-ce")
+          ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
+          : id === "forklift-udt"
+            ? ["udtLicense"]
+            : id === "team-leader"
+              ? ["leadershipExperience"]
+              : id === "truck-mechanic"
+                ? ["mechanicExperience"]
+                : ["greenhouse-agronomist", "plant-protection"].includes(id)
+                  ? ["specialistEducation"]
+                  : [];
+        if (!state.values.experience || qualificationRequired.some((name) => !state.values[name])) {
+          state.error = t("form.missingRequired");
+        } else if (!validateLatin(state.values.udtCategory)) {
+          state.error = t("form.latinError");
+        }
       }
     } else if (!state.values.consent) {
       state.error = t("form.consentError");
@@ -1162,90 +1180,102 @@
     return flags;
   }
 
-  function buildMessage() {
+  function qualificationSummary() {
+    return [
+      state.values.driverLicense && `C+E ${englishOption(state.values.driverLicense)}`,
+      state.values.code95 && `Code 95 ${englishOption(state.values.code95)}`,
+      state.values.tachograph && `Tachograph ${englishOption(state.values.tachograph)}`,
+      state.values.reeferExperience && `Reefer ${englishOption(state.values.reeferExperience)}`,
+      state.values.udtLicense && `UDT ${englishOption(state.values.udtLicense)}`,
+      state.values.udtCategory && `UDT ${state.values.udtCategory}`,
+      state.values.leadershipExperience && `Leader ${englishOption(state.values.leadershipExperience)}`,
+      state.values.mechanicExperience && `Mechanic ${englishOption(state.values.mechanicExperience)}`,
+      state.values.specialistEducation && `Education ${englishOption(state.values.specialistEducation)}`
+    ].filter(Boolean);
+  }
+
+  function buildApplicationRecord() {
     const job = effectiveJob();
     const localized = localizedJob();
-    const personal = personalMessageCopy();
-    const engine = candidateEngineCopy();
     const applicationId = state.values.applicationId || createApplicationId();
     state.values.applicationId = applicationId;
+    const submittedAt = state.values.submittedAt || new Date().toISOString();
+    state.values.submittedAt = submittedAt;
     const age = calculateAge(state.values.birthDate);
     const source = state.values.source || campaignSource();
-    const conversationQueue = state.values.workRight !== "yes" || state.values.legalStatus !== "statusReady"
-      ? "DOCUMENT / WORK-RIGHT CHECK"
-      : state.values.readyDate
-        ? "READY DATE SET — CHECK VACANCY"
-        : "STANDARD MANUAL REVIEW";
     const checkFlags = candidateCheckFlags(job);
-    const qualification = [
-      state.values.driverLicense && `C+E license: ${englishOption(state.values.driverLicense)}`,
-      state.values.code95 && `Code 95: ${englishOption(state.values.code95)}`,
-      state.values.tachograph && `Tachograph card: ${englishOption(state.values.tachograph)}`,
-      state.values.reeferExperience && `Reefer experience: ${englishOption(state.values.reeferExperience)}`,
-      state.values.udtLicense && `Polish UDT: ${englishOption(state.values.udtLicense)}`,
-      state.values.udtCategory && `UDT category: ${state.values.udtCategory}`,
-      state.values.leadershipExperience && `Leadership experience: ${englishOption(state.values.leadershipExperience)}`,
-      state.values.mechanicExperience && `Truck mechanic experience: ${englishOption(state.values.mechanicExperience)}`,
-      state.values.specialistEducation && `Professional education: ${englishOption(state.values.specialistEducation)}`
-    ].filter(Boolean);
+    return {
+      v: 1,
+      id: applicationId,
+      at: submittedAt,
+      jid: job?.id || "",
+      j: localized?.title || job?.title || "",
+      d: destination(job),
+      s: localized?.salary?.note || job?.salary?.note || "Needs confirmation",
+      fn: state.values.firstName || "",
+      ln: state.values.lastName || "",
+      dob: state.values.birthDate || "",
+      a: age,
+      p: String(state.values.phone || "").replace(/[\s()-]/g, ""),
+      e: state.values.email || "",
+      cit: englishCountry(state.values.citizenship, state.values.otherCitizenship),
+      cc: englishCountry(state.values.currentCountry, state.values.otherCountry),
+      city: state.values.currentCity || "",
+      doc: englishOption(state.values.legalStatus),
+      wr: englishOption(state.values.workRight),
+      ready: state.values.readyDate || "",
+      house: englishOption(state.values.housing),
+      travel: englishOption(state.values.travellingWith),
+      second: englishOption(state.values.partnerAlsoApplies),
+      sh: (state.values.shiftReadiness || []).map(englishOption),
+      exp: englishOption(state.values.experience),
+      expd: state.values.experienceDetails || "",
+      q: qualificationSummary(),
+      n: state.values.extraNotes || "",
+      check: checkFlags,
+      src: source,
+      lang: i18n.languageName(state.values.preferredLanguage || i18n.locale)
+    };
+  }
+
+  function buildMessage() {
+    const record = buildApplicationRecord();
+    const personal = personalMessageCopy();
+    const engine = candidateEngineCopy();
     return [
       `${personal.greeting}, ${profile.name}!`,
       personal.source,
-      `${personal.reference}: ${applicationId}`,
-      `${engine.source}: ${source}`,
+      `${personal.reference}: ${record.id}`,
+      `${engine.source}: ${record.src}`,
       "",
-      `KIRIS JOBS · CANDIDATE QUESTIONNAIRE · ${applicationId}`,
-      `Recruiter: ${profile.name}`,
+      "────────────────────",
       "",
-      "RECRUITER SNAPSHOT · ADMINISTRATIVE ONLY",
-      `Conversation queue: ${conversationQueue}`,
-      `Calculated age: ${age ?? "—"}`,
-      `Ready from: ${state.values.readyDate || "—"}`,
-      `Housing: ${englishOption(state.values.housing)}`,
-      `Paperwork: ${englishOption(state.values.legalStatus)} / work right: ${englishOption(state.values.workRight)}`,
-      `Source: ${source}`,
-      "This summary supports manual follow-up only. It is not a hiring decision.",
+      `KIRIS JOBS · НОВАЯ АНКЕТА · ${record.id}`,
       "",
-      `Vacancy: ${localized?.title || job?.title || "Not selected"}`,
-      `Vacancy ID: ${job?.id || "—"}`,
-      `Destination: ${destination(job)}`,
-      `Gross rate shown: ${job?.salary?.confirmed ? "Yes" : "Needs confirmation"}`,
-      `Salary note: ${localized?.salary?.note || job?.salary?.note || "—"}`,
-      `Site language: ${i18n.languageName(state.values.preferredLanguage || i18n.locale)} (${state.values.preferredLanguage || i18n.locale})`,
-      state.values.matchedJobId ? "Vacancy selected by the on-site matching questionnaire: Yes" : "",
-      "",
-      `Name (passport Latin): ${state.values.firstName} ${state.values.lastName}`,
-      `Date of birth: ${state.values.birthDate}`,
-      `Calculated age: ${age ?? "—"}`,
-      `WhatsApp: ${state.values.phone.replace(/[\s()-]/g, "")}`,
-      `Email: ${state.values.email || "—"}`,
-      `Age 18+: Yes`,
-      `Citizenship: ${englishCountry(state.values.citizenship, state.values.otherCitizenship)}`,
-      `Current location: ${englishCountry(state.values.currentCountry, state.values.otherCountry)}, ${state.values.currentCity}`,
-      "",
-      `Work paperwork status: ${englishOption(state.values.legalStatus)}`,
-      `Right to work at destination: ${englishOption(state.values.workRight)}`,
-      "",
-      `Ready from: ${state.values.readyDate}`,
-      `Employer housing: ${englishOption(state.values.housing)}`,
-      `Travelling: ${englishOption(state.values.travellingWith)}`,
-      `Second person also applies: ${englishOption(state.values.partnerAlsoApplies)}`,
-      `Shift readiness: ${(state.values.shiftReadiness || []).map(englishOption).join(", ")}`,
-      `Relevant experience: ${englishOption(state.values.experience)}`,
-      `Experience details: ${state.values.experienceDetails || "—"}`,
-      ...qualification,
-      `Question / notes: ${state.values.extraNotes || "—"}`,
-      "",
-      "CHECK BEFORE OFFER:",
-      ...checkFlags.map((flag) => `- ${flag}`),
-      "",
-      "Candidate confirmed the data and chose to contact Oleksandr Kiris directly via WhatsApp.",
-      `Source: Kiris Jobs · ${source} · ${content.site.baseUrl || window.location.href}`
-    ].filter((line, index, lines) => line !== "" || lines[index - 1] !== "").join("\n");
+      `Вакансия: ${record.j} (${record.jid})`,
+      `Страна: ${record.d}`,
+      `Кандидат: ${record.fn} ${record.ln}`,
+      `Дата рождения / возраст: ${record.dob} / ${record.a ?? "—"}`,
+      `WhatsApp: ${record.p}`,
+      `Email: ${record.e || "—"}`,
+      `Гражданство: ${record.cit}`,
+      `Сейчас находится: ${record.cc}, ${record.city}`,
+      `Документы: ${record.doc}`,
+      `Право на работу: ${record.wr}`,
+      `Готов с: ${record.ready}`,
+      `Жильё: ${record.house}`,
+      `Едет: ${record.travel}`,
+      `Смены: ${record.sh.join(", ") || "—"}`,
+      `Опыт: ${record.exp}`,
+      `Описание опыта: ${record.expd || "—"}`,
+      `Квалификация: ${record.q.join(", ") || "—"}`,
+      `Комментарий: ${record.n || "—"}`,
+      `Проверить: ${record.check.join("; ")}`,
+      `Источник: ${record.src} · язык ${record.lang}`
+    ].join("\n");
   }
 
-  async function copyApplicationMessage(event) {
-    const message = buildMessage();
+  async function writeMessageToClipboard(message) {
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(message);
@@ -1259,6 +1289,16 @@
         document.execCommand("copy");
         area.remove();
       }
+      return true;
+    } catch {
+      document.querySelector(".application-message-preview textarea")?.select();
+      return false;
+    }
+  }
+
+  async function copyApplicationMessage(event) {
+    const copied = await writeMessageToClipboard(buildMessage());
+    if (copied) {
       const button = event?.currentTarget;
       if (button) {
         const previous = button.textContent;
@@ -1267,8 +1307,6 @@
           if (button.isConnected) button.textContent = previous;
         }, 2200);
       }
-    } catch {
-      document.querySelector(".application-message-preview textarea")?.select();
     }
   }
 
@@ -1276,14 +1314,10 @@
     const base = profile.whatsapp || `https://wa.me/${String(profile.phone || "").replace(/\D/g, "")}`;
     const separator = base.includes("?") ? "&" : "?";
     const url = `${base}${separator}text=${encodeURIComponent(message)}`;
-    if (window.PortalWhatsApp?.open) {
-      window.PortalWhatsApp.open(url);
-      return;
-    }
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     collectValues();
     if (!validateStep()) {
@@ -1296,12 +1330,17 @@
       render(true);
       return;
     }
+    const message = buildMessage();
+    const copied = await writeMessageToClipboard(message);
+    if (copied) {
+      window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: t("form.messageCopied") } }));
+    }
     if (!navigator.onLine) {
       state.error = t("form.unavailableOffline");
       render();
       return;
     }
-    openWhatsApp(buildMessage());
+    openWhatsApp(message);
   }
 
   function open(jobId = "") {

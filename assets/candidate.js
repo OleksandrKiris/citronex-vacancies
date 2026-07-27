@@ -1,0 +1,324 @@
+(function () {
+  "use strict";
+
+  const content = window.PORTAL_CONTENT;
+  const i18n = window.PortalI18n;
+  const jobs = content.jobs || [];
+  const profile = content.profile || {};
+  const housing = content.housingLocations || {};
+  const state = { query: "", country: "", openJobId: "" };
+
+  const $ = (id) => document.getElementById(id);
+  const escapeHTML = (value) => String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+  function countryCode(job) {
+    const format = String(job.format || "").toLowerCase();
+    if (format.includes("польш")) return "PL";
+    if (format.includes("венгр")) return "HU";
+    if (format.includes("бельг")) return "BE";
+    return "EU";
+  }
+
+  function localized(job) {
+    return i18n.job(job);
+  }
+
+  function salary(job) {
+    const value = localized(job).salary || {};
+    const min = Number(value.min);
+    const max = Number(value.max);
+    if (!Number.isFinite(min) && !Number.isFinite(max)) {
+      return value.display || value.note || i18n.t("ui.rateNeedsConfirmation");
+    }
+    const number = (amount) => new Intl.NumberFormat(i18n.localeTag(), {
+      minimumFractionDigits: amount % 1 ? 2 : 0,
+      maximumFractionDigits: 2
+    }).format(amount);
+    const range = Number.isFinite(min) && Number.isFinite(max) && min !== max
+      ? `${number(min)}–${number(max)}`
+      : number(Number.isFinite(min) ? min : max);
+    const periodLabels = {
+      "час": {
+        ru: "час", uk: "год", pl: "godz.", en: "hour", az: "saat", ka: "საათი",
+        id: "jam", es: "hora", fil: "oras", ne: "घण्टा", hy: "ժամ"
+      },
+      "месяц": {
+        ru: "месяц", uk: "місяць", pl: "mies.", en: "month", az: "ay", ka: "თვე",
+        id: "bulan", es: "mes", fil: "buwan", ne: "महिना", hy: "ամիս"
+      }
+    };
+    const period = periodLabels[value.period]?.[i18n.locale] || value.period || "";
+    return `${range} ${value.currency || ""}${period ? ` / ${period}` : ""}`.trim();
+  }
+
+  function publicJobUrl(job) {
+    const url = new URL(`vacancies/${encodeURIComponent(job.id)}/`, content.site.baseUrl);
+    url.searchParams.set("lang", i18n.locale);
+    const source = new URL(location.href).searchParams.get("src");
+    if (source) url.searchParams.set("src", source);
+    return url.toString();
+  }
+
+  function housingEntries(job) {
+    return (job.housingLocations || [])
+      .map((key) => [key, housing[key]])
+      .filter(([, location]) => location?.photoCount);
+  }
+
+  function photoUrl(key, index) {
+    return `assets/housing/${key}/${key}-${String(index + 1).padStart(2, "0")}.webp`;
+  }
+
+  function coverIndex(job, photoCount) {
+    const checksum = [...String(job.id)].reduce((total, letter) => total + letter.charCodeAt(0), 0);
+    return photoCount ? checksum % photoCount : 0;
+  }
+
+  function coverMarkup(job) {
+    const entry = housingEntries(job)[0];
+    if (!entry) {
+      return `<div class="job-cover job-cover-fallback" data-country="${escapeHTML(countryCode(job))}" aria-hidden="true"><span>${escapeHTML(countryCode(job))}</span></div>`;
+    }
+    const [key, location] = entry;
+    const index = coverIndex(job, location.photoCount);
+    return `
+      <figure class="job-cover">
+        <img src="${escapeHTML(photoUrl(key, index))}" alt="" width="900" height="600" loading="lazy" decoding="async">
+        <figcaption>${escapeHTML(location.name)} · ${location.photoCount} ${escapeHTML(i18n.t("ui.photos"))}</figcaption>
+      </figure>
+    `;
+  }
+
+  function card(job) {
+    const view = localized(job);
+    return `
+      <article class="job-card" data-job-id="${escapeHTML(job.id)}">
+        ${coverMarkup(job)}
+        <div class="job-card-body">
+          <div class="job-tags">
+            <span>${escapeHTML(view.format)}</span>
+            <span>${escapeHTML(view.level)}</span>
+          </div>
+          <h2>${escapeHTML(view.title)}</h2>
+          <p class="job-subtitle">${escapeHTML(view.subtitle || view.summary || "")}</p>
+          <dl class="job-card-facts">
+            <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
+            <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
+          </dl>
+          <a class="primary-button job-open" href="${escapeHTML(publicJobUrl(job))}" data-open-job="${escapeHTML(job.id)}">
+            ${escapeHTML(i18n.t("ui.details"))}<span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+    `;
+  }
+
+  function visibleJobs() {
+    const query = state.query.trim().toLocaleLowerCase(i18n.localeTag());
+    return jobs.filter((job) => {
+      if (state.country && countryCode(job) !== state.country) return false;
+      if (!query) return true;
+      const view = localized(job);
+      return [
+        view.title,
+        view.subtitle,
+        view.company,
+        view.category,
+        view.level,
+        view.format,
+        view.location,
+        view.summary
+      ].join(" ").toLocaleLowerCase(i18n.localeTag()).includes(query);
+    });
+  }
+
+  function renderCountryFilter() {
+    const select = $("country-filter");
+    const previous = state.country;
+    const codes = [...new Set(jobs.map(countryCode))];
+    select.innerHTML = [
+      `<option value="">${escapeHTML(i18n.t("ui.allCountries"))}</option>`,
+      ...codes.map((code) => `<option value="${escapeHTML(code)}">${escapeHTML(i18n.countryName(code))}</option>`)
+    ].join("");
+    select.value = previous;
+    select.setAttribute("aria-label", i18n.t("ui.allCountries"));
+  }
+
+  function renderJobs() {
+    const result = visibleJobs();
+    $("job-grid").innerHTML = result.map(card).join("");
+    $("result-count").textContent = `${i18n.t("ui.found")}: ${result.length}`;
+    $("empty-state").hidden = result.length > 0;
+    $("job-total").textContent = String(jobs.length);
+  }
+
+  function list(items) {
+    return `<ul>${(items || []).map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>`;
+  }
+
+  function housingGallery(job) {
+    const entries = housingEntries(job);
+    if (!entries.length) return "";
+    return `
+      <section class="vacancy-section housing-section">
+        <div class="section-title">
+          <p>${escapeHTML(i18n.t("ui.conditions"))}</p>
+          <h3>${escapeHTML(i18n.t("ui.housingPhotos"))}</h3>
+        </div>
+        <div class="housing-list">
+          ${entries.map(([key, location], index) => `
+            <details class="housing-location"${index === 0 ? " open" : ""}>
+              <summary><strong>${escapeHTML(location.name)}</strong><span>${location.photoCount} ${escapeHTML(i18n.t("ui.photos"))}</span></summary>
+              <div class="housing-grid">
+                ${Array.from({ length: location.photoCount }, (_, photoIndex) => `
+                  <a href="${escapeHTML(photoUrl(key, photoIndex))}" target="_blank" rel="noopener noreferrer">
+                    <img src="${escapeHTML(photoUrl(key, photoIndex))}" alt="${escapeHTML(`${location.name} · ${photoIndex + 1}`)}" width="900" height="600" loading="lazy" decoding="async">
+                  </a>
+                `).join("")}
+              </div>
+            </details>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function detail(job) {
+    const view = localized(job);
+    const image = housingEntries(job)[0];
+    return `
+      <article class="vacancy-detail">
+        <header class="vacancy-hero">
+          <div class="vacancy-hero-copy">
+            <div class="job-tags"><span>${escapeHTML(view.format)}</span><span>${escapeHTML(view.category)}</span></div>
+            <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
+            <p>${escapeHTML(job.company)} · ${escapeHTML(view.subtitle || "")}</p>
+          </div>
+          ${image ? `
+            <img src="${escapeHTML(photoUrl(image[0], coverIndex(job, image[1].photoCount)))}" alt="" width="900" height="600">
+          ` : `<div class="vacancy-hero-fallback" data-country="${escapeHTML(countryCode(job))}">${escapeHTML(countryCode(job))}</div>`}
+        </header>
+
+        <dl class="vacancy-facts">
+          <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd><small>${escapeHTML(view.salary?.note || "")}</small></div>
+          <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
+          <div><dt>${escapeHTML(i18n.t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
+          <div><dt>${escapeHTML(i18n.t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(" · "))}</dd></div>
+        </dl>
+
+        <section class="vacancy-section vacancy-summary">
+          <p>${escapeHTML(view.summary)}</p>
+          <div class="skill-list">${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}</div>
+        </section>
+
+        ${(view.benefits || []).length ? `
+          <section class="vacancy-section">
+            <div class="section-title"><p>${escapeHTML(i18n.t("ui.details"))}</p><h3>${escapeHTML(i18n.t("ui.conditions"))}</h3></div>
+            <div class="condition-grid">${view.benefits.map((item) => `<p>${escapeHTML(item)}</p>`).join("")}</div>
+          </section>
+        ` : ""}
+
+        <section class="vacancy-section vacancy-columns">
+          <div><h3>${escapeHTML(i18n.t("ui.responsibilities"))}</h3>${list(view.responsibilities)}</div>
+          <div><h3>${escapeHTML(i18n.t("ui.required"))}</h3>${list(view.required)}</div>
+        </section>
+
+        ${housingGallery(job)}
+
+        <footer class="vacancy-apply-bar">
+          <button class="primary-button" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
+        </footer>
+      </article>
+    `;
+  }
+
+  function openJob(jobId) {
+    const job = jobs.find((item) => item.id === jobId);
+    if (!job) return;
+    state.openJobId = job.id;
+    $("job-dialog-content").innerHTML = detail(job);
+    const dialog = $("job-dialog");
+    if (!dialog.open) dialog.showModal();
+    dialog.querySelector(".dialog-panel")?.scrollTo({ top: 0 });
+  }
+
+  function closeDialog(dialog) {
+    if (dialog?.open) dialog.close();
+  }
+
+  function renderStatic() {
+    document.documentElement.lang = i18n.locale;
+    $("profile-name").textContent = profile.name;
+    $("profile-hours").textContent = profile.workHours;
+    $("recruiter-name").textContent = profile.name;
+    $("recruiter-hours").textContent = profile.workHours;
+    $("whatsapp-link").href = profile.whatsapp;
+    $("footer-whatsapp").href = profile.whatsapp;
+    $("safety-whatsapp").href = profile.whatsapp;
+    renderCountryFilter();
+    renderJobs();
+    if (state.openJobId && $("job-dialog").open) openJob(state.openJobId);
+  }
+
+  function bind() {
+    $("job-search").addEventListener("input", (event) => {
+      state.query = event.target.value;
+      renderJobs();
+    });
+    $("country-filter").addEventListener("change", (event) => {
+      state.country = event.target.value;
+      renderJobs();
+    });
+    document.addEventListener("click", (event) => {
+      const openButton = event.target.closest("[data-open-job]");
+      const applyButton = event.target.closest("[data-apply-job]");
+      const closeButton = event.target.closest("[data-close-dialog]");
+      if (openButton) {
+        event.preventDefault();
+        openJob(openButton.dataset.openJob);
+      }
+      if (applyButton) {
+        closeDialog($("job-dialog"));
+        window.PortalApplication?.open(applyButton.dataset.applyJob);
+      }
+      if (closeButton) closeDialog(closeButton.closest("dialog"));
+    });
+    document.querySelectorAll("dialog").forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) closeDialog(dialog);
+      });
+    });
+    window.addEventListener("portal:toast", (event) => {
+      const toast = $("toast");
+      toast.textContent = event.detail?.message || "";
+      toast.hidden = false;
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => { toast.hidden = true; }, 2600);
+    });
+    i18n.subscribe(renderStatic);
+  }
+
+  function openDeepLink() {
+    const pathMatch = location.pathname.match(/\/vacancies\/([^/]+)\/?$/);
+    const hashMatch = location.hash.match(/^#job=(.+)$/);
+    const id = pathMatch?.[1] || hashMatch?.[1];
+    if (id) openJob(decodeURIComponent(id));
+  }
+
+  function init() {
+    i18n.init();
+    bind();
+    renderStatic();
+    openDeepLink();
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  }
+
+  init();
+})();

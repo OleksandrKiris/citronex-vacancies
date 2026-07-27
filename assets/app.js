@@ -8,7 +8,7 @@
     return;
   }
 
-  const { site, profile, jobs, resources, process, privacy, faq } = content;
+  const { site, profile, housingLocations = {}, jobs, resources, process, privacy, faq } = content;
   const t = (path, variables) => i18n.t(path, variables);
   const localizedJob = (job) => i18n.job(job);
   const STORAGE = {
@@ -18,7 +18,7 @@
     passport: "career-hub:passport:v1",
     resourcesRead: "career-hub:resources-read:v1"
   };
-  const validRoutes = ["home", "jobs", "resources", "saved", "profile"];
+  const validRoutes = ["jobs"];
   const state = {
     favorites: readStringSet(STORAGE.favorites),
     compare: readStringSet(STORAGE.compare),
@@ -5121,6 +5121,185 @@
     return view.benefits?.[housingIndex] || t("ui.clarify");
   }
 
+  function vacancyShareCopy() {
+    const copy = {
+      ru: {
+        share: "Отправить вакансию",
+        apply: "Заполнить анкету и отправить мне",
+        shareText: "Посмотрите условия и фотографии жилья, затем заполните анкету на странице.",
+        copied: "Ссылка на вакансию скопирована",
+        flowKicker: "Одна ссылка — весь путь",
+        flowTitle: "Посмотрите вакансию и отправьте анкету",
+        flowIntro: "Эта ссылка открывает именно выбранную вакансию. После просмотра кандидат заполняет анкету и сам отправляет готовое сообщение вам в WhatsApp.",
+        stepView: "Посмотреть условия и жильё",
+        stepForm: "Заполнить короткую анкету",
+        stepSend: "Отправить вам в WhatsApp"
+      },
+      uk: {
+        share: "Надіслати вакансію",
+        apply: "Заповнити анкету й надіслати мені",
+        shareText: "Перегляньте умови та фотографії житла, а потім заповніть анкету на сторінці.",
+        copied: "Посилання на вакансію скопійовано",
+        flowKicker: "Одне посилання — весь шлях",
+        flowTitle: "Перегляньте вакансію та надішліть анкету",
+        flowIntro: "Це посилання відкриває саме вибрану вакансію. Після перегляду кандидат заповнює анкету й сам надсилає готове повідомлення вам у WhatsApp.",
+        stepView: "Переглянути умови та житло",
+        stepForm: "Заповнити коротку анкету",
+        stepSend: "Надіслати вам у WhatsApp"
+      },
+      pl: {
+        share: "Wyślij ofertę",
+        apply: "Wypełnij ankietę i wyślij do mnie",
+        shareText: "Sprawdź warunki i zdjęcia zakwaterowania, a następnie wypełnij ankietę na stronie.",
+        copied: "Link do oferty został skopiowany",
+        flowKicker: "Jeden link — cały proces",
+        flowTitle: "Sprawdź ofertę i wyślij ankietę",
+        flowIntro: "Ten link otwiera dokładnie wybraną ofertę. Po zapoznaniu się z nią kandydat wypełnia ankietę i sam wysyła gotową wiadomość do Pana przez WhatsApp.",
+        stepView: "Sprawdź warunki i mieszkanie",
+        stepForm: "Wypełnij krótką ankietę",
+        stepSend: "Wyślij przez WhatsApp"
+      },
+      en: {
+        share: "Send this vacancy",
+        apply: "Complete the form and send it to me",
+        shareText: "Review the conditions and housing photos, then complete the form on the page.",
+        copied: "Vacancy link copied",
+        flowKicker: "One link — the complete journey",
+        flowTitle: "Review the vacancy and send your application",
+        flowIntro: "This link opens the selected vacancy directly. After reviewing it, the candidate completes the form and sends the prepared message to you through WhatsApp.",
+        stepView: "Review the job and housing",
+        stepForm: "Complete the short form",
+        stepSend: "Send it through WhatsApp"
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function housingGalleryCopy() {
+    const copy = {
+      ru: {
+        kicker: "Жильё по локации",
+        title: "Реальные фотографии проживания",
+        note: "Фото показывают тип жилья на указанной локации. Конкретный адрес, комнату, количество соседей и свободное место я подтверждаю перед поездкой.",
+        photos: "фото",
+        openPhoto: "Открыть фото",
+        cardLabel: "Жильё"
+      },
+      uk: {
+        kicker: "Житло за локацією",
+        title: "Реальні фотографії проживання",
+        note: "Фото показують тип житла на вказаній локації. Конкретну адресу, кімнату, кількість сусідів і вільне місце я підтверджую перед поїздкою.",
+        photos: "фото",
+        openPhoto: "Відкрити фото",
+        cardLabel: "Житло"
+      },
+      pl: {
+        kicker: "Zakwaterowanie według lokalizacji",
+        title: "Prawdziwe zdjęcia zakwaterowania",
+        note: "Zdjęcia pokazują typ zakwaterowania w danej lokalizacji. Dokładny adres, pokój, liczbę współlokatorów i wolne miejsce potwierdzam przed wyjazdem.",
+        photos: "zdjęć",
+        openPhoto: "Otwórz zdjęcie",
+        cardLabel: "Mieszkanie"
+      },
+      en: {
+        kicker: "Housing by location",
+        title: "Real accommodation photos",
+        note: "The photos show the type of accommodation at the named location. I confirm the exact address, room, number of roommates and availability before travel.",
+        photos: "photos",
+        openPhoto: "Open photo",
+        cardLabel: "Housing"
+      }
+    };
+    return copy[i18n.locale] || copy.en;
+  }
+
+  function housingLocationEntries(job) {
+    if (!Array.isArray(job.housingLocations)) return [];
+    return job.housingLocations
+      .map((key) => [key, housingLocations[key]])
+      .filter(([, location]) => location && Number(location.photoCount) > 0);
+  }
+
+  function housingPhotoUrl(key, index) {
+    return `assets/housing/${key}/${key}-${String(index + 1).padStart(2, "0")}.webp`;
+  }
+
+  function jobHousingPreviewMarkup(job) {
+    const entries = housingLocationEntries(job);
+    if (!entries.length) return "";
+    const copy = housingGalleryCopy();
+    const [key, location] = entries[0];
+    const extraLocations = entries.length - 1;
+    return `
+      <figure class="job-card-housing-preview">
+        <img src="${escapeHTML(housingPhotoUrl(key, 0))}" alt="" loading="lazy" decoding="async">
+        <figcaption>
+          <strong>${escapeHTML(copy.cardLabel)} · ${escapeHTML(location.name)}</strong>
+          <small>${escapeHTML(`${location.photoCount} ${copy.photos}${extraLocations ? ` · +${extraLocations}` : ""}`)}</small>
+        </figcaption>
+      </figure>
+    `;
+  }
+
+  function housingGalleryMarkup(job, view) {
+    const entries = housingLocationEntries(job);
+    if (!entries.length) return "";
+    const copy = housingGalleryCopy();
+    return `
+      <section class="job-housing-gallery" aria-label="${escapeHTML(copy.title)}">
+        <header class="job-housing-gallery-head">
+          <div>
+            <p class="overline">${escapeHTML(copy.kicker)}</p>
+            <h3>${escapeHTML(copy.title)}</h3>
+          </div>
+          <p>${escapeHTML(copy.note)}</p>
+        </header>
+        <div class="job-housing-locations">
+          ${entries.map(([key, location], locationIndex) => `
+            <details class="job-housing-location"${locationIndex === 0 ? " open" : ""}>
+              <summary>
+                <span>${svgIcon("home")}<strong>${escapeHTML(location.name)}</strong><small>${escapeHTML(view.format)}</small></span>
+                <b>${escapeHTML(`${location.photoCount} ${copy.photos}`)}</b>
+              </summary>
+              <div class="job-housing-photo-grid">
+                ${Array.from({ length: location.photoCount }, (_, photoIndex) => {
+                  const src = housingPhotoUrl(key, photoIndex);
+                  const label = `${copy.openPhoto}: ${location.name}, ${photoIndex + 1}`;
+                  return `
+                    <a href="${escapeHTML(src)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHTML(label)}">
+                      <img src="${escapeHTML(src)}" alt="${escapeHTML(`${location.name} · ${photoIndex + 1}`)}" loading="lazy" decoding="async">
+                      <span>${photoIndex + 1}</span>
+                    </a>
+                  `;
+                }).join("")}
+              </div>
+            </details>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function renderCatalogFunnel() {
+    const container = el("catalog-funnel");
+    if (!container) return;
+    const copy = vacancyShareCopy();
+    const resultsNote = document.querySelector(".catalog-results-note");
+    if (resultsNote) resultsNote.textContent = copy.shareText;
+    container.innerHTML = `
+      <div>
+        <p class="overline">${escapeHTML(copy.flowKicker)}</p>
+        <h2>${escapeHTML(copy.flowTitle)}</h2>
+        <p>${escapeHTML(copy.flowIntro)}</p>
+      </div>
+      <ol>
+        <li><b>1</b><span>${escapeHTML(copy.stepView)}</span></li>
+        <li><b>2</b><span>${escapeHTML(copy.stepForm)}</span></li>
+        <li><b>3</b><span>${escapeHTML(copy.stepSend)}</span></li>
+      </ol>
+    `;
+  }
+
   function vacancyFreshness(job) {
     const updated = new Date(`${job.updatedAt || job.publishedAt || ""}T00:00:00`);
     if (Number.isNaN(updated.getTime())) return { stale: true, days: null };
@@ -5130,30 +5309,19 @@
 
   function renderJobCard(job, context = "catalog") {
     const view = localizedJob(job);
-    const favorite = state.favorites.has(job.id);
     const visualType = jobVisualType(job.id);
     const routeCode = countryCode(job.format) || "EU";
-    const routeLabel = view.category || job.category || "Kiris Jobs";
     const titleId = `${context}-job-${job.id}-title`;
     const personalCopy = personalCatalogCopy();
-    const freshness = vacancyFreshness(job);
     return `
-      <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-freshness="${freshness.stale ? "stale" : "fresh"}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
+      <article class="job-card" data-context="${escapeHTML(context)}" data-status="${escapeHTML(job.status)}" data-visual="${visualType}" data-country-code="${escapeHTML(routeCode)}" data-salary-confirmed="${Boolean(job.salary?.confirmed)}" aria-labelledby="${escapeHTML(titleId)}">
         <div class="job-card-top">
           <div class="job-card-tags">
             <span class="tag tag-country">${escapeHTML(view.format)}</span>
             <span class="tag">${escapeHTML(view.level)}</span>
           </div>
-          <button class="job-card-save${favorite ? " is-saved" : ""}" type="button" data-favorite="${escapeHTML(job.id)}" aria-label="${escapeHTML(favorite ? t("ui.saved") : t("ui.save"))}" aria-pressed="${favorite}">
-            <span class="job-card-save-symbol" aria-hidden="true">${favorite ? "&#9829;" : "&#9825;"}</span>
-            <span>${escapeHTML(favorite ? t("ui.saved") : t("ui.save"))}</span>
-          </button>
         </div>
-        <div class="job-card-poster" aria-hidden="true">
-          <span class="job-card-poster-code">${escapeHTML(routeCode)}</span>
-          <span class="job-card-poster-route">${escapeHTML(view.format)} · ${escapeHTML(routeLabel)}</span>
-          <span class="job-card-poster-icon">${svgIcon(jobVisualIconName(visualType), "job-visual-icon")}</span>
-        </div>
+        ${jobHousingPreviewMarkup(job)}
         <div class="job-card-identity">
           <div>
             <h3 id="${escapeHTML(titleId)}">${escapeHTML(view.title)}</h3>
@@ -5172,21 +5340,9 @@
             <dt>${svgIcon("location")}<span>${escapeHTML(t("ui.countryLocation"))}</span></dt>
             <dd>${escapeHTML(view.location)}</dd>
           </div>
-          <div class="job-card-fact">
-            <dt>${svgIcon("home")}<span>${escapeHTML(personalCopy.housing)}</span></dt>
-            <dd>${escapeHTML(jobHousingSummary(job, view))}</dd>
-          </div>
         </dl>
-        <p class="job-card-availability job-card-personal-availability">
-          <b aria-hidden="true">OK</b>
-          <span>
-            <strong>${escapeHTML(freshness.stale ? personalCopy.stale : personalCopy.confirmStart)}</strong>
-            <small>${escapeHTML(freshness.stale ? personalCopy.stale : personalCopy.fresh)} · ${escapeHTML(personalCopy.checkedBy)} · ${escapeHTML(profile.name)} · ${escapeHTML(formatDate(job.updatedAt))}</small>
-          </span>
-        </p>
-        <div class="job-card-actions job-card-actions-single">
-          <button class="button button-primary button-block" type="button" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</button>
-          <button class="button button-whatsapp job-card-start" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(personalCopy.askStart)}</span></button>
+        <div class="job-card-actions job-card-actions-focused">
+          <a class="button button-primary button-block" href="${escapeHTML(jobShareUrl(job))}" data-job-open="${escapeHTML(job.id)}"><span>${escapeHTML(t("ui.details"))}</span>${svgIcon("arrow")}</a>
         </div>
       </article>
     `;
@@ -5447,6 +5603,13 @@
     return countryMap[country] || filterMap[filter] || "";
   }
 
+  function urlJobIntent() {
+    const currentUrl = new URL(window.location.href);
+    const pathMatch = currentUrl.pathname.match(/\/vacancies\/([^/]+)\/?$/);
+    const jobId = String(currentUrl.searchParams.get("job") || (pathMatch ? decodeURIComponent(pathMatch[1]) : "")).trim();
+    return jobById(jobId)?.id || "";
+  }
+
   function applyUrlIntent() {
     const quickFilter = urlQuickFilter();
     if (!quickFilter) return "";
@@ -5489,6 +5652,7 @@
   }
 
   function refreshJobLists() {
+    renderCatalogFunnel();
     renderFeaturedJobs();
     renderAllJobs();
     renderSavedJobs();
@@ -5653,23 +5817,10 @@
     state.openJobId = job.id;
     state.jobReturnRoute = document.querySelector("[data-view]:not([hidden])")?.dataset.view || "jobs";
     const dialog = el("job-dialog");
-    const favorite = state.favorites.has(job.id);
-    const compared = state.compare.has(job.id);
-    const applicationSteps = [
-      t("form.stepContact"),
-      t("form.stepLocation"),
-      t("form.stepDocuments"),
-      t("form.stepWork"),
-      t("form.stepQualification"),
-      t("form.stepReview"),
-      t("form.openWhatsapp")
-    ];
     const visualType = jobVisualType(job.id);
     const routeCode = countryCode(job.format) || "EU";
-    const fit = jobFitItems(job, view);
-    const copy = conversionCopy();
-    const okCheck = okCheckCopy();
     const personalCopy = personalCatalogCopy();
+    const vacancyCopy = vacancyShareCopy();
     const freshness = vacancyFreshness(job);
     const conditionCards = (view.benefits || []).map((item) => `
       <article>
@@ -5692,7 +5843,6 @@
               <span>${escapeHTML(view.category)}</span>
             </div>
             <div class="job-card-tags">
-              <button class="availability-chat" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.clarify"))}</span></button>
               <span class="tag">${escapeHTML(view.level)}</span>
             </div>
             <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
@@ -5709,17 +5859,6 @@
             <strong>${formatSalary(view.salary)}</strong>
             <em>${svgIcon(job.salary?.confirmed ? "check" : "clock")}<span>${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}</span></em>
           </div>
-          <button class="job-detail-recruiter-chat" type="button" data-job-chat="${escapeHTML(job.id)}">
-            <span class="job-detail-recruiter-photo">
-              <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="">
-              <i aria-hidden="true"></i>
-            </span>
-            <span>
-              <small>${escapeHTML(t("ui.recruiterEyebrow"))}</small>
-              <strong>${escapeHTML(profile.name)}</strong>
-            </span>
-            ${svgIcon("whatsapp")}
-          </button>
         </div>
       </header>
       <dl class="job-detail-facts">
@@ -5737,63 +5876,6 @@
           ${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}
         </div>
       </div>
-      <section class="ok-check" aria-label="${escapeHTML(okCheck.title)}">
-        <header class="ok-check-head">
-          <span class="ok-check-mark" aria-hidden="true">OK</span>
-          <div>
-            <p>${escapeHTML(okCheck.eyebrow)}</p>
-            <h3>${escapeHTML(okCheck.title)}</h3>
-          </div>
-          <span class="ok-check-person">
-            <img src="assets/oleksandr-kiris-greenhouse.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
-            <strong>${escapeHTML(profile.name)}</strong>
-          </span>
-        </header>
-        <div class="ok-check-grid">
-          <article data-tone="${job.salary?.confirmed ? "confirmed" : "check"}">
-            <span aria-hidden="true">${svgIcon("jobs")}</span>
-            <div><small>${escapeHTML(okCheck.rate)}</small><strong>${escapeHTML(job.salary?.confirmed ? okCheck.rateShown : okCheck.rateCheck)}</strong></div>
-          </article>
-          <article data-tone="check">
-            <span aria-hidden="true">${svgIcon("clock")}</span>
-            <div><small>${escapeHTML(okCheck.start)}</small><strong>${escapeHTML(okCheck.startValue)}</strong></div>
-          </article>
-          <article data-tone="check">
-            <span aria-hidden="true">${svgIcon("home")}</span>
-            <div><small>${escapeHTML(okCheck.housing)}</small><strong>${escapeHTML(okCheck.housingValue)}</strong></div>
-          </article>
-          <article data-tone="safe">
-            <span aria-hidden="true">${svgIcon("shield")}</span>
-            <div><small>${escapeHTML(okCheck.documents)}</small><strong>${escapeHTML(okCheck.documentsValue)}</strong></div>
-          </article>
-        </div>
-        <p class="ok-check-note">${svgIcon("shield")}<span>${escapeHTML(okCheck.note)}</span></p>
-      </section>
-      <section class="job-fit-grid" aria-label="${escapeHTML(copy.fitTitle)}">
-        <article class="job-fit-card job-fit-positive">
-          <h3>${escapeHTML(copy.fitTitle)}</h3>
-          ${listMarkup(fit.positive)}
-        </article>
-        <article class="job-fit-card job-fit-negative">
-          <h3>${escapeHTML(copy.notFitTitle)}</h3>
-          ${listMarkup(fit.negative)}
-        </article>
-      </section>
-      ${view.statusNote ? `
-        <div class="availability-note">
-          <div class="job-status-badges">
-            <span class="${job.salary?.confirmed ? "is-confirmed" : "needs-confirmation"}">
-              ${svgIcon(job.salary?.confirmed ? "check" : "clock")}
-              ${escapeHTML(t(job.salary?.confirmed ? "ui.rateGrossShown" : "ui.rateNeedsConfirmation"))}
-            </span>
-            <span class="needs-confirmation">
-              ${svgIcon("clock")}
-              ${escapeHTML(t("ui.startNeedsConfirmation"))}
-            </span>
-          </div>
-          <p>${escapeHTML(view.statusNote)}</p>
-        </div>
-      ` : ""}
       ${(view.benefits || []).length ? `
         <section class="job-condition-overview">
           <div class="detail-section-heading">
@@ -5803,7 +5885,6 @@
           <div class="job-condition-grid">${conditionCards}</div>
         </section>
       ` : ""}
-      ${grossEstimateMarkup(job, view)}
       <div class="job-detail-grid">
         <div>
           <details class="detail-disclosure" open>
@@ -5821,47 +5902,14 @@
             </details>
           ` : ""}
         </div>
-        <aside class="detail-side">
-          <section class="detail-section">
-            <h3>${escapeHTML(t("ui.applicationRoute"))}</h3>
-            <ol class="hiring-list">${applicationSteps.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ol>
-          </section>
-          <section class="detail-section">
-            <label for="job-note"><strong>${escapeHTML(t("ui.notes"))}</strong></label>
-            <textarea class="note-box" id="job-note">${escapeHTML(state.notes[job.id] || "")}</textarea>
-            <small class="note-help">${escapeHTML(t("ui.noteHelp"))}</small>
-          </section>
-        </aside>
       </div>
+      ${housingGalleryMarkup(job, view)}
       <div class="job-detail-actions">
         <div class="job-detail-primary-actions">
-          <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(t("ui.takeSurvey"))}</span></button>
-          <button class="button button-whatsapp" type="button" data-job-chat="${escapeHTML(job.id)}">${svgIcon("whatsapp")}<span>${escapeHTML(t("ui.askAboutJob"))}</span></button>
-        </div>
-        <div class="job-detail-tools">
-          <button class="button button-secondary" type="button" id="job-favorite">${favoriteActionMarkup(favorite, t("ui.saved"), t("ui.save"))}</button>
-          <button class="button button-secondary" type="button" id="job-compare">${compareActionMarkup(compared, t("ui.inComparison"), t("ui.compare"))}</button>
-          <button class="button button-secondary" type="button" id="job-share">${escapeHTML(t("ui.share"))}</button>
-          <button class="button button-quiet" type="button" id="job-print">${escapeHTML(t("ui.print"))}</button>
+          <button class="button button-primary" type="button" data-job-survey="${escapeHTML(job.id)}">${svgIcon("match")}<span>${escapeHTML(vacancyCopy.apply)}</span></button>
         </div>
       </div>
-      ${relatedJobsMarkup(job)}
     `;
-
-    el("job-note").addEventListener("input", (event) => {
-      state.notes[job.id] = event.target.value;
-      persistNotes();
-    });
-    el("job-favorite").addEventListener("click", () => {
-      toggleFavorite(job.id);
-      el("job-favorite").innerHTML = favoriteActionMarkup(state.favorites.has(job.id), t("ui.saved"), t("ui.save"));
-    });
-    el("job-compare").addEventListener("click", () => {
-      toggleCompare(job.id, !state.compare.has(job.id));
-      el("job-compare").innerHTML = compareActionMarkup(state.compare.has(job.id), t("ui.inComparison"), t("ui.compare"));
-    });
-    el("job-share").addEventListener("click", () => shareJob(job));
-    el("job-print").addEventListener("click", printOpenModal);
 
     updateJobSchema(job);
     if (!dialog.open) dialog.showModal();
@@ -5869,23 +5917,26 @@
   }
 
   function jobShareUrl(job) {
-    const url = new URL(window.location.href);
-    url.hash = `job=${encodeURIComponent(job.id)}`;
+    const url = new URL(`vacancies/${encodeURIComponent(job.id)}/`, site.baseUrl || window.location.href);
+    const source = campaignSource();
+    url.searchParams.set("lang", i18n.locale);
+    url.searchParams.set("src", source === "direct" ? "vacancy_share" : source);
     return url.toString();
   }
 
   async function shareJob(job) {
     const view = localizedJob(job);
+    const copy = vacancyShareCopy();
     const shareData = {
       title: view.title,
-      text: `${view.title} · ${job.company} · ${formatSalary(view.salary).replaceAll("&nbsp;", " ")}`,
+      text: `${view.title} · ${job.company} · ${formatSalary(view.salary).replaceAll("&nbsp;", " ")}\n${copy.shareText}`,
       url: jobShareUrl(job)
     };
     try {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await copyText(shareData.url, t("ui.share"));
+        await copyText(shareData.url, copy.copied);
       }
     } catch (error) {
       if (error?.name !== "AbortError") showToast(t("ui.share"));
@@ -6206,7 +6257,7 @@
   }
 
   function showView(route, updateHash = true, scroll = true) {
-    const next = validRoutes.includes(route) ? route : "home";
+    const next = validRoutes.includes(route) ? route : "jobs";
     els("[data-view]").forEach((view) => {
       view.hidden = view.dataset.view !== next;
     });
@@ -6234,7 +6285,7 @@
       openJob(raw.slice(4), false);
       return;
     }
-    const route = validRoutes.includes(raw) ? raw : "home";
+    const route = validRoutes.includes(raw) ? raw : "jobs";
     closeDialog(el("job-dialog"), false);
     showView(route, false, false);
   }
@@ -6315,6 +6366,7 @@
       }
       const jobButton = event.target.closest("[data-job-open]");
       if (jobButton) {
+        event.preventDefault();
         openJob(jobButton.dataset.jobOpen);
         return;
       }
@@ -6557,6 +6609,7 @@
   function init() {
     i18n.init();
     sanitizeStoredState();
+    const jobIntent = urlJobIntent();
     const urlIntentRoute = applyUrlIntent();
     renderProfileContent();
     populateFilters();
@@ -6566,7 +6619,10 @@
     setupInstallFlow();
     updateConnectionStatus();
     registerServiceWorker();
-    if (urlIntentRoute && !location.hash) showView(urlIntentRoute, false, false);
+    if (jobIntent && !location.hash) {
+      showView("jobs", false, false);
+      openJob(jobIntent, false);
+    } else if (urlIntentRoute && !location.hash) showView(urlIntentRoute, false, false);
     else handleHashRoute();
   }
 
