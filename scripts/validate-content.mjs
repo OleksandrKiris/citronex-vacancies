@@ -18,12 +18,40 @@ add(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(content?.profile?.email || ""), "profile.e
 add(Array.isArray(content?.jobs), "jobs должен быть массивом");
 add(Array.isArray(content?.resources), "resources должен быть массивом");
 
+const housingLocations = content?.housingLocations || {};
+add(
+  housingLocations && typeof housingLocations === "object" && !Array.isArray(housingLocations),
+  "housingLocations должен быть объектом"
+);
+let housingPhotoTotal = 0;
+for (const [locationId, location] of Object.entries(housingLocations)) {
+  const prefix = `housingLocations.${locationId}`;
+  add(/^[a-z0-9-]+$/.test(locationId), `${prefix}: используйте kebab-case`);
+  add(typeof location?.name === "string" && location.name.trim(), `${prefix}.name обязателен`);
+  add(typeof location?.country === "string" && location.country.trim(), `${prefix}.country обязателен`);
+  add(Number.isInteger(location?.photoCount) && location.photoCount > 0, `${prefix}.photoCount некорректен`);
+  const photoCount = Number.isInteger(location?.photoCount) ? location.photoCount : 0;
+  housingPhotoTotal += photoCount;
+  for (let index = 1; index <= photoCount; index += 1) {
+    const fileName = `${locationId}-${String(index).padStart(2, "0")}.webp`;
+    const file = new URL(`../assets/housing/${locationId}/${fileName}`, import.meta.url);
+    add(fs.existsSync(file), `${prefix}: отсутствует ${fileName}`);
+  }
+}
+
 const jobIds = new Set();
 for (const [index, job] of (content?.jobs || []).entries()) {
   const prefix = `jobs[${index}]`;
   add(job.id && /^[a-z0-9-]+$/.test(job.id), `${prefix}.id: используйте kebab-case`);
   add(!jobIds.has(job.id), `${prefix}.id дублируется: ${job.id}`);
   jobIds.add(job.id);
+  const vacancyPage = new URL(`../vacancies/${job.id}/index.html`, import.meta.url);
+  add(fs.existsSync(vacancyPage), `${prefix}: отсутствует отдельная страница vacancies/${job.id}/`);
+  if (fs.existsSync(vacancyPage)) {
+    const vacancyHtml = fs.readFileSync(vacancyPage, "utf8");
+    add(vacancyHtml.includes(`/vacancies/${job.id}/`), `${prefix}: отдельная страница содержит неверную canonical/OG ссылку`);
+    add(vacancyHtml.includes(job.title), `${prefix}: на отдельной странице отсутствует название вакансии`);
+  }
   add(job.title, `${prefix}.title обязателен`);
   add(job.company, `${prefix}.company обязателен`);
   add(["open", "verify", "paused", "closed"].includes(job.status), `${prefix}.status некорректен`);
@@ -44,7 +72,13 @@ for (const [index, job] of (content?.jobs || []).entries()) {
   add(Array.isArray(job.niceToHave), `${prefix}.niceToHave должен быть массивом`);
   add(Array.isArray(job.benefits) && job.benefits.length > 0, `${prefix}.benefits пуст`);
   add(Array.isArray(job.hiring) && job.hiring.length > 0, `${prefix}.hiring пуст`);
+  const assignedHousing = job.housingLocations || [];
+  add(Array.isArray(assignedHousing), `${prefix}.housingLocations должен быть массивом`);
+  for (const locationId of Array.isArray(assignedHousing) ? assignedHousing : []) {
+    add(Boolean(housingLocations[locationId]), `${prefix}.housingLocations: неизвестная локация ${locationId}`);
+  }
 }
+
 
 const resourceIds = new Set();
 for (const [index, resource] of (content?.resources || []).entries()) {
@@ -62,4 +96,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Контент корректен: ${content.jobs.length} вакансии, ${content.resources.length} материала.`);
+console.log(`Контент корректен: ${content.jobs.length} вакансии, ${content.resources.length} материала, ${housingPhotoTotal} фото жилья.`);

@@ -19,13 +19,13 @@ const versionOf = (source, asset) => (
   source.match(new RegExp(`${asset.replaceAll(".", "\\.")}\\?v=(\\d+)`))?.[1]
 );
 const styleVersion = versionOf(html, "assets/styles.css");
-const appVersion = versionOf(html, "assets/app.js");
+const appVersion = versionOf(html, "assets/candidate.js");
 assert(styleVersion, "index.html: styles.css must have a numeric cache-busting version.");
-assert(appVersion, "index.html: app.js must have a numeric cache-busting version.");
-assert(styleVersion === appVersion, "index.html: styles.css and app.js versions must match.");
+assert(appVersion, "index.html: candidate.js must have a numeric cache-busting version.");
+assert(styleVersion === appVersion, "index.html: styles.css and candidate.js versions must match.");
 assert(
   serviceWorker.includes(`assets/styles.css?v=${styleVersion}`)
-    && serviceWorker.includes(`assets/app.js?v=${appVersion}`),
+    && serviceWorker.includes(`assets/candidate.js?v=${appVersion}`),
   "sw.js: cached CSS/JS versions must match index.html."
 );
 assert(
@@ -62,8 +62,8 @@ for (const match of html.matchAll(/<button\b[^>]*>/g)) {
 }
 
 assert(
-  (html.match(/data-i18n-aria-label="ui\.mainNavigation"/g) || []).length === 2,
-  "index.html: desktop and mobile navigation need the localized mainNavigation label."
+  (html.match(/data-i18n-aria-label="ui\.mainNavigation"/g) || []).length === 1,
+  "index.html: the simplified vacancy catalog needs one localized mainNavigation label."
 );
 assert(
   serviceWorker.includes("key.startsWith(CACHE_PREFIX)"),

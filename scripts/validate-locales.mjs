@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const localeCodes = ["ru", "uk", "pl", "en", "az", "ka", "id", "es", "fil", "ne", "hy"];
+const nonCyrillicLocales = new Set(["pl", "en", "az", "ka", "id", "es", "fil", "ne", "hy"]);
 const context = { window: {} };
 vm.createContext(context);
 
@@ -39,6 +40,21 @@ function compareKeys(section, locale) {
   }
 }
 
+function collectStrings(value, prefix = "", result = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectStrings(item, `${prefix}[${index}]`, result));
+    return result;
+  }
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, item]) => {
+      collectStrings(item, prefix ? `${prefix}.${key}` : key, result);
+    });
+    return result;
+  }
+  if (typeof value === "string") result.push([prefix, value]);
+  return result;
+}
+
 const requiredJobFields = [
   "title",
   "subtitle",
@@ -56,16 +72,68 @@ const requiredJobFields = [
   "benefits",
   "statusNote"
 ];
+const englishReference = new Map(collectStrings(translations.en));
+const allowedFilipinoEnglish = new Set([
+  "18+",
+  "Greenhouse",
+  "UDT",
+  "Forklift",
+  "CV",
+  "Umowa o pracę",
+  "C+E",
+  "MAN",
+  "Code 95"
+]);
 
 for (const locale of localeCodes) {
-  if (!translations[locale]) {
+  const pack = translations[locale];
+  if (!pack) {
     errors.push(`Локаль ${locale} не зарегистрирована`);
     continue;
   }
+
+  for (const metaKey of ["name", "short", "locale"]) {
+    if (typeof pack.meta?.[metaKey] !== "string" || !pack.meta[metaKey].trim()) {
+      errors.push(`${locale}.meta.${metaKey} пуст`);
+    }
+  }
+
   for (const section of ["ui", "form", "options"]) compareKeys(section, locale);
+
+  if (nonCyrillicLocales.has(locale)) {
+    for (const [field, value] of collectStrings(pack)) {
+      if (/\p{Script=Cyrillic}/u.test(value)) {
+        errors.push(`${locale}.${field} содержит кириллицу: ${JSON.stringify(value)}`);
+      }
+    }
+  }
+
+  if (locale !== "ru" && locale !== "uk") {
+    for (const section of ["ui", "form", "options"]) {
+      for (const key of Object.keys(reference[section])) {
+        if (pack[section]?.[key] === reference[section][key]) {
+          errors.push(`${locale}.${section}.${key} совпадает с русским текстом`);
+        }
+      }
+    }
+  }
+
+  if (locale === "fil") {
+    for (const [field, value] of collectStrings(pack)) {
+      const isLocation = field.endsWith(".location");
+      if (
+        englishReference.get(field) === value
+        && !isLocation
+        && !allowedFilipinoEnglish.has(value)
+      ) {
+        errors.push(`${locale}.${field} не переведён с английского: ${JSON.stringify(value)}`);
+      }
+    }
+  }
+
   if (locale === "ru") continue;
   for (const job of jobs) {
-    const translated = translations[locale].jobs?.[job.id];
+    const translated = pack.jobs?.[job.id];
     if (!translated) {
       errors.push(`${locale}.jobs.${job.id} отсутствует`);
       continue;
@@ -100,4 +168,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Переводы корректны: ${localeCodes.length} языков, ${jobs.length} вакансий.`);
+console.log(`Переводы корректны: ${localeCodes.length} языков, ${jobs.length} вакансий, русских фрагментов в иностранных локалях нет.`);

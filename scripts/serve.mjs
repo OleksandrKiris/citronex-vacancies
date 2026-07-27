@@ -12,13 +12,14 @@ const types = {
   ".webmanifest": "application/manifest+json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".png": "image/png",
+  ".webp": "image/webp",
   ".txt": "text/plain; charset=utf-8"
 };
 
 const server = http.createServer(async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
-    const requested = pathname === "/" ? "/index.html" : pathname;
+    const requested = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
     const filePath = path.resolve(root, `.${requested}`);
     if (!filePath.startsWith(root)) throw new Error("Invalid path");
     const data = await fs.readFile(filePath);
