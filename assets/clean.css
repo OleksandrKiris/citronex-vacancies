@@ -3986,3 +3986,110 @@ body.vacancy-first {
     padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* v171 · one clear candidate path */
+.candidate-site:not(.direct-vacancy-page) .candidate-intro {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin-top: 22px;
+  padding: 32px 36px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-intro::after,
+.candidate-site:not(.direct-vacancy-page) .intro-note,
+.candidate-site:not(.direct-vacancy-page) .recruiter-card {
+  display: none;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-intro h1 {
+  max-width: 760px;
+  font-size: clamp(38px, 4.5vw, 50px);
+}
+
+.candidate-site:not(.direct-vacancy-page) .intro-copy {
+  max-width: 620px;
+  margin-top: 12px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .catalog-section {
+  padding-top: 20px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card,
+.candidate-site:not(.direct-vacancy-page) .catalog-filters {
+  box-shadow: none;
+}
+
+.direct-vacancy-content {
+  box-shadow: 0 14px 42px rgba(16, 35, 26, .055);
+}
+
+.direct-vacancy-page .vacancy-hero {
+  background: linear-gradient(135deg, #fff, #f5f9f6);
+}
+
+.direct-vacancy-page .vacancy-hero-copy {
+  padding: 42px 44px 40px;
+}
+
+.direct-vacancy-page .vacancy-hero h2 {
+  font-size: clamp(38px, 4.6vw, 54px);
+}
+
+.standalone-application-page .modal-shell-application {
+  box-shadow: 0 18px 54px rgba(16, 35, 26, .075);
+}
+
+.standalone-application-page #application-dialog-content .application-header {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 26px 30px 20px;
+  background: #fff;
+}
+
+.standalone-application-page #application-dialog-content .application-recruiter-handoff {
+  display: none;
+}
+
+.standalone-application-page #application-dialog-content .application-header .overline,
+.standalone-application-page #application-dialog-content .application-header h2,
+.standalone-application-page #application-dialog-content .application-header > p:last-of-type,
+.standalone-application-page #application-dialog-content .application-step-track,
+.standalone-application-page #application-dialog-content .application-progress,
+.standalone-application-page #application-dialog-content .application-header > small {
+  grid-column: 1;
+}
+
+.standalone-application-page #application-dialog-content .application-header h2 {
+  font-size: clamp(29px, 3.5vw, 36px);
+}
+
+.standalone-application-page #application-dialog-content .application-step-track {
+  margin-top: 18px;
+}
+
+.standalone-application-page .application-modal .application-step {
+  padding-top: 26px;
+}
+
+@media (max-width: 560px) {
+  .candidate-site:not(.direct-vacancy-page) .candidate-intro {
+    margin-top: 10px;
+    padding: 25px 20px 23px;
+    border-radius: 17px;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .candidate-intro h1 {
+    font-size: 34px;
+  }
+
+  .direct-vacancy-page .vacancy-hero-copy {
+    padding: 28px 20px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-header {
+    padding: 22px 18px 18px;
+  }
+}

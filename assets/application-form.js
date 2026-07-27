@@ -745,6 +745,7 @@
           ${reviewValue(engine.birthDate, state.values.birthDate)}
           ${reviewValue(engine.age, age == null ? "" : String(age))}
           ${reviewValue(t("form.whatsapp"), state.values.phone)}
+          ${reviewValue(t("form.email"), state.values.email)}
           ${reviewValue(t("form.citizenship"), localizedCountry(state.values.citizenship, state.values.otherCitizenship))}
           ${reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry))}
           ${reviewValue(t("form.currentCity"), state.values.currentCity)}
@@ -752,6 +753,8 @@
           ${reviewValue(t("form.workRight"), state.values.workRight ? t(`options.workRight${state.values.workRight[0].toUpperCase()}${state.values.workRight.slice(1)}`) : "")}
           ${reviewValue(t("form.readyDate"), state.values.readyDate)}
           ${reviewValue(t("form.housing"), state.values.housing === "required" ? t("options.housingRequired") : t("options.housingNotRequired"))}
+          ${reviewValue(t("form.travellingWith"), optionLabel("travellingWith", state.values.travellingWith))}
+          ${reviewValue(t("form.partnerAlsoApplies"), optionLabel("partnerAlsoApplies", state.values.partnerAlsoApplies))}
           ${reviewValue(t("form.shiftReadiness"), shiftValues)}
           ${reviewValue(t("form.experience"), state.values.experience ? t(`options.${state.values.experience}`) : "")}
           ${reviewValue(t("form.experienceDetails"), state.values.experienceDetails)}
@@ -1129,73 +1132,100 @@
     return !state.error;
   }
 
-  function englishCountry(code, otherValue) {
-    return code === "OTHER" ? otherValue : i18n.countryName(code, "en");
+  function polishCountry(code, otherValue) {
+    return code === "OTHER" ? otherValue : i18n.countryName(code, "pl");
   }
 
-  function englishOption(key) {
+  function polishLanguageName(locale) {
     const labels = {
-      statusReady: "Work paperwork is ready",
-      statusClarify: "Work paperwork needs clarification",
-      statusNoDocuments: "Not ready yet",
-      other: "Other",
-      yes: "Yes",
-      no: "No",
-      unknown: "Needs verification",
-      required: "Required",
-      notRequired: "Not required",
-      alone: "Alone",
-      partner: "With partner",
-      family: "With family",
-      friends: "With friends",
-      expNone: "No experience",
-      expUnder6: "Under 6 months",
-      exp6to12: "6–12 months",
-      exp1to2: "1–2 years",
-      exp2plus: "More than 2 years",
-      shiftDay: "Day shifts",
-      shiftNight: "Night shifts",
-      shiftLong: "10–12 hour shifts",
-      shiftWeekend: "Weekend work"
+      ru: "rosyjski",
+      uk: "ukrai\u0144ski",
+      pl: "polski",
+      en: "angielski",
+      az: "azerski",
+      ka: "gruzi\u0144ski",
+      id: "indonezyjski",
+      es: "hiszpa\u0144ski",
+      fil: "filipi\u0144ski",
+      ne: "nepalski",
+      hy: "ormia\u0144ski"
+    };
+    return labels[locale] || locale || "\u2014";
+  }
+
+  function polishSource(source) {
+    const labels = {
+      direct: "bezpo\u015brednio",
+      facebook: "Facebook",
+      instagram: "Instagram",
+      whatsapp: "WhatsApp"
+    };
+    return labels[String(source || "").toLowerCase()] || source || "bezpo\u015brednio";
+  }
+
+  function polishOption(key) {
+    const labels = {
+      statusReady: "Dokumenty są gotowe",
+      statusClarify: "Dokumenty wymagają wyjaśnienia",
+      statusNoDocuments: "Brak gotowych dokumentów",
+      other: "Inne",
+      yes: "Tak",
+      no: "Nie",
+      unknown: "Do sprawdzenia",
+      required: "Potrzebne",
+      notRequired: "Niepotrzebne",
+      alone: "Samodzielnie",
+      partner: "Z partnerem / partnerką",
+      family: "Z rodziną",
+      friends: "Ze znajomymi",
+      expNone: "Brak doświadczenia",
+      expUnder6: "Poniżej 6 miesięcy",
+      exp6to12: "6–12 miesięcy",
+      exp1to2: "1–2 lata",
+      exp2plus: "Ponad 2 lata",
+      shiftDay: "Zmiany dzienne",
+      shiftNight: "Zmiany nocne",
+      shiftLong: "Zmiany 10–12 godzin",
+      shiftWeekend: "Praca w weekendy"
     };
     return labels[key] || key || "—";
   }
 
   function destination(job) {
     const code = destinationCode(job);
-    if (code) return i18n.countryName(code, "en");
-    return job?.format || "To be confirmed";
+    if (code) return i18n.countryName(code, "pl");
+    return job?.format || "Do potwierdzenia";
   }
 
   function candidateCheckFlags(job) {
     const flags = [];
     const jobText = [job?.id, job?.category, job?.title, job?.level].join(" ").toLowerCase();
-    if (state.values.workRight !== "yes") flags.push("Check right to work at destination");
-    if (state.values.legalStatus === "statusNoDocuments") flags.push("Work paperwork is not ready yet");
-    if (state.values.legalStatus === "statusClarify") flags.push("Clarify work paperwork before proposing a departure date");
-    if (state.values.experience === "expNone" && job?.level !== "Без опыта") flags.push("No experience for a role that may require experience");
+    if (state.values.workRight !== "yes") flags.push("Sprawdzić prawo do pracy w kraju docelowym");
+    if (state.values.legalStatus === "statusNoDocuments") flags.push("Dokumenty do pracy nie są gotowe");
+    if (state.values.legalStatus === "statusClarify") flags.push("Wyjaśnić dokumenty przed ustaleniem daty wyjazdu");
+    if (state.values.experience === "expNone" && job?.level !== "Без опыта") flags.push("Brak doświadczenia na stanowisku, które może go wymagać");
     if (jobText.includes("driver") || jobText.includes("водител")) {
-      if (state.values.driverLicense !== "yes") flags.push("Driver role: confirm C+E license");
-      if (state.values.code95 !== "yes") flags.push("Driver role: confirm Code 95");
-      if (state.values.tachograph !== "yes") flags.push("Driver role: confirm tachograph card");
+      if (state.values.driverLicense !== "yes") flags.push("Kierowca: potwierdzić prawo jazdy C+E");
+      if (state.values.code95 !== "yes") flags.push("Kierowca: potwierdzić Code 95");
+      if (state.values.tachograph !== "yes") flags.push("Kierowca: potwierdzić kartę kierowcy");
     }
-    if (jobText.includes("udt") && state.values.udtLicense !== "yes") flags.push("UDT role: confirm Polish UDT");
-    if (state.values.partnerAlsoApplies === "yes") flags.push("Second person also applies: check two places and housing");
-    if (!flags.length) flags.push("No obvious red flags from the questionnaire");
+    if (jobText.includes("udt") && state.values.udtLicense !== "yes") flags.push("Stanowisko UDT: potwierdzić polskie uprawnienia UDT");
+    if (state.values.partnerAlsoApplies === "yes") flags.push("Druga osoba również aplikuje: sprawdzić dwa miejsca i zakwaterowanie");
+    if (!flags.length) flags.push("Brak oczywistych uwag po wstępnej weryfikacji");
     return flags;
   }
 
   function qualificationSummary() {
     return [
-      state.values.driverLicense && `C+E ${englishOption(state.values.driverLicense)}`,
-      state.values.code95 && `Code 95 ${englishOption(state.values.code95)}`,
-      state.values.tachograph && `Tachograph ${englishOption(state.values.tachograph)}`,
-      state.values.reeferExperience && `Reefer ${englishOption(state.values.reeferExperience)}`,
-      state.values.udtLicense && `UDT ${englishOption(state.values.udtLicense)}`,
+      state.values.driverLicense && `Prawo jazdy C+E: ${polishOption(state.values.driverLicense)}`,
+      state.values.code95 && `Code 95: ${polishOption(state.values.code95)}`,
+      state.values.tachograph && `Karta kierowcy: ${polishOption(state.values.tachograph)}`,
+      state.values.reeferExperience && `Chłodnia: ${polishOption(state.values.reeferExperience)}`,
+      state.values.udtLicense && `UDT: ${polishOption(state.values.udtLicense)}`,
       state.values.udtCategory && `UDT ${state.values.udtCategory}`,
-      state.values.leadershipExperience && `Leader ${englishOption(state.values.leadershipExperience)}`,
-      state.values.mechanicExperience && `Mechanic ${englishOption(state.values.mechanicExperience)}`,
-      state.values.specialistEducation && `Education ${englishOption(state.values.specialistEducation)}`
+      state.values.leadershipExperience && `Doświadczenie brygadzisty: ${polishOption(state.values.leadershipExperience)}`,
+      state.values.mechanicExperience && `Doświadczenie mechanika: ${polishOption(state.values.mechanicExperience)}`,
+      state.values.specialistEducation && `Wykształcenie kierunkowe: ${polishOption(state.values.specialistEducation)}`
     ].filter(Boolean);
   }
 
@@ -1209,12 +1239,13 @@
     const age = calculateAge(state.values.birthDate);
     const source = state.values.source || campaignSource();
     const checkFlags = candidateCheckFlags(job);
+    const polishJob = window.PORTAL_TRANSLATIONS?.pl?.jobs?.[job?.id] || {};
     return {
       v: 1,
       id: applicationId,
       at: submittedAt,
       jid: job?.id || "",
-      j: localized?.title || job?.title || "",
+      j: polishJob.title || localized?.title || job?.title || "",
       d: destination(job),
       s: localized?.salary?.note || job?.salary?.note || "Needs confirmation",
       fn: state.values.firstName || "",
@@ -1223,60 +1254,77 @@
       a: age,
       p: String(state.values.phone || "").replace(/[\s()-]/g, ""),
       e: state.values.email || "",
-      cit: englishCountry(state.values.citizenship, state.values.otherCitizenship),
-      cc: englishCountry(state.values.currentCountry, state.values.otherCountry),
+      cit: polishCountry(state.values.citizenship, state.values.otherCitizenship),
+      cc: polishCountry(state.values.currentCountry, state.values.otherCountry),
       city: state.values.currentCity || "",
-      doc: englishOption(state.values.legalStatus),
-      wr: englishOption(state.values.workRight),
+      doc: polishOption(state.values.legalStatus),
+      wr: polishOption(state.values.workRight),
       ready: state.values.readyDate || "",
-      house: englishOption(state.values.housing),
-      travel: englishOption(state.values.travellingWith),
-      second: englishOption(state.values.partnerAlsoApplies),
-      sh: (state.values.shiftReadiness || []).map(englishOption),
-      exp: englishOption(state.values.experience),
+      house: polishOption(state.values.housing),
+      travel: polishOption(state.values.travellingWith),
+      second: polishOption(state.values.partnerAlsoApplies),
+      sh: (state.values.shiftReadiness || []).map(polishOption),
+      exp: polishOption(state.values.experience),
       expd: state.values.experienceDetails || "",
       q: qualificationSummary(),
       n: state.values.extraNotes || "",
       check: checkFlags,
-      src: source,
-      lang: i18n.languageName(state.values.preferredLanguage || i18n.locale)
+      src: polishSource(source),
+      lang: polishLanguageName(state.values.preferredLanguage || i18n.locale)
     };
   }
 
   function buildMessage() {
     const record = buildApplicationRecord();
-    const personal = personalMessageCopy();
-    const engine = candidateEngineCopy();
+    const submittedAt = new Intl.DateTimeFormat("pl-PL", {
+      dateStyle: "short",
+      timeStyle: "short",
+      timeZone: "Europe/Warsaw"
+    }).format(new Date(record.at));
+    const currentLocation = [record.cc, record.city].filter(Boolean).join(", ") || "—";
+    const verification = record.check.map((item) => `• ${item}`);
     return [
-      `${personal.greeting}, ${profile.name}!`,
-      personal.source,
-      `${personal.reference}: ${record.id}`,
-      `${engine.source}: ${record.src}`,
+      "📋 *NOWA ANKIETA KANDYDATA*",
+      `*Nr zgłoszenia:* ${record.id}`,
+      `*Data:* ${submittedAt}`,
+      `*Źródło:* ${record.src}`,
       "",
-      "────────────────────",
+      "💼 *OFERTA PRACY*",
+      `*Stanowisko:* ${record.j}`,
+      `*ID oferty:* ${record.jid}`,
+      `*Kraj:* ${record.d}`,
       "",
-      `KIRIS JOBS · НОВАЯ АНКЕТА · ${record.id}`,
+      "👤 *DANE KANDYDATA*",
+      `*Imię i nazwisko:* ${record.fn} ${record.ln}`,
+      `*Data urodzenia:* ${record.dob || "—"}`,
+      `*Wiek:* ${record.a ?? "—"}`,
+      `*WhatsApp:* ${record.p}`,
+      `*E-mail:* ${record.e || "—"}`,
+      `*Obywatelstwo:* ${record.cit || "—"}`,
+      `*Obecne miejsce pobytu:* ${currentLocation}`,
       "",
-      `Вакансия: ${record.j} (${record.jid})`,
-      `Страна: ${record.d}`,
-      `Кандидат: ${record.fn} ${record.ln}`,
-      `Дата рождения / возраст: ${record.dob} / ${record.a ?? "—"}`,
-      `WhatsApp: ${record.p}`,
-      `Email: ${record.e || "—"}`,
-      `Гражданство: ${record.cit}`,
-      `Сейчас находится: ${record.cc}, ${record.city}`,
-      `Документы: ${record.doc}`,
-      `Право на работу: ${record.wr}`,
-      `Готов с: ${record.ready}`,
-      `Жильё: ${record.house}`,
-      `Едет: ${record.travel}`,
-      `Смены: ${record.sh.join(", ") || "—"}`,
-      `Опыт: ${record.exp}`,
-      `Описание опыта: ${record.expd || "—"}`,
-      `Квалификация: ${record.q.join(", ") || "—"}`,
-      `Комментарий: ${record.n || "—"}`,
-      `Проверить: ${record.check.join("; ")}`,
-      `Источник: ${record.src} · язык ${record.lang}`
+      "📄 *DOKUMENTY I GOTOWOŚĆ*",
+      `*Status dokumentów:* ${record.doc}`,
+      `*Prawo do pracy:* ${record.wr}`,
+      `*Gotowość od:* ${record.ready || "—"}`,
+      "",
+      "🏠 *ORGANIZACJA WYJAZDU*",
+      `*Zakwaterowanie:* ${record.house}`,
+      `*Wyjazd:* ${record.travel}`,
+      `*Druga osoba również aplikuje:* ${record.second}`,
+      `*Gotowość do zmian:* ${record.sh.join(", ") || "—"}`,
+      "",
+      "🧰 *DOŚWIADCZENIE I KWALIFIKACJE*",
+      `*Doświadczenie:* ${record.exp}`,
+      `*Szczegóły doświadczenia:* ${record.expd || "—"}`,
+      `*Kwalifikacje:* ${record.q.join("; ") || "—"}`,
+      "",
+      "💬 *DODATKOWE INFORMACJE*",
+      `*Komentarz kandydata:* ${record.n || "—"}`,
+      `*Język kontaktu:* ${record.lang}`,
+      "",
+      "⚠️ *DO WERYFIKACJI*",
+      ...verification
     ].join("\n");
   }
 
