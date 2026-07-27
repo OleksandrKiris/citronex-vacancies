@@ -7,6 +7,8 @@
   const profile = content.profile || {};
   const housing = content.housingLocations || {};
   const state = { query: "", country: "", openJobId: "" };
+  const directPathMatch = location.pathname.match(/\/vacancies\/([^/]+)\/?$/);
+  const directJobId = directPathMatch ? decodeURIComponent(directPathMatch[1]) : "";
 
   const $ = (id) => document.getElementById(id);
   const escapeHTML = (value) => String(value ?? "")
@@ -57,7 +59,15 @@
   }
 
   function publicJobUrl(job) {
-    const url = new URL(`vacancies/${encodeURIComponent(job.id)}/`, content.site.baseUrl);
+    const url = new URL(`vacancies/${encodeURIComponent(job.id)}/`, new URL("./", document.baseURI));
+    url.searchParams.set("lang", i18n.locale);
+    const source = new URL(location.href).searchParams.get("src");
+    if (source) url.searchParams.set("src", source);
+    return url.toString();
+  }
+
+  function catalogUrl() {
+    const url = new URL("./", document.baseURI);
     url.searchParams.set("lang", i18n.locale);
     const source = new URL(location.href).searchParams.get("src");
     if (source) url.searchParams.set("src", source);
@@ -188,19 +198,24 @@
     `;
   }
 
-  function detail(job) {
+  function detail(job, options = {}) {
     const view = localized(job);
     const image = housingEntries(job)[0];
+    const headingId = options.page ? "job-page-title" : "job-dialog-title";
     return `
       <article class="vacancy-detail">
         <header class="vacancy-hero">
           <div class="vacancy-hero-copy">
             <div class="job-tags"><span>${escapeHTML(view.format)}</span><span>${escapeHTML(view.category)}</span></div>
-            <h2 id="job-dialog-title">${escapeHTML(view.title)}</h2>
+            <h2 id="${headingId}">${escapeHTML(view.title)}</h2>
             <p>${escapeHTML(job.company)} · ${escapeHTML(view.subtitle || "")}</p>
+            <button class="primary-button vacancy-hero-apply" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
           </div>
           ${image ? `
-            <img src="${escapeHTML(photoUrl(image[0], coverIndex(job, image[1].photoCount)))}" alt="" width="900" height="600">
+            <figure class="vacancy-hero-media">
+              <img src="${escapeHTML(photoUrl(image[0], coverIndex(job, image[1].photoCount)))}" alt="${escapeHTML(image[1].name)}" width="900" height="600">
+              <figcaption>${escapeHTML(i18n.t("ui.housingPhotos"))} · ${escapeHTML(image[1].name)} · ${image[1].photoCount} ${escapeHTML(i18n.t("ui.photos"))}</figcaption>
+            </figure>
           ` : `<div class="vacancy-hero-fallback" data-country="${escapeHTML(countryCode(job))}">${escapeHTML(countryCode(job))}</div>`}
         </header>
 
@@ -210,6 +225,8 @@
           <div><dt>${escapeHTML(i18n.t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
           <div><dt>${escapeHTML(i18n.t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(" · "))}</dd></div>
         </dl>
+
+        ${housingGallery(job)}
 
         <section class="vacancy-section vacancy-summary">
           <p>${escapeHTML(view.summary)}</p>
@@ -228,8 +245,6 @@
           <div><h3>${escapeHTML(i18n.t("ui.required"))}</h3>${list(view.required)}</div>
         </section>
 
-        ${housingGallery(job)}
-
         <footer class="vacancy-apply-bar">
           <button class="primary-button" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
         </footer>
@@ -247,6 +262,22 @@
     dialog.querySelector(".dialog-panel")?.scrollTo({ top: 0 });
   }
 
+  function renderDirectVacancy() {
+    const section = $("direct-vacancy");
+    const container = $("direct-vacancy-content");
+    const job = jobs.find((item) => item.id === directJobId);
+    const isDirectPage = Boolean(directJobId && job);
+    document.body.classList.toggle("direct-vacancy-page", isDirectPage);
+    section.hidden = !isDirectPage;
+    if (!isDirectPage) {
+      container.innerHTML = "";
+      return;
+    }
+    state.openJobId = job.id;
+    $("direct-vacancy-back").href = catalogUrl();
+    container.innerHTML = detail(job, { page: true });
+  }
+
   function closeDialog(dialog) {
     if (dialog?.open) dialog.close();
   }
@@ -260,8 +291,15 @@
     $("whatsapp-link").href = profile.whatsapp;
     $("footer-whatsapp").href = profile.whatsapp;
     $("safety-whatsapp").href = profile.whatsapp;
-    renderCountryFilter();
-    renderJobs();
+    $("jobs-link").href = catalogUrl();
+    $("brand-home").href = catalogUrl();
+    if (directJobId) {
+      $("job-total").textContent = String(jobs.length);
+      renderDirectVacancy();
+    } else {
+      renderCountryFilter();
+      renderJobs();
+    }
     if (state.openJobId && $("job-dialog").open) openJob(state.openJobId);
   }
 
@@ -278,10 +316,7 @@
       const openButton = event.target.closest("[data-open-job]");
       const applyButton = event.target.closest("[data-apply-job]");
       const closeButton = event.target.closest("[data-close-dialog]");
-      if (openButton) {
-        event.preventDefault();
-        openJob(openButton.dataset.openJob);
-      }
+      if (openButton && directJobId) event.preventDefault();
       if (applyButton) {
         closeDialog($("job-dialog"));
         window.PortalApplication?.open(applyButton.dataset.applyJob);
@@ -304,9 +339,9 @@
   }
 
   function openDeepLink() {
-    const pathMatch = location.pathname.match(/\/vacancies\/([^/]+)\/?$/);
+    if (directJobId) return;
     const hashMatch = location.hash.match(/^#job=(.+)$/);
-    const id = pathMatch?.[1] || hashMatch?.[1];
+    const id = hashMatch?.[1];
     if (id) openJob(decodeURIComponent(id));
   }
 

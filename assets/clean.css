@@ -2448,3 +2448,356 @@ body.vacancy-first {
     font-size: 38px;
   }
 }
+
+/* v167 · calmer catalog and dedicated vacancy pages */
+.vacancy-hero-media {
+  position: relative;
+  min-width: 0;
+  min-height: 290px;
+  margin: 0;
+  overflow: hidden;
+  background: #eef1ee;
+}
+
+.vacancy-hero-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 290px;
+  object-fit: cover;
+}
+
+.vacancy-hero-media figcaption {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  width: fit-content;
+  max-width: calc(100% - 28px);
+  padding: 8px 11px;
+  color: #fff;
+  background: rgba(20, 34, 26, .82);
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.vacancy-hero-apply {
+  width: fit-content;
+  min-width: 210px;
+  margin-top: 22px;
+}
+
+.direct-vacancy-shell[hidden] {
+  display: none !important;
+}
+
+.direct-vacancy-page .candidate-intro,
+.direct-vacancy-page .catalog-section,
+.direct-vacancy-page .safety-panel {
+  display: none;
+}
+
+.direct-vacancy-shell {
+  width: min(calc(100% - 32px), 980px);
+  margin-inline: auto;
+  padding: 22px 0 52px;
+}
+
+.direct-vacancy-back {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 0 13px;
+  color: #314039;
+  background: #fff;
+  border: 1px solid #dfe4e0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.direct-vacancy-back:hover {
+  border-color: #bfc9c2;
+}
+
+.direct-vacancy-content {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dfe4e0;
+  border-radius: 18px;
+}
+
+.direct-vacancy-page .vacancy-hero {
+  min-height: 0;
+  border-bottom-color: #e6e9e7;
+}
+
+.direct-vacancy-page .vacancy-hero-copy {
+  padding: 38px 34px;
+}
+
+.direct-vacancy-page .vacancy-hero h2 {
+  font-size: clamp(34px, 4.5vw, 48px);
+  line-height: 1.04;
+}
+
+.direct-vacancy-page .vacancy-facts {
+  gap: 0;
+  margin: 0;
+  border-bottom: 1px solid #e6e9e7;
+}
+
+.direct-vacancy-page .vacancy-facts > div {
+  padding: 18px 20px;
+  border: 0;
+  border-right: 1px solid #e6e9e7;
+  border-bottom: 1px solid #e6e9e7;
+  border-radius: 0;
+}
+
+.direct-vacancy-page .vacancy-facts > div:nth-child(even) {
+  border-right: 0;
+}
+
+.direct-vacancy-page .vacancy-section {
+  margin: 0;
+  padding: 26px 28px;
+  border: 0;
+  border-bottom: 1px solid #e6e9e7;
+  border-radius: 0;
+}
+
+.direct-vacancy-page .housing-section {
+  background: #f7f8f6;
+}
+
+.direct-vacancy-page .housing-list {
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.direct-vacancy-page .housing-location {
+  background: #fff;
+}
+
+.direct-vacancy-page .housing-location summary {
+  min-height: 54px;
+  padding-inline: 16px;
+}
+
+.direct-vacancy-page .housing-grid {
+  gap: 8px;
+  padding: 0 10px 10px;
+}
+
+.direct-vacancy-page .vacancy-apply-bar {
+  position: static;
+  padding: 18px 28px;
+  background: #fff;
+}
+
+.direct-vacancy-page .vacancy-apply-bar .primary-button {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.candidate-site:not(.direct-vacancy-page) {
+  background: #fff;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-intro {
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding-block: 38px 28px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-intro > div {
+  max-width: 720px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-intro h1 {
+  font-size: clamp(36px, 5vw, 50px);
+  line-height: 1.04;
+}
+
+.candidate-site:not(.direct-vacancy-page) .intro-copy {
+  max-width: 620px;
+  margin-top: 13px;
+  font-size: 15px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .intro-note,
+.candidate-site:not(.direct-vacancy-page) .recruiter-card {
+  display: none;
+}
+
+.candidate-site:not(.direct-vacancy-page) .catalog-heading {
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .catalog-heading > div {
+  display: none;
+}
+
+.candidate-site:not(.direct-vacancy-page) .catalog-filters {
+  margin-bottom: 14px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.candidate-site:not(.direct-vacancy-page) .candidate-job-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card {
+  border-radius: 12px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card:hover {
+  box-shadow: 0 8px 24px rgba(20, 33, 26, .06);
+  transform: none;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-cover {
+  height: 190px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-body {
+  min-height: 0;
+  padding: 18px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card h2 {
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-subtitle {
+  min-height: 0;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-facts {
+  margin: 14px 0;
+  gap: 0;
+  border-top: 1px solid #e6e9e7;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-facts > div {
+  padding: 10px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #e6e9e7;
+  border-radius: 0;
+}
+
+.candidate-site:not(.direct-vacancy-page) .safety-panel {
+  margin-top: 8px;
+  background: #fbfbfa;
+}
+
+@media (max-width: 940px) {
+  .vacancy-hero-media {
+    order: -1;
+    min-height: 230px;
+    max-height: 300px;
+  }
+
+  .vacancy-hero-media img {
+    min-height: 230px;
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 720px) {
+  .direct-vacancy-shell {
+    width: 100%;
+    padding: 0 0 24px;
+  }
+
+  .direct-vacancy-back {
+    margin: 10px;
+  }
+
+  .direct-vacancy-content {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .direct-vacancy-page .vacancy-hero-copy {
+    padding: 22px 16px 24px;
+  }
+
+  .direct-vacancy-page .vacancy-hero h2 {
+    font-size: 31px;
+  }
+
+  .vacancy-hero-media,
+  .vacancy-hero-media img {
+    min-height: 220px;
+    max-height: 260px;
+  }
+
+  .vacancy-hero-media figcaption {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+  }
+
+  .vacancy-hero-apply {
+    width: 100%;
+    margin-top: 18px;
+  }
+
+  .direct-vacancy-page .vacancy-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .direct-vacancy-page .vacancy-facts > div,
+  .direct-vacancy-page .vacancy-facts > div:nth-child(even) {
+    padding: 14px 16px;
+    border-right: 0;
+  }
+
+  .direct-vacancy-page .vacancy-section {
+    padding: 20px 16px;
+  }
+
+  .direct-vacancy-page .housing-grid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .direct-vacancy-page .housing-grid a {
+    width: min(76vw, 300px);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .direct-vacancy-page .vacancy-apply-bar {
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .candidate-intro {
+    padding-block: 28px 22px;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .candidate-intro h1 {
+    font-size: 36px;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .candidate-job-grid {
+    grid-template-columns: 1fr;
+  }
+}
