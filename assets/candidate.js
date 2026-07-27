@@ -74,6 +74,12 @@
     return url.toString();
   }
 
+  function applicationUrl(job) {
+    const url = new URL(publicJobUrl(job));
+    url.searchParams.set("apply", "1");
+    return url.toString();
+  }
+
   function housingEntries(job) {
     return (job.housingLocations || [])
       .map((key) => [key, housing[key]])
@@ -89,12 +95,14 @@
     return `
       <article class="job-card" data-job-id="${escapeHTML(job.id)}">
         <div class="job-card-body">
-          <div class="job-tags">
-            <span>${escapeHTML(view.format)}</span>
-            <span>${escapeHTML(view.level)}</span>
+          <div class="job-card-copy">
+            <div class="job-tags">
+              <span>${escapeHTML(view.format)}</span>
+              <span>${escapeHTML(view.level)}</span>
+            </div>
+            <h2>${escapeHTML(view.title)}</h2>
+            <p class="job-subtitle">${escapeHTML(view.subtitle || view.summary || "")}</p>
           </div>
-          <h2>${escapeHTML(view.title)}</h2>
-          <p class="job-subtitle">${escapeHTML(view.subtitle || view.summary || "")}</p>
           <dl class="job-card-facts">
             <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
             <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
@@ -180,6 +188,7 @@
   function detail(job, options = {}) {
     const view = localized(job);
     const headingId = options.page ? "job-page-title" : "job-dialog-title";
+    const applyUrl = applicationUrl(job);
     return `
       <article class="vacancy-detail">
         <header class="vacancy-hero">
@@ -187,39 +196,43 @@
             <div class="job-tags"><span>${escapeHTML(view.format)}</span><span>${escapeHTML(view.category)}</span></div>
             <h2 id="${headingId}">${escapeHTML(view.title)}</h2>
             <p>${escapeHTML(job.company)} · ${escapeHTML(view.subtitle || "")}</p>
-            <button class="primary-button vacancy-hero-apply" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
           </div>
         </header>
 
-        <dl class="vacancy-facts">
-          <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd><small>${escapeHTML(view.salary?.note || "")}</small></div>
-          <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
-          <div><dt>${escapeHTML(i18n.t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
-          <div><dt>${escapeHTML(i18n.t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(" · "))}</dd></div>
-        </dl>
+        <div class="vacancy-layout">
+          <div class="vacancy-main">
+            <section class="vacancy-section vacancy-summary">
+              <p>${escapeHTML(view.summary)}</p>
+              <div class="skill-list">${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}</div>
+            </section>
 
-        ${housingGallery(job)}
+            ${(view.benefits || []).length ? `
+              <section class="vacancy-section">
+                <div class="section-title"><p>${escapeHTML(i18n.t("ui.details"))}</p><h3>${escapeHTML(i18n.t("ui.conditions"))}</h3></div>
+                <div class="condition-grid">${view.benefits.map((item) => `<p>${escapeHTML(item)}</p>`).join("")}</div>
+              </section>
+            ` : ""}
 
-        <section class="vacancy-section vacancy-summary">
-          <p>${escapeHTML(view.summary)}</p>
-          <div class="skill-list">${(view.skills || []).map((skill) => `<span>${escapeHTML(skill)}</span>`).join("")}</div>
-        </section>
+            <section class="vacancy-section vacancy-columns">
+              <div><h3>${escapeHTML(i18n.t("ui.responsibilities"))}</h3>${list(view.responsibilities)}</div>
+              <div><h3>${escapeHTML(i18n.t("ui.required"))}</h3>${list(view.required)}</div>
+            </section>
 
-        ${(view.benefits || []).length ? `
-          <section class="vacancy-section">
-            <div class="section-title"><p>${escapeHTML(i18n.t("ui.details"))}</p><h3>${escapeHTML(i18n.t("ui.conditions"))}</h3></div>
-            <div class="condition-grid">${view.benefits.map((item) => `<p>${escapeHTML(item)}</p>`).join("")}</div>
-          </section>
-        ` : ""}
+            ${housingGallery(job)}
+          </div>
 
-        <section class="vacancy-section vacancy-columns">
-          <div><h3>${escapeHTML(i18n.t("ui.responsibilities"))}</h3>${list(view.responsibilities)}</div>
-          <div><h3>${escapeHTML(i18n.t("ui.required"))}</h3>${list(view.required)}</div>
-        </section>
-
-        <footer class="vacancy-apply-bar">
-          <button class="primary-button" type="button" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</button>
-        </footer>
+          <aside class="vacancy-sidebar">
+            <div class="vacancy-apply-bar">
+              <a class="primary-button" href="${escapeHTML(applyUrl)}" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</a>
+            </div>
+            <dl class="vacancy-facts">
+              <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd><small>${escapeHTML(view.salary?.note || "")}</small></div>
+              <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.format)} · ${escapeHTML(view.location)}</dd></div>
+              <div><dt>${escapeHTML(i18n.t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
+              <div><dt>${escapeHTML(i18n.t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(" · "))}</dd></div>
+            </dl>
+          </aside>
+        </div>
       </article>
     `;
   }
@@ -247,6 +260,7 @@
     }
     state.openJobId = job.id;
     $("direct-vacancy-back").href = catalogUrl();
+    $("application-page-back").href = publicJobUrl(job);
     container.innerHTML = detail(job, { page: true });
   }
 
@@ -290,6 +304,8 @@
       const closeButton = event.target.closest("[data-close-dialog]");
       if (openButton && directJobId) event.preventDefault();
       if (applyButton) {
+        if (directJobId) return;
+        event.preventDefault();
         closeDialog($("job-dialog"));
         window.PortalApplication?.open(applyButton.dataset.applyJob);
       }
@@ -311,7 +327,14 @@
   }
 
   function openDeepLink() {
-    if (directJobId) return;
+    if (directJobId) {
+      if (new URL(location.href).searchParams.get("apply") === "1") {
+        document.body.classList.add("standalone-application-page");
+        $("application-page-back").hidden = false;
+        window.PortalApplication?.open(directJobId, { standalone: true });
+      }
+      return;
+    }
     const hashMatch = location.hash.match(/^#job=(.+)$/);
     const id = hashMatch?.[1];
     if (id) openJob(decodeURIComponent(id));

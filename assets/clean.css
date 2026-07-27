@@ -2750,3 +2750,287 @@ body.vacancy-first {
     grid-template-columns: 1fr;
   }
 }
+
+/* v169 · professional recruitment portal */
+.candidate-site:not(.direct-vacancy-page) .candidate-job-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card {
+  border-top: 1px solid #dfe4e0;
+  border-radius: 12px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-body {
+  display: grid;
+  min-height: 150px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(250px, .9fr) 160px;
+  align-items: center;
+  gap: 26px;
+  padding: 22px 24px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-copy {
+  min-width: 0;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card h2 {
+  margin-top: 12px;
+  font-size: 21px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-subtitle {
+  margin-top: 7px;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-facts {
+  gap: 0;
+  margin: 0;
+  padding-left: 22px;
+  border-top: 0;
+  border-left: 1px solid #e3e7e4;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card-facts > div {
+  padding: 7px 0;
+  border-bottom: 0;
+}
+
+.candidate-site:not(.direct-vacancy-page) .job-card .primary-button {
+  width: 160px;
+  margin: 0;
+}
+
+.direct-vacancy-shell {
+  width: min(calc(100% - 40px), 1120px);
+}
+
+.direct-vacancy-page .vacancy-hero-copy {
+  max-width: 850px;
+  padding: 46px 44px;
+}
+
+.direct-vacancy-page .vacancy-hero h2 {
+  max-width: 820px;
+  font-size: clamp(38px, 5vw, 56px);
+}
+
+.vacancy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+}
+
+.vacancy-main {
+  min-width: 0;
+  border-right: 1px solid #e6e9e7;
+}
+
+.direct-vacancy-page .vacancy-main .vacancy-section {
+  padding: 30px 34px;
+}
+
+.vacancy-sidebar {
+  position: sticky;
+  top: 92px;
+  padding: 24px;
+}
+
+.direct-vacancy-page .vacancy-sidebar .vacancy-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #dfe4e0;
+  border-radius: 13px;
+}
+
+.direct-vacancy-page .vacancy-sidebar .vacancy-facts > div,
+.direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-child(even) {
+  padding: 15px 16px;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #e6e9e7;
+}
+
+.direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:last-child {
+  border-bottom: 0;
+}
+
+.direct-vacancy-page .vacancy-sidebar .vacancy-apply-bar {
+  padding: 0 0 12px;
+  background: transparent;
+  border: 0;
+}
+
+.direct-vacancy-page .vacancy-sidebar .vacancy-apply-bar .primary-button {
+  width: 100%;
+}
+
+.application-page-back[hidden] {
+  display: none !important;
+}
+
+.application-page-back {
+  width: min(calc(100% - 40px), 980px);
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+  margin: 22px auto 14px;
+  padding: 0 14px;
+  color: #314039;
+  background: #fff;
+  border: 1px solid #dfe4e0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.standalone-application-page .direct-vacancy-shell,
+.standalone-application-page .candidate-footer {
+  display: none;
+}
+
+.standalone-application-page .application-page-back {
+  display: flex;
+}
+
+.standalone-application-page .application-modal[open] {
+  position: static;
+  display: block;
+  width: min(calc(100% - 40px), 980px);
+  max-width: 980px;
+  height: auto;
+  max-height: none;
+  margin: 0 auto 56px;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+}
+
+.standalone-application-page .application-modal::backdrop {
+  background: transparent;
+}
+
+.standalone-application-page .modal-shell-application {
+  width: 100%;
+  max-height: none;
+  min-height: 0;
+  overflow: visible;
+  background: #fff;
+  border: 1px solid #dfe4e0;
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+.standalone-application-page .application-modal .dialog-close {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .candidate-site:not(.direct-vacancy-page) .job-card-body {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .job-card-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px 0 0;
+    border-top: 1px solid #e3e7e4;
+    border-left: 0;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .job-card-facts > div {
+    padding-right: 14px;
+  }
+
+  .candidate-site:not(.direct-vacancy-page) .job-card .primary-button {
+    width: 100%;
+  }
+
+  .vacancy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .vacancy-main {
+    border-right: 0;
+  }
+
+  .vacancy-sidebar {
+    position: static;
+    order: -1;
+    padding: 16px;
+    border-bottom: 1px solid #e6e9e7;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div,
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-child(even) {
+    border-right: 1px solid #e6e9e7;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-child(even) {
+    border-right: 0;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .direct-vacancy-shell {
+    width: 100%;
+  }
+
+  .direct-vacancy-page .vacancy-hero-copy {
+    padding: 26px 18px;
+  }
+
+  .direct-vacancy-page .vacancy-hero h2 {
+    font-size: 34px;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div,
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-child(even),
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid #e6e9e7;
+  }
+
+  .direct-vacancy-page .vacancy-sidebar .vacancy-facts > div:last-child {
+    border-bottom: 0;
+  }
+
+  .direct-vacancy-page .vacancy-main .vacancy-section {
+    padding: 22px 18px;
+  }
+
+  .application-page-back {
+    width: calc(100% - 20px);
+    margin: 10px auto;
+  }
+
+  .standalone-application-page .application-modal[open] {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .standalone-application-page .modal-shell-application {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+}

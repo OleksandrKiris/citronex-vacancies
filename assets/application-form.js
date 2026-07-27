@@ -808,6 +808,11 @@
 
   function focusDialogStart() {
     requestAnimationFrame(() => {
+      if (document.body.classList.contains("standalone-application-page")) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        document.getElementById("application-step-title")?.focus({ preventScroll: true });
+        return;
+      }
       const dialog = document.getElementById("application-dialog");
       dialog?.querySelector(".modal-shell")?.scrollTo({ top: 0, behavior: "smooth" });
       dialog?.querySelector("#application-step-title")?.focus({ preventScroll: true });
@@ -1343,7 +1348,7 @@
     openWhatsApp(message);
   }
 
-  function open(jobId = "") {
+  function open(jobId = "", options = {}) {
     const hasSelectedJob = jobs.some((job) => job.id === jobId);
     state.mode = hasSelectedJob ? "application" : "match";
     state.matchStep = 0;
@@ -1362,7 +1367,10 @@
     };
     render();
     const dialog = document.getElementById("application-dialog");
-    if (dialog && !dialog.open) dialog.showModal();
+    if (dialog && !dialog.open) {
+      if (options.standalone) dialog.show();
+      else dialog.showModal();
+    }
     focusDialogStart();
   }
 
