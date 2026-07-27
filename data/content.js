@@ -61,6 +61,39 @@ window.PORTAL_CONTENT = {
     ]
   },
 
+  housingLocations: {
+    siechnice: {
+      name: "Siechnice",
+      country: "Польша",
+      photoCount: 13
+    },
+    ryczywol: {
+      name: "Ryczywół",
+      country: "Польша",
+      photoCount: 11
+    },
+    bogatynia: {
+      name: "Bogatynia",
+      country: "Польша",
+      photoCount: 7
+    },
+    "pruszcz-gdanski": {
+      name: "Pruszcz Gdański",
+      country: "Польша",
+      photoCount: 8
+    },
+    hungary: {
+      name: "Budapest",
+      country: "Венгрия",
+      photoCount: 8
+    },
+    belgium: {
+      name: "Belgium",
+      country: "Бельгия",
+      photoCount: 7
+    }
+  },
+
   process: [
     {
       title: "Выбор направления",
@@ -128,6 +161,7 @@ window.PORTAL_CONTENT = {
       level: "Без опыта",
       format: "Польша",
       location: "Siechnice · Ryczywół · Bogatynia",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · обычно umowa zlecenia",
       salary: { min: 31.4, max: 31.4, currency: "PLN", period: "час", note: "брутто; часы не гарантируются", confirmed: true },
       candidates: ["18+", "Пары возможны", "Без опыта"],
@@ -177,6 +211,7 @@ window.PORTAL_CONTENT = {
       level: "Без опыта",
       format: "Польша",
       location: "Siechnice · Ryczywół · Bogatynia",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · обычно umowa zlecenia",
       salary: { min: 31.4, max: 31.4, currency: "PLN", period: "час", note: "брутто; сезонная загрузка без гарантии", confirmed: true },
       candidates: ["18+", "Пары возможны", "Физическая работа"],
@@ -226,6 +261,7 @@ window.PORTAL_CONTENT = {
       level: "Без опыта",
       format: "Польша",
       location: "Siechnice · реже Ryczywół и Bogatynia",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · обычно umowa zlecenia",
       salary: { min: 31.4, max: 31.4, currency: "PLN", period: "час", note: "брутто; загрузка зависит от урожая", confirmed: true },
       candidates: ["18+", "Пары при наличии мест", "Без опыта"],
@@ -275,6 +311,7 @@ window.PORTAL_CONTENT = {
       level: "Без опыта",
       format: "Польша",
       location: "Pruszcz Gdański · Zgorzelec",
+      housingLocations: ["pruszcz-gdanski"],
       contract: "Официально · обычно umowa zlecenia",
       salary: { min: 31.4, max: 31.4, currency: "PLN", period: "час", note: "брутто; график зависит от поставок", confirmed: true },
       candidates: ["18+", "Физическая работа", "Сменный график"],
@@ -324,6 +361,7 @@ window.PORTAL_CONTENT = {
       level: "Опыт желателен",
       format: "Польша",
       location: "Siechnice · Ryczywół · Bogatynia",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · тип договора индивидуально",
       salary: { display: "31,40 PLN/час — базовые работы", note: "ставка специалиста определяется индивидуально", confirmed: false },
       candidates: ["18+", "Обучение или опыт", "Без противопоказаний"],
@@ -471,6 +509,7 @@ window.PORTAL_CONTENT = {
       level: "Опыт обязателен",
       format: "Польша",
       location: "Siechnice · Ryczywół · Bogatynia · склады",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · индивидуально",
       salary: { display: "По результатам собеседования", note: "ставка и премии подтверждаются письменно", confirmed: false },
       candidates: ["Опыт руководства", "Производство", "Коммуникация"],
@@ -520,6 +559,7 @@ window.PORTAL_CONTENT = {
       level: "Профильный опыт",
       format: "Польша",
       location: "Siechnice · Ryczywół · Bogatynia",
+      housingLocations: ["siechnice", "ryczywol", "bogatynia"],
       contract: "Официально · индивидуальный договор",
       salary: { display: "Ставка индивидуально", note: "публикуется только после письменного подтверждения", confirmed: false },
       candidates: ["Профильное образование", "Тепличный опыт", "Резюме"],
@@ -716,6 +756,7 @@ window.PORTAL_CONTENT = {
       level: "Без опыта",
       format: "Венгрия",
       location: "Район Будапешта · точный адрес подтверждается",
+      housingLocations: ["hungary"],
       contract: "Официально по условиям венгерского объекта",
       salary: { display: "Ставка брутто уточняется", note: "ранее указанная сумма не имела подтверждения брутто", confirmed: false },
       candidates: ["Граждане Украины", "Проверка документов", "Физическая работа"],
@@ -765,6 +806,7 @@ window.PORTAL_CONTENT = {
       level: "Документы обязательны",
       format: "Бельгия",
       location: "Конкретный объект сообщается после подтверждения",
+      housingLocations: ["belgium"],
       contract: "Командировка / направление при наличии оснований",
       salary: { display: "Ставка и валюта уточняются", note: "подтверждённой суммы брутто в каталоге нет", confirmed: false },
       candidates: ["Граждане Украины", "Подходящие документы", "Не массовый набор"],
