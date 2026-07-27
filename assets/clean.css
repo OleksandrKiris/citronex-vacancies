@@ -4093,3 +4093,328 @@ body.vacancy-first {
     padding: 22px 18px 18px;
   }
 }
+
+/* v172 · structured candidate application */
+.standalone-application-page {
+  background: #f3f6f4;
+}
+
+.standalone-application-page .application-page-back {
+  box-shadow: none;
+}
+
+.standalone-application-page .modal-shell-application {
+  border: 1px solid #dbe3de;
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+.standalone-application-page #application-dialog-content .application-header {
+  padding: 24px 28px 20px;
+  background: #fff;
+  border-bottom: 1px solid #dfe6e1;
+}
+
+.standalone-application-page #application-dialog-content .application-header::before,
+.standalone-application-page #application-dialog-content .application-header::after {
+  display: none;
+}
+
+.standalone-application-page #application-dialog-content .application-header .overline {
+  color: #18704c;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+
+.standalone-application-page #application-dialog-content .application-header h2 {
+  margin-top: 7px;
+  font-size: clamp(28px, 3.4vw, 35px);
+  line-height: 1.08;
+}
+
+.standalone-application-page #application-dialog-content .application-header > p:last-of-type {
+  max-width: 610px;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.standalone-application-page #application-dialog-content .application-step-track {
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.standalone-application-page #application-dialog-content .application-step-track li {
+  min-height: 32px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.standalone-application-page #application-dialog-content .application-step-track li > span {
+  width: 28px;
+  height: 28px;
+  font-size: 9px;
+}
+
+.standalone-application-page #application-dialog-content .application-step-track li > small {
+  align-self: center;
+  font-size: 9px;
+  line-height: 1.25;
+}
+
+.standalone-application-page #application-dialog-content .application-progress {
+  height: 4px;
+  margin-top: 10px;
+}
+
+.standalone-application-page .application-modal .application-step {
+  display: grid;
+  gap: 14px;
+  padding: 22px 28px 28px;
+  background: #f6f8f6;
+}
+
+.standalone-application-page #application-dialog-content .application-form-group {
+  margin: 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #dfe6e1;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.standalone-application-page #application-dialog-content .application-form-group > h3 {
+  margin: 0 0 17px;
+  padding: 0 0 12px;
+  color: #173d2c;
+  border-bottom: 1px solid #e6ebe8;
+  font-size: 18px;
+  letter-spacing: -.02em;
+}
+
+.standalone-application-page #application-dialog-content .application-grid {
+  gap: 15px 13px;
+}
+
+.standalone-application-page #application-dialog-content .application-field {
+  gap: 6px;
+}
+
+.standalone-application-page #application-dialog-content .application-field > span,
+.standalone-application-page #application-dialog-content .application-fieldset legend {
+  color: #2e3d35;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.standalone-application-page #application-dialog-content .application-field input,
+.standalone-application-page #application-dialog-content .application-field select,
+.standalone-application-page #application-dialog-content .application-field textarea {
+  min-height: 48px;
+  background: #fff;
+  border-color: #cfd9d3;
+  border-radius: 9px;
+}
+
+.standalone-application-page #application-dialog-content .application-field textarea {
+  min-height: 94px;
+}
+
+.standalone-application-page #application-dialog-content .application-field input:focus,
+.standalone-application-page #application-dialog-content .application-field select:focus,
+.standalone-application-page #application-dialog-content .application-field textarea:focus {
+  border-color: #247c57;
+  box-shadow: 0 0 0 3px rgba(36, 124, 87, .10);
+}
+
+.standalone-application-page #application-dialog-content .application-fieldset {
+  margin-top: 18px;
+  padding: 16px;
+  background: #f8faf8;
+  border: 1px solid #dfe6e1;
+  border-radius: 11px;
+}
+
+.standalone-application-page #application-dialog-content .application-check-grid {
+  margin-top: 12px;
+}
+
+.standalone-application-page #application-dialog-content .application-selected-vacancy {
+  margin: 0;
+  background: #edf5f0;
+  border-color: #d5e7dc;
+}
+
+.standalone-application-page #application-dialog-content .application-review {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review::before,
+.standalone-application-page #application-dialog-content .application-message-preview::before {
+  display: none;
+}
+
+.standalone-application-page #application-dialog-content .application-review-heading {
+  margin-bottom: 14px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #dfe6e1;
+  border-radius: 14px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-heading h3 {
+  margin: 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review-heading p {
+  margin: 7px 0 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group {
+  padding: 17px;
+  background: #fff;
+  border: 1px solid #dfe6e1;
+  border-radius: 12px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group h4 {
+  margin: 0 0 12px;
+  color: #176b48;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+  margin: 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dl > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 0 0 9px;
+  overflow: visible;
+  border-bottom: 1px solid #edf0ee;
+  box-shadow: none;
+  transform: none;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dl > div::before {
+  display: none;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dl > div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dt {
+  color: #748078;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.standalone-application-page #application-dialog-content .application-review-group dd {
+  margin: 0;
+  color: #172a21;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.standalone-application-page #application-dialog-content .application-message-preview,
+.standalone-application-page #application-dialog-content .application-safety-note {
+  background: #fff;
+  border-color: #dfe6e1;
+  box-shadow: none;
+}
+
+.standalone-application-page #application-dialog-content .application-message-preview textarea {
+  background: #f7f9f7;
+  border-color: #d7dfda;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.standalone-application-page #application-dialog-content .application-actions {
+  padding-right: 28px;
+  padding-left: 28px;
+  box-shadow: none;
+}
+
+.standalone-application-page #application-dialog-content .application-actions .button-primary {
+  box-shadow: none;
+}
+
+@media (max-width: 680px) {
+  .standalone-application-page .modal-shell-application {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .standalone-application-page #application-dialog-content .application-header {
+    padding: 20px 18px 17px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-header h2 {
+    font-size: 28px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-header > p:last-of-type {
+    display: none;
+  }
+
+  .standalone-application-page #application-dialog-content .application-step-track {
+    margin-top: 15px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-step-track li {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .standalone-application-page #application-dialog-content .application-step-track li > small {
+    display: none;
+  }
+
+  .standalone-application-page .application-modal .application-step {
+    gap: 11px;
+    padding: 14px 12px 22px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-form-group,
+  .standalone-application-page #application-dialog-content .application-review-heading,
+  .standalone-application-page #application-dialog-content .application-review-group {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-grid,
+  .standalone-application-page #application-dialog-content .application-review-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .standalone-application-page #application-dialog-content .application-actions {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}

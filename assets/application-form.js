@@ -20,6 +20,7 @@
   const STEP_KEYS = [
     "stepContact",
     "stepDocuments",
+    "stepLogistics",
     "stepWork",
     "stepReview"
   ];
@@ -333,6 +334,13 @@
     ], "required");
   }
 
+  function yesNo(name) {
+    return select(name, [
+      { value: "yes", label: t("options.yes") },
+      { value: "no", label: t("options.no") }
+    ], "required");
+  }
+
   function countryOptions(codes) {
     return codes.map((code) => ({ value: code, label: i18n.countryName(code) }));
   }
@@ -633,6 +641,9 @@
     return `
       <div class="application-grid">
         ${field("legalStatus", t("form.legalStatus"), select("legalStatus", legalStatuses, "required"))}
+        ${state.values.legalStatus && state.values.legalStatus !== "statusNoDocuments"
+          ? field("documentExpiry", t("form.documentExpiry"), input("documentExpiry", "date", `min="${today()}" required`))
+          : ""}
         ${field("workRight", workRightLabel, select("workRight", [
           { value: "yes", label: t("options.workRightYes") },
           { value: "no", label: t("options.workRightNo") },
@@ -643,9 +654,7 @@
     `;
   }
 
-  function renderWorkStep() {
-    const shifts = ["shiftDay", "shiftNight", "shiftLong", "shiftWeekend"];
-    const currentShifts = Array.isArray(state.values.shiftReadiness) ? state.values.shiftReadiness : [];
+  function renderLogisticsStep() {
     return `
       <div class="application-grid">
         ${field("readyDate", t("form.readyDate"), input("readyDate", "date", `min="${today()}" required`))}
@@ -662,6 +671,35 @@
         ${state.values.travellingWith && state.values.travellingWith !== "alone"
           ? field("partnerAlsoApplies", t("form.partnerAlsoApplies"), yesNoUnknown("partnerAlsoApplies"))
           : ""}
+        ${field("employerTransport", t("form.employerTransport"), yesNo("employerTransport"))}
+        ${field("independentArrival", t("form.independentArrival"), yesNo("independentArrival"))}
+      </div>
+    `;
+  }
+
+  function renderWorkStep() {
+    const shifts = ["shiftDay", "shiftNight", "shiftLong", "shiftWeekend"];
+    const currentShifts = Array.isArray(state.values.shiftReadiness) ? state.values.shiftReadiness : [];
+    const durationItems = ["durationUnder3", "duration3to6", "duration6to12", "durationLongTerm"]
+      .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    const noticeItems = ["noticeImmediate", "notice1Week", "notice2Weeks", "notice1Month", "noticeOther"]
+      .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    const liftItems = ["liftUpTo5", "liftUpTo10", "liftUpTo15", "liftUpTo20", "liftOver20"]
+      .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    const polishItems = ["polishNone", "polishBasic", "polishCommunicative", "polishGood"]
+      .map((key) => ({ value: key, label: t(`options.${key}`) }));
+    return `
+      <div class="application-grid">
+        ${field("plannedDuration", t("form.plannedDuration"), select("plannedDuration", durationItems, "required"))}
+        ${field("currentlyEmployed", t("form.currentlyEmployed"), yesNo("currentlyEmployed"))}
+        ${state.values.currentlyEmployed === "yes"
+          ? field("noticePeriod", t("form.noticePeriod"), select("noticePeriod", noticeItems, "required"))
+          : ""}
+        ${field("overtimeReady", t("form.overtimeReady"), yesNo("overtimeReady"))}
+        ${field("standingReady", t("form.standingReady"), yesNo("standingReady"))}
+        ${field("liftCapacity", t("form.liftCapacity"), select("liftCapacity", liftItems, "required"))}
+        ${field("polishLevel", t("form.polishLevel"), select("polishLevel", polishItems, "required"))}
+        ${field("workedInPoland", t("form.workedInPoland"), yesNo("workedInPoland"))}
       </div>
       <fieldset class="application-fieldset">
         <legend>${escapeHTML(t("form.shiftReadiness"))}</legend>
@@ -696,6 +734,7 @@
         ${qualificationFields(effectiveJob())}
       </div>
       ${field("experienceDetails", t("form.experienceDetails"), `<textarea id="application-experienceDetails" name="experienceDetails" rows="3">${escapeHTML(state.values.experienceDetails || "")}</textarea>`)}
+      ${field("workLimitations", t("form.workLimitations"), `<textarea id="application-workLimitations" name="workLimitations" rows="3">${escapeHTML(state.values.workLimitations || "")}</textarea>`, t("form.workLimitationsHint"))}
       ${field("extraNotes", t("form.extraNotes"), `<textarea id="application-extraNotes" name="extraNotes" rows="3">${escapeHTML(state.values.extraNotes || "")}</textarea>`)}
     `;
   }
@@ -703,6 +742,17 @@
   function reviewValue(label, value) {
     if (!value) return "";
     return `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd></div>`;
+  }
+
+  function reviewGroup(title, values) {
+    const content = values.filter(Boolean).join("");
+    if (!content) return "";
+    return `
+      <section class="application-review-group">
+        <h4>${escapeHTML(title)}</h4>
+        <dl>${content}</dl>
+      </section>
+    `;
   }
 
   function optionLabel(group, value) {
@@ -737,30 +787,56 @@
     ].filter(Boolean).join(" · ");
     return `
       <div class="application-review">
-        <h3>${escapeHTML(t("form.reviewTitle"))}</h3>
-        <p>${escapeHTML(t("form.reviewHint"))}</p>
-        <dl>
-          ${reviewValue(t("form.selectedVacancy"), job?.title)}
-          ${reviewValue(`${t("form.firstName")} / ${t("form.lastName")}`, `${state.values.firstName || ""} ${state.values.lastName || ""}`.trim())}
-          ${reviewValue(engine.birthDate, state.values.birthDate)}
-          ${reviewValue(engine.age, age == null ? "" : String(age))}
-          ${reviewValue(t("form.whatsapp"), state.values.phone)}
-          ${reviewValue(t("form.email"), state.values.email)}
-          ${reviewValue(t("form.citizenship"), localizedCountry(state.values.citizenship, state.values.otherCitizenship))}
-          ${reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry))}
-          ${reviewValue(t("form.currentCity"), state.values.currentCity)}
-          ${reviewValue(t("form.legalStatus"), optionLabel("legalStatus", state.values.legalStatus))}
-          ${reviewValue(t("form.workRight"), state.values.workRight ? t(`options.workRight${state.values.workRight[0].toUpperCase()}${state.values.workRight.slice(1)}`) : "")}
-          ${reviewValue(t("form.readyDate"), state.values.readyDate)}
-          ${reviewValue(t("form.housing"), state.values.housing === "required" ? t("options.housingRequired") : t("options.housingNotRequired"))}
-          ${reviewValue(t("form.travellingWith"), optionLabel("travellingWith", state.values.travellingWith))}
-          ${reviewValue(t("form.partnerAlsoApplies"), optionLabel("partnerAlsoApplies", state.values.partnerAlsoApplies))}
-          ${reviewValue(t("form.shiftReadiness"), shiftValues)}
-          ${reviewValue(t("form.experience"), state.values.experience ? t(`options.${state.values.experience}`) : "")}
-          ${reviewValue(t("form.experienceDetails"), state.values.experienceDetails)}
-          ${reviewValue(t("form.stepQualification"), qualificationValues)}
-          ${reviewValue(t("form.extraNotes"), state.values.extraNotes)}
-        </dl>
+        <div class="application-review-heading">
+          <h3>${escapeHTML(t("form.reviewTitle"))}</h3>
+          <p>${escapeHTML(t("form.reviewHint"))}</p>
+        </div>
+        <div class="application-review-groups">
+          ${reviewGroup(t("form.selectedVacancy"), [
+            reviewValue(t("form.selectedVacancy"), job?.title)
+          ])}
+          ${reviewGroup(t("form.stepContact"), [
+            reviewValue(`${t("form.firstName")} / ${t("form.lastName")}`, `${state.values.firstName || ""} ${state.values.lastName || ""}`.trim()),
+            reviewValue(engine.birthDate, state.values.birthDate),
+            reviewValue(engine.age, age == null ? "" : String(age)),
+            reviewValue(t("form.whatsapp"), state.values.phone),
+            reviewValue(t("form.email"), state.values.email)
+          ])}
+          ${reviewGroup(t("form.stepDocuments"), [
+            reviewValue(t("form.citizenship"), localizedCountry(state.values.citizenship, state.values.otherCitizenship)),
+            reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry)),
+            reviewValue(t("form.currentCity"), state.values.currentCity),
+            reviewValue(t("form.legalStatus"), optionLabel("legalStatus", state.values.legalStatus)),
+            reviewValue(t("form.documentExpiry"), state.values.documentExpiry),
+            reviewValue(t("form.workRight"), state.values.workRight ? t(`options.workRight${state.values.workRight[0].toUpperCase()}${state.values.workRight.slice(1)}`) : "")
+          ])}
+          ${reviewGroup(t("form.stepLogistics"), [
+            reviewValue(t("form.readyDate"), state.values.readyDate),
+            reviewValue(t("form.housing"), state.values.housing === "required" ? t("options.housingRequired") : t("options.housingNotRequired")),
+            reviewValue(t("form.travellingWith"), optionLabel("travellingWith", state.values.travellingWith)),
+            reviewValue(t("form.partnerAlsoApplies"), optionLabel("partnerAlsoApplies", state.values.partnerAlsoApplies)),
+            reviewValue(t("form.employerTransport"), optionLabel("employerTransport", state.values.employerTransport)),
+            reviewValue(t("form.independentArrival"), optionLabel("independentArrival", state.values.independentArrival))
+          ])}
+          ${reviewGroup(t("form.stepWork"), [
+            reviewValue(t("form.plannedDuration"), optionLabel("plannedDuration", state.values.plannedDuration)),
+            reviewValue(t("form.currentlyEmployed"), optionLabel("currentlyEmployed", state.values.currentlyEmployed)),
+            reviewValue(t("form.noticePeriod"), optionLabel("noticePeriod", state.values.noticePeriod)),
+            reviewValue(t("form.overtimeReady"), optionLabel("overtimeReady", state.values.overtimeReady)),
+            reviewValue(t("form.standingReady"), optionLabel("standingReady", state.values.standingReady)),
+            reviewValue(t("form.liftCapacity"), optionLabel("liftCapacity", state.values.liftCapacity)),
+            reviewValue(t("form.shiftReadiness"), shiftValues)
+          ])}
+          ${reviewGroup(t("form.stepQualification"), [
+            reviewValue(t("form.experience"), state.values.experience ? t(`options.${state.values.experience}`) : ""),
+            reviewValue(t("form.experienceDetails"), state.values.experienceDetails),
+            reviewValue(t("form.polishLevel"), optionLabel("polishLevel", state.values.polishLevel)),
+            reviewValue(t("form.workedInPoland"), optionLabel("workedInPoland", state.values.workedInPoland)),
+            reviewValue(t("form.stepQualification"), qualificationValues),
+            reviewValue(t("form.workLimitations"), state.values.workLimitations),
+            reviewValue(t("form.extraNotes"), state.values.extraNotes)
+          ])}
+        </div>
       </div>
       <aside class="application-safety-note">
         <span aria-hidden="true">✓</span>
@@ -798,11 +874,17 @@
     `;
     if (state.step === 2) return `
       <section class="application-form-group">
-        <h3>${escapeHTML(t("form.stepWork"))}</h3>
+        <h3>${escapeHTML(t("form.sectionTravel"))}</h3>
+        ${renderLogisticsStep()}
+      </section>
+    `;
+    if (state.step === 3) return `
+      <section class="application-form-group">
+        <h3>${escapeHTML(t("form.sectionAvailability"))}</h3>
         ${renderWorkStep()}
       </section>
       <section class="application-form-group">
-        <h3>${escapeHTML(t("form.stepQualification"))}</h3>
+        <h3>${escapeHTML(t("form.sectionExperience"))}</h3>
         ${renderQualificationStep()}
       </section>
     `;
@@ -923,6 +1005,7 @@
     container.querySelector("[name='legalStatus']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='documentCountry']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='travellingWith']")?.addEventListener("change", collectAndRender);
+    container.querySelector("[name='currentlyEmployed']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='birthDate']")?.addEventListener("change", collectAndRender);
     container.querySelector("[data-application-back]")?.addEventListener("click", () => {
       collectValues();
@@ -1054,8 +1137,8 @@
       if (key !== "shiftReadiness") state.values[key] = String(value).trim();
     }
     if (state.step === 0) state.values.adult = (calculateAge(state.values.birthDate) ?? -1) >= 18;
-    if (state.step === 2) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
-    if (state.step === 3) state.values.consent = data.has("consent");
+    if (state.step === 3) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
+    if (state.step === 4) state.values.consent = data.has("consent");
     if (state.values.jobId) state.jobId = state.values.jobId;
   }
 
@@ -1093,7 +1176,11 @@
         || (state.values.currentCountry === "OTHER" && !validateLatin(state.values.otherCountry, true))
       ) {
         state.error = t("form.latinError");
-      } else if (!state.values.legalStatus || !state.values.workRight) {
+      } else if (
+        !state.values.legalStatus
+        || !state.values.workRight
+        || (state.values.legalStatus !== "statusNoDocuments" && !state.values.documentExpiry)
+      ) {
         state.error = t("form.missingRequired");
       }
     } else if (state.step === 2) {
@@ -1101,12 +1188,27 @@
         !state.values.readyDate
         || !state.values.housing
         || !state.values.travellingWith
-        || !(state.values.shiftReadiness || []).length
+        || !state.values.employerTransport
+        || !state.values.independentArrival
         || (state.values.travellingWith !== "alone" && !state.values.partnerAlsoApplies)
       ) {
         state.error = t("form.missingRequired");
       } else if (state.values.readyDate < today()) {
         state.error = t("form.dateError");
+      }
+    } else if (state.step === 3) {
+      if (
+        !state.values.plannedDuration
+        || !state.values.currentlyEmployed
+        || (state.values.currentlyEmployed === "yes" && !state.values.noticePeriod)
+        || !state.values.overtimeReady
+        || !state.values.standingReady
+        || !state.values.liftCapacity
+        || !state.values.polishLevel
+        || !state.values.workedInPoland
+        || !(state.values.shiftReadiness || []).length
+      ) {
+        state.error = t("form.missingRequired");
       } else {
         const id = state.jobId;
         const qualificationRequired = id.startsWith("driver-ce")
@@ -1183,6 +1285,24 @@
       exp6to12: "6–12 miesięcy",
       exp1to2: "1–2 lata",
       exp2plus: "Ponad 2 lata",
+      durationUnder3: "Do 3 miesięcy",
+      duration3to6: "3–6 miesięcy",
+      duration6to12: "6–12 miesięcy",
+      durationLongTerm: "Długoterminowo",
+      noticeImmediate: "Mogę rozpocząć od razu",
+      notice1Week: "1 tydzień",
+      notice2Weeks: "2 tygodnie",
+      notice1Month: "1 miesiąc",
+      noticeOther: "Inny okres",
+      polishNone: "Brak",
+      polishBasic: "Podstawowy",
+      polishCommunicative: "Komunikatywny",
+      polishGood: "Dobry",
+      liftUpTo5: "Do 5 kg",
+      liftUpTo10: "Do 10 kg",
+      liftUpTo15: "Do 15 kg",
+      liftUpTo20: "Do 20 kg",
+      liftOver20: "Powyżej 20 kg",
       shiftDay: "Zmiany dzienne",
       shiftNight: "Zmiany nocne",
       shiftLong: "Zmiany 10–12 godzin",
@@ -1211,6 +1331,9 @@
     }
     if (jobText.includes("udt") && state.values.udtLicense !== "yes") flags.push("Stanowisko UDT: potwierdzić polskie uprawnienia UDT");
     if (state.values.partnerAlsoApplies === "yes") flags.push("Druga osoba również aplikuje: sprawdzić dwa miejsca i zakwaterowanie");
+    if (state.values.independentArrival === "no") flags.push("Ustalić transport i sposób przyjazdu kandydata");
+    if (state.values.standingReady === "no") flags.push("Sprawdzić dopasowanie do fizycznych wymagań stanowiska");
+    if (state.values.workLimitations) flags.push("Omówić ograniczenia wskazane przez kandydata");
     if (!flags.length) flags.push("Brak oczywistych uwag po wstępnej weryfikacji");
     return flags;
   }
@@ -1258,15 +1381,27 @@
       cc: polishCountry(state.values.currentCountry, state.values.otherCountry),
       city: state.values.currentCity || "",
       doc: polishOption(state.values.legalStatus),
+      docexp: state.values.documentExpiry || "",
       wr: polishOption(state.values.workRight),
       ready: state.values.readyDate || "",
       house: polishOption(state.values.housing),
       travel: polishOption(state.values.travellingWith),
       second: polishOption(state.values.partnerAlsoApplies),
+      transport: polishOption(state.values.employerTransport),
+      arrival: polishOption(state.values.independentArrival),
+      duration: polishOption(state.values.plannedDuration),
+      employed: polishOption(state.values.currentlyEmployed),
+      notice: state.values.currentlyEmployed === "yes" ? polishOption(state.values.noticePeriod) : "Nie dotyczy",
+      overtime: polishOption(state.values.overtimeReady),
+      standing: polishOption(state.values.standingReady),
+      lift: polishOption(state.values.liftCapacity),
       sh: (state.values.shiftReadiness || []).map(polishOption),
       exp: polishOption(state.values.experience),
       expd: state.values.experienceDetails || "",
+      polish: polishOption(state.values.polishLevel),
+      workedpl: polishOption(state.values.workedInPoland),
       q: qualificationSummary(),
+      limits: state.values.workLimitations || "",
       n: state.values.extraNotes || "",
       check: checkFlags,
       src: polishSource(source),
@@ -1303,23 +1438,39 @@
       `*Obywatelstwo:* ${record.cit || "—"}`,
       `*Obecne miejsce pobytu:* ${currentLocation}`,
       "",
-      "📄 *DOKUMENTY I GOTOWOŚĆ*",
+      "📄 *DOKUMENTY*",
       `*Status dokumentów:* ${record.doc}`,
+      `*Ważność dokumentu:* ${record.docexp || "—"}`,
       `*Prawo do pracy:* ${record.wr}`,
-      `*Gotowość od:* ${record.ready || "—"}`,
       "",
-      "🏠 *ORGANIZACJA WYJAZDU*",
+      "📅 *DOSTĘPNOŚĆ I PLAN PRACY*",
+      `*Gotowość od:* ${record.ready || "—"}`,
+      `*Planowany okres pracy:* ${record.duration}`,
+      `*Obecnie zatrudniony/a:* ${record.employed}`,
+      `*Okres wypowiedzenia:* ${record.notice}`,
+      "",
+      "🏠 *ZAKWATEROWANIE I DOJAZD*",
       `*Zakwaterowanie:* ${record.house}`,
       `*Wyjazd:* ${record.travel}`,
       `*Druga osoba również aplikuje:* ${record.second}`,
+      `*Potrzebny transport pracodawcy:* ${record.transport}`,
+      `*Może przyjechać samodzielnie:* ${record.arrival}`,
+      "",
+      "🕒 *GRAFIK I GOTOWOŚĆ FIZYCZNA*",
+      `*Gotowość do nadgodzin:* ${record.overtime}`,
+      `*Gotowość do pracy stojącej:* ${record.standing}`,
+      `*Regularne podnoszenie:* ${record.lift}`,
       `*Gotowość do zmian:* ${record.sh.join(", ") || "—"}`,
       "",
-      "🧰 *DOŚWIADCZENIE I KWALIFIKACJE*",
+      "🧰 *DOŚWIADCZENIE, JĘZYK I KWALIFIKACJE*",
       `*Doświadczenie:* ${record.exp}`,
       `*Szczegóły doświadczenia:* ${record.expd || "—"}`,
+      `*Praca wcześniej w Polsce:* ${record.workedpl}`,
+      `*Poziom języka polskiego:* ${record.polish}`,
       `*Kwalifikacje:* ${record.q.join("; ") || "—"}`,
       "",
       "💬 *DODATKOWE INFORMACJE*",
+      `*Ograniczenia dotyczące pracy:* ${record.limits || "Brak wskazanych"}`,
       `*Komentarz kandydata:* ${record.n || "—"}`,
       `*Język kontaktu:* ${record.lang}`,
       "",
