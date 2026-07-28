@@ -2083,6 +2083,20 @@
     ]);
   }
 
+  function normalizeWhatsAppMessage(value) {
+    return Array.from(String(value ?? "").normalize("NFC"))
+      .filter((symbol) => {
+        const point = symbol.codePointAt(0);
+        return point !== 0xFFFD
+          && point <= 0xFFFF
+          && !(point >= 0xD800 && point <= 0xDFFF);
+      })
+      .join("")
+      .replace(/\r\n?/g, "\n")
+      .replace(/[ \t]+\n/g, "\n")
+      .trim();
+  }
+
   function buildMessage() {
     const record = buildApplicationRecord();
     const submittedAt = new Intl.DateTimeFormat("pl-PL", {
@@ -2091,59 +2105,54 @@
       timeZone: "Europe/Warsaw"
     }).format(new Date(record.at));
     const currentLocation = [record.cc, record.city].filter(Boolean).join(", ") || "—";
-    const decisionIcon = record.decision.status === "GOTOWY"
-      ? "✅"
-      : record.decision.status === "DO WERYFIKACJI"
-        ? "⚠️"
-        : "⛔";
     const line = (label, value, include = true) => (
-      include && value && value !== "—" ? `• *${label}:* ${value}` : ""
+      include && value && value !== "—" ? `- *${label}:* ${value}` : ""
     );
     const section = (title, lines) => {
       const visible = lines.filter(Boolean);
-      return visible.length ? [title, ...visible, ""] : [];
+      return visible.length ? [`*${title}*`, ...visible, ""] : [];
     };
     const groupApplication = record.group && record.group !== "—";
     const candidateName = `${record.fn} ${record.ln}`.trim();
     const summaryLocation = record.loc || record.d || "—";
     const summaryReady = record.ready || "data do ustalenia";
-    const recruiterHeadline = `${decisionIcon} *${record.decision.status} · ${candidateName || "Kandydat"}*`;
-    return [
-      recruiterHeadline,
-      `💼 *${record.j}*`,
-      `📍 ${summaryLocation} · 📅 ${summaryReady}`,
-      record.p ? `📞 ${record.p}` : "",
+    return normalizeWhatsAppMessage([
+      "*ZGŁOSZENIE KANDYDATA*",
+      `*Status:* ${record.decision.status}`,
+      `*Nr zgłoszenia:* ${record.id}`,
+      `*Otrzymano:* ${submittedAt}`,
+      `*Rekruter:* ${record.recruiter}`,
       "",
-      ...section("🎯 *DECYZJA I DZIAŁANIE*", [
+      ...section("NAJWAŻNIEJSZE", [
+        line("Kandydat", candidateName),
+        line("Oferta", record.j),
+        line("Lokalizacja", summaryLocation),
+        line("Planowany przyjazd", summaryReady),
+        line("WhatsApp", record.p)
+      ]),
+      ...section("WSTĘPNA WERYFIKACJA", [
         line("Powód", record.decision.reason),
         line("Następny krok", record.decision.next)
       ]),
-      ...section("🧾 *ZGŁOSZENIE*", [
-        line("Nr zgłoszenia", record.id),
-        line("Otrzymano", submittedAt),
-        line("Źródło", record.src),
-        line("Rekruter", record.recruiter)
-      ]),
-      ...section("💼 *OFERTA*", [
-        line("Stanowisko", record.j),
+      ...section("OFERTA I ŹRÓDŁO", [
         line("ID oferty", record.jid),
         line("Kraj", record.d),
         line("Dział", record.dept),
-        line("Lokalizacja", record.loc)
+        line("Źródło", record.src),
+        line("Druga osoba aplikuje", record.second, groupApplication),
+        line("Kod grupy", record.group, groupApplication)
       ]),
-      ...section("👤 *KANDYDAT I KONTAKT*", [
-        line("Imię i nazwisko", `${record.fn} ${record.ln}`.trim()),
+      ...section("DANE KANDYDATA", [
         line("Data urodzenia", record.dob),
         line("Wiek", record.a == null ? "" : record.a),
         line("Płeć", record.gender),
-        line("Status", record.employeeStatus),
-        line("WhatsApp", record.p),
+        line("Status pracownika", record.employeeStatus),
         line("E-mail", record.e),
         line("Obywatelstwo", record.cit),
         line("Miejsce pobytu", currentLocation),
         line("Język kontaktu", record.lang)
       ]),
-      ...section("🪪 *DOKUMENTY*", [
+      ...section("DOKUMENTY", [
         line("Status dokumentów", record.doc),
         line("Ważność dokumentu", record.docexp),
         line("PESEL", record.pesel || "BRAK"),
@@ -2151,20 +2160,17 @@
         line("Paszport ważny do", record.passportExpiry),
         line("Prawo do pracy", record.wr)
       ]),
-      ...section("🧳 *PRZYJAZD I ZAKWATEROWANIE*", [
-        line("Planowany przyjazd", record.ready),
+      ...section("PRZYJAZD I ZAKWATEROWANIE", [
         line("Tydzień", record.week),
         line("Planowany okres pracy", record.duration),
         line("Obecnie zatrudniony/a", record.employed),
         line("Okres wypowiedzenia", record.notice, record.notice !== "Nie dotyczy"),
         line("Zakwaterowanie", record.house),
         line("Wyjazd", record.travel),
-        line("Druga osoba aplikuje", record.second, groupApplication),
-        line("Kod grupy", record.group, groupApplication),
         line("Osoba do kontaktu", record.emergencyName),
         line("Telefon osoby kontaktowej", record.emergencyPhone)
       ]),
-      ...section("🧰 *GOTOWOŚĆ I KWALIFIKACJE*", [
+      ...section("GOTOWOŚĆ I KWALIFIKACJE", [
         line("Nadgodziny", record.overtime),
         line("Praca stojąca", record.standing, record.physical),
         line("Podnoszenie", record.lift, record.physical),
@@ -2177,27 +2183,28 @@
         line("Ograniczenia", record.limits),
         line("Komentarz", record.n)
       ]),
-      "📊 *EXCEL · PRZYJAZDY*",
-      "_11 kolumn · wklej od pierwszej komórki_",
+      "*EXCEL: PRZYJAZDY (11 KOLUMN)*",
+      "_Wklej od pierwszej komórki:_",
       "```",
       arrivalsExcelRow(record),
       "```",
       "",
-      "📋 *EXCEL · KWESTIONARIUSZ WSTĘPNY*",
-      "_12 kolumn · wklej od pierwszej komórki_",
+      "*EXCEL: KWESTIONARIUSZ WSTĘPNY (12 KOLUMN)*",
+      "_Wklej od pierwszej komórki:_",
       "```",
       questionnaireExcelRow(record),
       "```"
-    ].filter((item, index, items) => item !== "" || items[index - 1] !== "").join("\n").trim();
+    ].filter((item, index, items) => item !== "" || items[index - 1] !== "").join("\n"));
   }
 
   async function writeMessageToClipboard(message) {
+    const safeMessage = normalizeWhatsAppMessage(message);
     try {
       if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(message);
+        await navigator.clipboard.writeText(safeMessage);
       } else {
         const area = document.createElement("textarea");
-        area.value = message;
+        area.value = safeMessage;
         area.style.position = "fixed";
         area.style.opacity = "0";
         document.body.append(area);
@@ -2228,9 +2235,9 @@
 
   function openWhatsApp(message) {
     const base = profile.whatsapp || `https://wa.me/${String(profile.phone || "").replace(/\D/g, "")}`;
-    const separator = base.includes("?") ? "&" : "?";
-    const url = `${base}${separator}text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    const url = new URL(base, window.location.href);
+    url.searchParams.set("text", normalizeWhatsAppMessage(message));
+    window.open(url.toString(), "_blank", "noopener,noreferrer");
   }
 
   function clearDraft() {
