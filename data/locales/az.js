@@ -83,6 +83,7 @@
       clarify: "WhatsApp-da dəqiqləşdir",
       takeSurvey: "Anketi doldur",
       details: "Ətraflı",
+      viewOffer: "Vakansiyaya bax",
       updated: "Yenilənib",
       save: "Yadda saxla",
       saved: "Seçilmişlərdədir",

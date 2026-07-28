@@ -83,6 +83,7 @@
       clarify: "Consultar por WhatsApp",
       takeSurvey: "Completar cuestionario",
       details: "Más información",
+      viewOffer: "Ver oferta",
       updated: "Actualizada",
       save: "Guardar",
       saved: "Guardada",

@@ -295,6 +295,19 @@ assert(
   "The focused validation and final WhatsApp action improvements are incomplete."
 );
 assert(
+  cleanCss.includes("v196 · vacancy-first homepage focus")
+    && cleanCss.includes('#job-grid .job-card[data-status="open"]')
+    && cleanCss.includes("#job-grid .job-tags")
+    && cleanCss.includes(".recruiter-card")
+    && cleanCss.includes("position: sticky")
+    && cleanCss.includes("top: 54px")
+    && candidateScript.includes('const cardAction = i18n.t("ui.viewOffer")')
+    && candidateScript.includes('class="job-card-salary"')
+    && candidateScript.includes('class="job-card-location"')
+    && candidateScript.includes('class="sr-only"'),
+  "The vacancy-first homepage focus is incomplete."
+);
+assert(
   html.includes('data-i18n="ui.availableJobs"')
     && html.includes("Znajdź pracę dla siebie")
     && html.includes("Szukaj stanowiska lub miejscowości")

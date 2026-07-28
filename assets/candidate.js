@@ -113,7 +113,8 @@
   function card(job) {
     const view = localized(job);
     const jobUrl = publicJobUrl(job);
-    const accessibleLabel = `${i18n.t("ui.details")}: ${view.title}`;
+    const cardAction = i18n.t("ui.viewOffer");
+    const accessibleLabel = `${cardAction}: ${view.title}`;
     return `
       <article class="job-card" data-job-id="${escapeHTML(job.id)}" data-status="${escapeHTML(job.status || "verify")}">
         <a class="job-card-link job-open" href="${escapeHTML(jobUrl)}" data-open-job="${escapeHTML(job.id)}" aria-label="${escapeHTML(accessibleLabel)}">
@@ -125,11 +126,11 @@
               <h2>${escapeHTML(view.title)}</h2>
             </div>
             <dl class="job-card-facts">
-              <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
-              <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
+              <div class="job-card-salary"><dt class="sr-only">${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
+              <div class="job-card-location"><dt class="sr-only">${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
             </dl>
             <span class="primary-button">
-              ${escapeHTML(i18n.t("ui.details"))}<span aria-hidden="true">→</span>
+              ${escapeHTML(cardAction)}<span aria-hidden="true">→</span>
             </span>
           </div>
         </a>

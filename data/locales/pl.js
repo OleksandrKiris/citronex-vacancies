@@ -83,6 +83,7 @@
       clarify: "Zapytaj w WhatsApp",
       takeSurvey: "Wypełnij ankietę",
       details: "Szczegóły",
+      viewOffer: "Zobacz ofertę",
       updated: "Zaktualizowano",
       save: "Zapisz",
       saved: "Zapisano",
