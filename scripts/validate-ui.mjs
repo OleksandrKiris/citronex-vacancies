@@ -17,6 +17,10 @@ const [html, legacyCss, css, cleanCss, homepageCss, candidateScript, application
 
 const errors = [];
 const activeCss = `${css}\n${cleanCss}\n${homepageCss}`;
+const buildMessageSource = applicationScript.slice(
+  applicationScript.indexOf("function buildMessage()"),
+  applicationScript.indexOf("async function writeMessageToClipboard")
+);
 const assert = (condition, message) => {
   if (!condition) errors.push(message);
 };
@@ -145,10 +149,9 @@ assert(
     && applicationScript.includes("function arrivalsExcelRow(record)")
     && applicationScript.includes("function questionnaireExcelRow(record)")
     && applicationScript.includes('recruiter: profile.name || "Oleksandr Kiris"')
-    && applicationScript.includes("EXCEL · PRZYJAZDY")
-    && applicationScript.includes("EXCEL · KWESTIONARIUSZ WSTĘPNY")
-    && applicationScript.includes("11 kolumn · wklej od pierwszej komórki")
-    && applicationScript.includes("12 kolumn · wklej od pierwszej komórki")
+    && applicationScript.includes("EXCEL: PRZYJAZDY (11 KOLUMN)")
+    && applicationScript.includes("EXCEL: KWESTIONARIUSZ WSTĘPNY (12 KOLUMN)")
+    && applicationScript.includes("Wklej od pierwszej komórki:")
     && applicationScript.includes("/^[=+\\-@]/"),
   "assets/application-form.js: the recruiter workflow must provide safe Excel-ready Przyjazdy and Kwestionariusz rows."
 );
@@ -221,18 +224,23 @@ assert(
     && applicationScript.includes("function bindApplicationInputNormalization(")
     && applicationScript.includes('data-normalize="digits"')
     && applicationScript.includes('data-normalize="passport"')
-    && applicationScript.includes("const recruiterHeadline =")
-    && applicationScript.includes('record.decision.status} · ${candidateName || "Kandydat"}')
-    && applicationScript.includes("`📍 ${summaryLocation} · 📅 ${summaryReady}`"),
+    && applicationScript.includes("const candidateName =")
+    && applicationScript.includes("const summaryLocation =")
+    && applicationScript.includes("const summaryReady ="),
   "Candidate convenience improvements are incomplete."
 );
 assert(
-  applicationScript.includes("🎯 *DECYZJA I DZIAŁANIE*")
-    && applicationScript.includes("🧾 *ZGŁOSZENIE*")
-    && applicationScript.includes("🪪 *DOKUMENTY*")
-    && applicationScript.includes("🧳 *PRZYJAZD I ZAKWATEROWANIE*")
-    && applicationScript.includes('`• *${label}:* ${value}`'),
-  "The recruiter WhatsApp message hierarchy is incomplete."
+  applicationScript.includes("function normalizeWhatsAppMessage(")
+    && applicationScript.includes("point <= 0xFFFF")
+    && applicationScript.includes('"*ZGŁOSZENIE KANDYDATA*"')
+    && applicationScript.includes('section("NAJWAŻNIEJSZE"')
+    && applicationScript.includes('section("WSTĘPNA WERYFIKACJA"')
+    && applicationScript.includes('"*EXCEL: PRZYJAZDY (11 KOLUMN)*"')
+    && applicationScript.includes('"*EXCEL: KWESTIONARIUSZ WSTĘPNY (12 KOLUMN)*"')
+    && applicationScript.includes('url.searchParams.set("text", normalizeWhatsAppMessage(message))')
+    && !buildMessageSource.includes("\uFFFD")
+    && !/[\u{10000}-\u{10FFFF}]/u.test(buildMessageSource),
+  "The recruiter WhatsApp message must remain compact and Unicode-safe."
 );
 assert(
   homepageCss.includes("v197 · unified candidate homepage")
