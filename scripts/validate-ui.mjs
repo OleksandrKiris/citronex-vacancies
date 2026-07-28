@@ -265,6 +265,15 @@ assert(
   "The lighter candidate visual hierarchy is incomplete."
 );
 assert(
+  cleanCss.includes("v193 · refined application form hierarchy")
+    && cleanCss.includes("--application-surface-soft")
+    && cleanCss.includes(".application-choice-button input:checked + span::after")
+    && cleanCss.includes(".application-message-preview[open] summary > span:last-child")
+    && cleanCss.includes(".application-message-preview textarea")
+    && cleanCss.includes("@media (max-width: 380px)"),
+  "The refined application form hierarchy is incomplete."
+);
+assert(
   html.includes('data-i18n="ui.availableJobs"')
     && html.includes("Znajdź pracę dla siebie")
     && html.includes("Szukaj stanowiska lub miejscowości")
