@@ -42,6 +42,7 @@
       featuredKicker: "Saran awal dari saya",
       featuredTitle: "Lihat pilihan yang nyata",
       allJobs: "Semua lowongan",
+      otherVacancies: "Lowongan lainnya",
       processKicker: "Proses yang jelas",
       processTitle: "Cara melamar",
       processNote: "Isi formulir terlebih dahulu, lalu buka pesan WhatsApp. Dokumen dan foto paspor tidak diunggah melalui situs.",

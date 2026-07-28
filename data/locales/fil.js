@@ -42,6 +42,7 @@
       featuredKicker: "Dito ko inirerekomendang magsimula",
       featuredTitle: "Tingnan ang totoong mga opsyon",
       allJobs: "Lahat ng trabaho",
+      otherVacancies: "Iba pang mga trabaho",
       processKicker: "Malinaw na proseso",
       processTitle: "Paano mag-apply",
       processNote: "Sagutan muna ang form, saka buksan ang mensahe sa WhatsApp. Walang dokumento o larawan ng passport na ina-upload sa site.",

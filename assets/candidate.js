@@ -112,26 +112,33 @@
 
   function card(job) {
     const view = localized(job);
+    const jobUrl = publicJobUrl(job);
+    const accessibleLabel = `${i18n.t("ui.details")}: ${view.title}`;
     return `
       <article class="job-card" data-job-id="${escapeHTML(job.id)}" data-status="${escapeHTML(job.status || "verify")}">
-        <div class="job-card-body">
-          <div class="job-card-copy">
-            <div class="job-tags">
-              <span class="job-status">${escapeHTML(statusLabel(job))}</span>
+        <a class="job-card-link job-open" href="${escapeHTML(jobUrl)}" data-open-job="${escapeHTML(job.id)}" aria-label="${escapeHTML(accessibleLabel)}">
+          <div class="job-card-body">
+            <div class="job-card-copy">
+              <div class="job-tags">
+                <span class="job-status">${escapeHTML(statusLabel(job))}</span>
+              </div>
+              <h2>${escapeHTML(view.title)}</h2>
             </div>
-            <h2>${escapeHTML(view.title)}</h2>
-            <p class="job-subtitle">${escapeHTML(view.subtitle || view.summary || "")}</p>
+            <dl class="job-card-facts">
+              <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
+              <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
+            </dl>
+            <span class="primary-button">
+              ${escapeHTML(i18n.t("ui.details"))}<span aria-hidden="true">→</span>
+            </span>
           </div>
-          <dl class="job-card-facts">
-            <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd></div>
-            <div><dt>${escapeHTML(i18n.t("ui.countryLocation"))}</dt><dd>${escapeHTML(view.location)}</dd></div>
-          </dl>
-          <a class="primary-button job-open" href="${escapeHTML(publicJobUrl(job))}" data-open-job="${escapeHTML(job.id)}" aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}">
-            ${escapeHTML(i18n.t("ui.details"))}<span aria-hidden="true">→</span>
-          </a>
-        </div>
+        </a>
       </article>
     `;
+  }
+
+  function openJobCount() {
+    return jobs.filter((job) => job.status === "open").length;
   }
 
   function visibleJobs() {
@@ -177,10 +184,17 @@
 
   function renderJobs() {
     const result = visibleJobs();
-    $("job-grid").innerHTML = result.map(card).join("");
-    $("result-count").textContent = `${i18n.t("ui.found")}: ${result.length}`;
+    const available = result.filter((job) => job.status === "open");
+    const other = result.filter((job) => job.status !== "open");
+    const otherJobs = $("other-jobs");
+    $("job-grid").innerHTML = available.map(card).join("");
+    $("other-job-grid").innerHTML = other.map(card).join("");
+    $("other-job-count").textContent = String(other.length);
+    otherJobs.hidden = other.length === 0;
+    if (other.length && !available.length && (state.query || state.country)) otherJobs.open = true;
+    $("result-count").textContent = `${i18n.t("ui.found")}: ${available.length}`;
     $("empty-state").hidden = result.length > 0;
-    $("job-total").textContent = String(jobs.length);
+    $("job-total").textContent = String(openJobCount());
   }
 
   function list(items) {
@@ -429,7 +443,7 @@
     $("jobs-link").href = catalogUrl();
     $("brand-home").href = catalogUrl();
     if (directJobId) {
-      $("job-total").textContent = String(jobs.length);
+      $("job-total").textContent = String(openJobCount());
       renderDirectVacancy();
     } else {
       renderCountryFilter();

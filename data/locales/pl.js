@@ -42,6 +42,7 @@
       featuredKicker: "Od czego radzę zacząć",
       featuredTitle: "Zobacz realne możliwości",
       allJobs: "Wszystkie oferty",
+      otherVacancies: "Pozostałe oferty",
       processKicker: "Jasna ścieżka",
       processTitle: "Jak wygląda zgłoszenie",
       processNote: "Najpierw ankieta, potem wiadomość w WhatsApp. Dokumentów ani zdjęć paszportu nie przesyłasz przez stronę.",

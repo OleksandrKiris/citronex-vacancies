@@ -42,6 +42,7 @@
       featuredKicker: "Başlamağı tövsiyə etdiyim yerlər",
       featuredTitle: "Real variantlara baxın",
       allJobs: "Bütün vakansiyalar",
+      otherVacancies: "Digər vakansiyalar",
       processKicker: "Aydın müraciət yolu",
       processTitle: "Müraciət necə edilir",
       processNote: "Əvvəlcə anket, sonra WhatsApp mesajı. Sənədlər və pasport şəkilləri sayta yüklənmir.",

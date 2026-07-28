@@ -42,6 +42,7 @@
       featuredKicker: "Where I suggest starting",
       featuredTitle: "See the real options",
       allJobs: "All jobs",
+      otherVacancies: "Other vacancies",
       processKicker: "A clear process",
       processTitle: "How to apply",
       processNote: "First complete the questionnaire, then send a WhatsApp message. Documents and passport photos are not uploaded through this website.",

@@ -217,7 +217,22 @@ assert(
   "The simplified main vacancy catalogue is incomplete."
 );
 assert(
-  candidateScript.includes('aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}"'),
+  cleanCss.includes("v188 · focused homepage hierarchy")
+    && cleanCss.includes(".catalog-list-heading")
+    && cleanCss.includes(".other-jobs summary")
+    && cleanCss.includes(".job-card-link:focus-visible")
+    && html.includes('id="page-heading"')
+    && html.includes('id="other-job-grid"')
+    && html.includes('data-i18n="ui.otherVacancies"')
+    && candidateScript.includes("function openJobCount()")
+    && candidateScript.includes('result.filter((job) => job.status === "open")')
+    && candidateScript.includes('result.filter((job) => job.status !== "open")')
+    && !candidateScript.includes('class="job-subtitle"'),
+  "The focused candidate homepage is incomplete."
+);
+assert(
+  candidateScript.includes('aria-label="${escapeHTML(accessibleLabel)}"')
+    && candidateScript.includes('class="job-card-link job-open"'),
   "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
 );
 assert(
