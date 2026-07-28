@@ -284,6 +284,17 @@ assert(
   "The focused four-part application flow improvement is incomplete."
 );
 assert(
+  cleanCss.includes("v195 · focused validation and final action")
+    && cleanCss.includes(".application-review-details[open]")
+    && cleanCss.includes('.whatsapp-submit[aria-busy="true"]')
+    && applicationScript.includes("function focusFirstInvalidField()")
+    && applicationScript.includes('class="application-review-details"')
+    && applicationScript.includes('t("form.sendWhatsapp")')
+    && applicationScript.includes("if (state.submitting) return")
+    && applicationScript.includes('submitButton.setAttribute("aria-busy", "true")'),
+  "The focused validation and final WhatsApp action improvements are incomplete."
+);
+assert(
   html.includes('data-i18n="ui.availableJobs"')
     && html.includes("Znajdź pracę dla siebie")
     && html.includes("Szukaj stanowiska lub miejscowości")
