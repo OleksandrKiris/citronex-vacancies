@@ -64,7 +64,7 @@ for (const [index, job] of (content?.jobs || []).entries()) {
     add(vacancyHtml.includes(`/vacancies/${job.id}/`), `${prefix}: отдельная страница содержит неверную canonical/OG ссылку`);
     add(vacancyHtml.includes(polishTitle), `${prefix}: на отдельной странице отсутствует польское название вакансии`);
     add(
-      vacancyHtml.includes(`/assets/share/jobs/${job.id}.png?v=196`),
+      vacancyHtml.includes(`/assets/share/jobs/${job.id}.png?v=197`),
       `${prefix}: отдельная страница содержит неверную Facebook-карточку`
     );
   }
