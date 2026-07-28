@@ -1,18 +1,18 @@
 const CACHE_PREFIX = "kiris-jobs-";
-const CACHE_VERSION = "kiris-jobs-v199-whatsapp-message-2026-07-28";
+const CACHE_VERSION = "kiris-jobs-v200-consistent-styles-2026-07-28";
 const CORE_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./data/content.js?v=199",
-  "./data/locales/ru.js?v=199",
-  "./data/locales/en.js?v=199",
-  "./assets/candidate-base.css?v=199",
-  "./assets/clean.css?v=199",
-  "./assets/homepage.css?v=199",
-  "./assets/i18n.js?v=199",
-  "./assets/application-form.js?v=199",
-  "./assets/candidate.js?v=199",
+  "./data/content.js?v=200",
+  "./data/locales/ru.js?v=200",
+  "./data/locales/en.js?v=200",
+  "./assets/candidate-base.css?v=200",
+  "./assets/clean.css?v=200",
+  "./assets/homepage.css?v=200",
+  "./assets/i18n.js?v=200",
+  "./assets/application-form.js?v=200",
+  "./assets/candidate.js?v=200",
   "./assets/icons.svg",
   "./assets/mobility-map.svg?v=10",
   "./assets/oleksandr-kiris-greenhouse.jpg",
@@ -29,24 +29,25 @@ const CORE_SHELL = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/share-card.svg",
-  "./assets/share-card.png?v=199"
+  "./assets/share-card.png?v=200"
 ];
 const OPTIONAL_LOCALES = [
-  "./data/locales/uk.js?v=199",
-  "./data/locales/pl.js?v=199",
-  "./data/locales/az.js?v=199",
-  "./data/locales/ka.js?v=199",
-  "./data/locales/id.js?v=199",
-  "./data/locales/es.js?v=199",
-  "./data/locales/fil.js?v=199",
-  "./data/locales/ne.js?v=199",
-  "./data/locales/hy.js?v=199"
+  "./data/locales/uk.js?v=200",
+  "./data/locales/pl.js?v=200",
+  "./data/locales/az.js?v=200",
+  "./data/locales/ka.js?v=200",
+  "./data/locales/id.js?v=200",
+  "./data/locales/es.js?v=200",
+  "./data/locales/fil.js?v=200",
+  "./data/locales/ne.js?v=200",
+  "./data/locales/hy.js?v=200"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_VERSION).then(async (cache) => {
       await cache.addAll([...CORE_SHELL, ...OPTIONAL_LOCALES]);
+      await self.skipWaiting();
     })
   );
 });
@@ -73,20 +74,20 @@ self.addEventListener("fetch", (event) => {
   if (requestUrl.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
-    const networkUpdate = fetch(event.request).then(async (response) => {
-      if (response.ok) {
-        const cache = await caches.open(CACHE_VERSION);
-        await cache.put(event.request, response.clone());
-      }
-      return response;
-    });
-    event.waitUntil(networkUpdate.then(() => undefined).catch(() => undefined));
     event.respondWith(
-      caches.match(event.request).then(async (cached) => (
-        cached
-        || await caches.match("./index.html")
-        || networkUpdate
-      ))
+      fetch(event.request, { cache: "no-store" })
+        .then(async (response) => {
+          if (response.ok) {
+            const cache = await caches.open(CACHE_VERSION);
+            await cache.put(event.request, response.clone());
+          }
+          return response;
+        })
+        .catch(async () => (
+          await caches.match(event.request)
+          || await caches.match("./index.html")
+          || Response.error()
+        ))
     );
     return;
   }
