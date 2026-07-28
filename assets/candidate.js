@@ -7,6 +7,12 @@
   const profile = content.profile || {};
   const housing = content.housingLocations || {};
   const state = { query: "", country: "", openJobId: "" };
+  const lightboxState = {
+    items: [],
+    index: 0,
+    trigger: null,
+    pointerStartX: null
+  };
   const directPathMatch = location.pathname.match(/\/vacancies\/([^/]+)\/?$/);
   const directJobId = directPathMatch ? decodeURIComponent(directPathMatch[1]) : "";
 
@@ -291,6 +297,118 @@
     if (dialog?.open) dialog.close();
   }
 
+  function ensureHousingLightbox() {
+    if ($("housing-lightbox")) return $("housing-lightbox");
+    const dialog = document.createElement("dialog");
+    dialog.id = "housing-lightbox";
+    dialog.className = "housing-lightbox";
+    dialog.innerHTML = `
+      <div class="housing-lightbox-shell">
+        <header class="housing-lightbox-header">
+          <strong data-housing-lightbox-title></strong>
+          <button type="button" data-housing-lightbox-close aria-label="">×</button>
+        </header>
+        <div class="housing-lightbox-stage">
+          <button type="button" class="housing-lightbox-nav is-previous" data-housing-lightbox-previous aria-label="">←</button>
+          <img data-housing-lightbox-image src="" alt="" draggable="false">
+          <button type="button" class="housing-lightbox-nav is-next" data-housing-lightbox-next aria-label="">→</button>
+        </div>
+        <footer class="housing-lightbox-footer">
+          <span data-housing-lightbox-counter></span>
+        </footer>
+      </div>
+    `;
+    document.body.append(dialog);
+
+    dialog.querySelector("[data-housing-lightbox-close]")?.addEventListener("click", () => closeDialog(dialog));
+    dialog.querySelector("[data-housing-lightbox-previous]")?.addEventListener("click", () => moveHousingPhoto(-1));
+    dialog.querySelector("[data-housing-lightbox-next]")?.addEventListener("click", () => moveHousingPhoto(1));
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveHousingPhoto(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveHousingPhoto(1);
+      } else if (event.key === "Home") {
+        event.preventDefault();
+        lightboxState.index = 0;
+        renderHousingLightbox();
+      } else if (event.key === "End") {
+        event.preventDefault();
+        lightboxState.index = Math.max(0, lightboxState.items.length - 1);
+        renderHousingLightbox();
+      }
+    });
+    dialog.addEventListener("close", () => {
+      if (lightboxState.trigger?.isConnected) lightboxState.trigger.focus({ preventScroll: true });
+    });
+
+    const stage = dialog.querySelector(".housing-lightbox-stage");
+    stage?.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch") lightboxState.pointerStartX = event.clientX;
+    });
+    stage?.addEventListener("pointerup", (event) => {
+      if (event.pointerType !== "touch" || lightboxState.pointerStartX == null) return;
+      const distance = event.clientX - lightboxState.pointerStartX;
+      lightboxState.pointerStartX = null;
+      if (Math.abs(distance) >= 42) moveHousingPhoto(distance > 0 ? -1 : 1);
+    });
+    stage?.addEventListener("pointercancel", () => {
+      lightboxState.pointerStartX = null;
+    });
+    return dialog;
+  }
+
+  function renderHousingLightbox() {
+    const dialog = ensureHousingLightbox();
+    const item = lightboxState.items[lightboxState.index];
+    if (!item) return;
+    const total = lightboxState.items.length;
+    dialog.setAttribute("aria-label", i18n.t("ui.housingPhotos"));
+    const image = dialog.querySelector("[data-housing-lightbox-image]");
+    image.src = item.href;
+    image.alt = item.alt;
+    dialog.querySelector("[data-housing-lightbox-title]").textContent = item.location;
+    dialog.querySelector("[data-housing-lightbox-counter]").textContent = i18n.t("ui.photoCounter", {
+      current: lightboxState.index + 1,
+      total
+    });
+    const closeButton = dialog.querySelector("[data-housing-lightbox-close]");
+    const previousButton = dialog.querySelector("[data-housing-lightbox-previous]");
+    const nextButton = dialog.querySelector("[data-housing-lightbox-next]");
+    closeButton.setAttribute("aria-label", i18n.t("ui.close"));
+    previousButton.setAttribute("aria-label", i18n.t("ui.previousPhoto"));
+    nextButton.setAttribute("aria-label", i18n.t("ui.nextPhoto"));
+    previousButton.hidden = total < 2;
+    nextButton.hidden = total < 2;
+  }
+
+  function moveHousingPhoto(delta) {
+    const total = lightboxState.items.length;
+    if (total < 2) return;
+    lightboxState.index = (lightboxState.index + delta + total) % total;
+    renderHousingLightbox();
+  }
+
+  function openHousingLightbox(trigger) {
+    const gallery = trigger.closest(".housing-grid");
+    if (!gallery) return;
+    const location = trigger.closest(".housing-location")?.querySelector("summary strong")?.textContent || "";
+    const links = [...gallery.querySelectorAll("a")];
+    lightboxState.items = links.map((link) => ({
+      href: link.href,
+      alt: link.querySelector("img")?.alt || location,
+      location
+    }));
+    lightboxState.index = Math.max(0, links.indexOf(trigger));
+    lightboxState.trigger = trigger;
+    const dialog = ensureHousingLightbox();
+    renderHousingLightbox();
+    if (!dialog.open) dialog.showModal();
+    dialog.querySelector("[data-housing-lightbox-close]")?.focus({ preventScroll: true });
+  }
+
   function renderStatic() {
     document.documentElement.lang = i18n.locale;
     $("profile-name").textContent = profile.name;
@@ -310,6 +428,7 @@
       renderJobs();
     }
     if (state.openJobId && $("job-dialog").open) openJob(state.openJobId);
+    if ($("housing-lightbox")?.open) renderHousingLightbox();
   }
 
   function bind() {
@@ -322,9 +441,15 @@
       renderJobs();
     });
     document.addEventListener("click", (event) => {
+      const housingPhoto = event.target.closest(".housing-grid a");
       const openButton = event.target.closest("[data-open-job]");
       const applyButton = event.target.closest("[data-apply-job]");
       const closeButton = event.target.closest("[data-close-dialog]");
+      if (housingPhoto) {
+        event.preventDefault();
+        openHousingLightbox(housingPhoto);
+        return;
+      }
       if (openButton && directJobId) event.preventDefault();
       if (applyButton) {
         const job = jobs.find((item) => item.id === applyButton.dataset.applyJob);
@@ -372,6 +497,7 @@
 
   function init() {
     i18n.init();
+    ensureHousingLightbox();
     bind();
     renderStatic();
     openDeepLink();
