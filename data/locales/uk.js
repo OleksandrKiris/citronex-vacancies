@@ -93,6 +93,7 @@
       share: "Поділитися",
       print: "Друк / PDF",
       grossSalary: "Ставка брутто",
+      grossShort: "брутто",
       countryLocation: "Країна та локація",
       contract: "Договір",
       suitableFor: "Кому підходить",

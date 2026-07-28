@@ -93,6 +93,7 @@
       share: "Ibahagi",
       print: "I-print / PDF",
       grossSalary: "Sahod bago kaltas",
+      grossShort: "bago kaltas",
       countryLocation: "Bansa at lokasyon",
       contract: "Kontrata",
       suitableFor: "Para kanino",

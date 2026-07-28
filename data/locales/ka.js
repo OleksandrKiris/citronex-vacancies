@@ -93,6 +93,7 @@
       share: "გაზიარება",
       print: "ბეჭდვა / PDF",
       grossSalary: "ბრუტო ტარიფი",
+      grossShort: "ბრუტო",
       countryLocation: "ქვეყანა და ადგილი",
       contract: "ხელშეკრულება",
       suitableFor: "ვისთვისაა შესაფერისი",

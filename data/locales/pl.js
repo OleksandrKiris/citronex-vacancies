@@ -93,6 +93,7 @@
       share: "Udostępnij",
       print: "Drukuj / PDF",
       grossSalary: "Stawka brutto",
+      grossShort: "brutto",
       countryLocation: "Kraj i lokalizacja",
       contract: "Umowa",
       suitableFor: "Dla kogo",

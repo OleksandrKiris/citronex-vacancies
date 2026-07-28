@@ -41,7 +41,15 @@ for (const [locationId, location] of Object.entries(housingLocations)) {
   for (let index = 1; index <= photoCount; index += 1) {
     const fileName = `${locationId}-${String(index).padStart(2, "0")}.webp`;
     const file = new URL(`../assets/housing/${locationId}/${fileName}`, import.meta.url);
+    const thumbnail = new URL(`../assets/housing-thumbs/${locationId}/${fileName}`, import.meta.url);
     add(fs.existsSync(file), `${prefix}: отсутствует ${fileName}`);
+    add(fs.existsSync(thumbnail), `${prefix}: отсутствует миниатюра ${fileName}`);
+    if (fs.existsSync(file) && fs.existsSync(thumbnail)) {
+      const fullSize = fs.statSync(file).size;
+      const thumbnailSize = fs.statSync(thumbnail).size;
+      add(thumbnailSize > 1_000, `${prefix}: миниатюра ${fileName} повреждена или слишком мала`);
+      add(thumbnailSize < fullSize, `${prefix}: миниатюра ${fileName} не меньше оригинала`);
+    }
   }
 }
 
@@ -64,7 +72,7 @@ for (const [index, job] of (content?.jobs || []).entries()) {
     add(vacancyHtml.includes(`/vacancies/${job.id}/`), `${prefix}: отдельная страница содержит неверную canonical/OG ссылку`);
     add(vacancyHtml.includes(polishTitle), `${prefix}: на отдельной странице отсутствует польское название вакансии`);
     add(
-      vacancyHtml.includes(`/assets/share/jobs/${job.id}.png?v=197`),
+      vacancyHtml.includes(`/assets/share/jobs/${job.id}.png?v=198`),
       `${prefix}: отдельная страница содержит неверную Facebook-карточку`
     );
   }
