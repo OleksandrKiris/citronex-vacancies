@@ -1,17 +1,17 @@
 const CACHE_PREFIX = "kiris-jobs-";
-const CACHE_VERSION = "kiris-jobs-v188-focused-homepage-2026-07-28";
+const CACHE_VERSION = "kiris-jobs-v189-offline-homepage-2026-07-28";
 const CORE_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./data/content.js?v=188",
-  "./data/locales/ru.js?v=188",
-  "./data/locales/en.js?v=188",
-  "./assets/styles.css?v=188",
-  "./assets/clean.css?v=188",
-  "./assets/i18n.js?v=188",
-  "./assets/application-form.js?v=188",
-  "./assets/candidate.js?v=188",
+  "./data/content.js?v=189",
+  "./data/locales/ru.js?v=189",
+  "./data/locales/en.js?v=189",
+  "./assets/styles.css?v=189",
+  "./assets/clean.css?v=189",
+  "./assets/i18n.js?v=189",
+  "./assets/application-form.js?v=189",
+  "./assets/candidate.js?v=189",
   "./assets/icons.svg",
   "./assets/mobility-map.svg?v=10",
   "./assets/oleksandr-kiris-greenhouse.jpg",
@@ -28,18 +28,18 @@ const CORE_SHELL = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/share-card.svg",
-  "./assets/share-card.png?v=188"
+  "./assets/share-card.png?v=189"
 ];
 const OPTIONAL_LOCALES = [
-  "./data/locales/uk.js?v=188",
-  "./data/locales/pl.js?v=188",
-  "./data/locales/az.js?v=188",
-  "./data/locales/ka.js?v=188",
-  "./data/locales/id.js?v=188",
-  "./data/locales/es.js?v=188",
-  "./data/locales/fil.js?v=188",
-  "./data/locales/ne.js?v=188",
-  "./data/locales/hy.js?v=188"
+  "./data/locales/uk.js?v=189",
+  "./data/locales/pl.js?v=189",
+  "./data/locales/az.js?v=189",
+  "./data/locales/ka.js?v=189",
+  "./data/locales/id.js?v=189",
+  "./data/locales/es.js?v=189",
+  "./data/locales/fil.js?v=189",
+  "./data/locales/ne.js?v=189",
+  "./data/locales/hy.js?v=189"
 ];
 
 self.addEventListener("install", (event) => {
@@ -72,19 +72,20 @@ self.addEventListener("fetch", (event) => {
   if (requestUrl.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
+    const networkUpdate = fetch(event.request).then(async (response) => {
+      if (response.ok) {
+        const cache = await caches.open(CACHE_VERSION);
+        await cache.put(event.request, response.clone());
+      }
+      return response;
+    });
+    event.waitUntil(networkUpdate.then(() => undefined).catch(() => undefined));
     event.respondWith(
-      fetch(event.request)
-        .then(async (response) => {
-          if (response.ok) {
-            const cache = await caches.open(CACHE_VERSION);
-            await cache.put(event.request, response.clone());
-          }
-          return response;
-        })
-        .catch(async () => (
-          await caches.match(event.request)
-          || await caches.match("./index.html")
-        ))
+      caches.match(event.request).then(async (cached) => (
+        cached
+        || await caches.match("./index.html")
+        || networkUpdate
+      ))
     );
     return;
   }
