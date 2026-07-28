@@ -52,9 +52,16 @@
     exp1to2: 3,
     exp2plus: 4
   };
-  const DRAFT_VERSION = 1;
+  const DRAFT_VERSION = 3;
   const DRAFT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
   const DRAFT_PREFIX = "kiris-jobs-application:";
+  const SENSITIVE_DRAFT_FIELDS = new Set([
+    "pesel",
+    "passportNumber",
+    "passportExpiry",
+    "emergencyContactName",
+    "emergencyContactPhone"
+  ]);
   const PHYSICAL_JOB_IDS = new Set([
     "greenhouse-tomatoes",
     "greenhouse-renewal",
@@ -66,6 +73,33 @@
     "site-cleaning",
     "forklift-udt"
   ]);
+  const ARRIVALS_DEPARTMENT = {
+    "greenhouse-tomatoes": "SZKLARNIA",
+    "greenhouse-renewal": "SZKLARNIA",
+    "plant-protection": "SZKLARNIA",
+    "greenhouse-agronomist": "SZKLARNIA",
+    "tomato-sorting": "MAGAZYN",
+    "banana-warehouse-poland": "MAGAZYN",
+    "banana-warehouse-hungary": "MAGAZYN",
+    "banana-warehouse-belgium": "MAGAZYN",
+    "forklift-udt": "MAGAZYN"
+  };
+  const JOB_LOCATIONS = {
+    "greenhouse-tomatoes": ["Siechnice", "Ryczywół", "Bogatynia"],
+    "greenhouse-renewal": ["Siechnice", "Ryczywół", "Bogatynia"],
+    "tomato-sorting": ["Siechnice", "Ryczywół", "Bogatynia"],
+    "banana-warehouse-poland": ["Pruszcz Gdański", "Zgorzelec"],
+    "plant-protection": ["Siechnice", "Ryczywół", "Bogatynia"],
+    "site-cleaning": ["Zgorzelec"],
+    "forklift-udt": ["DO_CONFIRM"],
+    "team-leader": ["Siechnice", "Ryczywół", "Bogatynia", "Magazyn"],
+    "greenhouse-agronomist": ["Siechnice", "Ryczywół", "Bogatynia"],
+    "truck-mechanic": ["Zgorzelec", "DO_CONFIRM"],
+    "driver-ce-poland": ["Wrocław / Siechnice", "Zgorzelec", "Ryczywół", "Stok", "Pruszcz Gdański"],
+    "driver-ce-relief": ["DO_CONFIRM"],
+    "banana-warehouse-hungary": ["Okolice Budapesztu"],
+    "banana-warehouse-belgium": ["DO_CONFIRM"]
+  };
   const state = {
     mode: "application",
     matchStep: 0,
@@ -73,7 +107,9 @@
     step: 0,
     values: {},
     error: "",
-    recommendations: []
+    invalidFields: [],
+    recommendations: [],
+    hasDraft: false
   };
 
   const escapeHTML = (value = "") => String(value)
@@ -90,8 +126,23 @@
     const job = effectiveJob();
     return job ? i18n.job(job) : null;
   };
+  const canApply = (job) => job?.status === "open" || job?.status === "verify";
   const today = () => new Date().toISOString().slice(0, 10);
   const draftKey = (jobId) => `${DRAFT_PREFIX}${jobId}`;
+
+  function initialApplicationValues(jobId) {
+    const locations = JOB_LOCATIONS[jobId] || ["DO_CONFIRM"];
+    return {
+      jobId,
+      applicationId: createApplicationId(),
+      source: campaignSource(),
+      preferredLanguage: i18n.locale,
+      adult: false,
+      consent: false,
+      preferredLocation: locations.length === 1 ? locations[0] : "",
+      shiftReadiness: []
+    };
+  }
 
   function readDraft(jobId) {
     if (!jobId) return null;
@@ -121,13 +172,17 @@
   function saveDraft() {
     if (state.mode !== "application" || !state.jobId) return;
     try {
+      const draftValues = Object.fromEntries(
+        Object.entries(state.values).filter(([key]) => !SENSITIVE_DRAFT_FIELDS.has(key))
+      );
       localStorage.setItem(draftKey(state.jobId), JSON.stringify({
         version: DRAFT_VERSION,
         jobId: state.jobId,
         step: state.step,
-        values: state.values,
+        values: draftValues,
         updatedAt: Date.now()
       }));
+      state.hasDraft = true;
     } catch {
       // The form still works when private browsing or storage restrictions block drafts.
     }
@@ -315,6 +370,107 @@
     return raw.replace(/[^\p{L}\p{N}_.:@+-]/gu, "_").slice(0, 60) || "direct";
   }
 
+  function isoWeekLabel(value) {
+    if (!value) return "";
+    const date = new Date(`${value}T00:00:00Z`);
+    if (Number.isNaN(date.getTime())) return "";
+    const day = date.getUTCDay() || 7;
+    date.setUTCDate(date.getUTCDate() + 4 - day);
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    const week = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+    return `${String(week).padStart(2, "0")}/${date.getUTCFullYear()}`;
+  }
+
+  function polishDate(value) {
+    const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return match ? `${match[3]}.${match[2]}.${match[1]}` : String(value || "");
+  }
+
+  function arrivalsDepartment(jobId) {
+    return ARRIVALS_DEPARTMENT[jobId] || "DO UZUPEŁNIENIA";
+  }
+
+  function validPesel(value) {
+    if (!/^\d{11}$/.test(String(value || ""))) return false;
+    const digits = String(value).split("").map(Number);
+    const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
+    const checksum = (10 - (weights.reduce((sum, weight, index) => sum + weight * digits[index], 0) % 10)) % 10;
+    return checksum === digits[10];
+  }
+
+  function peselIdentity(value) {
+    if (!validPesel(value)) return null;
+    const digits = String(value).split("").map(Number);
+    const shortYear = Number(String(value).slice(0, 2));
+    const encodedMonth = Number(String(value).slice(2, 4));
+    const day = Number(String(value).slice(4, 6));
+    let century = 1900;
+    let month = encodedMonth;
+    if (encodedMonth >= 81 && encodedMonth <= 92) {
+      century = 1800;
+      month -= 80;
+    } else if (encodedMonth >= 21 && encodedMonth <= 32) {
+      century = 2000;
+      month -= 20;
+    } else if (encodedMonth >= 41 && encodedMonth <= 52) {
+      century = 2100;
+      month -= 40;
+    } else if (encodedMonth >= 61 && encodedMonth <= 72) {
+      century = 2200;
+      month -= 60;
+    }
+    const year = century + shortYear;
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (
+      date.getUTCFullYear() !== year
+      || date.getUTCMonth() !== month - 1
+      || date.getUTCDate() !== day
+    ) return null;
+    return {
+      birthDate: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+      gender: digits[9] % 2 === 1 ? "M" : "K"
+    };
+  }
+
+  function passportExpiresSoon(value) {
+    const expiry = new Date(`${value}T00:00:00Z`);
+    if (Number.isNaN(expiry.getTime())) return false;
+    const warningDate = new Date();
+    warningDate.setUTCHours(0, 0, 0, 0);
+    warningDate.setUTCMonth(warningDate.getUTCMonth() + 6);
+    return expiry <= warningDate;
+  }
+
+  function locationItems(jobId = state.jobId) {
+    return (JOB_LOCATIONS[jobId] || ["DO_CONFIRM"]).map((value) => ({
+      value,
+      label: value === "DO_CONFIRM" ? t("options.locationToConfirm") : value
+    }));
+  }
+
+  function polishLocation(value) {
+    return value === "DO_CONFIRM" ? "DO USTALENIA" : value || "DO USTALENIA";
+  }
+
+  function createGroupCode() {
+    const suffix = String(state.values.applicationId || createApplicationId()).split("-").pop();
+    return `GR-${suffix}`;
+  }
+
+  function normalizeGroupCode(value) {
+    return String(value || "")
+      .toUpperCase()
+      .replace(/[^A-Z0-9-]/g, "")
+      .slice(0, 20);
+  }
+
+  function maskSensitive(value, visible = 4) {
+    const text = String(value || "");
+    if (!text) return "";
+    if (text.length <= visible) return "••••";
+    return `${"•".repeat(Math.min(8, text.length - visible))}${text.slice(-visible)}`;
+  }
+
   function renderStepTrack(labels, currentStep, completeAll = false) {
     return `
       <ol class="application-step-track${completeAll ? " is-complete" : ""}" aria-hidden="true" style="--application-step-count:${labels.length}">
@@ -357,11 +513,24 @@
   }
 
   function field(name, label, input, hint = "") {
+    const invalid = state.invalidFields.includes(name);
+    const error = state.invalidFields[0] === name ? state.error : "";
+    if (input.includes('data-application-choice="true"')) {
+      return `
+        <fieldset class="application-field application-choice-field${invalid ? " is-invalid" : ""}">
+          <legend>${escapeHTML(label)}</legend>
+          ${input}
+          ${hint ? `<small>${escapeHTML(hint)}</small>` : ""}
+          ${error ? `<small class="application-field-error">${escapeHTML(error)}</small>` : ""}
+        </fieldset>
+      `;
+    }
     return `
-      <label class="application-field" for="application-${escapeHTML(name)}">
+      <label class="application-field${invalid ? " is-invalid" : ""}" for="application-${escapeHTML(name)}">
         <span>${escapeHTML(label)}</span>
         ${input}
         ${hint ? `<small>${escapeHTML(hint)}</small>` : ""}
+        ${error ? `<small class="application-field-error">${escapeHTML(error)}</small>` : ""}
       </label>
     `;
   }
@@ -385,19 +554,33 @@
     `;
   }
 
+  function choiceButtons(name, items) {
+    const current = String(state.values[name] ?? "");
+    return `
+      <div class="application-choice-buttons" data-application-choice="true">
+        ${items.map((item) => `
+          <label class="application-choice-button">
+            <input type="radio" name="${escapeHTML(name)}" value="${escapeHTML(item.value)}" ${current === item.value ? "checked" : ""} required>
+            <span>${escapeHTML(item.label)}</span>
+          </label>
+        `).join("")}
+      </div>
+    `;
+  }
+
   function yesNoUnknown(name) {
-    return select(name, [
+    return choiceButtons(name, [
       { value: "yes", label: t("options.yes") },
       { value: "no", label: t("options.no") },
       { value: "unknown", label: t("options.unknown") }
-    ], "required");
+    ]);
   }
 
   function yesNo(name) {
-    return select(name, [
+    return choiceButtons(name, [
       { value: "yes", label: t("options.yes") },
       { value: "no", label: t("options.no") }
-    ], "required");
+    ]);
   }
 
   function countryOptions(codes) {
@@ -405,7 +588,9 @@
   }
 
   function jobOptions() {
-    return jobs.map((job) => ({ value: job.id, label: i18n.job(job).title }));
+    return jobs
+      .filter(canApply)
+      .map((job) => ({ value: job.id, label: i18n.job(job).title }));
   }
 
   function matchAreaItems() {
@@ -495,6 +680,7 @@
     const experienceScore = EXPERIENCE_SCORE[state.values.experience] ?? 0;
 
     return jobs.map((job) => {
+      if (!canApply(job)) return null;
       const rule = MATCH_RULES[job.id];
       if (!rule) return null;
       if (preferredCountry !== "any" && rule.country !== preferredCountry) return null;
@@ -649,7 +835,7 @@
     const engine = candidateEngineCopy();
     const selectedJob = localizedJob();
     const age = calculateAge(state.values.birthDate);
-    const ageHint = age == null ? engine.birthHint : `${engine.age}: ${age}. ${engine.birthHint}`;
+    const ageHint = age == null ? "" : `${engine.age}: ${age}`;
     return `
       ${selectedJob ? `
         <div class="application-selected-vacancy">
@@ -667,8 +853,12 @@
           "required"
         ))}
         ${field("firstName", t("form.firstName"), input("firstName", "text", 'autocomplete="given-name" inputmode="text" autocapitalize="characters" required'), t("form.latinHint"))}
-        ${field("lastName", t("form.lastName"), input("lastName", "text", 'autocomplete="family-name" inputmode="text" autocapitalize="characters" required'), t("form.latinHint"))}
+        ${field("lastName", t("form.lastName"), input("lastName", "text", 'autocomplete="family-name" inputmode="text" autocapitalize="characters" required'))}
         ${field("birthDate", engine.birthDate, input("birthDate", "date", `min="${yearsAgo(100)}" max="${yearsAgo(18)}" required`), ageHint)}
+        ${field("gender", t("form.gender"), choiceButtons("gender", [
+          { value: "M", label: t("options.genderMale") },
+          { value: "K", label: t("options.genderFemale") }
+        ]))}
         ${field("phone", t("form.whatsapp"), input("phone", "tel", 'autocomplete="tel" inputmode="tel" placeholder="+48500100200" required'), t("form.whatsappHint"))}
         ${field("email", t("form.email"), input("email", "email", 'autocomplete="email" inputmode="email"'))}
       </div>
@@ -681,9 +871,9 @@
     return `
       <div class="application-grid">
         ${field("citizenship", t("form.citizenship"), select("citizenship", countryOptions(CITIZENSHIP_CODES), "required"))}
-        ${citizenship === "OTHER" ? field("otherCitizenship", t("form.otherCountry"), input("otherCitizenship", "text", "required"), t("form.latinHint")) : ""}
+        ${citizenship === "OTHER" ? field("otherCitizenship", t("form.otherCountry"), input("otherCitizenship", "text", "required")) : ""}
         ${field("currentCountry", t("form.currentCountry"), select("currentCountry", countryOptions(COUNTRY_CODES), "required"))}
-        ${currentCountry === "OTHER" ? field("otherCountry", t("form.otherCountry"), input("otherCountry", "text", "required"), t("form.latinHint")) : ""}
+        ${currentCountry === "OTHER" ? field("otherCountry", t("form.otherCountry"), input("otherCountry", "text", "required")) : ""}
         ${field("currentCity", t("form.currentCity"), input("currentCity", "text", 'autocomplete="address-level2" required'), t("form.latinHint"))}
       </div>
     `;
@@ -703,11 +893,17 @@
         ${state.values.legalStatus && state.values.legalStatus !== "statusNoDocuments"
           ? field("documentExpiry", t("form.documentExpiry"), input("documentExpiry", "date", `min="${today()}" required`))
           : ""}
-        ${field("workRight", workRightLabel, select("workRight", [
+        ${field("hasPesel", t("form.hasPesel"), yesNo("hasPesel"))}
+        ${state.values.hasPesel === "yes"
+          ? field("pesel", t("form.pesel"), input("pesel", "text", 'inputmode="numeric" autocomplete="off" minlength="11" maxlength="11" required'))
+          : ""}
+        ${field("passportNumber", t("form.passportNumber"), input("passportNumber", "text", 'inputmode="text" autocomplete="off" autocapitalize="characters" minlength="5" maxlength="20" required'))}
+        ${field("passportExpiry", t("form.passportExpiry"), input("passportExpiry", "date", `min="${today()}" required`))}
+        ${field("workRight", workRightLabel, choiceButtons("workRight", [
           { value: "yes", label: t("options.workRightYes") },
           { value: "no", label: t("options.workRightNo") },
           { value: "unknown", label: t("options.workRightUnknown") }
-        ], "required"))}
+        ]))}
       </div>
       <p class="application-security">ⓘ ${escapeHTML(t("form.noDocumentNumbers"))}</p>
     `;
@@ -716,11 +912,12 @@
   function renderLogisticsStep() {
     return `
       <div class="application-grid">
+        ${field("preferredLocation", t("form.preferredLocation"), select("preferredLocation", locationItems(), "required"))}
         ${field("readyDate", t("form.readyDate"), input("readyDate", "date", `min="${today()}" required`))}
-        ${field("housing", t("form.housing"), select("housing", [
+        ${field("housing", t("form.housing"), choiceButtons("housing", [
           { value: "required", label: t("options.housingRequired") },
           { value: "notRequired", label: t("options.housingNotRequired") }
-        ], "required"))}
+        ]))}
         ${field("travellingWith", t("form.travellingWith"), select("travellingWith", [
           { value: "alone", label: t("options.alone") },
           { value: "partner", label: t("options.partner") },
@@ -730,8 +927,11 @@
         ${state.values.travellingWith && state.values.travellingWith !== "alone"
           ? field("partnerAlsoApplies", t("form.partnerAlsoApplies"), yesNoUnknown("partnerAlsoApplies"))
           : ""}
-        ${field("employerTransport", t("form.employerTransport"), yesNo("employerTransport"))}
-        ${field("independentArrival", t("form.independentArrival"), yesNo("independentArrival"))}
+        ${state.values.travellingWith && state.values.travellingWith !== "alone"
+          ? field("groupCode", t("form.groupCode"), input("groupCode", "text", 'autocomplete="off" inputmode="text" maxlength="20" placeholder="GR-ABC123"'), state.values.groupCode ? "" : t("form.groupCodeHint"))
+          : ""}
+        ${field("emergencyContactName", t("form.emergencyContactName"), input("emergencyContactName", "text", 'autocomplete="off" inputmode="text" required'))}
+        ${field("emergencyContactPhone", t("form.emergencyContactPhone"), input("emergencyContactPhone", "tel", 'autocomplete="off" inputmode="tel" placeholder="+48500100200" required'))}
       </div>
     `;
   }
@@ -763,8 +963,9 @@
           : ""}
         ${field("polishLevel", t("form.polishLevel"), select("polishLevel", polishItems, "required"))}
         ${field("workedInPoland", t("form.workedInPoland"), yesNo("workedInPoland"))}
+        ${field("formerCitronexWorker", t("form.formerCitronexWorker"), yesNo("formerCitronexWorker"))}
       </div>
-      <fieldset class="application-fieldset">
+      <fieldset class="application-fieldset${state.invalidFields.includes("shiftReadiness") ? " is-invalid" : ""}">
         <legend>${escapeHTML(t("form.shiftReadiness"))}</legend>
         <div class="application-check-grid">
           ${shifts.map((key) => `
@@ -774,6 +975,7 @@
             </label>
           `).join("")}
         </div>
+        ${state.invalidFields[0] === "shiftReadiness" ? `<small class="application-field-error">${escapeHTML(state.error)}</small>` : ""}
       </fieldset>
     `;
   }
@@ -817,12 +1019,15 @@
     return `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd></div>`;
   }
 
-  function reviewGroup(title, values) {
+  function reviewGroup(title, values, step = null) {
     const content = values.filter(Boolean).join("");
     if (!content) return "";
     return `
       <section class="application-review-group">
-        <h4>${escapeHTML(title)}</h4>
+        <header>
+          <h4>${escapeHTML(title)}</h4>
+          ${step == null ? "" : `<button type="button" data-edit-application-step="${step}">${escapeHTML(t("form.editSection"))}</button>`}
+        </header>
         <dl>${content}</dl>
       </section>
     `;
@@ -872,25 +1077,31 @@
             reviewValue(`${t("form.firstName")} / ${t("form.lastName")}`, `${state.values.firstName || ""} ${state.values.lastName || ""}`.trim()),
             reviewValue(engine.birthDate, state.values.birthDate),
             reviewValue(engine.age, age == null ? "" : String(age)),
+            reviewValue(t("form.gender"), state.values.gender ? t(`options.${state.values.gender === "M" ? "genderMale" : "genderFemale"}`) : ""),
             reviewValue(t("form.whatsapp"), state.values.phone),
             reviewValue(t("form.email"), state.values.email)
-          ])}
+          ], 0)}
           ${reviewGroup(t("form.stepDocuments"), [
             reviewValue(t("form.citizenship"), localizedCountry(state.values.citizenship, state.values.otherCitizenship)),
             reviewValue(t("form.currentCountry"), localizedCountry(state.values.currentCountry, state.values.otherCountry)),
             reviewValue(t("form.currentCity"), state.values.currentCity),
             reviewValue(t("form.legalStatus"), optionLabel("legalStatus", state.values.legalStatus)),
-            reviewValue(t("form.documentExpiry"), state.values.documentExpiry),
+            reviewValue(t("form.documentExpiry"), polishDate(state.values.documentExpiry)),
+            reviewValue(t("form.pesel"), state.values.hasPesel === "yes" ? maskSensitive(state.values.pesel) : t("options.no")),
+            reviewValue(t("form.passportNumber"), maskSensitive(state.values.passportNumber)),
+            reviewValue(t("form.passportExpiry"), polishDate(state.values.passportExpiry)),
             reviewValue(t("form.workRight"), state.values.workRight ? t(`options.workRight${state.values.workRight[0].toUpperCase()}${state.values.workRight.slice(1)}`) : "")
-          ])}
+          ], 1)}
           ${reviewGroup(t("form.stepLogistics"), [
-            reviewValue(t("form.readyDate"), state.values.readyDate),
+            reviewValue(t("form.preferredLocation"), state.values.preferredLocation === "DO_CONFIRM" ? t("options.locationToConfirm") : state.values.preferredLocation),
+            reviewValue(t("form.readyDate"), polishDate(state.values.readyDate)),
             reviewValue(t("form.housing"), state.values.housing === "required" ? t("options.housingRequired") : t("options.housingNotRequired")),
             reviewValue(t("form.travellingWith"), optionLabel("travellingWith", state.values.travellingWith)),
             reviewValue(t("form.partnerAlsoApplies"), optionLabel("partnerAlsoApplies", state.values.partnerAlsoApplies)),
-            reviewValue(t("form.employerTransport"), optionLabel("employerTransport", state.values.employerTransport)),
-            reviewValue(t("form.independentArrival"), optionLabel("independentArrival", state.values.independentArrival))
-          ])}
+            reviewValue(t("form.groupCode"), state.values.groupCode),
+            reviewValue(t("form.emergencyContactName"), state.values.emergencyContactName),
+            reviewValue(t("form.emergencyContactPhone"), state.values.emergencyContactPhone)
+          ], 2)}
           ${reviewGroup(t("form.stepWork"), [
             reviewValue(t("form.plannedDuration"), optionLabel("plannedDuration", state.values.plannedDuration)),
             reviewValue(t("form.currentlyEmployed"), optionLabel("currentlyEmployed", state.values.currentlyEmployed)),
@@ -899,16 +1110,17 @@
             reviewValue(t("form.standingReady"), optionLabel("standingReady", state.values.standingReady)),
             reviewValue(t("form.liftCapacity"), optionLabel("liftCapacity", state.values.liftCapacity)),
             reviewValue(t("form.shiftReadiness"), shiftValues)
-          ])}
+          ], 3)}
           ${reviewGroup(t("form.stepQualification"), [
             reviewValue(t("form.experience"), state.values.experience ? t(`options.${state.values.experience}`) : ""),
             reviewValue(t("form.experienceDetails"), state.values.experienceDetails),
             reviewValue(t("form.polishLevel"), optionLabel("polishLevel", state.values.polishLevel)),
             reviewValue(t("form.workedInPoland"), optionLabel("workedInPoland", state.values.workedInPoland)),
+            reviewValue(t("form.formerCitronexWorker"), optionLabel("formerCitronexWorker", state.values.formerCitronexWorker)),
             reviewValue(t("form.stepQualification"), qualificationValues),
             reviewValue(t("form.workLimitations"), state.values.workLimitations),
             reviewValue(t("form.extraNotes"), state.values.extraNotes)
-          ])}
+          ], 3)}
         </div>
       </div>
       <aside class="application-safety-note">
@@ -918,17 +1130,24 @@
           <p>${escapeHTML(t("ui.antiFraudWarning"))}</p>
         </div>
       </aside>
-      <section class="application-message-preview" aria-labelledby="application-message-heading">
-        <div>
-          <h3 id="application-message-heading">${escapeHTML(t("form.messagePreview"))}</h3>
+      <details class="application-message-preview">
+        <summary>
+          <span>
+            <strong>${escapeHTML(t("form.messagePreview"))}</strong>
+            <small>${escapeHTML(t("form.viewMessage"))}</small>
+          </span>
+          <span aria-hidden="true">⌄</span>
+        </summary>
+        <div class="application-message-preview-content">
+          <p>${escapeHTML(t("form.messagePreviewHint"))}</p>
+          <textarea readonly rows="12" aria-label="${escapeHTML(t("form.messagePreview"))}">${escapeHTML(buildMessage())}</textarea>
           <button class="button button-secondary" type="button" data-copy-application-message>⧉ ${escapeHTML(t("form.copyMessage"))}</button>
         </div>
-        <p>${escapeHTML(t("form.messagePreviewHint"))}</p>
-        <textarea readonly rows="12" aria-label="${escapeHTML(t("form.messagePreview"))}">${escapeHTML(buildMessage())}</textarea>
-      </section>
-      <label class="application-check application-consent">
+      </details>
+      <label class="application-check application-consent${state.invalidFields.includes("consent") ? " is-invalid" : ""}">
         <input name="consent" type="checkbox" ${state.values.consent ? "checked" : ""}>
         <span>${escapeHTML(t("form.consent"))}</span>
+        ${state.invalidFields[0] === "consent" ? `<small class="application-field-error">${escapeHTML(state.error)}</small>` : ""}
       </label>
     `;
   }
@@ -1035,27 +1254,145 @@
     if (focusStart) focusDialogStart();
   }
 
+  function draftControl() {
+    if (!state.hasDraft) return "";
+    return `
+      <div class="application-draft-control">
+        <span>✓ ${escapeHTML(t("form.draftSaved"))}</span>
+        <button class="application-clear-draft" type="button" data-clear-application-draft>
+          ${escapeHTML(t("form.clearDraft"))}
+        </button>
+      </div>
+    `;
+  }
+
+  function collectPrecheckValues() {
+    const form = document.getElementById("application-precheck-form");
+    if (!form) return;
+    const data = new FormData(form);
+    ["precheckAdult", "precheckWorkRight", "precheckConditions", "precheckPhysical"].forEach((name) => {
+      if (data.has(name)) state.values[name] = String(data.get(name)).trim();
+    });
+    saveDraft();
+  }
+
+  function handlePrecheckSubmit(event) {
+    event.preventDefault();
+    collectPrecheckValues();
+    const required = ["precheckAdult", "precheckWorkRight", "precheckConditions"];
+    if (isPhysicalJob()) required.push("precheckPhysical");
+    const missing = required.filter((name) => !state.values[name]);
+    if (missing.length) {
+      setValidationError(t("form.missingRequired"), missing);
+    } else if (
+      state.values.precheckAdult !== "yes"
+      || state.values.precheckWorkRight === "no"
+      || state.values.precheckConditions !== "yes"
+      || (isPhysicalJob() && state.values.precheckPhysical !== "yes")
+    ) {
+      const unsuitable = [
+        state.values.precheckAdult !== "yes" && "precheckAdult",
+        state.values.precheckWorkRight === "no" && "precheckWorkRight",
+        state.values.precheckConditions !== "yes" && "precheckConditions",
+        isPhysicalJob() && state.values.precheckPhysical !== "yes" && "precheckPhysical"
+      ].filter(Boolean);
+      setValidationError(t("form.precheckNotSuitable"), unsuitable);
+    } else {
+      state.error = "";
+      state.invalidFields = [];
+      state.values.precheckComplete = "yes";
+      state.values.adult = true;
+      state.values.workRight = state.values.precheckWorkRight;
+      if (isPhysicalJob()) state.values.standingReady = "yes";
+      saveDraft();
+      render(true);
+      return;
+    }
+    renderPrecheck();
+    document.getElementById("application-error")?.focus();
+  }
+
+  function renderPrecheck(focusStart = false) {
+    const dialog = document.getElementById("application-dialog");
+    const container = document.getElementById("application-dialog-content");
+    const job = localizedJob();
+    if (!dialog || !container || !job) return;
+    const destination = destinationCode(baseJob());
+    const workRightLabel = destination
+      ? `${t("form.workRight")} — ${i18n.countryName(destination)}`
+      : t("form.workRight");
+    container.innerHTML = `
+      <header class="application-header application-precheck-header">
+        <p class="overline">${escapeHTML(t("form.title"))}</p>
+        <h2 id="application-step-title" tabindex="-1">${escapeHTML(t("form.precheckTitle"))}</h2>
+        <p>${escapeHTML(t("form.precheckIntro"))}</p>
+        ${recruiterHandoff()}
+        ${draftControl()}
+      </header>
+      <form id="application-precheck-form" novalidate>
+        <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
+        <section class="application-step application-precheck">
+          <div class="application-selected-vacancy">
+            <span>${escapeHTML(t("form.selectedVacancy"))}</span>
+            <strong>${escapeHTML(job.title)}</strong>
+            <small>${escapeHTML(job.format)} · ${escapeHTML(job.location)}</small>
+          </div>
+          <div class="application-grid">
+            ${field("precheckAdult", t("form.adult"), yesNo("precheckAdult"))}
+            ${field("precheckWorkRight", workRightLabel, yesNoUnknown("precheckWorkRight"))}
+            ${field("precheckConditions", t("form.precheckConditions"), yesNo("precheckConditions"))}
+            ${isPhysicalJob()
+              ? field("precheckPhysical", t("form.standingReady"), yesNo("precheckPhysical"))
+              : ""}
+          </div>
+        </section>
+        <footer class="application-actions application-precheck-actions">
+          <span>${escapeHTML(t("form.precheckIntro"))}</span>
+          <button class="button button-primary" type="submit">${escapeHTML(t("form.next"))} →</button>
+        </footer>
+      </form>
+    `;
+    const form = container.querySelector("#application-precheck-form");
+    form?.addEventListener("input", (event) => {
+      collectPrecheckValues();
+      clearInlineError(event.target.name, event.target);
+    });
+    form?.addEventListener("change", (event) => {
+      collectPrecheckValues();
+      clearInlineError(event.target.name, event.target);
+    });
+    form?.addEventListener("submit", handlePrecheckSubmit);
+    container.querySelector("[data-clear-application-draft]")?.addEventListener("click", clearDraft);
+    if (focusStart) focusDialogStart();
+  }
+
   function render(focusStart = false) {
     if (state.mode === "match") {
       renderMatcher(focusStart);
+      return;
+    }
+    if (!state.values.precheckComplete) {
+      renderPrecheck(focusStart);
       return;
     }
     const dialog = document.getElementById("application-dialog");
     const container = document.getElementById("application-dialog-content");
     if (!dialog || !container) return;
     const percent = ((state.step + 1) / STEP_KEYS.length) * 100;
-    const stepLabels = STEP_KEYS.map((key) => t(`form.${key}`));
+    const job = localizedJob();
     container.innerHTML = `
       <header class="application-header" data-stage="${state.step + 1}" data-stage-total="${STEP_KEYS.length}">
         <p class="overline">${escapeHTML(t("form.title"))}</p>
         <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
-        <p>${escapeHTML(t("form.intro"))}</p>
-        ${recruiterHandoff()}
-        ${renderStepTrack(stepLabels, state.step + 1)}
+        <p class="application-vacancy-context">${escapeHTML(job?.title || "")}</p>
+        ${draftControl()}
+        <div class="application-progress-meta">
+          <span>${escapeHTML(t("ui.formStep"))} ${state.step + 1} ${escapeHTML(t("ui.of"))} ${STEP_KEYS.length}</span>
+          <span>${Math.round(percent)}%</span>
+        </div>
         <div class="application-progress" role="progressbar" aria-label="${escapeHTML(`${t("ui.formStep")} ${state.step + 1} ${t("ui.of")} ${STEP_KEYS.length}`)}" aria-valuemin="1" aria-valuemax="${STEP_KEYS.length}" aria-valuenow="${state.step + 1}">
           <span style="width:${percent}%"></span>
         </div>
-        <small>${escapeHTML(t("ui.formStep"))} ${state.step + 1} ${escapeHTML(t("ui.of"))} ${STEP_KEYS.length}</small>
       </header>
       <form id="application-form" novalidate>
         <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
@@ -1077,23 +1414,40 @@
     container.querySelector("[name='citizenship']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='legalStatus']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='documentCountry']")?.addEventListener("change", collectAndRender);
+    container.querySelector("[name='hasPesel']")?.addEventListener("change", collectAndRender);
     container.querySelector("[name='travellingWith']")?.addEventListener("change", collectAndRender);
-    container.querySelector("[name='currentlyEmployed']")?.addEventListener("change", collectAndRender);
+    container.querySelectorAll("[name='currentlyEmployed']").forEach((input) => {
+      input.addEventListener("change", collectAndRender);
+    });
     container.querySelector("[name='birthDate']")?.addEventListener("change", collectAndRender);
     container.querySelector("[data-application-back]")?.addEventListener("click", () => {
       collectValues();
       state.error = "";
+      state.invalidFields = [];
       state.step = Math.max(0, state.step - 1);
       saveDraft();
       render(true);
     });
     container.querySelector("[data-copy-application-message]")?.addEventListener("click", copyApplicationMessage);
-    const form = container.querySelector("#application-form");
-    form?.addEventListener("input", () => {
-      collectValues();
+    container.querySelectorAll("[data-edit-application-step]").forEach((button) => {
+      button.addEventListener("click", () => {
+        collectValues();
+        state.error = "";
+        state.invalidFields = [];
+        state.step = Number(button.dataset.editApplicationStep) || 0;
+        saveDraft();
+        render(true);
+      });
     });
-    form?.addEventListener("change", () => {
+    container.querySelector("[data-clear-application-draft]")?.addEventListener("click", clearDraft);
+    const form = container.querySelector("#application-form");
+    form?.addEventListener("input", (event) => {
       collectValues();
+      clearInlineError(event.target.name, event.target);
+    });
+    form?.addEventListener("change", (event) => {
+      collectValues();
+      clearInlineError(event.target.name, event.target);
     });
     form?.addEventListener("submit", handleSubmit);
     if (focusStart) focusDialogStart();
@@ -1193,11 +1547,12 @@
 
   function startApplicationFromMatch(jobId) {
     const job = jobs.find((item) => item.id === jobId);
-    if (!job) return;
+    if (!job || !canApply(job)) return;
     state.mode = "application";
     state.jobId = job.id;
     state.step = 0;
     state.error = "";
+    state.invalidFields = [];
     state.values = {
       ...state.values,
       jobId: job.id,
@@ -1207,6 +1562,7 @@
       consent: false,
       shiftReadiness: []
     };
+    delete state.values.precheckComplete;
     render(true);
   }
 
@@ -1218,14 +1574,33 @@
       if (key !== "shiftReadiness") state.values[key] = String(value).trim();
     }
     if (state.step === 0) state.values.adult = (calculateAge(state.values.birthDate) ?? -1) >= 18;
+    if (state.step === 1 && state.values.hasPesel !== "yes") delete state.values.pesel;
+    if (state.step === 2) {
+      if (state.values.travellingWith === "alone") delete state.values.groupCode;
+      else if (state.values.groupCode) state.values.groupCode = normalizeGroupCode(state.values.groupCode);
+    }
     if (state.step === 3) state.values.shiftReadiness = data.getAll("shiftReadiness").map(String);
     if (state.step === 4) state.values.consent = data.has("consent");
     if (state.values.jobId) state.jobId = state.values.jobId;
     saveDraft();
   }
 
-  function collectAndRender() {
+  function clearInlineError(name, target) {
+    if (!name || !state.invalidFields.includes(name)) return;
+    state.invalidFields = state.invalidFields.filter((fieldName) => fieldName !== name);
+    const wrapper = target?.closest(".application-field, .application-fieldset, .application-consent");
+    wrapper?.classList.remove("is-invalid");
+    wrapper?.querySelector(".application-field-error")?.remove();
+    if (!state.invalidFields.length) {
+      state.error = "";
+      const alert = document.getElementById("application-error");
+      if (alert) alert.hidden = true;
+    }
+  }
+
+  function collectAndRender(event) {
     collectValues();
+    clearInlineError(event?.target?.name, event?.target);
     render();
   }
 
@@ -1234,84 +1609,120 @@
     return LATIN_TEXT.test(value);
   }
 
+  function setValidationError(message, fields = []) {
+    state.error = message;
+    state.invalidFields = fields.filter(Boolean);
+  }
+
   function validateStep() {
     state.error = "";
+    state.invalidFields = [];
     if (state.step === 0) {
       const age = calculateAge(state.values.birthDate);
-      if (!state.jobId || !state.values.preferredLanguage || !state.values.firstName || !state.values.lastName || !state.values.birthDate || !state.values.phone) {
-        state.error = t("form.missingRequired");
-      } else if (!LATIN_NAME.test(state.values.firstName) || !LATIN_NAME.test(state.values.lastName)) {
-        state.error = t("form.latinError");
+      const required = ["jobId", "preferredLanguage", "firstName", "lastName", "birthDate", "gender", "phone"];
+      const missing = required.filter((name) => !(name === "jobId" ? state.jobId : state.values[name]));
+      const invalidNames = ["firstName", "lastName"].filter((name) => state.values[name] && !LATIN_NAME.test(state.values[name]));
+      if (missing.length) {
+        setValidationError(t("form.missingRequired"), missing);
+      } else if (invalidNames.length) {
+        setValidationError(t("form.latinError"), invalidNames);
       } else if (!PHONE.test(state.values.phone.replace(/[\s()-]/g, ""))) {
-        state.error = t("form.phoneError");
+        setValidationError(t("form.phoneError"), ["phone"]);
       } else if (state.values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.values.email)) {
-        state.error = t("form.missingRequired");
+        setValidationError(t("form.missingRequired"), ["email"]);
       } else if (age == null || age < 18) {
-        state.error = candidateEngineCopy().underage;
+        setValidationError(candidateEngineCopy().underage, ["birthDate"]);
       }
     } else if (state.step === 1) {
-      if (!state.values.citizenship || !state.values.currentCountry || !state.values.currentCity) {
-        state.error = t("form.missingRequired");
+      const identity = state.values.hasPesel === "yes" ? peselIdentity(state.values.pesel) : null;
+      const required = [
+        "citizenship",
+        "currentCountry",
+        "currentCity",
+        "legalStatus",
+        "hasPesel",
+        "passportNumber",
+        "passportExpiry",
+        "workRight"
+      ];
+      if (state.values.citizenship === "OTHER") required.push("otherCitizenship");
+      if (state.values.currentCountry === "OTHER") required.push("otherCountry");
+      if (state.values.legalStatus && state.values.legalStatus !== "statusNoDocuments") required.push("documentExpiry");
+      if (state.values.hasPesel === "yes") required.push("pesel");
+      const missing = required.filter((name) => !state.values[name]);
+      const latinFields = ["currentCity"];
+      if (state.values.citizenship === "OTHER") latinFields.push("otherCitizenship");
+      if (state.values.currentCountry === "OTHER") latinFields.push("otherCountry");
+      const invalidLatin = latinFields.filter((name) => state.values[name] && !validateLatin(state.values[name], true));
+      if (missing.length) {
+        setValidationError(t("form.missingRequired"), missing);
+      } else if (invalidLatin.length) {
+        setValidationError(t("form.latinError"), invalidLatin);
       } else if (
-        !validateLatin(state.values.currentCity, true)
-        || (state.values.citizenship === "OTHER" && !validateLatin(state.values.otherCitizenship, true))
-        || (state.values.currentCountry === "OTHER" && !validateLatin(state.values.otherCountry, true))
+        state.values.passportExpiry < today()
+        || (state.values.documentExpiry && state.values.documentExpiry < today())
       ) {
-        state.error = t("form.latinError");
+        setValidationError(
+          t("form.dateError"),
+          [state.values.passportExpiry < today() ? "passportExpiry" : "documentExpiry"]
+        );
+      } else if (state.values.hasPesel === "yes" && !identity) {
+        setValidationError(t("form.peselError"), ["pesel"]);
       } else if (
-        !state.values.legalStatus
-        || !state.values.workRight
-        || (state.values.legalStatus !== "statusNoDocuments" && !state.values.documentExpiry)
+        identity
+        && (identity.birthDate !== state.values.birthDate || identity.gender !== state.values.gender)
       ) {
-        state.error = t("form.missingRequired");
+        setValidationError(t("form.peselDataMismatch"), ["pesel"]);
+      } else if (!/^[A-Za-z\d -]{5,20}$/.test(state.values.passportNumber || "")) {
+        setValidationError(t("form.passportError"), ["passportNumber"]);
       }
     } else if (state.step === 2) {
-      if (
-        !state.values.readyDate
-        || !state.values.housing
-        || !state.values.travellingWith
-        || !state.values.employerTransport
-        || !state.values.independentArrival
-        || (state.values.travellingWith !== "alone" && !state.values.partnerAlsoApplies)
-      ) {
-        state.error = t("form.missingRequired");
+      const required = ["preferredLocation", "readyDate", "housing", "travellingWith", "emergencyContactName", "emergencyContactPhone"];
+      if (state.values.travellingWith && state.values.travellingWith !== "alone") {
+        required.push("partnerAlsoApplies");
+        state.values.groupCode = normalizeGroupCode(state.values.groupCode) || createGroupCode();
+      }
+      const missing = required.filter((name) => !state.values[name]);
+      if (missing.length) {
+        setValidationError(t("form.missingRequired"), missing);
       } else if (state.values.readyDate < today()) {
-        state.error = t("form.dateError");
+        setValidationError(t("form.dateError"), ["readyDate"]);
+      } else if (!LATIN_NAME.test(state.values.emergencyContactName || "")) {
+        setValidationError(t("form.latinError"), ["emergencyContactName"]);
+      } else if (!PHONE.test(String(state.values.emergencyContactPhone || "").replace(/[\s()-]/g, ""))) {
+        setValidationError(t("form.phoneError"), ["emergencyContactPhone"]);
+      } else if (
+        state.values.travellingWith !== "alone"
+        && !/^[A-Z0-9-]{4,20}$/.test(state.values.groupCode || "")
+      ) {
+        setValidationError(t("form.groupCodeError"), ["groupCode"]);
       }
     } else if (state.step === 3) {
-      if (
-        !state.values.plannedDuration
-        || !state.values.currentlyEmployed
-        || (state.values.currentlyEmployed === "yes" && !state.values.noticePeriod)
-        || !state.values.overtimeReady
-        || (isPhysicalJob() && !state.values.standingReady)
-        || (isPhysicalJob() && !state.values.liftCapacity)
-        || !state.values.polishLevel
-        || !state.values.workedInPoland
-        || !(state.values.shiftReadiness || []).length
-      ) {
-        state.error = t("form.missingRequired");
-      } else {
-        const id = state.jobId;
-        const qualificationRequired = id.startsWith("driver-ce")
-          ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
-          : id === "forklift-udt"
-            ? ["udtLicense"]
-            : id === "team-leader"
-              ? ["leadershipExperience"]
-              : id === "truck-mechanic"
-                ? ["mechanicExperience"]
-                : ["greenhouse-agronomist", "plant-protection"].includes(id)
-                  ? ["specialistEducation"]
-                  : [];
-        if (!state.values.experience || qualificationRequired.some((name) => !state.values[name])) {
-          state.error = t("form.missingRequired");
-        } else if (!validateLatin(state.values.udtCategory)) {
-          state.error = t("form.latinError");
-        }
+      const required = ["plannedDuration", "currentlyEmployed", "overtimeReady", "polishLevel", "workedInPoland", "formerCitronexWorker", "experience"];
+      if (state.values.currentlyEmployed === "yes") required.push("noticePeriod");
+      if (isPhysicalJob()) required.push("standingReady", "liftCapacity");
+      if (!(state.values.shiftReadiness || []).length) required.push("shiftReadiness");
+      const id = state.jobId;
+      const qualificationRequired = id.startsWith("driver-ce")
+        ? ["driverLicense", "code95", "tachograph", "reeferExperience"]
+        : id === "forklift-udt"
+          ? ["udtLicense"]
+          : id === "team-leader"
+            ? ["leadershipExperience"]
+            : id === "truck-mechanic"
+              ? ["mechanicExperience"]
+              : ["greenhouse-agronomist", "plant-protection"].includes(id)
+                ? ["specialistEducation"]
+                : [];
+      required.push(...qualificationRequired);
+      const missing = required.filter((name) => !state.values[name]);
+      if (missing.length) {
+        setValidationError(t("form.missingRequired"), missing);
+      } else if (!validateLatin(state.values.udtCategory)) {
+        setValidationError(t("form.latinError"), ["udtCategory"]);
       }
     } else if (!state.values.consent) {
-      state.error = t("form.consentError");
+      setValidationError(t("form.consentError"), ["consent"]);
     }
     return !state.error;
   }
@@ -1412,12 +1823,57 @@
       if (state.values.tachograph !== "yes") flags.push("Kierowca: potwierdzić kartę kierowcy");
     }
     if (jobText.includes("udt") && state.values.udtLicense !== "yes") flags.push("Stanowisko UDT: potwierdzić polskie uprawnienia UDT");
+    if (job?.id === "team-leader" && state.values.leadershipExperience !== "yes") flags.push("Brygadzista: potwierdzić doświadczenie w zarządzaniu zespołem");
+    if (job?.id === "truck-mechanic" && state.values.mechanicExperience !== "yes") flags.push("Mechanik: potwierdzić doświadczenie przy pojazdach ciężarowych");
+    if (["greenhouse-agronomist", "plant-protection"].includes(job?.id) && state.values.specialistEducation !== "yes") {
+      flags.push("Stanowisko specjalistyczne: potwierdzić wykształcenie lub certyfikat");
+    }
+    if (passportExpiresSoon(state.values.passportExpiry)) {
+      flags.push(`Paszport traci ważność w ciągu 6 miesięcy (${polishDate(state.values.passportExpiry)})`);
+    }
+    if (state.values.preferredLocation === "DO_CONFIRM") flags.push("Potwierdzić dokładną lokalizację pracy");
     if (state.values.partnerAlsoApplies === "yes") flags.push("Druga osoba również aplikuje: sprawdzić dwa miejsca i zakwaterowanie");
-    if (state.values.independentArrival === "no") flags.push("Ustalić transport i sposób przyjazdu kandydata");
     if (state.values.standingReady === "no") flags.push("Sprawdzić dopasowanie do fizycznych wymagań stanowiska");
     if (state.values.workLimitations) flags.push("Omówić ograniczenia wskazane przez kandydata");
-    if (!flags.length) flags.push("Brak oczywistych uwag po wstępnej weryfikacji");
     return flags;
+  }
+
+  function candidateDecision(job, flags) {
+    const blockers = [];
+    if (state.values.workRight === "no") blockers.push("brak potwierdzonego prawa do pracy");
+    if (isPhysicalJob(job?.id) && state.values.standingReady === "no") blockers.push("brak gotowości do wymaganej pracy fizycznej");
+    if (job?.id?.startsWith("driver-ce")) {
+      if (state.values.driverLicense === "no") blockers.push("brak prawa jazdy C+E");
+      if (state.values.code95 === "no") blockers.push("brak Code 95");
+      if (state.values.tachograph === "no") blockers.push("brak karty kierowcy");
+    }
+    if (job?.id === "forklift-udt" && state.values.udtLicense === "no") blockers.push("brak wymaganych uprawnień UDT");
+    if (job?.id === "team-leader" && state.values.leadershipExperience === "no") blockers.push("brak doświadczenia w zarządzaniu zespołem");
+    if (job?.id === "truck-mechanic" && state.values.mechanicExperience === "no") blockers.push("brak doświadczenia mechanika");
+    if (
+      ["greenhouse-agronomist", "plant-protection"].includes(job?.id)
+      && state.values.specialistEducation === "no"
+    ) blockers.push("brak wymaganego wykształcenia lub certyfikatu");
+
+    if (blockers.length) {
+      return {
+        status: "BRAK WARUNKÓW",
+        reason: blockers.join("; "),
+        next: "Nie wpisywać do planu przyjazdów bez ponownej decyzji rekrutera."
+      };
+    }
+    if (flags.length) {
+      return {
+        status: "DO WERYFIKACJI",
+        reason: flags.join("; "),
+        next: "Wyjaśnić wskazane punkty przed potwierdzeniem przyjazdu."
+      };
+    }
+    return {
+      status: "GOTOWY",
+      reason: "Brak oczywistych rozbieżności w ankiecie.",
+      next: "Skontaktować się z kandydatem i potwierdzić termin oraz lokalizację."
+    };
   }
 
   function qualificationSummary() {
@@ -1444,6 +1900,7 @@
     const age = calculateAge(state.values.birthDate);
     const source = state.values.source || campaignSource();
     const checkFlags = candidateCheckFlags(job);
+    const decision = candidateDecision(job, checkFlags);
     const polishJob = window.PORTAL_TRANSLATIONS?.pl?.jobs?.[job?.id] || {};
     return {
       v: 1,
@@ -1451,26 +1908,36 @@
       at: submittedAt,
       jid: job?.id || "",
       j: polishJob.title || localized?.title || job?.title || "",
+      physical: isPhysicalJob(job?.id),
       d: destination(job),
+      loc: polishLocation(state.values.preferredLocation),
       s: localized?.salary?.note || job?.salary?.note || "Needs confirmation",
       fn: state.values.firstName || "",
       ln: state.values.lastName || "",
-      dob: state.values.birthDate || "",
+      dob: polishDate(state.values.birthDate),
       a: age,
+      gender: state.values.gender || "",
       p: String(state.values.phone || "").replace(/[\s()-]/g, ""),
       e: state.values.email || "",
       cit: polishCountry(state.values.citizenship, state.values.otherCitizenship),
       cc: polishCountry(state.values.currentCountry, state.values.otherCountry),
       city: state.values.currentCity || "",
       doc: polishOption(state.values.legalStatus),
-      docexp: state.values.documentExpiry || "",
+      docexp: polishDate(state.values.documentExpiry),
+      pesel: state.values.hasPesel === "yes" ? state.values.pesel || "" : "BRAK",
+      passport: String(state.values.passportNumber || "").toUpperCase(),
+      passportExpiry: polishDate(state.values.passportExpiry),
       wr: polishOption(state.values.workRight),
-      ready: state.values.readyDate || "",
+      ready: polishDate(state.values.readyDate),
+      week: isoWeekLabel(state.values.readyDate),
+      dept: arrivalsDepartment(job?.id),
       house: polishOption(state.values.housing),
+      hotel: state.values.housing === "required" ? "TAK" : "NIE",
       travel: polishOption(state.values.travellingWith),
       second: polishOption(state.values.partnerAlsoApplies),
-      transport: polishOption(state.values.employerTransport),
-      arrival: polishOption(state.values.independentArrival),
+      group: state.values.travellingWith === "alone" ? "—" : normalizeGroupCode(state.values.groupCode),
+      emergencyName: state.values.emergencyContactName || "",
+      emergencyPhone: String(state.values.emergencyContactPhone || "").replace(/[\s()-]/g, ""),
       duration: polishOption(state.values.plannedDuration),
       employed: polishOption(state.values.currentlyEmployed),
       notice: state.values.currentlyEmployed === "yes" ? polishOption(state.values.noticePeriod) : "Nie dotyczy",
@@ -1482,13 +1949,58 @@
       expd: state.values.experienceDetails || "",
       polish: polishOption(state.values.polishLevel),
       workedpl: polishOption(state.values.workedInPoland),
+      employeeStatus: state.values.formerCitronexWorker === "yes" ? "stary" : "nowy",
       q: qualificationSummary(),
       limits: state.values.workLimitations || "",
       n: state.values.extraNotes || "",
       check: checkFlags,
+      decision,
       src: polishSource(source),
+      recruiter: profile.name || "Oleksandr Kiris",
       lang: polishLanguageName(state.values.preferredLanguage || i18n.locale)
     };
+  }
+
+  function excelCell(value) {
+    const clean = String(value ?? "").replace(/[\t\r\n]+/g, " ").trim();
+    return /^[=+\-@]/.test(clean) ? `'${clean}` : clean;
+  }
+
+  function excelRow(values) {
+    return values.map(excelCell).join("\t");
+  }
+
+  function arrivalsExcelRow(record) {
+    return excelRow([
+      `${record.fn} ${record.ln}`.trim(),
+      record.week,
+      record.ready,
+      record.dept,
+      record.p,
+      record.employeeStatus,
+      record.recruiter,
+      record.src,
+      record.cit,
+      record.gender,
+      record.hotel
+    ]);
+  }
+
+  function questionnaireExcelRow(record) {
+    return excelRow([
+      record.fn,
+      record.ln,
+      record.dob,
+      record.pesel,
+      record.cit,
+      record.passport,
+      [record.cc, record.city].filter(Boolean).join(", "),
+      "",
+      record.p,
+      record.e,
+      record.emergencyName,
+      record.emergencyPhone
+    ]);
   }
 
   function buildMessage() {
@@ -1499,66 +2011,93 @@
       timeZone: "Europe/Warsaw"
     }).format(new Date(record.at));
     const currentLocation = [record.cc, record.city].filter(Boolean).join(", ") || "—";
-    const verification = record.check.map((item) => `• ${item}`);
+    const decisionIcon = record.decision.status === "GOTOWY"
+      ? "✅"
+      : record.decision.status === "DO WERYFIKACJI"
+        ? "⚠️"
+        : "⛔";
+    const line = (label, value, include = true) => (
+      include && value && value !== "—" ? `*${label}:* ${value}` : ""
+    );
+    const section = (title, lines) => {
+      const visible = lines.filter(Boolean);
+      return visible.length ? [title, ...visible, ""] : [];
+    };
+    const groupApplication = record.group && record.group !== "—";
     return [
       "📋 *NOWA ANKIETA KANDYDATA*",
-      `*Nr zgłoszenia:* ${record.id}`,
-      `*Data:* ${submittedAt}`,
-      `*Źródło:* ${record.src}`,
+      `${decisionIcon} *WYNIK WSTĘPNY: ${record.decision.status}*`,
+      `*Powód:* ${record.decision.reason}`,
+      `*Następny krok:* ${record.decision.next}`,
       "",
-      "💼 *OFERTA PRACY*",
-      `*Stanowisko:* ${record.j}`,
-      `*ID oferty:* ${record.jid}`,
-      `*Kraj:* ${record.d}`,
+      line("Nr zgłoszenia", record.id),
+      line("Data", submittedAt),
+      line("Źródło", record.src),
+      line("Rekruter", record.recruiter),
       "",
-      "👤 *DANE KANDYDATA*",
-      `*Imię i nazwisko:* ${record.fn} ${record.ln}`,
-      `*Data urodzenia:* ${record.dob || "—"}`,
-      `*Wiek:* ${record.a ?? "—"}`,
-      `*WhatsApp:* ${record.p}`,
-      `*E-mail:* ${record.e || "—"}`,
-      `*Obywatelstwo:* ${record.cit || "—"}`,
-      `*Obecne miejsce pobytu:* ${currentLocation}`,
+      ...section("💼 *OFERTA PRACY*", [
+        line("Stanowisko", record.j),
+        line("ID oferty", record.jid),
+        line("Kraj", record.d),
+        line("Dział", record.dept),
+        line("Lokalizacja", record.loc)
+      ]),
+      ...section("👤 *KANDYDAT I KONTAKT*", [
+        line("Imię i nazwisko", `${record.fn} ${record.ln}`.trim()),
+        line("Data urodzenia", record.dob),
+        line("Wiek", record.a == null ? "" : record.a),
+        line("Płeć", record.gender),
+        line("Status", record.employeeStatus),
+        line("WhatsApp", record.p),
+        line("E-mail", record.e),
+        line("Obywatelstwo", record.cit),
+        line("Miejsce pobytu", currentLocation),
+        line("Język kontaktu", record.lang)
+      ]),
+      ...section("📄 *DOKUMENTY*", [
+        line("Status dokumentów", record.doc),
+        line("Ważność dokumentu", record.docexp),
+        line("PESEL", record.pesel || "BRAK"),
+        line("Numer paszportu", record.passport),
+        line("Paszport ważny do", record.passportExpiry),
+        line("Prawo do pracy", record.wr)
+      ]),
+      ...section("📅 *PRZYJAZD I ZAKWATEROWANIE*", [
+        line("Planowany przyjazd", record.ready),
+        line("Tydzień", record.week),
+        line("Planowany okres pracy", record.duration),
+        line("Obecnie zatrudniony/a", record.employed),
+        line("Okres wypowiedzenia", record.notice, record.notice !== "Nie dotyczy"),
+        line("Zakwaterowanie", record.house),
+        line("Wyjazd", record.travel),
+        line("Druga osoba aplikuje", record.second, groupApplication),
+        line("Kod grupy", record.group, groupApplication),
+        line("Osoba do kontaktu", record.emergencyName),
+        line("Telefon osoby kontaktowej", record.emergencyPhone)
+      ]),
+      ...section("🧰 *GOTOWOŚĆ I KWALIFIKACJE*", [
+        line("Nadgodziny", record.overtime),
+        line("Praca stojąca", record.standing, record.physical),
+        line("Podnoszenie", record.lift, record.physical),
+        line("Zmiany", record.sh.join(", ")),
+        line("Doświadczenie", record.exp),
+        line("Szczegóły doświadczenia", record.expd),
+        line("Praca wcześniej w Polsce", record.workedpl),
+        line("Język polski", record.polish),
+        line("Kwalifikacje", record.q.join("; ")),
+        line("Ograniczenia", record.limits),
+        line("Komentarz", record.n)
+      ]),
+      "📊 *PRZYJAZDY — WIERSZ DO EXCEL*",
+      "```",
+      arrivalsExcelRow(record),
+      "```",
       "",
-      "📄 *DOKUMENTY*",
-      `*Status dokumentów:* ${record.doc}`,
-      `*Ważność dokumentu:* ${record.docexp || "—"}`,
-      `*Prawo do pracy:* ${record.wr}`,
-      "",
-      "📅 *DOSTĘPNOŚĆ I PLAN PRACY*",
-      `*Gotowość od:* ${record.ready || "—"}`,
-      `*Planowany okres pracy:* ${record.duration}`,
-      `*Obecnie zatrudniony/a:* ${record.employed}`,
-      `*Okres wypowiedzenia:* ${record.notice}`,
-      "",
-      "🏠 *ZAKWATEROWANIE I DOJAZD*",
-      `*Zakwaterowanie:* ${record.house}`,
-      `*Wyjazd:* ${record.travel}`,
-      `*Druga osoba również aplikuje:* ${record.second}`,
-      `*Potrzebny transport pracodawcy:* ${record.transport}`,
-      `*Może przyjechać samodzielnie:* ${record.arrival}`,
-      "",
-      "🕒 *GRAFIK I GOTOWOŚĆ FIZYCZNA*",
-      `*Gotowość do nadgodzin:* ${record.overtime}`,
-      `*Gotowość do pracy stojącej:* ${record.standing}`,
-      `*Regularne podnoszenie:* ${record.lift}`,
-      `*Gotowość do zmian:* ${record.sh.join(", ") || "—"}`,
-      "",
-      "🧰 *DOŚWIADCZENIE, JĘZYK I KWALIFIKACJE*",
-      `*Doświadczenie:* ${record.exp}`,
-      `*Szczegóły doświadczenia:* ${record.expd || "—"}`,
-      `*Praca wcześniej w Polsce:* ${record.workedpl}`,
-      `*Poziom języka polskiego:* ${record.polish}`,
-      `*Kwalifikacje:* ${record.q.join("; ") || "—"}`,
-      "",
-      "💬 *DODATKOWE INFORMACJE*",
-      `*Ograniczenia dotyczące pracy:* ${record.limits || "Brak wskazanych"}`,
-      `*Komentarz kandydata:* ${record.n || "—"}`,
-      `*Język kontaktu:* ${record.lang}`,
-      "",
-      "⚠️ *DO WERYFIKACJI*",
-      ...verification
-    ].join("\n");
+      "🗂️ *KWESTIONARIUSZ — WIERSZ WSTĘPNY*",
+      "```",
+      questionnaireExcelRow(record),
+      "```"
+    ].filter((item, index, items) => item !== "" || items[index - 1] !== "").join("\n").trim();
   }
 
   async function writeMessageToClipboard(message) {
@@ -1603,6 +2142,22 @@
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
+  function clearDraft() {
+    if (!state.jobId || !window.confirm(t("form.clearDraftConfirm"))) return;
+    try {
+      localStorage.removeItem(draftKey(state.jobId));
+    } catch {
+      // Clearing the visible form still works if storage access is blocked.
+    }
+    state.step = 0;
+    state.error = "";
+    state.invalidFields = [];
+    state.hasDraft = false;
+    state.values = initialApplicationValues(state.jobId);
+    render(true);
+    window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: t("form.draftCleared") } }));
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     collectValues();
@@ -1618,10 +2173,6 @@
       return;
     }
     const message = buildMessage();
-    const copied = await writeMessageToClipboard(message);
-    if (copied) {
-      window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: t("form.messageCopied") } }));
-    }
     if (!navigator.onLine) {
       state.error = t("form.unavailableOffline");
       render();
@@ -1631,22 +2182,18 @@
   }
 
   function open(jobId = "", options = {}) {
-    const hasSelectedJob = jobs.some((job) => job.id === jobId);
+    const selectedJob = jobs.find((job) => job.id === jobId);
+    const hasSelectedJob = Boolean(selectedJob);
+    if (hasSelectedJob && !canApply(selectedJob)) return;
     state.mode = hasSelectedJob ? "application" : "match";
     state.matchStep = 0;
     state.recommendations = [];
     state.jobId = hasSelectedJob ? jobId : "";
     state.error = "";
-    const initialValues = {
-      jobId: state.jobId,
-      applicationId: createApplicationId(),
-      source: campaignSource(),
-      preferredLanguage: i18n.locale,
-      adult: false,
-      consent: false,
-      shiftReadiness: []
-    };
+    state.invalidFields = [];
+    const initialValues = initialApplicationValues(state.jobId);
     const draft = hasSelectedJob ? readDraft(state.jobId) : null;
+    state.hasDraft = Boolean(draft);
     state.step = draft?.step || 0;
     state.values = draft
       ? {

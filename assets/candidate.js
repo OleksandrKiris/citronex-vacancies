@@ -30,6 +30,20 @@
     return i18n.job(job);
   }
 
+  function canApply(job) {
+    return job?.status === "open" || job?.status === "verify";
+  }
+
+  function statusLabel(job) {
+    const labels = {
+      open: "ui.recruitmentOpen",
+      verify: "ui.recruitmentVerify",
+      paused: "ui.recruitmentPaused",
+      closed: "ui.recruitmentClosed"
+    };
+    return i18n.t(labels[job?.status] || labels.verify);
+  }
+
   function salary(job) {
     const value = localized(job).salary || {};
     const min = Number(value.min);
@@ -93,12 +107,13 @@
   function card(job) {
     const view = localized(job);
     return `
-      <article class="job-card" data-job-id="${escapeHTML(job.id)}">
+      <article class="job-card" data-job-id="${escapeHTML(job.id)}" data-status="${escapeHTML(job.status || "verify")}">
         <div class="job-card-body">
           <div class="job-card-copy">
             <div class="job-tags">
               <span>${escapeHTML(view.format)}</span>
               <span>${escapeHTML(view.level)}</span>
+              <span class="job-status">${escapeHTML(statusLabel(job))}</span>
             </div>
             <h2>${escapeHTML(view.title)}</h2>
             <p class="job-subtitle">${escapeHTML(view.subtitle || view.summary || "")}</p>
@@ -189,11 +204,16 @@
     const view = localized(job);
     const headingId = options.page ? "job-page-title" : "job-dialog-title";
     const applyUrl = applicationUrl(job);
+    const applicationOpen = canApply(job);
     return `
-      <article class="vacancy-detail">
+      <article class="vacancy-detail" data-status="${escapeHTML(job.status || "verify")}">
         <header class="vacancy-hero">
           <div class="vacancy-hero-copy">
-            <div class="job-tags"><span>${escapeHTML(view.format)}</span><span>${escapeHTML(view.category)}</span></div>
+            <div class="job-tags">
+              <span>${escapeHTML(view.format)}</span>
+              <span>${escapeHTML(view.category)}</span>
+              <span class="job-status">${escapeHTML(statusLabel(job))}</span>
+            </div>
             <h2 id="${headingId}">${escapeHTML(view.title)}</h2>
             <p>${escapeHTML(job.company)} · ${escapeHTML(view.subtitle || "")}</p>
           </div>
@@ -223,7 +243,10 @@
 
           <aside class="vacancy-sidebar">
             <div class="vacancy-apply-bar">
-              <a class="primary-button" href="${escapeHTML(applyUrl)}" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</a>
+              ${applicationOpen
+                ? `<a class="primary-button" href="${escapeHTML(applyUrl)}" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</a>`
+                : `<strong class="vacancy-application-unavailable">${escapeHTML(statusLabel(job))}</strong>`}
+              <p class="vacancy-status-note">${escapeHTML(view.statusNote || "")}</p>
             </div>
             <dl class="vacancy-facts">
               <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd><small>${escapeHTML(view.salary?.note || "")}</small></div>
@@ -304,6 +327,11 @@
       const closeButton = event.target.closest("[data-close-dialog]");
       if (openButton && directJobId) event.preventDefault();
       if (applyButton) {
+        const job = jobs.find((item) => item.id === applyButton.dataset.applyJob);
+        if (!canApply(job)) {
+          event.preventDefault();
+          return;
+        }
         if (directJobId) return;
         event.preventDefault();
         closeDialog($("job-dialog"));
@@ -329,6 +357,8 @@
   function openDeepLink() {
     if (directJobId) {
       if (new URL(location.href).searchParams.get("apply") === "1") {
+        const job = jobs.find((item) => item.id === directJobId);
+        if (!canApply(job)) return;
         document.body.classList.add("standalone-application-page");
         $("application-page-back").hidden = false;
         window.PortalApplication?.open(directJobId, { standalone: true });

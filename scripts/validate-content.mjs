@@ -5,8 +5,14 @@ const source = fs.readFileSync(new URL("../data/content.js", import.meta.url), "
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(source, context, { filename: "data/content.js" });
+vm.runInContext(
+  fs.readFileSync(new URL("../data/locales/pl.js", import.meta.url), "utf8"),
+  context,
+  { filename: "data/locales/pl.js" }
+);
 
 const content = context.window.PORTAL_CONTENT;
+const polishJobs = context.window.PORTAL_TRANSLATIONS?.pl?.jobs || {};
 const errors = [];
 const add = (condition, message) => {
   if (!condition) errors.push(message);
@@ -46,11 +52,21 @@ for (const [index, job] of (content?.jobs || []).entries()) {
   add(!jobIds.has(job.id), `${prefix}.id дублируется: ${job.id}`);
   jobIds.add(job.id);
   const vacancyPage = new URL(`../vacancies/${job.id}/index.html`, import.meta.url);
+  const shareCard = new URL(`../assets/share/jobs/${job.id}.png`, import.meta.url);
+  const polishTitle = polishJobs[job.id]?.title || job.title;
   add(fs.existsSync(vacancyPage), `${prefix}: отсутствует отдельная страница vacancies/${job.id}/`);
+  add(fs.existsSync(shareCard), `${prefix}: отсутствует Facebook-карточка assets/share/jobs/${job.id}.png`);
+  if (fs.existsSync(shareCard)) {
+    add(fs.statSync(shareCard).size > 10_000, `${prefix}: Facebook-карточка слишком мала или повреждена`);
+  }
   if (fs.existsSync(vacancyPage)) {
     const vacancyHtml = fs.readFileSync(vacancyPage, "utf8");
     add(vacancyHtml.includes(`/vacancies/${job.id}/`), `${prefix}: отдельная страница содержит неверную canonical/OG ссылку`);
-    add(vacancyHtml.includes(job.title), `${prefix}: на отдельной странице отсутствует название вакансии`);
+    add(vacancyHtml.includes(polishTitle), `${prefix}: на отдельной странице отсутствует польское название вакансии`);
+    add(
+      vacancyHtml.includes(`/assets/share/jobs/${job.id}.png?v=185`),
+      `${prefix}: отдельная страница содержит неверную Facebook-карточку`
+    );
   }
   add(job.title, `${prefix}.title обязателен`);
   add(job.company, `${prefix}.company обязателен`);
