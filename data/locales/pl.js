@@ -242,6 +242,7 @@
       messagePreviewHint: "Sprawdź treść. Możesz ją skopiować także offline lub otworzyć w WhatsApp, gdy masz połączenie z internetem.",
       copyMessage: "Skopiuj wiadomość",
       messageCopied: "Wiadomość została skopiowana",
+      whatsappReady: "Wiadomość została skopiowana i przygotowana w WhatsApp. Sprawdź ją i naciśnij „Wyślij”.",
       clearDraft: "Usuń zapisane dane",
       clearDraftConfirm: "Usunąć szkic ankiety z tego urządzenia?",
       draftCleared: "Zapisane dane zostały usunięte",

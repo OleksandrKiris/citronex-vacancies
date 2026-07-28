@@ -256,6 +256,7 @@
       messagePreviewHint: "Mətni yoxlayın. Mesajı oflayn rejimdə də kopyalamaq və internet olduqda WhatsApp-da açmaq olar.",
       copyMessage: "Mesajı kopyala",
       messageCopied: "Mesaj kopyalandı",
+      whatsappReady: "Mesaj kopyalandı və WhatsApp-da hazırlandı. Onu yoxlayın və “Göndər” düyməsini basın.",
       clearDraft: "Saxlanmış məlumatları sil",
       clearDraftConfirm: "Anket qaralamasını bu cihazdan silmək istəyirsiniz?",
       draftCleared: "Saxlanmış məlumatlar silindi",
