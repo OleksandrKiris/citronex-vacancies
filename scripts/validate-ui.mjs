@@ -245,6 +245,15 @@ assert(
   "The offline-first homepage improvements are incomplete."
 );
 assert(
+  cleanCss.includes("v190 · lighter candidate visual hierarchy")
+    && cleanCss.includes(".job-tags .job-status")
+    && cleanCss.includes(".job-card-facts > div:first-child dd")
+    && cleanCss.includes(".job-card-link:active")
+    && cleanCss.includes(".safety-panel .eyebrow")
+    && cleanCss.includes(".candidate-footer"),
+  "The lighter candidate visual hierarchy is incomplete."
+);
+assert(
   candidateScript.includes('aria-label="${escapeHTML(accessibleLabel)}"')
     && candidateScript.includes('class="job-card-link job-open"'),
   "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
