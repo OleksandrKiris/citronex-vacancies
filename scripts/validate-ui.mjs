@@ -208,6 +208,15 @@ assert(
   "Candidate convenience improvements are incomplete."
 );
 assert(
+  cleanCss.includes("v187 · simplified vacancy catalogue")
+    && cleanCss.includes(".country-filter-buttons button.is-active")
+    && cleanCss.includes("grid-template-columns: repeat(2, minmax(0, 1fr))")
+    && candidateScript.includes('data-country-filter="${escapeHTML(item.value)}"')
+    && candidateScript.includes("const statusPriority =")
+    && !candidateScript.includes("<span>${escapeHTML(view.level)}</span>"),
+  "The simplified main vacancy catalogue is incomplete."
+);
+assert(
   candidateScript.includes('aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}"'),
   "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
 );
