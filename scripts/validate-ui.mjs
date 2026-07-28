@@ -254,6 +254,15 @@ assert(
   "The lighter candidate visual hierarchy is incomplete."
 );
 assert(
+  html.includes('data-i18n="ui.availableJobs"')
+    && html.includes("Znajdź pracę dla siebie")
+    && html.includes("Szukaj stanowiska lub miejscowości")
+    && html.includes("Bez rejestracji. Dane otrzymam dopiero po wysłaniu wiadomości.")
+    && !html.includes("Wszystkie aktualne oferty")
+    && !html.includes("Katalog z dnia"),
+  "The concise candidate-facing homepage copy is incomplete."
+);
+assert(
   candidateScript.includes('aria-label="${escapeHTML(accessibleLabel)}"')
     && candidateScript.includes('class="job-card-link job-open"'),
   "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
