@@ -117,8 +117,6 @@
         <div class="job-card-body">
           <div class="job-card-copy">
             <div class="job-tags">
-              <span>${escapeHTML(view.format)}</span>
-              <span>${escapeHTML(view.level)}</span>
               <span class="job-status">${escapeHTML(statusLabel(job))}</span>
             </div>
             <h2>${escapeHTML(view.title)}</h2>
@@ -138,6 +136,8 @@
 
   function visibleJobs() {
     const query = state.query.trim().toLocaleLowerCase(i18n.localeTag());
+    const statusPriority = { open: 0, verify: 1, paused: 2, closed: 3 };
+    const originalOrder = new Map(jobs.map((job, index) => [job.id, index]));
     return jobs.filter((job) => {
       if (state.country && countryCode(job) !== state.country) return false;
       if (!query) return true;
@@ -152,19 +152,27 @@
         view.location,
         view.summary
       ].join(" ").toLocaleLowerCase(i18n.localeTag()).includes(query);
-    });
+    }).sort((first, second) => (
+      (statusPriority[first.status] ?? 1) - (statusPriority[second.status] ?? 1)
+      || originalOrder.get(first.id) - originalOrder.get(second.id)
+    ));
   }
 
   function renderCountryFilter() {
-    const select = $("country-filter");
-    const previous = state.country;
+    const container = $("country-filter");
     const codes = [...new Set(jobs.map(countryCode))];
-    select.innerHTML = [
-      `<option value="">${escapeHTML(i18n.t("ui.allCountries"))}</option>`,
-      ...codes.map((code) => `<option value="${escapeHTML(code)}">${escapeHTML(i18n.countryName(code))}</option>`)
-    ].join("");
-    select.value = previous;
-    select.setAttribute("aria-label", i18n.t("ui.allCountries"));
+    container.innerHTML = [
+      { value: "", label: i18n.t("ui.allCountries") },
+      ...codes.map((code) => ({ value: code, label: i18n.countryName(code) }))
+    ].map((item) => `
+      <button
+        type="button"
+        data-country-filter="${escapeHTML(item.value)}"
+        aria-pressed="${String(state.country === item.value)}"
+        class="${state.country === item.value ? "is-active" : ""}"
+      >${escapeHTML(item.label)}</button>
+    `).join("");
+    container.setAttribute("aria-label", i18n.t("ui.allCountries"));
   }
 
   function renderJobs() {
@@ -432,19 +440,25 @@
   }
 
   function bind() {
+    document.querySelector(".catalog-filters")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
     $("job-search").addEventListener("input", (event) => {
       state.query = event.target.value;
       renderJobs();
     });
-    $("country-filter").addEventListener("change", (event) => {
-      state.country = event.target.value;
-      renderJobs();
-    });
     document.addEventListener("click", (event) => {
       const housingPhoto = event.target.closest(".housing-grid a");
+      const countryButton = event.target.closest("[data-country-filter]");
       const openButton = event.target.closest("[data-open-job]");
       const applyButton = event.target.closest("[data-apply-job]");
       const closeButton = event.target.closest("[data-close-dialog]");
+      if (countryButton) {
+        state.country = countryButton.dataset.countryFilter || "";
+        renderCountryFilter();
+        renderJobs();
+        return;
+      }
       if (housingPhoto) {
         event.preventDefault();
         openHousingLightbox(housingPhoto);
