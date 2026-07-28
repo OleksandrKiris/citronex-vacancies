@@ -2049,7 +2049,7 @@
         ? "⚠️"
         : "⛔";
     const line = (label, value, include = true) => (
-      include && value && value !== "—" ? `*${label}:* ${value}` : ""
+      include && value && value !== "—" ? `• *${label}:* ${value}` : ""
     );
     const section = (title, lines) => {
       const visible = lines.filter(Boolean);
@@ -2057,20 +2057,26 @@
     };
     const groupApplication = record.group && record.group !== "—";
     const candidateName = `${record.fn} ${record.ln}`.trim();
-    const recruiterHeadline = `${decisionIcon} *${record.decision.status} · ${candidateName} · ${record.j} · ${record.ready || "DATA DO USTALENIA"}*`;
+    const summaryLocation = record.loc || record.d || "—";
+    const summaryReady = record.ready || "data do ustalenia";
+    const recruiterHeadline = `${decisionIcon} *${record.decision.status} · ${candidateName || "Kandydat"}*`;
     return [
       recruiterHeadline,
+      `💼 *${record.j}*`,
+      `📍 ${summaryLocation} · 📅 ${summaryReady}`,
+      record.p ? `📞 ${record.p}` : "",
       "",
-      "📋 *NOWA ANKIETA KANDYDATA*",
-      `*Powód:* ${record.decision.reason}`,
-      `*Następny krok:* ${record.decision.next}`,
-      "",
-      line("Nr zgłoszenia", record.id),
-      line("Data", submittedAt),
-      line("Źródło", record.src),
-      line("Rekruter", record.recruiter),
-      "",
-      ...section("💼 *OFERTA PRACY*", [
+      ...section("🎯 *DECYZJA I DZIAŁANIE*", [
+        line("Powód", record.decision.reason),
+        line("Następny krok", record.decision.next)
+      ]),
+      ...section("🧾 *ZGŁOSZENIE*", [
+        line("Nr zgłoszenia", record.id),
+        line("Otrzymano", submittedAt),
+        line("Źródło", record.src),
+        line("Rekruter", record.recruiter)
+      ]),
+      ...section("💼 *OFERTA*", [
         line("Stanowisko", record.j),
         line("ID oferty", record.jid),
         line("Kraj", record.d),
@@ -2089,7 +2095,7 @@
         line("Miejsce pobytu", currentLocation),
         line("Język kontaktu", record.lang)
       ]),
-      ...section("📄 *DOKUMENTY*", [
+      ...section("🪪 *DOKUMENTY*", [
         line("Status dokumentów", record.doc),
         line("Ważność dokumentu", record.docexp),
         line("PESEL", record.pesel || "BRAK"),
@@ -2097,7 +2103,7 @@
         line("Paszport ważny do", record.passportExpiry),
         line("Prawo do pracy", record.wr)
       ]),
-      ...section("📅 *PRZYJAZD I ZAKWATEROWANIE*", [
+      ...section("🧳 *PRZYJAZD I ZAKWATEROWANIE*", [
         line("Planowany przyjazd", record.ready),
         line("Tydzień", record.week),
         line("Planowany okres pracy", record.duration),
@@ -2123,12 +2129,14 @@
         line("Ograniczenia", record.limits),
         line("Komentarz", record.n)
       ]),
-      "📊 *PRZYJAZDY — WIERSZ DO EXCEL*",
+      "📊 *EXCEL · PRZYJAZDY*",
+      "_11 kolumn · wklej od pierwszej komórki_",
       "```",
       arrivalsExcelRow(record),
       "```",
       "",
-      "🗂️ *KWESTIONARIUSZ — WIERSZ WSTĘPNY*",
+      "📋 *EXCEL · KWESTIONARIUSZ WSTĘPNY*",
+      "_12 kolumn · wklej od pierwszej komórki_",
       "```",
       questionnaireExcelRow(record),
       "```"
