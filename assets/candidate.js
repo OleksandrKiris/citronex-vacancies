@@ -141,6 +141,26 @@
     return jobs.filter((job) => job.status === "open").length;
   }
 
+  function catalogDate() {
+    const value = String(content.site?.lastUpdated || "");
+    const [year, month, day] = value.split("-").map(Number);
+    if (!year || !month || !day) return value;
+    return new Intl.DateTimeFormat(i18n.localeTag(), {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    }).format(new Date(year, month - 1, day));
+  }
+
+  function resetFilters() {
+    state.query = "";
+    state.country = "";
+    $("job-search").value = "";
+    renderCountryFilter();
+    renderJobs();
+    $("job-search").focus({ preventScroll: true });
+  }
+
   function visibleJobs() {
     const query = state.query.trim().toLocaleLowerCase(i18n.localeTag());
     const statusPriority = { open: 0, verify: 1, paused: 2, closed: 3 };
@@ -188,6 +208,7 @@
     const other = result.filter((job) => job.status !== "open");
     const otherJobs = $("other-jobs");
     $("job-grid").innerHTML = available.map(card).join("");
+    $("job-grid").setAttribute("aria-busy", "false");
     $("other-job-grid").innerHTML = other.map(card).join("");
     $("other-job-count").textContent = String(other.length);
     otherJobs.hidden = other.length === 0;
@@ -440,8 +461,11 @@
     $("whatsapp-link").href = profile.whatsapp;
     $("footer-whatsapp").href = profile.whatsapp;
     $("safety-whatsapp").href = profile.whatsapp;
+    $("empty-whatsapp").href = profile.whatsapp;
     $("jobs-link").href = catalogUrl();
     $("brand-home").href = catalogUrl();
+    $("catalog-date").dateTime = content.site?.lastUpdated || "";
+    $("catalog-date").textContent = catalogDate();
     if (directJobId) {
       $("job-total").textContent = String(openJobCount());
       renderDirectVacancy();
@@ -461,6 +485,7 @@
       state.query = event.target.value;
       renderJobs();
     });
+    $("reset-filters").addEventListener("click", resetFilters);
     document.addEventListener("click", (event) => {
       const housingPhoto = event.target.closest(".housing-grid a");
       const countryButton = event.target.closest("[data-country-filter]");

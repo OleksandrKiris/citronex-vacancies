@@ -231,6 +231,20 @@ assert(
   "The focused candidate homepage is incomplete."
 );
 assert(
+  cleanCss.includes("v189 · offline-first homepage polish")
+    && cleanCss.includes(".catalog-loading-card")
+    && cleanCss.includes(".candidate-empty-actions")
+    && html.includes('id="catalog-date"')
+    && html.includes('id="reset-filters"')
+    && html.includes('class="catalog-loading-card"')
+    && candidateScript.includes("function catalogDate()")
+    && candidateScript.includes("function resetFilters()")
+    && candidateScript.includes('setAttribute("aria-busy", "false")')
+    && serviceWorker.includes('cached\n        || await caches.match("./index.html")')
+    && serviceWorker.includes("event.waitUntil(networkUpdate"),
+  "The offline-first homepage improvements are incomplete."
+);
+assert(
   candidateScript.includes('aria-label="${escapeHTML(accessibleLabel)}"')
     && candidateScript.includes('class="job-card-link job-open"'),
   "assets/candidate.js: each full-card vacancy link needs a specific accessible label."
