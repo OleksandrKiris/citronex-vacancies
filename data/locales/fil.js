@@ -83,6 +83,7 @@
       clarify: "Magtanong sa WhatsApp",
       takeSurvey: "Sagutan ang questionnaire",
       details: "Detalye",
+      viewOffer: "Tingnan ang trabaho",
       updated: "Na-update",
       save: "I-save",
       saved: "Naka-save",

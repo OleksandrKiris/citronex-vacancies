@@ -83,6 +83,7 @@
       clarify: "დაზუსტება WhatsApp-ში",
       takeSurvey: "კითხვარის შევსება",
       details: "დეტალურად",
+      viewOffer: "ვაკანსიის ნახვა",
       updated: "განახლებულია",
       save: "შენახვა",
       saved: "შენახულია",

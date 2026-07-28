@@ -83,6 +83,7 @@
       clarify: "Уточнити у WhatsApp",
       takeSurvey: "Заповнити анкету",
       details: "Докладніше",
+      viewOffer: "Переглянути вакансію",
       updated: "Оновлено",
       save: "Зберегти",
       saved: "Збережено",

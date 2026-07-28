@@ -83,6 +83,7 @@
       clarify: "Ճշտել WhatsApp-ով",
       takeSurvey: "Լրացնել հարցաթերթիկը",
       details: "Մանրամասներ",
+      viewOffer: "Դիտել աշխատանքը",
       updated: "Թարմացվել է",
       save: "Պահել",
       saved: "Պահված է",

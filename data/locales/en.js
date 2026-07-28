@@ -83,6 +83,7 @@
       clarify: "Ask on WhatsApp",
       takeSurvey: "Complete questionnaire",
       details: "Details",
+      viewOffer: "View job",
       updated: "Updated",
       save: "Save",
       saved: "Saved",

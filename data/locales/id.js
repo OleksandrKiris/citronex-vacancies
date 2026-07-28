@@ -83,6 +83,7 @@
       clarify: "Tanyakan via WhatsApp",
       takeSurvey: "Isi kuesioner",
       details: "Selengkapnya",
+      viewOffer: "Lihat lowongan",
       updated: "Diperbarui",
       save: "Simpan",
       saved: "Tersimpan",
