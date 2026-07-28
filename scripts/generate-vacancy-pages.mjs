@@ -49,7 +49,7 @@ await fs.mkdir(outputRoot, { recursive: true });
 for (const job of content.jobs) {
   const localized = { ...job, ...(polishJobs[job.id] || {}) };
   const pageUrl = new URL(`vacancies/${encodeURIComponent(job.id)}/`, content.site.baseUrl).toString();
-  const imageUrl = new URL(`assets/share/jobs/${encodeURIComponent(job.id)}.png?v=191`, content.site.baseUrl).toString();
+  const imageUrl = new URL(`assets/share/jobs/${encodeURIComponent(job.id)}.png?v=192`, content.site.baseUrl).toString();
   const title = `${localized.title} · ${job.company} · Kiris Jobs`;
   const description = [
     localized.summary,

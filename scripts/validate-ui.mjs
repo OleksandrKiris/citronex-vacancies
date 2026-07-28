@@ -129,8 +129,10 @@ assert(
     && applicationScript.includes("function arrivalsExcelRow(record)")
     && applicationScript.includes("function questionnaireExcelRow(record)")
     && applicationScript.includes('recruiter: profile.name || "Oleksandr Kiris"')
-    && applicationScript.includes("PRZYJAZDY — WIERSZ DO EXCEL")
-    && applicationScript.includes("KWESTIONARIUSZ — WIERSZ WSTĘPNY")
+    && applicationScript.includes("EXCEL · PRZYJAZDY")
+    && applicationScript.includes("EXCEL · KWESTIONARIUSZ WSTĘPNY")
+    && applicationScript.includes("11 kolumn · wklej od pierwszej komórki")
+    && applicationScript.includes("12 kolumn · wklej od pierwszej komórki")
     && applicationScript.includes("/^[=+\\-@]/"),
   "assets/application-form.js: the recruiter workflow must provide safe Excel-ready Przyjazdy and Kwestionariusz rows."
 );
@@ -204,8 +206,17 @@ assert(
     && applicationScript.includes('data-normalize="digits"')
     && applicationScript.includes('data-normalize="passport"')
     && applicationScript.includes("const recruiterHeadline =")
-    && applicationScript.includes("record.decision.status} · ${candidateName} · ${record.j}"),
+    && applicationScript.includes('record.decision.status} · ${candidateName || "Kandydat"}')
+    && applicationScript.includes("`📍 ${summaryLocation} · 📅 ${summaryReady}`"),
   "Candidate convenience improvements are incomplete."
+);
+assert(
+  applicationScript.includes("🎯 *DECYZJA I DZIAŁANIE*")
+    && applicationScript.includes("🧾 *ZGŁOSZENIE*")
+    && applicationScript.includes("🪪 *DOKUMENTY*")
+    && applicationScript.includes("🧳 *PRZYJAZD I ZAKWATEROWANIE*")
+    && applicationScript.includes('`• *${label}:* ${value}`'),
+  "The recruiter WhatsApp message hierarchy is incomplete."
 );
 assert(
   cleanCss.includes("v187 · simplified vacancy catalogue")
