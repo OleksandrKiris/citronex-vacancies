@@ -1,0 +1,728 @@
+/* v197 · unified candidate homepage */
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) {
+  --homepage-bg: #f4f6f4;
+  --homepage-surface: #fff;
+  --homepage-text: #18231d;
+  --homepage-muted: #647168;
+  --homepage-line: #dfe6e1;
+  --homepage-line-strong: #c9d8cf;
+  --homepage-accent: #176f4a;
+  --homepage-accent-dark: #105b3b;
+  background: var(--homepage-bg);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  margin-top: 0;
+  padding-block: 16px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro::before,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro::after {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro > div,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .recruiter-card {
+  position: static;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .eyebrow {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro h1 {
+  max-width: 720px;
+  margin: 0;
+  color: var(--homepage-text);
+  font-size: clamp(28px, 3vw, 34px);
+  font-weight: 850;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .intro-copy {
+  max-width: 720px;
+  margin: 7px 0 0;
+  color: var(--homepage-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .intro-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: #536158;
+  font-size: 11px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .intro-note p {
+  margin: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card {
+  display: grid;
+  min-width: 218px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card span {
+  display: grid;
+  min-width: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card small,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card em {
+  color: #6b776f;
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card strong {
+  overflow: hidden;
+  margin-top: 1px;
+  color: var(--homepage-text);
+  font-size: 12px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-section {
+  padding-top: 2px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-list-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-list-heading h2 {
+  margin: 0;
+  color: var(--homepage-text);
+  font-size: 21px;
+  font-weight: 850;
+  letter-spacing: -.025em;
+  line-height: 1.2;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-heading-status {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-heading-status p {
+  margin: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-date {
+  color: #7a857d;
+  font-size: 9px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  align-items: stretch;
+  gap: 9px;
+  margin-bottom: 14px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .search-control {
+  min-width: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters input {
+  min-height: 46px;
+  color: var(--homepage-text);
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters input:focus {
+  border-color: #91b2a0;
+  box-shadow: 0 0 0 3px rgba(23, 111, 74, .1);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-control {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons {
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons button {
+  min-height: 46px;
+  padding: 0 12px;
+  color: #46534b;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 10px;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons button:hover {
+  color: var(--homepage-accent-dark);
+  border-color: var(--homepage-line-strong);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons button.is-active {
+  color: #fff;
+  background: var(--homepage-accent);
+  border-color: var(--homepage-accent);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-job-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 12px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 12px;
+  box-shadow: none;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card::before,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card::after {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) #job-grid .job-card[data-status="open"] {
+  border-color: var(--homepage-line-strong);
+  border-left: 3px solid var(--homepage-accent);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) #job-grid .job-card:hover {
+  border-color: #aebfb5;
+  background: #fdfefd;
+  box-shadow: none;
+  transform: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-link:focus-visible {
+  outline: 3px solid rgba(23, 111, 74, .22);
+  outline-offset: -3px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-body {
+  display: grid;
+  width: 100%;
+  min-height: 208px;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 11px;
+  padding: 16px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-tags {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-copy {
+  align-content: start;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card h2 {
+  margin: 0;
+  color: var(--homepage-text);
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  margin: 0;
+  padding-block: 10px;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--homepage-line);
+  border-bottom: 1px solid var(--homepage-line);
+  border-radius: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-facts > div,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-facts > div + div {
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-facts .job-card-salary dd {
+  margin: 0;
+  color: var(--homepage-accent);
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-facts .job-card-location dd {
+  margin: 0;
+  color: var(--homepage-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card .primary-button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: auto;
+  color: #fff;
+  background: var(--homepage-accent);
+  border: 1px solid var(--homepage-accent);
+  border-radius: 9px;
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card .primary-button:hover {
+  background: var(--homepage-accent-dark);
+  border-color: var(--homepage-accent-dark);
+  box-shadow: none;
+  transform: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-jobs {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--homepage-line);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-jobs summary {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 14px;
+  color: #536057;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-jobs summary::-webkit-details-marker {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-jobs summary b {
+  display: grid;
+  min-width: 25px;
+  height: 25px;
+  padding-inline: 7px;
+  place-items: center;
+  color: #fff;
+  background: #727d75;
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-jobs[open] summary {
+  margin-bottom: 12px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-job-grid .job-card {
+  border-left: 1px solid var(--homepage-line);
+  opacity: .7;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .other-job-grid .job-card-body {
+  min-height: 196px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card {
+  display: grid;
+  min-height: 208px;
+  align-content: start;
+  gap: 11px;
+  padding: 16px;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > * {
+  display: block;
+  margin: 0;
+  background: #e9eeea;
+  border-radius: 8px;
+  animation: homepage-loading-pulse 1.2s ease-in-out infinite;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > span {
+  width: 104px;
+  height: 20px;
+  border-radius: 999px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > strong {
+  width: min(76%, 320px);
+  height: 25px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > i {
+  height: 38px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > b {
+  height: 42px;
+  margin-top: auto;
+  background: #dce6df;
+}
+
+@keyframes homepage-loading-pulse {
+  50% {
+    opacity: .55;
+  }
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-empty {
+  padding: 30px 18px;
+  background: var(--homepage-surface);
+  border: 1px solid var(--homepage-line);
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-empty-actions {
+  display: flex;
+  max-width: 430px;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px auto 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-empty-actions .primary-button,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-empty-actions .secondary-button {
+  min-height: 44px;
+  flex: 1 1 0;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  padding: 12px 0;
+  background: transparent;
+  border: 1px solid var(--homepage-line);
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel .eyebrow {
+  display: none;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel p {
+  color: #606d65;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel > a {
+  padding: 7px 0;
+  color: var(--homepage-accent);
+  border: 0;
+  border-radius: 0;
+  font-size: 11px;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer {
+  padding: 16px 0;
+  color: #4f5e55;
+  background: var(--homepage-surface);
+  border-top: 1px solid var(--homepage-line);
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer strong {
+  color: #233229;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer span,
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer p {
+  color: #758078;
+}
+
+.vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer a {
+  color: var(--homepage-accent);
+}
+
+@media (max-width: 820px) {
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card {
+    width: fit-content;
+    min-width: 210px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters {
+    position: sticky;
+    z-index: 35;
+    top: 54px;
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    margin: 0 0 12px;
+    padding: 7px 0;
+    overflow-x: auto;
+    background: rgba(244, 246, 244, .97);
+    border-bottom: 1px solid var(--homepage-line);
+    border-radius: 0;
+    backdrop-filter: blur(10px);
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters::-webkit-scrollbar,
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .search-control {
+    min-width: min(72vw, 280px);
+    flex: 0 0 min(72vw, 280px);
+    scroll-snap-align: start;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-control {
+    flex: 0 0 auto;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons {
+    overflow: visible;
+    flex-wrap: nowrap;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .country-filter-buttons button {
+    min-height: 46px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-job-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-header .header-row {
+    min-height: 54px;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-brand {
+    gap: 7px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-brand strong {
+    font-size: 11px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .language-switcher-button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    grid-template-columns: 26px;
+    justify-content: center;
+    padding: 5px 7px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .language-switcher-chevron {
+    display: none;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro {
+    gap: 8px;
+    padding-block: 11px 8px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro h1 {
+    font-size: 25px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .intro-copy {
+    display: none;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-intro .intro-note {
+    margin-top: 6px;
+    font-size: 10px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 7px 9px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .recruiter-card em,
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-date {
+    display: none;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-list-heading {
+    margin-bottom: 7px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-list-heading h2 {
+    font-size: 19px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-filters {
+    margin-inline: -1px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-body {
+    min-height: 0;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card h2 {
+    font-size: 17px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card .primary-button {
+    min-height: 44px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .safety-panel > a {
+    grid-column: 2;
+    justify-self: start;
+    padding-top: 0;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer .candidate-shell {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-footer p {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .candidate-empty-actions {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card,
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card-link,
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .job-card .primary-button {
+    transition: none;
+  }
+
+  .vacancy-first:not(.direct-vacancy-page):not(.standalone-application-page) .catalog-loading-card > * {
+    animation: none;
+  }
+}

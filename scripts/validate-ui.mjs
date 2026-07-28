@@ -4,10 +4,11 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath) => readFile(path.join(root, relativePath), "utf8");
-const [html, css, cleanCss, candidateScript, applicationScript, serviceWorker] = await Promise.all([
+const [html, css, cleanCss, homepageCss, candidateScript, applicationScript, serviceWorker] = await Promise.all([
   read("index.html"),
   read("assets/styles.css"),
   read("assets/clean.css"),
+  read("assets/homepage.css"),
   read("assets/candidate.js"),
   read("assets/application-form.js"),
   read("sw.js")
@@ -23,19 +24,22 @@ const versionOf = (source, asset) => (
 );
 const styleVersion = versionOf(html, "assets/styles.css");
 const cleanStyleVersion = versionOf(html, "assets/clean.css");
+const homepageStyleVersion = versionOf(html, "assets/homepage.css");
 const appVersion = versionOf(html, "assets/candidate.js");
 const applicationVersion = versionOf(html, "assets/application-form.js");
 assert(styleVersion, "index.html: styles.css must have a numeric cache-busting version.");
 assert(cleanStyleVersion, "index.html: clean.css must have a numeric cache-busting version.");
+assert(homepageStyleVersion, "index.html: homepage.css must have a numeric cache-busting version.");
 assert(appVersion, "index.html: candidate.js must have a numeric cache-busting version.");
 assert(applicationVersion, "index.html: application-form.js must have a numeric cache-busting version.");
 assert(
-  [cleanStyleVersion, appVersion, applicationVersion].every((version) => version === styleVersion),
+  [cleanStyleVersion, homepageStyleVersion, appVersion, applicationVersion].every((version) => version === styleVersion),
   "index.html: all candidate CSS and JS versions must match."
 );
 assert(
   serviceWorker.includes(`assets/styles.css?v=${styleVersion}`)
     && serviceWorker.includes(`assets/clean.css?v=${cleanStyleVersion}`)
+    && serviceWorker.includes(`assets/homepage.css?v=${homepageStyleVersion}`)
     && serviceWorker.includes(`assets/application-form.js?v=${applicationVersion}`)
     && serviceWorker.includes(`assets/candidate.js?v=${appVersion}`),
   "sw.js: cached CSS/JS versions must match index.html."
@@ -219,50 +223,40 @@ assert(
   "The recruiter WhatsApp message hierarchy is incomplete."
 );
 assert(
-  cleanCss.includes("v187 · simplified vacancy catalogue")
-    && cleanCss.includes(".country-filter-buttons button.is-active")
-    && cleanCss.includes("grid-template-columns: repeat(2, minmax(0, 1fr))")
-    && candidateScript.includes('data-country-filter="${escapeHTML(item.value)}"')
-    && candidateScript.includes("const statusPriority =")
-    && !candidateScript.includes("<span>${escapeHTML(view.level)}</span>"),
-  "The simplified main vacancy catalogue is incomplete."
+  homepageCss.includes("v197 · unified candidate homepage")
+    && homepageCss.includes(".catalog-filters")
+    && homepageCss.includes("overflow-x: auto")
+    && homepageCss.includes("grid-template-columns: 1fr")
+    && homepageCss.includes(".job-card-salary")
+    && homepageCss.includes(".job-card-location")
+    && homepageCss.includes(".job-card::before")
+    && homepageCss.includes("box-shadow: none")
+    && homepageCss.includes(".candidate-footer"),
+  "The unified candidate homepage stylesheet is incomplete."
 );
 assert(
-  cleanCss.includes("v188 · focused homepage hierarchy")
-    && cleanCss.includes(".catalog-list-heading")
-    && cleanCss.includes(".other-jobs summary")
-    && cleanCss.includes(".job-card-link:focus-visible")
-    && html.includes('id="page-heading"')
+  html.includes('id="page-heading"')
     && html.includes('id="other-job-grid"')
     && html.includes('data-i18n="ui.otherVacancies"')
-    && candidateScript.includes("function openJobCount()")
-    && candidateScript.includes('result.filter((job) => job.status === "open")')
-    && candidateScript.includes('result.filter((job) => job.status !== "open")')
-    && !candidateScript.includes('class="job-subtitle"'),
-  "The focused candidate homepage is incomplete."
-);
-assert(
-  cleanCss.includes("v189 · offline-first homepage polish")
-    && cleanCss.includes(".catalog-loading-card")
-    && cleanCss.includes(".candidate-empty-actions")
     && html.includes('id="catalog-date"')
     && html.includes('id="reset-filters"')
     && html.includes('class="catalog-loading-card"')
+    && candidateScript.includes('data-country-filter="${escapeHTML(item.value)}"')
+    && candidateScript.includes("const statusPriority =")
+    && candidateScript.includes("function openJobCount()")
+    && candidateScript.includes('result.filter((job) => job.status === "open")')
+    && candidateScript.includes('result.filter((job) => job.status !== "open")')
     && candidateScript.includes("function catalogDate()")
     && candidateScript.includes("function resetFilters()")
     && candidateScript.includes('setAttribute("aria-busy", "false")')
-    && serviceWorker.includes('cached\n        || await caches.match("./index.html")')
-    && serviceWorker.includes("event.waitUntil(networkUpdate"),
-  "The offline-first homepage improvements are incomplete."
+    && !candidateScript.includes('class="job-subtitle"')
+    && !candidateScript.includes("<span>${escapeHTML(view.level)}</span>"),
+  "The candidate homepage catalogue behavior is incomplete."
 );
 assert(
-  cleanCss.includes("v190 · lighter candidate visual hierarchy")
-    && cleanCss.includes(".job-tags .job-status")
-    && cleanCss.includes(".job-card-facts > div:first-child dd")
-    && cleanCss.includes(".job-card-link:active")
-    && cleanCss.includes(".safety-panel .eyebrow")
-    && cleanCss.includes(".candidate-footer"),
-  "The lighter candidate visual hierarchy is incomplete."
+  serviceWorker.includes('cached\n        || await caches.match("./index.html")')
+    && serviceWorker.includes("event.waitUntil(networkUpdate"),
+  "The offline-first homepage behavior is incomplete."
 );
 assert(
   cleanCss.includes("v193 · refined application form hierarchy")
@@ -295,12 +289,10 @@ assert(
   "The focused validation and final WhatsApp action improvements are incomplete."
 );
 assert(
-  cleanCss.includes("v196 · vacancy-first homepage focus")
-    && cleanCss.includes('#job-grid .job-card[data-status="open"]')
-    && cleanCss.includes("#job-grid .job-tags")
-    && cleanCss.includes(".recruiter-card")
-    && cleanCss.includes("position: sticky")
-    && cleanCss.includes("top: 54px")
+  homepageCss.includes('#job-grid .job-card[data-status="open"]')
+    && homepageCss.includes(".recruiter-card")
+    && homepageCss.includes("position: sticky")
+    && homepageCss.includes("top: 54px")
     && candidateScript.includes('const cardAction = i18n.t("ui.viewOffer")')
     && candidateScript.includes('class="job-card-salary"')
     && candidateScript.includes('class="job-card-location"')
