@@ -109,7 +109,8 @@
     error: "",
     invalidFields: [],
     recommendations: [],
-    hasDraft: false
+    hasDraft: false,
+    submitting: false
   };
 
   const escapeHTML = (value = "") => String(value)
@@ -1111,7 +1112,12 @@
           ${reviewValue(t("form.stepDocuments"), documentSummary)}
           ${reviewValue(t("form.readyDate"), polishDate(state.values.readyDate))}
         </dl>
-        <div class="application-review-groups">
+        <details class="application-review-details">
+          <summary>
+            <strong>${escapeHTML(t("form.reviewDetails"))}</strong>
+            <span aria-hidden="true">⌄</span>
+          </summary>
+          <div class="application-review-groups">
           ${reviewGroup(t("form.selectedVacancy"), [
             reviewValue(t("form.selectedVacancy"), job?.title)
           ])}
@@ -1163,7 +1169,8 @@
             reviewValue(t("form.workLimitations"), state.values.workLimitations),
             reviewValue(t("form.extraNotes"), state.values.extraNotes)
           ], 3)}
-        </div>
+          </div>
+        </details>
       </div>
       <aside class="application-safety-note">
         <span aria-hidden="true">✓</span>
@@ -1443,7 +1450,7 @@
           <button class="button button-secondary" type="button" data-application-back ${state.step === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
           ${state.step < STEP_KEYS.length - 1
             ? `<button class="button button-primary" type="submit">${escapeHTML(t("form.next"))} →</button>`
-            : `<button class="button button-primary whatsapp-submit" type="submit">${escapeHTML(t("form.copyMessage"))} · ${escapeHTML(t("form.openWhatsapp"))} ↗</button>`}
+            : `<button class="button button-primary whatsapp-submit" type="submit">${escapeHTML(t("form.sendWhatsapp"))} ↗</button>`}
         </footer>
       </form>
     `;
@@ -1655,6 +1662,25 @@
   function setValidationError(message, fields = []) {
     state.error = message;
     state.invalidFields = fields.filter(Boolean);
+  }
+
+  function focusFirstInvalidField() {
+    const name = state.invalidFields[0];
+    if (!name) return;
+    requestAnimationFrame(() => {
+      const target = [...document.getElementsByName(name)]
+        .find((element) => element.isConnected && !element.disabled);
+      if (!target) {
+        document.getElementById("application-error")?.focus();
+        return;
+      }
+      const wrapper = target.closest(".application-field, .application-fieldset, .application-consent") || target;
+      wrapper.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "center"
+      });
+      target.focus({ preventScroll: true });
+    });
   }
 
   function validateStep() {
@@ -2214,10 +2240,11 @@
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (state.submitting) return;
     collectValues();
     if (!validateStep()) {
       render();
-      document.getElementById("application-error")?.focus();
+      focusFirstInvalidField();
       return;
     }
     if (state.step < STEP_KEYS.length - 1) {
@@ -2232,16 +2259,32 @@
       render();
       return;
     }
-    const copyPromise = writeMessageToClipboard(message);
-    openWhatsApp(message);
-    const copied = await copyPromise;
-    const confirmation = copied ? t("form.whatsappReady") : t("form.reviewHint");
-    const status = document.getElementById("application-submit-status");
-    if (status) {
-      status.textContent = confirmation;
-      status.hidden = false;
+    const submitButton = event.submitter;
+    state.submitting = true;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.setAttribute("aria-busy", "true");
     }
-    window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: confirmation } }));
+    try {
+      const copyPromise = writeMessageToClipboard(message);
+      openWhatsApp(message);
+      const copied = await copyPromise;
+      const confirmation = copied ? t("form.whatsappReady") : t("form.reviewHint");
+      const status = document.getElementById("application-submit-status");
+      if (status) {
+        status.textContent = confirmation;
+        status.hidden = false;
+      }
+      window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: confirmation } }));
+    } finally {
+      window.setTimeout(() => {
+        state.submitting = false;
+        if (submitButton?.isConnected) {
+          submitButton.disabled = false;
+          submitButton.removeAttribute("aria-busy");
+        }
+      }, 1800);
+    }
   }
 
   function open(jobId = "", options = {}) {
@@ -2254,6 +2297,7 @@
     state.jobId = hasSelectedJob ? jobId : "";
     state.error = "";
     state.invalidFields = [];
+    state.submitting = false;
     const initialValues = initialApplicationValues(state.jobId);
     const draft = hasSelectedJob ? readDraft(state.jobId) : null;
     state.hasDraft = Boolean(draft);

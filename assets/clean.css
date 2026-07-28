@@ -7480,9 +7480,57 @@ body.candidate-site {
   line-height: 1.4;
 }
 
+/* v195 · focused validation and final action */
+.standalone-application-page #application-dialog-content .application-review-details {
+  overflow: hidden;
+  margin: 0;
+  background: var(--application-surface);
+  border: 1px solid var(--application-line);
+  border-radius: 11px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-details > summary {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  color: #294337;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.standalone-application-page #application-dialog-content .application-review-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.standalone-application-page #application-dialog-content .application-review-details > summary > span {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--application-accent);
+  background: var(--application-accent-soft);
+  border-radius: 7px;
+  transition: transform 140ms ease;
+}
+
+.standalone-application-page #application-dialog-content .application-review-details[open] > summary {
+  border-bottom: 1px solid var(--application-line);
+}
+
+.standalone-application-page #application-dialog-content .application-review-details[open] > summary > span {
+  transform: rotate(180deg);
+}
+
 .standalone-application-page #application-dialog-content .application-review-groups {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
+  padding: 10px;
 }
 
 .standalone-application-page #application-dialog-content .application-review-group {
@@ -7685,6 +7733,15 @@ body.candidate-site {
   border-color: var(--application-accent-dark);
 }
 
+.standalone-application-page #application-dialog-content .whatsapp-submit[aria-busy="true"],
+.standalone-application-page #application-dialog-content .whatsapp-submit:disabled {
+  color: rgba(255, 255, 255, .82);
+  background: #4c8068;
+  border-color: #4c8068;
+  cursor: wait;
+  opacity: 1;
+}
+
 @media (max-width: 620px) {
   .standalone-application-page {
     background: #fff;
@@ -7823,7 +7880,8 @@ body.candidate-site {
 
 @media (prefers-reduced-motion: reduce) {
   .standalone-application-page #application-dialog-content .application-progress > span,
-  .standalone-application-page #application-dialog-content .application-message-preview summary > span:last-child {
+  .standalone-application-page #application-dialog-content .application-message-preview summary > span:last-child,
+  .standalone-application-page #application-dialog-content .application-review-details > summary > span {
     transition: none;
   }
 }
