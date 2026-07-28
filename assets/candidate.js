@@ -554,15 +554,48 @@
     if (id) openJob(decodeURIComponent(id));
   }
 
+  function ensureAppStyles() {
+    document.querySelectorAll('link[rel="stylesheet"][data-app-style]').forEach((link) => {
+      if (link.sheet || link.dataset.styleRetry === "1") return;
+      link.dataset.styleRetry = "1";
+      const retryUrl = new URL(link.href, window.location.href);
+      retryUrl.searchParams.set("retry", Date.now().toString());
+      link.href = retryUrl.toString();
+    });
+  }
+
+  function registerCandidateServiceWorker() {
+    if (!("serviceWorker" in navigator)
+      || (location.protocol !== "https:"
+        && location.hostname !== "localhost"
+        && location.hostname !== "127.0.0.1")) return;
+
+    const hadController = Boolean(navigator.serviceWorker.controller);
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!hadController || refreshing) return;
+      if (document.body.classList.contains("standalone-application-page")
+        || document.querySelector(".application-modal[open]")) return;
+      refreshing = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+      .then((registration) => {
+        registration.waiting?.postMessage({ type: "SKIP_WAITING" });
+        registration.update().catch(() => {});
+      })
+      .catch(() => {});
+  }
+
   function init() {
     i18n.init();
     ensureHousingLightbox();
     bind();
     renderStatic();
     openDeepLink();
-    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
-    }
+    ensureAppStyles();
+    registerCandidateServiceWorker();
   }
 
   init();

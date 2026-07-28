@@ -274,9 +274,18 @@ assert(
   "The candidate homepage catalogue behavior is incomplete."
 );
 assert(
-  serviceWorker.includes('cached\n        || await caches.match("./index.html")')
-    && serviceWorker.includes("event.waitUntil(networkUpdate"),
-  "The offline-first homepage behavior is incomplete."
+  serviceWorker.includes('fetch(event.request, { cache: "no-store" })')
+    && serviceWorker.includes("await caches.match(event.request)")
+    && serviceWorker.includes('await caches.match("./index.html")')
+    && serviceWorker.includes("await self.skipWaiting()")
+    && candidateScript.includes("function registerCandidateServiceWorker()")
+    && candidateScript.includes('navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })')
+    && candidateScript.includes('navigator.serviceWorker.addEventListener("controllerchange"')
+    && candidateScript.includes("window.location.reload()")
+    && candidateScript.includes("function ensureAppStyles()")
+    && candidateScript.includes('link[rel="stylesheet"][data-app-style]')
+    && (html.match(/\sdata-app-style(?:\s|>)/g) || []).length === 3,
+  "The online-first navigation and automatic stylesheet recovery are incomplete."
 );
 assert(
   cleanCss.includes("v193 · refined application form hierarchy")
