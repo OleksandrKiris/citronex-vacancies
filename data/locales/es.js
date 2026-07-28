@@ -42,6 +42,7 @@
       featuredKicker: "Por dónde recomiendo empezar",
       featuredTitle: "Consulta las opciones reales",
       allJobs: "Todas las vacantes",
+      otherVacancies: "Otras vacantes",
       processKicker: "Un proceso claro",
       processTitle: "Cómo presentar la solicitud",
       processNote: "Primero completas el cuestionario y después abres el mensaje de WhatsApp. No se suben documentos ni fotos del pasaporte al sitio.",
