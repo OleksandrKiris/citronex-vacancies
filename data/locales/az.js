@@ -93,6 +93,7 @@
       share: "Paylaş",
       print: "Çap / PDF",
       grossSalary: "Brüt tarif",
+      grossShort: "brüt",
       countryLocation: "Ölkə və yer",
       contract: "Müqavilə",
       suitableFor: "Kimlər üçün uyğundur",

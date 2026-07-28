@@ -93,6 +93,7 @@
       share: "साझा गर्नुहोस्",
       print: "प्रिन्ट / PDF",
       grossSalary: "ग्रस दर",
+      grossShort: "ग्रस",
       countryLocation: "देश र स्थान",
       contract: "सम्झौता",
       suitableFor: "कसका लागि उपयुक्त",

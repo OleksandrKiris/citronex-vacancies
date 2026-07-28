@@ -93,6 +93,7 @@
       share: "Կիսվել",
       print: "Տպել / PDF",
       grossSalary: "Բրուտո դրույք",
+      grossShort: "բրուտո",
       countryLocation: "Երկիր և վայր",
       contract: "Պայմանագիր",
       suitableFor: "Ում համար է հարմար",

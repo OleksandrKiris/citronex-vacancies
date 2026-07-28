@@ -93,6 +93,7 @@
       share: "Compartir",
       print: "Imprimir / PDF",
       grossSalary: "Tarifa bruta",
+      grossShort: "bruto",
       countryLocation: "País y ubicación",
       contract: "Contrato",
       suitableFor: "Perfil adecuado",

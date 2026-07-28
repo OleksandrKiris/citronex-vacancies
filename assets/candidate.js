@@ -75,7 +75,8 @@
       }
     };
     const period = periodLabels[value.period]?.[i18n.locale] || value.period || "";
-    return `${range} ${value.currency || ""}${period ? ` / ${period}` : ""}`.trim();
+    const rate = `${range} ${value.currency || ""}${period ? ` / ${period}` : ""}`.trim();
+    return `${rate} · ${i18n.t("ui.grossShort")}`;
   }
 
   function publicJobUrl(job) {
@@ -108,6 +109,10 @@
 
   function photoUrl(key, index) {
     return `assets/housing/${key}/${key}-${String(index + 1).padStart(2, "0")}.webp`;
+  }
+
+  function photoThumbnailUrl(key, index) {
+    return `assets/housing-thumbs/${key}/${key}-${String(index + 1).padStart(2, "0")}.webp`;
   }
 
   function card(job) {
@@ -239,7 +244,7 @@
               <div class="housing-grid">
                 ${Array.from({ length: location.photoCount }, (_, photoIndex) => `
                   <a href="${escapeHTML(photoUrl(key, photoIndex))}" target="_blank" rel="noopener noreferrer">
-                    <img src="${escapeHTML(photoUrl(key, photoIndex))}" alt="${escapeHTML(`${location.name} · ${photoIndex + 1}`)}" width="900" height="600" loading="lazy" decoding="async">
+                    <img src="${escapeHTML(photoThumbnailUrl(key, photoIndex))}" alt="${escapeHTML(`${location.name} · ${photoIndex + 1}`)}" width="480" height="320" loading="lazy" decoding="async">
                   </a>
                 `).join("")}
               </div>
@@ -296,7 +301,6 @@
               ${applicationOpen
                 ? `<a class="primary-button" href="${escapeHTML(applyUrl)}" data-apply-job="${escapeHTML(job.id)}">${escapeHTML(i18n.t("ui.takeSurvey"))}</a>`
                 : `<strong class="vacancy-application-unavailable">${escapeHTML(statusLabel(job))}</strong>`}
-              <p class="vacancy-status-note">${escapeHTML(view.statusNote || "")}</p>
             </div>
             <dl class="vacancy-facts">
               <div><dt>${escapeHTML(i18n.t("ui.grossSalary"))}</dt><dd>${escapeHTML(salary(job))}</dd><small>${escapeHTML(view.salary?.note || "")}</small></div>
@@ -304,6 +308,7 @@
               <div><dt>${escapeHTML(i18n.t("ui.contract"))}</dt><dd>${escapeHTML(view.contract)}</dd></div>
               <div><dt>${escapeHTML(i18n.t("ui.suitableFor"))}</dt><dd>${escapeHTML((view.candidates || []).join(" · "))}</dd></div>
             </dl>
+            <p class="vacancy-status-note">${escapeHTML(view.statusNote || "")}</p>
           </aside>
         </div>
       </article>

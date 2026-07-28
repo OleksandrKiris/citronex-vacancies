@@ -4,9 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath) => readFile(path.join(root, relativePath), "utf8");
-const [html, css, cleanCss, homepageCss, candidateScript, applicationScript, serviceWorker] = await Promise.all([
+const [html, legacyCss, css, cleanCss, homepageCss, candidateScript, applicationScript, serviceWorker] = await Promise.all([
   read("index.html"),
   read("assets/styles.css"),
+  read("assets/candidate-base.css"),
   read("assets/clean.css"),
   read("assets/homepage.css"),
   read("assets/candidate.js"),
@@ -15,6 +16,7 @@ const [html, css, cleanCss, homepageCss, candidateScript, applicationScript, ser
 ]);
 
 const errors = [];
+const activeCss = `${css}\n${cleanCss}\n${homepageCss}`;
 const assert = (condition, message) => {
   if (!condition) errors.push(message);
 };
@@ -22,12 +24,12 @@ const assert = (condition, message) => {
 const versionOf = (source, asset) => (
   source.match(new RegExp(`${asset.replaceAll(".", "\\.")}\\?v=(\\d+)`))?.[1]
 );
-const styleVersion = versionOf(html, "assets/styles.css");
+const styleVersion = versionOf(html, "assets/candidate-base.css");
 const cleanStyleVersion = versionOf(html, "assets/clean.css");
 const homepageStyleVersion = versionOf(html, "assets/homepage.css");
 const appVersion = versionOf(html, "assets/candidate.js");
 const applicationVersion = versionOf(html, "assets/application-form.js");
-assert(styleVersion, "index.html: styles.css must have a numeric cache-busting version.");
+assert(styleVersion, "index.html: candidate-base.css must have a numeric cache-busting version.");
 assert(cleanStyleVersion, "index.html: clean.css must have a numeric cache-busting version.");
 assert(homepageStyleVersion, "index.html: homepage.css must have a numeric cache-busting version.");
 assert(appVersion, "index.html: candidate.js must have a numeric cache-busting version.");
@@ -37,12 +39,22 @@ assert(
   "index.html: all candidate CSS and JS versions must match."
 );
 assert(
-  serviceWorker.includes(`assets/styles.css?v=${styleVersion}`)
+  serviceWorker.includes(`assets/candidate-base.css?v=${styleVersion}`)
     && serviceWorker.includes(`assets/clean.css?v=${cleanStyleVersion}`)
     && serviceWorker.includes(`assets/homepage.css?v=${homepageStyleVersion}`)
     && serviceWorker.includes(`assets/application-form.js?v=${applicationVersion}`)
     && serviceWorker.includes(`assets/candidate.js?v=${appVersion}`),
   "sw.js: cached CSS/JS versions must match index.html."
+);
+assert(
+  !html.includes("assets/styles.css")
+    && !serviceWorker.includes("assets/styles.css")
+    && Buffer.byteLength(css) < Buffer.byteLength(legacyCss) * 0.35
+    && activeCss.includes(".candidate-header")
+    && activeCss.includes(".vacancy-layout")
+    && activeCss.includes(".application-modal")
+    && activeCss.includes(".housing-lightbox"),
+  "The generated candidate CSS must replace the oversized legacy stylesheet and preserve critical UI selectors."
 );
 assert(
   serviceWorker.includes(`v${styleVersion}-`),
@@ -287,6 +299,17 @@ assert(
     && applicationScript.includes("if (state.submitting) return")
     && applicationScript.includes('submitButton.setAttribute("aria-busy", "true")'),
   "The focused validation and final WhatsApp action improvements are incomplete."
+);
+assert(
+  cleanCss.includes("v198 · faster candidate decision page")
+    && cleanCss.includes(".vacancy-sidebar > .vacancy-status-note")
+    && candidateScript.includes("function photoThumbnailUrl(")
+    && candidateScript.includes("assets/housing-thumbs/")
+    && candidateScript.includes('width="480" height="320"')
+    && candidateScript.includes('i18n.t("ui.grossShort")')
+    && applicationScript.includes('t("ui.grossShort")')
+    && candidateScript.indexOf('class="vacancy-facts"') < candidateScript.indexOf('class="vacancy-status-note"'),
+  "The v198 loading, salary, and vacancy-priority improvements are incomplete."
 );
 assert(
   homepageCss.includes('#job-grid .job-card[data-status="open"]')

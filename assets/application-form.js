@@ -789,7 +789,18 @@
     const amount = view.salary.min === view.salary.max
       ? formatAmount(view.salary.min)
       : `${formatAmount(view.salary.min)}–${formatAmount(view.salary.max)}`;
-    return `${amount} ${view.salary.currency} · ${t("ui.grossSalary")}`;
+    const periodLabels = {
+      "час": {
+        ru: "час", uk: "год", pl: "godz.", en: "hour", az: "saat", ka: "საათი",
+        id: "jam", es: "hora", fil: "oras", ne: "घण्टा", hy: "ժամ"
+      },
+      "месяц": {
+        ru: "месяц", uk: "місяць", pl: "mies.", en: "month", az: "ay", ka: "თვე",
+        id: "bulan", es: "mes", fil: "buwan", ne: "महिना", hy: "ամիս"
+      }
+    };
+    const period = periodLabels[view.salary.period]?.[i18n.locale] || view.salary.period || "";
+    return `${amount} ${view.salary.currency}${period ? ` / ${period}` : ""} · ${t("ui.grossShort")}`;
   }
 
   function renderMatchStep() {

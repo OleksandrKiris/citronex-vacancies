@@ -93,6 +93,7 @@
       share: "Bagikan",
       print: "Cetak / PDF",
       grossSalary: "Tarif bruto",
+      grossShort: "bruto",
       countryLocation: "Negara dan lokasi",
       contract: "Kontrak",
       suitableFor: "Cocok untuk",

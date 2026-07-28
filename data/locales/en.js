@@ -93,6 +93,7 @@
       share: "Share",
       print: "Print / PDF",
       grossSalary: "Gross rate",
+      grossShort: "gross",
       countryLocation: "Country and location",
       contract: "Contract",
       suitableFor: "Suitable for",
