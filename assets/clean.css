@@ -7161,7 +7161,7 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-header {
-  padding: 26px 30px 20px;
+  padding: 21px 28px 16px;
   color: var(--application-text);
   background: var(--application-surface);
   border-bottom: 1px solid var(--application-line);
@@ -7185,10 +7185,11 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-vacancy-context {
-  margin-top: 8px;
-  color: var(--application-muted);
-  font-size: 13px;
-  font-weight: 650;
+  margin: 0 0 5px;
+  color: var(--application-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .025em;
 }
 
 .standalone-application-page #application-dialog-content .application-draft-control {
@@ -7204,7 +7205,7 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-progress-meta {
-  margin-top: 19px;
+  margin-top: 14px;
   color: var(--application-muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
@@ -7225,14 +7226,14 @@ body.candidate-site {
 }
 
 .standalone-application-page .application-modal .application-step {
-  gap: 16px;
-  padding: 24px 26px 30px;
+  gap: 13px;
+  padding: 18px 22px 24px;
   background: var(--application-bg);
 }
 
 .standalone-application-page #application-dialog-content .application-form-group {
   margin: 0;
-  padding: 20px;
+  padding: 17px;
   background: var(--application-surface);
   border: 1px solid var(--application-line);
   border-radius: 14px;
@@ -7241,13 +7242,13 @@ body.candidate-site {
 
 .standalone-application-page #application-dialog-content .application-form-group + .application-form-group {
   margin-top: 2px;
-  padding-top: 20px;
+  padding-top: 17px;
   border-top: 1px solid var(--application-line);
 }
 
 .standalone-application-page #application-dialog-content .application-form-group > h3 {
-  margin: 0 0 17px;
-  padding: 0 0 12px;
+  margin: 0 0 14px;
+  padding: 0 0 10px;
   color: #20382d;
   border-bottom: 1px solid #e7ece9;
   font-size: 16px;
@@ -7257,7 +7258,7 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-grid {
-  gap: 17px 14px;
+  gap: 14px 12px;
 }
 
 .standalone-application-page #application-dialog-content .application-field,
@@ -7278,8 +7279,8 @@ body.candidate-site {
 .standalone-application-page #application-dialog-content .application-field input:not([type="radio"]):not([type="checkbox"]),
 .standalone-application-page #application-dialog-content .application-field select,
 .standalone-application-page #application-dialog-content .application-field textarea {
-  min-height: 51px;
-  padding: 11px 13px;
+  min-height: 48px;
+  padding: 10px 12px;
   color: var(--application-text);
   background: #fff;
   border: 1px solid var(--application-line-strong);
@@ -7291,7 +7292,7 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-field textarea {
-  min-height: 104px;
+  min-height: 92px;
   resize: vertical;
 }
 
@@ -7412,7 +7413,7 @@ body.candidate-site {
 }
 
 .standalone-application-page #application-dialog-content .application-review-heading {
-  margin: 0 0 13px;
+  margin: 0 0 11px;
   padding: 0 2px;
 }
 
@@ -7430,9 +7431,58 @@ body.candidate-site {
   line-height: 1.5;
 }
 
+/* v194 · focused application flow */
+.standalone-application-page #application-dialog-content .application-review-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 12px;
+  padding: 4px 15px;
+  background: #edf5f0;
+  border: 1px solid #d2e2d8;
+  border-radius: 12px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary > div {
+  min-width: 0;
+  padding: 10px 0;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary > div:nth-child(odd) {
+  padding-right: 14px;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary > div:nth-child(even) {
+  padding-left: 14px;
+  border-left: 1px solid #d6e4dc;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary > div:nth-child(n + 3) {
+  border-top: 1px solid #d6e4dc;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary dt {
+  margin-bottom: 3px;
+  color: #607269;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.standalone-application-page #application-dialog-content .application-review-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #193d2d;
+  font-size: 13px;
+  font-weight: 780;
+  line-height: 1.4;
+}
+
 .standalone-application-page #application-dialog-content .application-review-groups {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 11px;
+  gap: 9px;
 }
 
 .standalone-application-page #application-dialog-content .application-review-group {
@@ -7588,6 +7638,19 @@ body.candidate-site {
   accent-color: var(--application-accent);
 }
 
+.standalone-application-page #application-dialog-content .application-submit-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 12px;
+  color: #17442f;
+  background: #e8f4ed;
+  border: 1px solid #c5ddcf;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
 .standalone-application-page #application-dialog-content .application-actions {
   grid-template-columns: minmax(112px, .42fr) minmax(210px, 1fr);
   gap: 10px;
@@ -7637,7 +7700,7 @@ body.candidate-site {
   }
 
   .standalone-application-page #application-dialog-content .application-header {
-    padding: 19px 16px 15px;
+    padding: 16px 14px 12px;
   }
 
   .standalone-application-page #application-dialog-content .application-header .overline {
@@ -7650,7 +7713,7 @@ body.candidate-site {
   }
 
   .standalone-application-page #application-dialog-content .application-vacancy-context {
-    margin-top: 6px;
+    margin: 0 0 4px;
     font-size: 12px;
   }
 
@@ -7659,29 +7722,29 @@ body.candidate-site {
   }
 
   .standalone-application-page .application-modal .application-step {
-    gap: 12px;
-    padding: 14px 12px 20px;
+    gap: 10px;
+    padding: 10px 10px 16px;
   }
 
   .standalone-application-page #application-dialog-content .application-form-group {
-    padding: 16px 14px;
+    padding: 14px 12px;
     border-radius: 12px;
   }
 
   .standalone-application-page #application-dialog-content .application-form-group + .application-form-group {
     margin-top: 0;
-    padding-top: 16px;
+    padding-top: 14px;
   }
 
   .standalone-application-page #application-dialog-content .application-form-group > h3 {
-    margin-bottom: 14px;
-    padding-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
     font-size: 15px;
   }
 
   .standalone-application-page #application-dialog-content .application-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
   }
 
   .standalone-application-page #application-dialog-content .application-field input:not([type="radio"]):not([type="checkbox"]),
@@ -7706,6 +7769,22 @@ body.candidate-site {
 
   .standalone-application-page #application-dialog-content .application-review-groups {
     grid-template-columns: 1fr;
+  }
+
+  .standalone-application-page #application-dialog-content .application-review-summary {
+    grid-template-columns: 1fr;
+    padding: 3px 13px;
+  }
+
+  .standalone-application-page #application-dialog-content .application-review-summary > div,
+  .standalone-application-page #application-dialog-content .application-review-summary > div:nth-child(odd),
+  .standalone-application-page #application-dialog-content .application-review-summary > div:nth-child(even) {
+    padding: 9px 0;
+    border-left: 0;
+  }
+
+  .standalone-application-page #application-dialog-content .application-review-summary > div + div {
+    border-top: 1px solid #d6e4dc;
   }
 
   .standalone-application-page #application-dialog-content .application-review-group {

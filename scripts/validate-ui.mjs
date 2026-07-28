@@ -274,6 +274,16 @@ assert(
   "The refined application form hierarchy is incomplete."
 );
 assert(
+  cleanCss.includes("v194 · focused application flow")
+    && cleanCss.includes(".application-review-summary")
+    && cleanCss.includes(".application-submit-status")
+    && applicationScript.includes('class="application-review-summary"')
+    && applicationScript.includes('id="application-submit-status"')
+    && applicationScript.includes("const copyPromise = writeMessageToClipboard(message)")
+    && applicationScript.includes('t("form.whatsappReady")'),
+  "The focused four-part application flow improvement is incomplete."
+);
+assert(
   html.includes('data-i18n="ui.availableJobs"')
     && html.includes("Znajdź pracę dla siebie")
     && html.includes("Szukaj stanowiska lub miejscowości")

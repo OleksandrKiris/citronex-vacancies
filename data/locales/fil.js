@@ -242,6 +242,7 @@
       messagePreviewHint: "Suriin ang text. Maaari mo itong kopyahin kahit offline o buksan sa WhatsApp kapag may internet.",
       copyMessage: "Kopyahin ang mensahe",
       messageCopied: "Nakopya na ang mensahe",
+      whatsappReady: "Nakopya at naihanda na ang mensahe sa WhatsApp. Suriin ito at pindutin ang “Ipadala”.",
       clearDraft: "Burahin ang naka-save na data",
       clearDraftConfirm: "Burahin ang draft ng form sa device na ito?",
       draftCleared: "Nabura na ang naka-save na data",

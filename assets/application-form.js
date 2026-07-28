@@ -1082,6 +1082,11 @@
     const job = localizedJob();
     const engine = candidateEngineCopy();
     const age = calculateAge(state.values.birthDate);
+    const candidateName = `${state.values.firstName || ""} ${state.values.lastName || ""}`.trim();
+    const documentSummary = [
+      optionLabel("legalStatus", state.values.legalStatus),
+      polishDate(state.values.documentExpiry)
+    ].filter(Boolean).join(" · ");
     const shiftValues = (state.values.shiftReadiness || []).map((key) => t(`options.${key}`)).join(", ");
     const qualificationValues = [
       state.values.driverLicense && `${t("form.driverLicense")}: ${t(`options.${state.values.driverLicense}`)}`,
@@ -1100,6 +1105,12 @@
           <h3>${escapeHTML(t("form.reviewTitle"))}</h3>
           <p>${escapeHTML(t("form.reviewHint"))}</p>
         </div>
+        <dl class="application-review-summary">
+          ${reviewValue(`${t("form.firstName")} / ${t("form.lastName")}`, candidateName)}
+          ${reviewValue(t("form.whatsapp"), state.values.phone)}
+          ${reviewValue(t("form.stepDocuments"), documentSummary)}
+          ${reviewValue(t("form.readyDate"), polishDate(state.values.readyDate))}
+        </dl>
         <div class="application-review-groups">
           ${reviewGroup(t("form.selectedVacancy"), [
             reviewValue(t("form.selectedVacancy"), job?.title)
@@ -1413,9 +1424,8 @@
     const job = localizedJob();
     container.innerHTML = `
       <header class="application-header" data-stage="${state.step + 1}" data-stage-total="${STEP_KEYS.length}">
-        <p class="overline">${escapeHTML(t("form.title"))}</p>
-        <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
         <p class="application-vacancy-context">${escapeHTML(job?.title || "")}</p>
+        <h2 id="application-step-title" tabindex="-1">${escapeHTML(t(`form.${STEP_KEYS[state.step]}`))}</h2>
         ${draftControl()}
         <div class="application-progress-meta">
           <span>${escapeHTML(t("ui.formStep"))} ${state.step + 1} ${escapeHTML(t("ui.of"))} ${STEP_KEYS.length}</span>
@@ -1429,6 +1439,7 @@
         <div class="application-error" id="application-error" tabindex="-1" role="alert" ${state.error ? "" : "hidden"}>${escapeHTML(state.error)}</div>
         <section class="application-step">${stepContent()}</section>
         <footer class="application-actions">
+          ${state.step === STEP_KEYS.length - 1 ? '<p class="application-submit-status" id="application-submit-status" role="status" hidden></p>' : ""}
           <button class="button button-secondary" type="button" data-application-back ${state.step === 0 ? "disabled" : ""}>${escapeHTML(t("form.back"))}</button>
           ${state.step < STEP_KEYS.length - 1
             ? `<button class="button button-primary" type="submit">${escapeHTML(t("form.next"))} →</button>`
@@ -2221,7 +2232,16 @@
       render();
       return;
     }
+    const copyPromise = writeMessageToClipboard(message);
     openWhatsApp(message);
+    const copied = await copyPromise;
+    const confirmation = copied ? t("form.whatsappReady") : t("form.reviewHint");
+    const status = document.getElementById("application-submit-status");
+    if (status) {
+      status.textContent = confirmation;
+      status.hidden = false;
+    }
+    window.dispatchEvent(new CustomEvent("portal:toast", { detail: { message: confirmation } }));
   }
 
   function open(jobId = "", options = {}) {

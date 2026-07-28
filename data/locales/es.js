@@ -242,6 +242,7 @@
       messagePreviewHint: "Revisa el texto. Puedes copiarlo incluso sin conexión o abrirlo en WhatsApp cuando tengas internet.",
       copyMessage: "Copiar mensaje",
       messageCopied: "Mensaje copiado",
+      whatsappReady: "El mensaje se ha copiado y preparado en WhatsApp. Revísalo y pulsa «Enviar».",
       clearDraft: "Eliminar datos guardados",
       clearDraftConfirm: "¿Eliminar el borrador del formulario de este dispositivo?",
       draftCleared: "Datos guardados eliminados",

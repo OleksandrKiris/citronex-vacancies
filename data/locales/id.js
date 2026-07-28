@@ -242,6 +242,7 @@
       messagePreviewHint: "Periksa pesannya. Anda dapat menyalinnya saat offline atau membukanya di WhatsApp jika ada koneksi internet.",
       copyMessage: "Salin pesan",
       messageCopied: "Pesan telah disalin",
+      whatsappReady: "Pesan telah disalin dan disiapkan di WhatsApp. Periksa lalu tekan “Kirim”.",
       clearDraft: "Hapus data tersimpan",
       clearDraftConfirm: "Hapus draf formulir dari perangkat ini?",
       draftCleared: "Data tersimpan telah dihapus",

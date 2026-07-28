@@ -242,6 +242,7 @@
       messagePreviewHint: "Check the text. You can copy it while offline or open it in WhatsApp when you have an internet connection.",
       copyMessage: "Copy message",
       messageCopied: "Message copied",
+      whatsappReady: "The message has been copied and prepared in WhatsApp. Check it and tap “Send”.",
       clearDraft: "Delete saved data",
       clearDraftConfirm: "Delete the application draft from this device?",
       draftCleared: "Saved data deleted",
