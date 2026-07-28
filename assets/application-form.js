@@ -540,6 +540,37 @@
     return `<input id="application-${escapeHTML(name)}" name="${escapeHTML(name)}" type="${escapeHTML(type)}" value="${escapeHTML(value)}" ${attributes}>`;
   }
 
+  function normalizePhoneInput(value, finalize = false) {
+    const raw = String(value || "").trim();
+    const usesInternationalPrefix = raw.startsWith("+") || raw.startsWith("00");
+    let digits = raw.replace(/\D/g, "");
+    if (raw.startsWith("00")) digits = digits.slice(2);
+    const normalized = `${usesInternationalPrefix ? "+" : ""}${digits.slice(0, 15)}`;
+    return finalize && normalized === "+" ? "" : normalized;
+  }
+
+  function normalizeApplicationInput(input, finalize = false) {
+    const mode = input?.dataset?.normalize;
+    if (!mode) return;
+    const previous = input.value;
+    const next = mode === "phone"
+      ? normalizePhoneInput(previous, finalize)
+      : mode === "digits"
+        ? previous.replace(/\D/g, "").slice(0, Number(input.maxLength) || 11)
+        : previous.toUpperCase().replace(/[^A-Z0-9 -]/g, "").slice(0, Number(input.maxLength) || 20);
+    if (next !== previous) input.value = next;
+  }
+
+  function bindApplicationInputNormalization(form) {
+    form?.querySelectorAll("[data-normalize]").forEach((input) => {
+      input.addEventListener("input", () => normalizeApplicationInput(input));
+      input.addEventListener("blur", () => {
+        normalizeApplicationInput(input, true);
+        collectValues();
+      });
+    });
+  }
+
   function option(value, label, current) {
     return `<option value="${escapeHTML(value)}"${String(current ?? "") === String(value) ? " selected" : ""}>${escapeHTML(label)}</option>`;
   }
@@ -854,12 +885,12 @@
         ))}
         ${field("firstName", t("form.firstName"), input("firstName", "text", 'autocomplete="given-name" inputmode="text" autocapitalize="characters" required'), t("form.latinHint"))}
         ${field("lastName", t("form.lastName"), input("lastName", "text", 'autocomplete="family-name" inputmode="text" autocapitalize="characters" required'))}
-        ${field("birthDate", engine.birthDate, input("birthDate", "date", `min="${yearsAgo(100)}" max="${yearsAgo(18)}" required`), ageHint)}
+        ${field("birthDate", engine.birthDate, input("birthDate", "date", `autocomplete="bday" min="${yearsAgo(100)}" max="${yearsAgo(18)}" required`), ageHint)}
         ${field("gender", t("form.gender"), choiceButtons("gender", [
           { value: "M", label: t("options.genderMale") },
           { value: "K", label: t("options.genderFemale") }
         ]))}
-        ${field("phone", t("form.whatsapp"), input("phone", "tel", 'autocomplete="tel" inputmode="tel" placeholder="+48500100200" required'), t("form.whatsappHint"))}
+        ${field("phone", t("form.whatsapp"), input("phone", "tel", 'autocomplete="tel" inputmode="tel" enterkeyhint="next" data-normalize="phone" maxlength="16" placeholder="+48500100200" required'), t("form.whatsappHint"))}
         ${field("email", t("form.email"), input("email", "email", 'autocomplete="email" inputmode="email"'))}
       </div>
     `;
@@ -895,9 +926,9 @@
           : ""}
         ${field("hasPesel", t("form.hasPesel"), yesNo("hasPesel"))}
         ${state.values.hasPesel === "yes"
-          ? field("pesel", t("form.pesel"), input("pesel", "text", 'inputmode="numeric" autocomplete="off" minlength="11" maxlength="11" required'))
+          ? field("pesel", t("form.pesel"), input("pesel", "text", 'inputmode="numeric" enterkeyhint="next" autocomplete="off" data-normalize="digits" minlength="11" maxlength="11" required'))
           : ""}
-        ${field("passportNumber", t("form.passportNumber"), input("passportNumber", "text", 'inputmode="text" autocomplete="off" autocapitalize="characters" minlength="5" maxlength="20" required'))}
+        ${field("passportNumber", t("form.passportNumber"), input("passportNumber", "text", 'inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="characters" spellcheck="false" data-normalize="passport" minlength="5" maxlength="20" required'))}
         ${field("passportExpiry", t("form.passportExpiry"), input("passportExpiry", "date", `min="${today()}" required`))}
         ${field("workRight", workRightLabel, choiceButtons("workRight", [
           { value: "yes", label: t("options.workRightYes") },
@@ -931,7 +962,7 @@
           ? field("groupCode", t("form.groupCode"), input("groupCode", "text", 'autocomplete="off" inputmode="text" maxlength="20" placeholder="GR-ABC123"'), state.values.groupCode ? "" : t("form.groupCodeHint"))
           : ""}
         ${field("emergencyContactName", t("form.emergencyContactName"), input("emergencyContactName", "text", 'autocomplete="off" inputmode="text" required'))}
-        ${field("emergencyContactPhone", t("form.emergencyContactPhone"), input("emergencyContactPhone", "tel", 'autocomplete="off" inputmode="tel" placeholder="+48500100200" required'))}
+        ${field("emergencyContactPhone", t("form.emergencyContactPhone"), input("emergencyContactPhone", "tel", 'autocomplete="off" inputmode="tel" enterkeyhint="next" data-normalize="phone" maxlength="16" placeholder="+48500100200" required'))}
       </div>
     `;
   }
@@ -1441,6 +1472,7 @@
     });
     container.querySelector("[data-clear-application-draft]")?.addEventListener("click", clearDraft);
     const form = container.querySelector("#application-form");
+    bindApplicationInputNormalization(form);
     form?.addEventListener("input", (event) => {
       collectValues();
       clearInlineError(event.target.name, event.target);
@@ -2024,9 +2056,12 @@
       return visible.length ? [title, ...visible, ""] : [];
     };
     const groupApplication = record.group && record.group !== "—";
+    const candidateName = `${record.fn} ${record.ln}`.trim();
+    const recruiterHeadline = `${decisionIcon} *${record.decision.status} · ${candidateName} · ${record.j} · ${record.ready || "DATA DO USTALENIA"}*`;
     return [
+      recruiterHeadline,
+      "",
       "📋 *NOWA ANKIETA KANDYDATA*",
-      `${decisionIcon} *WYNIK WSTĘPNY: ${record.decision.status}*`,
       `*Powód:* ${record.decision.reason}`,
       `*Następny krok:* ${record.decision.next}`,
       "",

@@ -154,7 +154,6 @@ assert(
     && applicationScript.includes('status: "GOTOWY"')
     && applicationScript.includes('status: "DO WERYFIKACJI"')
     && applicationScript.includes('status: "BRAK WARUNKÓW"')
-    && applicationScript.includes("WYNIK WSTĘPNY")
     && applicationScript.includes('field("preferredLocation"')
     && applicationScript.includes('field("groupCode"')
     && applicationScript.includes("function createGroupCode()")
@@ -192,6 +191,21 @@ assert(
     && cleanCss.includes(".vacancy-columns li")
     && cleanCss.includes("@media (max-width: 390px)"),
   "assets/clean.css: project-wide visual cleanup is incomplete."
+);
+assert(
+  cleanCss.includes("v186 · focused convenience improvements")
+    && cleanCss.includes(".housing-lightbox-stage")
+    && cleanCss.includes("touch-action: pan-y")
+    && candidateScript.includes("function ensureHousingLightbox()")
+    && candidateScript.includes("function moveHousingPhoto(delta)")
+    && candidateScript.includes('i18n.t("ui.photoCounter"')
+    && applicationScript.includes("function normalizePhoneInput(")
+    && applicationScript.includes("function bindApplicationInputNormalization(")
+    && applicationScript.includes('data-normalize="digits"')
+    && applicationScript.includes('data-normalize="passport"')
+    && applicationScript.includes("const recruiterHeadline =")
+    && applicationScript.includes("record.decision.status} · ${candidateName} · ${record.j}"),
+  "Candidate convenience improvements are incomplete."
 );
 assert(
   candidateScript.includes('aria-label="${escapeHTML(`${i18n.t("ui.details")}: ${view.title}`)}"'),
